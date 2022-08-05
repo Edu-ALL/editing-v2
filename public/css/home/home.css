@@ -1,0 +1,144 @@
+* {
+  font-family: var(--font-poppins);
+}
+.btnLogin {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--bs-white);
+  background-color: var(--bs-warning);
+  border-radius: 40px;
+  padding: 16px 34px;
+}
+.jumbotron {
+  color: var(--bs-white);
+  background: var(--linear-blue);
+  min-height: 548px;
+  position: relative;
+}
+.jumbotron-title {
+  font-size: 42px;
+  font-weight: 600;
+  margin-top: 50px;
+}
+.jumbotron-desc {
+  font-size: 22px;
+  max-width: 500px;
+  margin-top: 32px;
+}
+
+/* shape divider */
+.custom-shape-divider-bottom-1659594623 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+}
+.custom-shape-divider-bottom-1659594623 svg {
+  position: relative;
+  display: block;
+  width: calc(135% + 1.3px);
+  max-height: 135px;
+}
+.custom-shape-divider-bottom-1659594623 .shape-fill {
+  fill: #FFFFFF;
+}
+
+/* Role */
+.cardRole {
+  color: var(--bs-black);
+  /* min-height: 288px; */
+  border: 0;
+  background-color: var(--bs-white);
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.cardRole img {
+  height: 220px;
+  margin-bottom: 15px;
+}
+.cardRole:hover {
+  max-height: min-content;
+  color: var(--bs-black);
+}
+.cardRole:hover img {
+  height: 235px;
+  margin-bottom: 0px;
+  transition: 0.2s ease-in-out;
+}
+
+/* Footer */
+.footer {
+  color: var(--bs-white);
+  background: var(--linear-blue);
+  min-height: 300px;
+  margin-top: 120px;
+}
+.about p {
+  font-size: 14px;
+}
+.about a {
+  padding: 0 2px;
+}
+.about a .sosmed {
+  width: 40px;
+  padding: 0 2px;
+}
+.opening p {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+.contact ul li {
+  font-size: 14px;
+  margin: 8px 0;
+}
+.copyright {
+  padding-bottom: 15px;
+}
+.copyright p {
+  margin: 0;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .img-logo {
+    width: 200px;
+    height: 32px;
+  }
+  .btnLogin {
+    font-size: 14px;
+    font-weight: 6  00;
+    color: var(--bs-white);
+    background-color: var(--bs-warning);
+    border-radius: 30px;
+    padding: 14px 28px;
+  }
+  .jumbotron-logo {
+    width: 250px;
+  }
+  .jumbotron-title {
+    font-size: 32px;
+    font-weight: 600;
+    margin-top: 30px;
+  }
+  .jumbotron-desc {
+    font-size: 16px;
+    max-width: 100%;
+    margin-top: 24px;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 80px;
+  }
+  .copyright p {
+    font-size: 12px;
+  }
+  .sosmed {
+    width: 30px;
+  }
+}
