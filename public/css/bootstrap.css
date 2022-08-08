@@ -75,7 +75,14 @@
   --bs-code-color: #d63384;
   --bs-highlight-bg: #fff3cd;
   /* add color */
+  --white: #FFFFFF;
+  --black: #000000;
+  --grey: #9D9D9D;
+  --light-grey: #D6D6D6;
   --yellow: #FFB355;
+  --blue: #2785DD;
+  --red: #F5564C;
+  --green: #44DE37;
   --linear-blue: linear-gradient(90deg, rgba(61, 187, 227, 0.45) 0%, #2785DD 100%);
   /* add font */
   --font-poppins: 'Poppins', sans-serif;

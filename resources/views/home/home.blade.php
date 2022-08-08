@@ -44,15 +44,15 @@
     <h2>Select role as a</h2>
     <div class="row mt-4 justify-content-center gap-3">
       <a class="col-md-3 col-9 cardRole pb-3" style="cursor: not-allowed;">
-        <img class="img-fluid" src="/assets/student.png" alt="">
+        <img class="img-fluid" src="/assets/student-bg.png" alt="">
         <h4>Student</h4>
       </a>
       <a class="col-md-3 col-9 cardRole pb-3" href="/login/mentor">
-        <img class="img-fluid" src="/assets/mentor.png" alt="">
+        <img class="img-fluid" src="/assets/mentor-bg.png" alt="">
         <h4>Mentor</h4>
       </a>
       <a class="col-md-3 col-9 cardRole pb-3" href="/login/editor">
-        <img class="img-fluid" src="/assets/editor.png" alt="">
+        <img class="img-fluid" src="/assets/editor-bg.png" alt="">
         <h4>Editor</h4>
       </a>
     </div>

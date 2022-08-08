@@ -22,7 +22,7 @@
   <div class="container">
     <div class="row align-items-center">
       <div class="col-md-6 d-flex justify-content-center">
-        <img class="img-content" src="/assets/mentor.png" alt="" width="450">
+        <img class="img-content" src="/assets/mentor-bg.png" alt="" width="450">
       </div>
       <div class="col-md-6 cardLogin">
         <h4>Login as Mentor</h4>

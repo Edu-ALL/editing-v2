@@ -33,3 +33,6 @@ Route::get('/forgot/editor', function () {
 Route::get('/admin/dashboard', function () {
     return view('user.admin.dashboard');
 });
+Route::get('/admin/user/student', function () {
+    return view('user.admin.user-student');
+});

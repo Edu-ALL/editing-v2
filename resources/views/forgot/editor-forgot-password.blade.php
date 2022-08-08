@@ -22,7 +22,7 @@
   <div class="container">
     <div class="row align-items-center">
       <div class="col-md-6 d-flex justify-content-center">
-        <img class="img-content" src="/assets/forgot-pass.png" alt="" width="450">
+        <img class="img-content" src="/assets/forgot-pass-bg.png" alt="" width="450">
       </div>
       <div class="col-md-6 cardLogin mt-3">
         <h4>Forgot Password</h4>
