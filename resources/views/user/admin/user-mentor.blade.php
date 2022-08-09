@@ -7,7 +7,7 @@
   <link rel="shortcut icon" href="/assets/favicon.png" type="image/x-icon">
   <title>Essay Editing Portal</title>
   <link rel="stylesheet" href={{ asset('css/bootstrap.css') }}>
-  <link rel="stylesheet" href="/css/admin/dashboard.css">
+  <link rel="stylesheet" href="/css/admin/user-student.css">
 </head>
 <body>
   <div class="container-fluid">
@@ -21,20 +21,20 @@
         <hr class="smallLine mx-auto mt-4">
         {{-- Menu --}}
         <div class="container ps-lg-5 ps-md-4 menuList d-flex flex-column text-md-start align-items-md-start align-items-center mt-5 mb-5 gap-5">
-          <div class="row w-100">
+          <a class="row w-100" href="/admin/dashboard">
             <div class="col-md-3">
-              <img class="active" src="/assets/dashboard-blue.png" alt="">
+              <img class="non-active" src="/assets/dashboard-blue.png" alt="">
             </div>
             <div class="col-7 pt-1 my-auto d-none d-md-inline">
-              <h6 class="menu active">Dashboard</h6>
+              <h6 class="menu">Dashboard</h6>
             </div>
-          </div>
+          </a>
           <div class="row w-100">
             <div class="col-md-3 ps-lg-1">
-              <img class="active" src="/assets/users.png" alt="">
+              <img class="active" src="/assets/users-blue.png" alt="">
             </div>
             <div class="col-7 pt-1 my-auto d-none d-md-inline">
-              <h6 class="menu">Users</h6>
+              <h6 class="menu active">Users</h6>
             </div>
           </div>
           <div class="row w-100">
@@ -95,97 +95,48 @@
           </div>
         </div>
         <div class="container main-content">
-          {{-- User List --}}
-          <div class="row gap-2">
-            <a class="col-md col-12 userCard" href="/admin/user/student">
-              <div class="headline text-center">
-                <h6>Students</h6>
-              </div>
-              <div class="row px-3 countUser align-items-center text-center">
-                <div class="col">
-                  <img class="img-fluid" src="/assets/student-bg.png" alt="">
+          {{-- Table Student --}}
+          <div class="row">
+            <a class="col-md col-12 studentList">
+              <div class="headline d-flex justify-content-between">
+                <div class="col-md-6 col-5 d-flex align-items-center gap-md-3 gap-2">
+                  <img src="/assets/mentor.png" alt="">
+                  <h6>Mentors</h6>
                 </div>
-                <div class="col">
-                  <h4>1</h4>
-                  <h4>Students</h4>
-                </div>
-              </div>
-              <hr>
-              <div class="detailCard ps-3 mt-2">
-                <h6>See the list of Students</h6>
-              </div>
-            </a>
-            <a class="col-md col-12 userCard" href="/admin/user/mentor">
-              <div class="headline text-center">
-                <h6>Mentors</h6>
-              </div>
-              <div class="row px-3 countUser align-items-center text-center">
-                <div class="col">
-                  <img class="img-fluid" src="/assets/mentor-bg.png" alt="">
-                </div>
-                <div class="col">
-                  <h4>1</h4>
-                  <h4>Mentors</h4>
+                <div class="col-md-4 col-6 d-flex align-items-center justify-content-end gap-md-3 gap-2">
+                  <img src="/assets/reload.png" alt="">
+                  <div class="input-group">
+                    <input type="email" class="form-control inputField py-2 px-3" placeholder="Search">
+                  </div>
                 </div>
               </div>
-              <hr>
-              <div class="detailCard ps-3 mt-2">
-                <h6>See the list of Mentors</h6>
-              </div>
-            </a>
-            <a class="col-md col-12 userCard">
-              <div class="headline text-center">
-                <h6>Editors</h6>
-              </div>
-              <div class="row px-3 countUser align-items-center text-center">
-                <div class="col">
-                  <img class="img-fluid" src="/assets/editor-bg.png" alt="">
-                </div>
-                <div class="col">
-                  <h4>1</h4>
-                  <h4>Editors</h4>
-                </div>
-              </div>
-              <hr>
-              <div class="detailCard ps-3 mt-2">
-                <h6>See the list of Editors</h6>
+              <div class="container text-center w-100">
+                <table class="table table-bordered table-responsive">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Student Name</th>
+                      <th>Mentor Name</th>
+                      <th>Email</th>
+                      <th>Phone</th>
+                      <th>City</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>Student Dummy</td>
+                      <td>Mentor Dummy</td>
+                      <td>studentdummy@example.com</td>
+                      <td>12345678</td>
+                      <td>Jl Jeruk kembar blok Q9 no. 15</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </a>
           </div>
-          {{-- End User List --}}
-
-          {{-- Essay --}}
-          <div class="row gap-2 my-2">
-            <a class="col-md col-12 userCard">
-              <div class="headline d-flex align-items-center gap-3">
-                <img src="/assets/ongoing-essay.png" alt="">
-                <h6>Ongoing Essay</h6>
-              </div>
-              <div class="col d-flex flex-column px-3 countUser text-center justify-content-center">
-                <h4>1</h4>
-                <h4>Essay</h4>
-              </div>
-              <hr>
-              <div class="detailCard ps-3 mt-2">
-                <h6>See the list of Students</h6>
-              </div>
-            </a>
-            <a class="col-md col-12 userCard" href="">
-              <div class="headline d-flex align-items-center gap-3" style="background-color: var(--green)">
-                <img src="/assets/completed-essay.png" alt="">
-                <h6>Completed Essay</h6>
-              </div>
-              <div class="col d-flex flex-column px-3 countUser text-center justify-content-center" style="color: var(--green)">
-                <h4>1</h4>
-                <h4>Essay</h4>
-              </div>
-              <hr>
-              <div class="detailCard ps-3 mt-2">
-                <h6>See the list of Students</h6>
-              </div>
-            </a>
-          </div>
-          {{-- End Essay --}}
+          {{-- End Table Student --}}
         </div>
       </div>
       {{-- End Content --}}
@@ -198,5 +149,7 @@
     </div>
   </footer>
   {{-- End Footer --}}
+
+  <script src={{ asset('js/bootstrap.js') }}></script>
 </body>
 </html>

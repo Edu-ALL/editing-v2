@@ -95,15 +95,48 @@
           </div>
         </div>
         <div class="container main-content">
+          {{-- Table Student --}}
           <div class="row">
             <a class="col-md col-12 studentList">
-              <div class="headline d-flex align-items-center gap-3">
-                <img src="/assets/student.png" alt="">
-                <h6>Students</h6>
+              <div class="headline d-flex justify-content-between">
+                <div class="col-md-6 col-5 d-flex align-items-center gap-md-3 gap-2">
+                  <img src="/assets/student.png" alt="">
+                  <h6>Students</h6>
+                </div>
+                <div class="col-md-4 col-6 d-flex align-items-center justify-content-end gap-md-3 gap-2">
+                  <img src="/assets/reload.png" alt="">
+                  <div class="input-group">
+                    <input type="email" class="form-control inputField py-2 px-3" placeholder="Search">
+                  </div>
+                </div>
               </div>
-              
+              <div class="container text-center w-100">
+                <table class="table table-bordered table-responsive">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Student Name</th>
+                      <th>Mentor Name</th>
+                      <th>Email</th>
+                      <th>Phone</th>
+                      <th>City</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>Student Dummy</td>
+                      <td>Mentor Dummy</td>
+                      <td>studentdummy@example.com</td>
+                      <td>12345678</td>
+                      <td>Jl Jeruk kembar blok Q9 no. 15</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </a>
           </div>
+          {{-- End Table Student --}}
         </div>
       </div>
       {{-- End Content --}}
@@ -116,5 +149,7 @@
     </div>
   </footer>
   {{-- End Footer --}}
+
+  <script src={{ asset('js/bootstrap.js') }}></script>
 </body>
 </html>

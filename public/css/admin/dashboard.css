@@ -134,6 +134,12 @@ body {
 }
 
 @media (max-width: 768px) {
+  .main {
+    min-height: 850px;
+  }
+  .main-content {
+    padding: 10px !important;
+  }
   .head h4 {
     font-size: 18px;
   }

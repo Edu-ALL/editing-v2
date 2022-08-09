@@ -12,7 +12,7 @@
 <body>
   <nav class="navbar" style="background-color: var(--bs-white)">
     <div class="container py-2 px-4">
-      <a class="navbar-brand" href="/admin/dashboard">
+      <a class="navbar-brand" href="/login/admin">
         <img class="img-logo " src="/assets/logo.png" alt="" width="220" height="40">
       </a>
       <a class="btn btn-warning btnLogin" href="#role">Login</a>

@@ -16,17 +16,27 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('home.home');
 });
+
+// Login
 Route::get('/login/mentor', function () {   
     return view('login.login-mentor');
 });
 Route::get('/login/editor', function () {
     return view('login.login-editor');
 });
+Route::get('/login/admin', function () {
+    return view('login.login-admin');
+});
+
+
 Route::get('/forgot/mentor', function () {
     return view('forgot.mentor-forgot-password');
 });
 Route::get('/forgot/editor', function () {
     return view('forgot.editor-forgot-password');
+});
+Route::get('/forgot/admin', function () {
+    return view('forgot.admin-forgot-password');
 });
 
 // Admin
@@ -35,4 +45,7 @@ Route::get('/admin/dashboard', function () {
 });
 Route::get('/admin/user/student', function () {
     return view('user.admin.user-student');
+});
+Route::get('/admin/user/mentor', function () {
+    return view('user.admin.user-mentor');
 });
