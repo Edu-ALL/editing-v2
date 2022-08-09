@@ -77,7 +77,7 @@
       {{-- End Sidenav --}}
 
       {{-- Content --}}
-      <div class="col">
+      <div class="col" style="overflow: auto !important">
         <div class="row head py-4 align-items-center">
           <div class="col-md-6 col-10 ps-md-5 ps-3">
             <h4 class="">Admin Dashboard</h4>
@@ -97,7 +97,7 @@
         <div class="container main-content">
           {{-- Table Student --}}
           <div class="row">
-            <a class="col-md col-12 studentList">
+            <div class="col-md col-12 studentList">
               <div class="headline d-flex justify-content-between">
                 <div class="col-md-6 col-5 d-flex align-items-center gap-md-3 gap-2">
                   <img src="/assets/student.png" alt="">
@@ -110,8 +110,8 @@
                   </div>
                 </div>
               </div>
-              <div class="container text-center w-100">
-                <table class="table table-bordered table-responsive">
+              <div class="container text-center" style="overflow-x: auto !important">
+                <table class="table table-bordered">
                   <thead>
                     <tr>
                       <th>No</th>
@@ -123,6 +123,22 @@
                     </tr>
                   </thead>
                   <tbody>
+                    <tr onclick="window.open('/admin/dashboard','_blank')">
+                      <th scope="row">1</th>
+                      <td>Student Dummy</td>
+                      <td>Mentor Dummy</td>
+                      <td>studentdummy@example.com</td>
+                      <td>12345678</td>
+                      <td>Jl Jeruk kembar blok Q9 no. 15</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>Student Dummy</td>
+                      <td>Mentor Dummy</td>
+                      <td>studentdummy@example.com</td>
+                      <td>12345678</td>
+                      <td>Jl Jeruk kembar blok Q9 no. 15</td>
+                    </tr>
                     <tr>
                       <th scope="row">1</th>
                       <td>Student Dummy</td>
