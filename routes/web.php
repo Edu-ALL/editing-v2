@@ -46,6 +46,17 @@ Route::get('/admin/dashboard', function () {
 Route::get('/admin/user/student', function () {
     return view('user.admin.user-student');
 });
+Route::get('/admin/user/student/detail', function () {
+    return view('user.admin.user-student-detail');
+});
+
 Route::get('/admin/user/mentor', function () {
     return view('user.admin.user-mentor');
+});
+
+Route::get('/admin/user/editor', function () {
+    return view('user.admin.user-editor');
+});
+Route::get('/admin/user/editor/add', function () {
+    return view('user.admin.user-editor-add');
 });

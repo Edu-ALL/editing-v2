@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="/css/admin/user-student.css">
 </head>
 <body>
-  <div class="container-fluid">
+  <div class="container-fluid" style="padding: 0">
     <div class="row flex-nowrap main">
 
       {{-- Sidenav --}}
@@ -94,10 +94,10 @@
             </div>
           </div>
         </div>
-        <div class="container main-content">
+        <div class="container main-content m-0">
           {{-- Table Student --}}
           <div class="row">
-            <div class="col-md col-12 studentList">
+            <div class="col-md col-12 p-0 studentList">
               <div class="headline d-flex justify-content-between">
                 <div class="col-md-6 col-5 d-flex align-items-center gap-md-3 gap-2">
                   <img src="/assets/student.png" alt="">
@@ -123,23 +123,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr onclick="window.open('/admin/dashboard','_blank')">
-                      <th scope="row">1</th>
-                      <td>Student Dummy</td>
-                      <td>Mentor Dummy</td>
-                      <td>studentdummy@example.com</td>
-                      <td>12345678</td>
-                      <td>Jl Jeruk kembar blok Q9 no. 15</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>Student Dummy</td>
-                      <td>Mentor Dummy</td>
-                      <td>studentdummy@example.com</td>
-                      <td>12345678</td>
-                      <td>Jl Jeruk kembar blok Q9 no. 15</td>
-                    </tr>
-                    <tr>
+                    <tr onclick="window.open('/admin/user/student/detail','_blank')">
                       <th scope="row">1</th>
                       <td>Student Dummy</td>
                       <td>Mentor Dummy</td>
