@@ -36,3 +36,12 @@ Route::get('/admin/dashboard', function () {
 Route::get('/admin/user/student', function () {
     return view('user.admin.user-student');
 });
+
+// Mentor
+Route::get('/mentor/dashboard', function () {
+    return view('user.mentor.dashboard');
+});
+
+Route::get('/mentor/user/student', function () {
+    return view('user.mentor.user-student');
+});

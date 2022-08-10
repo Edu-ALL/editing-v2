@@ -9,6 +9,22 @@ body {
   height: 100%;
 }
 
+.pointer{
+  padding: 0.1rem;
+  cursor: pointer;
+}
+
+.pointer:hover{
+  color: var(--white);
+  font-weight: 800;
+  background-color: var(--blue);
+  border-radius: 2opx;
+}
+
+.user-icon{
+color: var(--blue);
+}
+
 .main {
   height: 100%;
 }
