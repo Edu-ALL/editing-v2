@@ -33,7 +33,7 @@
                     </div>
 
 
-                    <table class="table">
+                    <table class="table userCard">
                         <thead>
                             <tr>
                                 <th>Firstname</th>
@@ -58,7 +58,7 @@
                                 <td data-label="email">july@example.com</td>
                             </tr>
                         </tbody>
-                    </table>s
+                    </table>
                 </div>
             </div>
             {{-- End Content --}}
