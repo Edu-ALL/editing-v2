@@ -8,6 +8,13 @@
   <title>Essay Editing Portal</title>
   <link rel="stylesheet" href={{ asset('css/bootstrap.css') }}>
   <link rel="stylesheet" href="/css/admin/user-student-detail.css">
+  <script src="https://cdn.tiny.cloud/1/h7t62ozvqkx2ifkeh051fsy3k9irz7axx1g2zitzpbaqfo8m/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+  <script>
+    tinymce.init({
+      selector: '.textarea',
+      width: 'auto'
+    });
+  </script>
 </head>
 <body>
   <div class="container-fluid" style="padding: 0">
@@ -178,15 +185,15 @@
                 {{-- Text Area --}}
                 <div class="text-area p-md-1 mb-3">
                   <h6 class="pb-3">Personal Brand Statement :</h6>
-                  <textarea name="" id=""></textarea>
+                  <textarea name="" class="textarea"></textarea>
                 </div>
                 <div class="text-area p-md-1 mb-3">
                   <h6 class="pb-3">Academic Goals & Interest :</h6>
-                  <textarea name="" id=""></textarea>
+                  <textarea name="" class="textarea"></textarea>
                 </div>
                 <div class="text-area p-md-1 mb-3">
                   <h6 class="pb-3">Life Philosophy (Values) & Personalities :</h6>
-                  <textarea name="" id=""></textarea>
+                  <textarea name="" class="textarea"></textarea>
                 </div>
                 {{-- End Text Area --}}
                 {{-- Attachment --}}

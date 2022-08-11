@@ -44,19 +44,32 @@ Route::get('/admin/dashboard', function () {
     return view('user.admin.dashboard');
 });
 Route::get('/admin/user/student', function () {
-    return view('user.admin.user-student');
+    return view('user.admin.users.user-student');
 });
 Route::get('/admin/user/student/detail', function () {
-    return view('user.admin.user-student-detail');
+    return view('user.admin.users.user-student-detail');
 });
 
 Route::get('/admin/user/mentor', function () {
-    return view('user.admin.user-mentor');
+    return view('user.admin.users.user-mentor');
 });
 
 Route::get('/admin/user/editor', function () {
-    return view('user.admin.user-editor');
+    return view('user.admin.users.user-editor');
 });
 Route::get('/admin/user/editor/add', function () {
-    return view('user.admin.user-editor-add');
+    return view('user.admin.users.user-editor-add');
+});
+Route::get('/admin/user/editor/invite', function () {
+    return view('user.admin.users.user-editor-invite');
+});
+Route::get('/admin/user/editor/detail', function () {
+    return view('user.admin.users.user-editor-detail');
+});
+
+Route::get('/admin/essay-list/completed', function () {
+    return view('user.admin.essay-list.essay-completed');
+});
+Route::get('/admin/essay-list/completed/detail', function () {
+    return view('user.admin.essay-list.essay-completed-detail');
 });
