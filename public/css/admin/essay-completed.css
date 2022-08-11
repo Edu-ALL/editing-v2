@@ -15,7 +15,7 @@ body {
 }
 .sidenav {
   background-color: var(--white);
-  border-right: 1px solid rgba(39, 133, 221, 0.1);  
+  border-right: 1px solid rgba(39, 133, 221, 0.1);
 }
 .sidenav * {
   padding: 0;
@@ -69,30 +69,20 @@ body {
 .main-content {
   padding: 20px !important;
 }
-.profile {
-  height: fit-content !important;
-}
-.userCard {
+.studentList {
   color: var(--blue);
-  /* min-height: 250px; */
+  min-height: 450px;
   background-color: var(--white);
   border-radius: 6px;
   box-shadow: 0px 2px 10px rgba(58, 53, 65, 0.1);
-  /* cursor: pointer; */
 }
-.userCard * {
-  /* padding: 0; */
+.studentList * {
+  padding: 0;
   margin: 0;
-}
-.userCard .pic-profile {
-  width: 50%;
-  height: auto;
-  border: 1px solid var(--light-grey);
-  border-radius: 50%;
 }
 .headline {
   color: var(--white);
-  padding: 24px !important;
+  padding: 20px 24px !important;
   background-color: var(--blue);
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
@@ -102,56 +92,32 @@ body {
 }
 .headline img {
   width: auto;
-  height: 28px;
+  height: 23px;
   filter: invert(100%);
 }
-
-.profile-editor {
-  color: var(--black);
-}
-.profile-editor h6 {
+.headline input.inputField {
   font-size: 12px;
-  font-weight: 400;
-}
-.profile-editor .inputField {
-  width: 93%;
-  font-size: 12px;
-  border-radius: 6px;
-}
-.profile-editor textarea {
-  width: 96%;
-  height: 120px;
-  border-color: var(--light-grey);
-  border-radius: 6px;
+  padding: 20px;
 }
 
-.dropdown button, .dropdown ul {
-  width: 96%;
-  padding: 5px 15px !important;
-  font-size: 12px;
-  font-family: var(--font-poppins);
+.table thead {
+  background-color: #F9FAFC;
+  text-transform: uppercase;
 }
-.dropdown-toggle, .dropdown-toggle:focus, .dropdown-toggle:hover {
-  border: 1px solid var(--light-grey);
+.table tr {
+  color: rgba(58, 53, 65, 0.87);
+  font-size: 11px;
 }
-.dropdown p {
-  width: 95%;
+.table tbody tr:hover {
+  background-color: rgba(234, 234, 234, 0.4);
+  cursor: pointer;
 }
-.dropdown input.inputField {
-  font-size: 12px;
+.table th,
+.table td {
+  padding: 14px 8px !important;
+  text-align: center;
+  vertical-align: middle;
 }
-.btn-create, .btn-create:hover {
-  color: var(--white);
-  background-color: var(--blue);
-  border: 0;
-  padding: 8px 16px !important;
-}
-.btn-create img {
-  width: auto;
-  height: 24px;
-  filter: invert(100%);
-}
-
 
 .footer {
   color: var(--white);
@@ -170,17 +136,12 @@ body {
 }
 
 @media (max-width: 992px) {
-  .menuList img {
-    width: 20px;
-    height: 20px;
-  }
-  .menu {
-    font-size: 12px;
-    font-weight: 400;
-  }
 }
 
 @media (max-width: 768px) {
+  .menuList img {
+    height: 20px;
+  }
   .main {
     min-height: 850px;
   }
@@ -190,21 +151,19 @@ body {
   .head h4 {
     font-size: 18px;
   }
-  .userCard .pic-profile {
-    width: 45%;
-    height: auto;
+  .headline h6 {
+    font-size: 12px;
   }
-  .btn-create, .btn-create:hover {
-    padding: 6px 12px !important;
-  }
-  .btn-create h6 {
+  .headline input.inputField {
     font-size: 10px;
+    padding: 15px;
   }
-  .btn-create img {
-    width: auto;
-    height: 18px;
-    filter: invert(100%);
+
+  /* Table */
+  .table tr {
+    font-size: 8px;
   }
+  
   .footer p {
     font-size: 10px;
   }

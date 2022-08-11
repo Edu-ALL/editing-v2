@@ -7,7 +7,7 @@
   <link rel="shortcut icon" href="/assets/favicon.png" type="image/x-icon">
   <title>Essay Editing Portal</title>
   <link rel="stylesheet" href={{ asset('css/bootstrap.css') }}>
-  <link rel="stylesheet" href="/css/admin/user-editor.css">
+  <link rel="stylesheet" href="/css/admin/essay-completed.css">
 </head>
 <body>
   <div class="container-fluid" style="padding: 0">
@@ -31,18 +31,18 @@
           </a>
           <div class="row w-100">
             <div class="col-md-3 ps-lg-1">
-              <img class="active" src="/assets/users-blue.png" alt="">
+              <img class="non-active" src="/assets/users-blue.png" alt="">
             </div>
             <div class="col-7 pt-1 my-auto d-none d-md-inline">
-              <h6 class="menu active">Users</h6>
+              <h6 class="menu">Users</h6>
             </div>
           </div>
           <div class="row w-100">
             <div class="col-md-3 ps-lg-1">
-              <img class="active" src="/assets/essay-list.png" alt="">
+              <img class="active" src="/assets/essay-list-blue.png" alt="">
             </div>
             <div class="col-7 pt-1 my-auto d-none d-md-inline">
-              <h6 class="menu">Essay List</h6>
+              <h6 class="menu active">Essay List</h6>
             </div>
           </div>
           <div class="row w-100 align-items-center">
@@ -98,18 +98,12 @@
           {{-- Table Student --}}
           <div class="row">
             <div class="col-md col-12 p-0 studentList">
-              <div class="headline d-flex justify-content-between">
-                <div class="col-md-5 col-4 d-flex align-items-center gap-md-3 gap-2">
-                  <img src="/assets/editor.png" alt="">
-                  <h6>Editors</h6>
+              <div class="headline d-flex justify-content-between" style="background-color: var(--green)">
+                <div class="col-md-6 col-7 d-flex align-items-center gap-md-3 gap-2">
+                  <img src="/assets/completed-essay.png" alt="">
+                  <h6>List of Completed Essay</h6>
                 </div>
-                <div class="col-md-5 col-7 d-flex align-items-center justify-content-end gap-md-2 gap-2">
-                  <a class="btn-add-editor" href="/admin/user/editor/add">
-                    <img src="/assets/add-people.png" alt="">
-                  </a>
-                  <div class="btn-invite">
-                    <img src="/assets/letter.png" alt="">
-                  </div>
+                <div class="col-md-4 col-4 d-flex align-items-center justify-content-end">
                   <div class="input-group">
                     <input type="email" class="form-control inputField py-2 px-3" placeholder="Search">
                   </div>
@@ -120,58 +114,28 @@
                   <thead>
                     <tr>
                       <th>No</th>
+                      <th>Student Name</th>
+                      <th>Mentor Name</th>
                       <th>Editor Name</th>
-                      <th>Email</th>
-                      <th>Phone</th>
-                      <th>City</th>
-                      <th>Position</th>
+                      <th>Essay Title</th>
+                      <th>Essay Deadline</th>
                       <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr onclick="window.open('/admin/user/editor/detail','_blank')">
+                    <tr onclick="window.open('/admin/essay-list/completed/detail','_blank')">
                       <th scope="row">1</th>
-                      <td>Editor Dummy</td>
-                      <td>editor.dummy@example.com</td>
-                      <td>12345678</td>
-                      <td>Jl Jeruk kembar blok Q9 no. 15</td>
+                      <td>Student Dummy</td>
                       <td>Mentor Dummy</td>
-                      <td>
-                        <div class="status-editor">
-                          Activated
-                        </div>
-                      </td>
-                    </tr>
-                    <tr onclick="window.open('/admin/user/editor/detail','_blank')">
-                      <th scope="row">2</th>
-                      <td>Editor Associate Dummy</td>
-                      <td>editorassociate.dummy@example.com</td>
-                      <td>12345678</td>
-                      <td>Jl Jeruk kembar blok Q9 no. 15</td>
-                      <td>Mentor Dummy</td>
-                      <td>
-                        <div class="status-editor">
-                          Activated
-                        </div>
-                      </td>
-                    </tr>
-                    <tr onclick="window.open('/admin/user/editor/detail','_blank')">
-                      <th scope="row">3</th>
                       <td>Senior Editor Dummy</td>
-                      <td>senioreditor.dummy@example.com</td>
-                      <td>12345678</td>
-                      <td>Jl Jeruk kembar blok Q9 no. 15</td>
-                      <td>Mentor Dummy</td>
-                      <td>
-                        <div class="status-editor">
-                          Activated
-                        </div>
-                      </td>
+                      <td>Supplemental Essay</td>
+                      <td>Thu, 28 Jul 2022</td>
+                      <td style="color: var(--green)">Completed</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-            </a>
+            </div>
           </div>
           {{-- End Table Student --}}
         </div>

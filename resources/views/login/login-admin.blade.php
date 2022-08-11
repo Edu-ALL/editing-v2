@@ -27,22 +27,24 @@
       <div class="col-md-6 cardLogin">
         <h4>Login as Administrator</h4>
         <hr>
-        <div class="field-email mt-5">
-          <h6>Email</h6>
-          <div class="input-group mb-3">
-            <input type="email" class="form-control inputField py-3 px-4" placeholder="Enter your email">
+        <form action="/admin/dashboard">
+          <div class="field-email mt-5">
+            <h6>Email</h6>
+            <div class="input-group mb-3">
+              <input type="email" class="form-control inputField py-3 px-4" placeholder="Enter your email">
+            </div>
           </div>
-        </div>
-        <div class="field-password mt-4">
-          <h6>Password</h6>
-          <div class="input-group mb-2">
-            <input type="password" class="form-control inputField py-3 px-4" placeholder="Enter your password">
+          <div class="field-password mt-4">
+            <h6>Password</h6>
+            <div class="input-group mb-2">
+              <input type="password" class="form-control inputField py-3 px-4" placeholder="Enter your password">
+            </div>
           </div>
-        </div>
-        <div class="container text-end forgotps">
-          <a href="/forgot/admin">Forgot Password?</a>
-        </div>
-        <button class="container-fluid btn btn-warning btnLogin">Login</button>
+          <div class="container text-end forgotps">
+            <a href="/forgot/admin">Forgot Password?</a>
+          </div>
+          <button class="container-fluid btn btn-warning btnLogin">Login</button>
+        </form>
       </div>
     </div>
   </div>

@@ -7,7 +7,7 @@
   <link rel="shortcut icon" href="/assets/favicon.png" type="image/x-icon">
   <title>Essay Editing Portal</title>
   <link rel="stylesheet" href={{ asset('css/bootstrap.css') }}>
-  <link rel="stylesheet" href="/css/admin/user-editor-add.css">
+  <link rel="stylesheet" href="/css/admin/user-student.css">
 </head>
 <body>
   <div class="container-fluid" style="padding: 0">
@@ -77,7 +77,7 @@
       {{-- End Sidenav --}}
 
       {{-- Content --}}
-      <div class="col">
+      <div class="col" style="overflow: auto !important">
         <div class="row head py-4 align-items-center">
           <div class="col-md-6 col-10 ps-md-5 ps-3">
             <h4 class="">Admin Dashboard</h4>
@@ -95,94 +95,48 @@
           </div>
         </div>
         <div class="container main-content m-0">
-          <div class="row gap-2">
-            <div class="col-md-4 col-12 p-0 userCard profile">
-              <div class="headline d-flex align-items-center gap-3">
-                <img src="/assets/pic.png" alt="">
-                <h6>Editor</h6>
-              </div>
-              <div class="col d-flex align-items-center justify-content-center py-md-4 py-4">
-                <div class="pic-profile">
-                  <img class="img-fluid" src="/assets/editor-bg.png" alt="">
-                </div>
-              </div>
-            </div>
-            
-            <div class="col-md col-12 p-0 userCard">
+          {{-- Table Student --}}
+          <div class="row">
+            <div class="col-md col-12 p-0 studentList">
               <div class="headline d-flex justify-content-between">
-                <div class="col-md-6 col-8 d-flex align-items-center gap-md-3 gap-2">
-                  <img src="/assets/edit.png" alt="">
-                  <h6>Profile New Editor</h6>
+                <div class="col-md-6 col-5 d-flex align-items-center gap-md-3 gap-2">
+                  <img src="/assets/student.png" alt="">
+                  <h6>Students</h6>
                 </div>
-                <div class="col-md-4 col-4 d-flex align-items-center justify-content-end gap-md-3 gap-2">
-                  <a href="/admin/user/editor"><img src="/assets/back.png" alt=""></a>
+                <div class="col-md-4 col-6 d-flex align-items-center justify-content-end gap-md-3 gap-2">
+                  <img src="/assets/reload.png" alt="">
+                  <div class="input-group">
+                    <input type="email" class="form-control inputField py-2 px-3" placeholder="Search">
+                  </div>
                 </div>
               </div>
-              
-              <div class="row profile-editor px-md-3 py-md-4 px-3 py-4">
-                <div class="col-12 d-flex mb-3">
-                  <div class="col-6">
-                    <h6 class="pb-2">First Name :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3">
-                  </div>
-                  <div class="col-6">
-                    <h6 class="pb-2">Last Name :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3">
-                  </div>
-                </div>
-                <div class="col-12 d-flex mb-3">
-                  <div class="col-6">
-                    <h6 class="pb-2">Email :</h6>
-                    <input type="email" class="form-control inputField py-2 px-3">
-                  </div>
-                  <div class="col-6">
-                    <h6 class="pb-2">Phone :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3">
-                  </div>
-                </div>
-                <div class="col-12 d-flex mb-3">
-                  <div class="col-6">
-                    <h6 class="pb-2">Graduated From :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3">
-                  </div>
-                  <div class="col-6">
-                    <h6 class="pb-2">Major :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3">
-                  </div>
-                </div>
-                <div class="col-12 d-flex mb-3">
-                  <div class="col">
-                    <h6 class="pb-2">Address :</h6>
-                    <textarea name="" id=""></textarea>
-                  </div>
-                </div>
-                <div class="col-12 d-flex mb-5">
-                  <div class="col">
-                    <h6 class="pb-2">Position :</h6>
-                    <div class="dropdown">
-                      <button class="btn dropdown-toggle text-start" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        <p class="d-inline-block">Mentor</p>
-                      </button>
-                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li class="mt-1 mb-2">
-                          <input type="email" class="form-control inputField py-2 px-2" placeholder="Search">
-                        </li>
-                        <li><a class="dropdown-item ps-2 my-1" href="">Action</a></li>
-                        <li><a class="dropdown-item ps-2 my-1" href="">Another action</a></li>
-                        <li><a class="dropdown-item ps-2 my-1" href="">Something else here</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 d-flex justify-content-center pt-3" style="border-top: 1px solid var(--light-grey)">
-                  <button class="btn btn-create d-flex align-items-center gap-2">
-                    <img src="/assets/add-people.png" alt="">
-                    <h6>Create editor</h6>
-                  </button>
-                </div>
+              <div class="container text-center" style="overflow-x: auto !important">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Student Name</th>
+                      <th>Mentor Name</th>
+                      <th>Email</th>
+                      <th>Phone</th>
+                      <th>City</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr onclick="window.open('/admin/user/student/detail','_blank')">
+                      <th scope="row">1</th>
+                      <td>Student Dummy</td>
+                      <td>Mentor Dummy</td>
+                      <td>studentdummy@example.com</td>
+                      <td>12345678</td>
+                      <td>Jl Jeruk kembar blok Q9 no. 15</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
+          {{-- End Table Student --}}
         </div>
       </div>
       {{-- End Content --}}
@@ -196,6 +150,6 @@
   </footer>
   {{-- End Footer --}}
 
-  <script src={{ asset('js/bootstrap.bundle.js') }}></script>
+  <script src={{ asset('js/bootstrap.js') }}></script>
 </body>
 </html>

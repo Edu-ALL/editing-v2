@@ -7,7 +7,14 @@
   <link rel="shortcut icon" href="/assets/favicon.png" type="image/x-icon">
   <title>Essay Editing Portal</title>
   <link rel="stylesheet" href={{ asset('css/bootstrap.css') }}>
-  <link rel="stylesheet" href="/css/admin/user-student.css">
+  <link rel="stylesheet" href="/css/admin/user-editor-invite.css">
+  <script src="https://cdn.tiny.cloud/1/h7t62ozvqkx2ifkeh051fsy3k9irz7axx1g2zitzpbaqfo8m/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+  <script>
+    tinymce.init({
+      selector: '.textarea',
+      width: 'auto'
+    });
+  </script>
 </head>
 <body>
   <div class="container-fluid" style="padding: 0">
@@ -95,48 +102,33 @@
           </div>
         </div>
         <div class="container main-content m-0">
-          {{-- Table Student --}}
-          <div class="row">
-            <div class="col-md col-12 p-0 studentList">
+          {{-- Detail Student --}}
+          <div class="row justify-content-center mt-md-5">
+            <div class="col-lg-7 col-12 p-0 invite-card">
               <div class="headline d-flex justify-content-between">
-                <div class="col-md-6 col-5 d-flex align-items-center gap-md-3 gap-2">
-                  <img src="/assets/student.png" alt="">
-                  <h6>Students</h6>
+                <div class="col-lg col d-flex align-items-center gap-md-3 gap-2">
+                  <img src="/assets/letter.png" alt="">
+                  <h6>Send invitation to the essay editor</h6>
                 </div>
-                <div class="col-md-4 col-6 d-flex align-items-center justify-content-end gap-md-3 gap-2">
-                  <img src="/assets/reload.png" alt="">
-                  <div class="input-group">
-                    <input type="email" class="form-control inputField py-2 px-3" placeholder="Search">
+                <div class="col-md-4 col-2 d-flex align-items-center justify-content-end gap-md-3 gap-2">
+                  <a href="/admin/user/editor"><img src="/assets/back.png" alt=""></a>
+                </div>
+              </div>
+              <form action="">
+                <div class="col d-flex flex-column align-items-center justify-content-center field-content p-3 my-4">
+                  <div class="col-md-8 col-10 mb-md-4 mb-3">
+                    <h6 class="pb-2">Email</h6>
+                    <input type="email" class="form-control inputField py-2 px-3">
                   </div>
+                  <button class="btn btn-create d-flex align-items-center gap-2">
+                    <img src="/assets/send.png" alt="">
+                    <h6>Send Email</h6>
+                  </button>
                 </div>
-              </div>
-              <div class="container text-center" style="overflow-x: auto !important">
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th>No</th>
-                      <th>Student Name</th>
-                      <th>Mentor Name</th>
-                      <th>Email</th>
-                      <th>Phone</th>
-                      <th>City</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr onclick="window.open('/admin/user/student/detail','_blank')">
-                      <th scope="row">1</th>
-                      <td>Student Dummy</td>
-                      <td>Mentor Dummy</td>
-                      <td>studentdummy@example.com</td>
-                      <td>12345678</td>
-                      <td>Jl Jeruk kembar blok Q9 no. 15</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </a>
+              </form>
+            </div>
           </div>
-          {{-- End Table Student --}}
+          {{-- End Detail Student --}}
         </div>
       </div>
       {{-- End Content --}}
@@ -150,6 +142,6 @@
   </footer>
   {{-- End Footer --}}
 
-  <script src={{ asset('js/bootstrap.js') }}></script>
+  <script src={{ asset('js/bootstrap.bundle.js') }}></script>
 </body>
 </html>
