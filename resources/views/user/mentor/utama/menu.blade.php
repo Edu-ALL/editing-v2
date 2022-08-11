@@ -8,40 +8,49 @@
     {{-- Menu --}}
     <div
         class="container ps-lg-5 ps-md-4 menuList d-flex flex-column text-md-start align-items-md-start align-items-center mt-5 mb-5 gap-5">
-        <div class="row w-100" onclick="location.href='/mentor/dashboard'">
+        <div class="row w-100 pointer" onclick="location.href='/mentor/dashboard'">
             <div class="col-md-3">
-                <img class="active" src="/assets/dashboard-blue.png" alt="">
+                <img class=" {{ request()->is('mentor/dashboard') ? 'active' : 'non-active' }}"
+                    src="/assets/dashboard-blue.png" alt="">
             </div>
             <div class="col-7 pt-1 my-auto d-none d-md-inline">
-                <h6 class="menu {{ request()->is('/mentor/dashboard') ? 'active' : '' }} ">
+                <h6 class="menu {{ request()->is('mentor/dashboard') ? 'active' : '' }}">
                     Dashboard</h6>
+            </div>
+        </div>
+        <div class="row w-100 pointer" onclick="location.href='/mentor/essay/list'">
+            <div class="col-md-3 ps-lg-1">
+                <img class="active"
+                    src="{{ request()->is('mentor/essay/list') || request()->is('mentor/essay/list/detail') ? '/assets/essay-list-blue.png' : '/assets/essay-list.png' }}"
+                    alt="">
+            </div>
+            <div class="col-7 pt-1 my-auto d-none d-md-inline">
+                <h6 class="menu {{ request()->is('mentor/essay/list') ? 'active' : '' }}">Essay List</h6>
             </div>
         </div>
         <div class="row w-100 pointer" onclick="location.href='/mentor/user/student'">
             <div class="col-md-3 ps-lg-1">
-                <img class="active user-icon" src="/assets/users.png" alt="">
+                <img class="active user-icon"
+                    src="{{ request()->is('mentor/user/student') || request()->is('mentor/user/student/detail') ? '/assets/student-blue.png' : '/assets/student.png' }}"
+                    alt="">
             </div>
             <div class="col-7 pt-1 my-auto d-none d-md-inline">
-                <h6 class="menu {{ request()->is('/mentor/user/student') ? 'active' : '' }}">Users</h6>
+                <h6
+                    class="menu {{ request()->is('mentor/user/student') || request()->is('mentor/user/student/detail') ? 'active' : '' }} ">
+                    Students</h6>
             </div>
         </div>
-        <div class="row w-100">
+        <div class="row w-100 align-items-center pointer" onclick="location.href='/mentor/new-request'">
             <div class="col-md-3 ps-lg-1">
-                <img class="active" src="/assets/essay-list.png" alt="">
+                <img class="active"
+                    src="{{ request()->is('mentor/new-request') ? '/assets/new-request-blue.png' : '/assets/new-request.png' }}"
+                    alt="">
             </div>
             <div class="col-7 pt-1 my-auto d-none d-md-inline">
-                <h6 class="menu">Essay List</h6>
+                <h6 class="menu {{ request()->is('mentor/new-request') ? 'active' : '' }}">New Request</h6>
             </div>
         </div>
-        <div class="row w-100 align-items-center">
-            <div class="col-md-3 ps-lg-1">
-                <img class="active" src="/assets/excel.png" alt="">
-            </div>
-            <div class="col-7 pt-1 my-auto d-none d-md-inline">
-                <h6 class="menu">Export to Excel</h6>
-            </div>
-        </div>
-        <div class="row w-100">
+        <div class="row w-100 pointer">
             <div class="col-md-3 ps-lg-1">
                 <img class="active" src="/assets/setting.png" alt="">
             </div>
@@ -52,7 +61,7 @@
     </div>
     <hr class="smallLine mx-auto mt-4">
     <div
-        class="container ps-lg-5 ps-md-4 menuList d-flex flex-column text-md-start align-items-md-start align-items-center mt-5 mb-5 gap-4">
+        class="container ps-lg-5 ps-md-4 menuList d-flex flex-column text-md-start align-items-md-start align-items-center mt-5 mb-5 gap-4 pointer">
         <div class="row w-100">
             <div class="col-md-3 ps-lg-1">
                 <img class="active" src="/assets/logout.png" alt="">

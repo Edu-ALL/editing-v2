@@ -15,7 +15,7 @@ body {
 }
 .sidenav {
   background-color: var(--white);
-  border-right: 1px solid rgba(39, 133, 221, 0.1);
+  border-right: 1px solid rgba(39, 133, 221, 0.1);  
 }
 .sidenav * {
   padding: 0;
@@ -92,31 +92,87 @@ body {
 }
 .headline img {
   width: auto;
-  height: 23px;
+  height: 25px;
   filter: invert(100%);
 }
-.headline input.inputField {
-  font-size: 12px;
-  padding: 20px;
+
+.student-info {
+  min-height: 280px;
+}
+.student-info .pic-profile {
+  width: 60%;
+  height: auto;
+  border: 1px solid var(--light-grey);
+  border-radius: 50%;
+}
+.student-info .pic-profile img {
+  width: auto;
+}
+.student-info .titik2 {
+  max-width: 18px;
+  /* text-align: center; */
 }
 
-.table thead {
-  background-color: #F9FAFC;
-  text-transform: uppercase;
+.new-request {
+  color: var(--black);
+  /* border-left: 1px solid var(--light-grey); */
 }
-.table tr {
-  color: rgba(58, 53, 65, 0.87);
-  font-size: 11px;
+
+.student-desc {
+  color: var(--black);
+  border-left: 1px solid var(--light-grey);
 }
-.table tbody tr:hover {
-  background-color: rgba(234, 234, 234, 0.4);
-  cursor: pointer;
+.student-desc h6 {
+  font-size: 14px;
+  font-weight: 600;
 }
-.table th,
-.table td {
-  padding: 14px 8px !important;
+.student-desc p {
+  font-size: 14px;
+  font-weight: 400;
+}
+.dropdown button, .dropdown ul {
+  padding: 5px 15px !important;
+  font-size: 14px;
+  font-family: var(--font-poppins);
+}
+.dropdown-toggle {
+  border: 1px solid var(--light-grey);
+}
+.dropdown p {
+  width: 95%;
+}
+.dropdown input.inputField {
+  font-size: 12px;
+}
+
+.student-addition {
+  border-top: 1px solid var(--light-grey);
+}
+.student-addition {
+  color: var(--black);
+}
+.student-addition h6 {
+  font-size: 14px;
+  font-weight: 600;
+}
+.student-addition p {
+  font-size: 14px;
+  font-weight: 400;
+}
+.student-addition .titik2 {
+  max-width: 18px;
   text-align: center;
-  vertical-align: middle;
+}
+.student-addition textarea {
+  width: 100%;
+  height: 160px;
+  border-color: var(--light-grey);
+  border-radius: 6px;
+}
+.student-addition .attachment {
+  background-color: rgba(39, 133, 221, 0.1);
+  border-radius: 12px;
+  padding: 12px 18px !important;
 }
 
 .footer {
@@ -136,6 +192,10 @@ body {
 }
 
 @media (max-width: 992px) {
+  .student-addition .attachment-status h6,
+  .student-addition .attachment-status p {
+    font-size: 14px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -154,9 +214,33 @@ body {
   .headline img {
     height: 18px;
   }
-  .headline input.inputField {
+
+  .student-info .pic-profile {
+    width: 40%;
+    height: auto;
+  }
+  .student-desc {
+    border-left: 0px;
+  }
+  .student-desc h6, .student-desc p {
     font-size: 10px;
-    padding: 15px;
+  }
+  .student-info .titik2 {
+    max-width: 8px;
+  }
+  .dropdown button, .dropdown ul {
+    padding: 3px 8px !important;
+    font-size: 10px;
+  }
+  .dropdown input.inputField {
+    font-size: 10px;
+  }
+  .student-addition h6 {
+    font-size: 10px;
+  }
+  .student-addition .attachment-status h6,
+  .student-addition .attachment-status p {
+    font-size: 10px;
   }
 
   /* Table */

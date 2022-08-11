@@ -1,0 +1,47 @@
+* {
+  font-family: var(--font-poppins);
+}
+body {
+  background: var(--linear-blue);
+  /* min-height: 100vh; */
+}
+
+.cardLogin {
+  background: linear-gradient(113.92deg, rgba(255, 255, 255, 0.85) 6.69%, rgba(255, 255, 255, 0.51) 93.46%);
+  border-radius: 20px;
+  padding: 44px 51px;
+}
+.cardLogin h6 {
+  font-weight: 400;
+}
+.inputField {
+  background: linear-gradient(113.92deg, rgba(255, 255, 255, 0.85) 6.69%, rgba(255, 255, 255, 0.51) 93.46%);
+  border-radius: 15px;
+}
+.forgotps {
+  padding: 0;
+}
+.forgotps a {
+  color: #707070;
+  font-size: 14px;
+  text-decoration: none;
+}
+.btnLogin {
+  font-size: 22px;
+  font-weight: 500;
+  border: 0;
+  color: var(--bs-white);
+  background: var(--yellow);
+  border-radius: 20px;
+  margin-top: 30px;
+  padding: 10px 0;
+}
+
+@media (max-width: 768px) {
+  .img-content {
+    width: 400px;
+  }
+  .cardLogin {
+    padding: 32px 32px;
+  }
+}

@@ -11,6 +11,8 @@
     <title>Essay Editing Portal</title>
     <link rel="stylesheet" href={{ asset('css/bootstrap.css') }}>
     <link rel="stylesheet" href="/css/admin/dashboard.css">
+    <link rel="stylesheet" href="/css/admin/user-mentor.css">
+    <link rel="stylesheet" href="/css/admin/user-student-detail.css">
 </head>
 
 <body>
