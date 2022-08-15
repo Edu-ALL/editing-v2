@@ -7,7 +7,7 @@
   <link rel="shortcut icon" href="/assets/favicon.png" type="image/x-icon">
   <title>Essay Editing Portal</title>
   <link rel="stylesheet" href={{ asset('css/bootstrap.css') }}>
-  <link rel="stylesheet" href="/css/login/login-mentor.css">
+  <link rel="stylesheet" href="/css/login/login-editor.css">
 </head>
 <body>
   <nav class="navbar">

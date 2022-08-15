@@ -5,7 +5,9 @@ body {
   background: var(--linear-blue);
   /* min-height: 100vh; */
 }
-
+* input {
+  box-shadow: none !important;
+}
 .cardLogin {
   background: linear-gradient(113.92deg, rgba(255, 255, 255, 0.85) 6.69%, rgba(255, 255, 255, 0.51) 93.46%);
   border-radius: 20px;

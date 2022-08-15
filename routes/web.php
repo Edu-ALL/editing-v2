@@ -40,6 +40,7 @@ Route::get('/forgot/admin', function () {
 });
 
 // Admin
+// User
 Route::get('/admin/dashboard', function () {
     return view('user.admin.dashboard');
 });
@@ -50,10 +51,12 @@ Route::get('/admin/user/student/detail', function () {
     return view('user.admin.users.user-student-detail');
 });
 
+// Mentor
 Route::get('/admin/user/mentor', function () {
     return view('user.admin.users.user-mentor');
 });
 
+// Editor
 Route::get('/admin/user/editor', function () {
     return view('user.admin.users.user-editor');
 });
@@ -67,9 +70,63 @@ Route::get('/admin/user/editor/detail', function () {
     return view('user.admin.users.user-editor-detail');
 });
 
+// Essay List
+Route::get('/admin/essay-list/ongoing', function () {
+    return view('user.admin.essay-list.essay-ongoing');
+});
+Route::get('/admin/essay-list/ongoing/detail', function () {
+    return view('user.admin.essay-list.essay-completed-detail');
+});
 Route::get('/admin/essay-list/completed', function () {
     return view('user.admin.essay-list.essay-completed');
 });
 Route::get('/admin/essay-list/completed/detail', function () {
     return view('user.admin.essay-list.essay-completed-detail');
+});
+
+// Export to Excel
+Route::get('/admin/export-excel/student', function () {
+    return view('user.admin.export-excel.export-student-essay');
+});
+Route::get('/admin/export-excel/editor', function () {
+    return view('user.admin.export-excel.export-editor-essay');
+});
+
+// Setting
+// University
+Route::get('/admin/setting/universities', function () {
+    return view('user.admin.settings.setting-universities');
+});
+Route::get('/admin/setting/universities/add', function () {
+    return view('user.admin.settings.setting-add-universities');
+});
+Route::get('/admin/setting/universities/detail', function () {
+    return view('user.admin.settings.setting-detail-universities');
+});
+
+// Essay Prompt
+Route::get('/admin/setting/essay-prompt', function () {
+    return view('user.admin.settings.setting-essay-prompt');
+});
+Route::get('/admin/setting/essay-prompt/add', function () {
+    return view('user.admin.settings.setting-add-essay-prompt');
+});
+Route::get('/admin/setting/essay-prompt/detail', function () {
+    return view('user.admin.settings.setting-detail-essay-prompt');
+});
+
+// Programs
+Route::get('/admin/setting/programs', function () {
+    return view('user.admin.settings.setting-programs');
+});
+Route::get('/admin/setting/programs/add', function () {
+    return view('user.admin.settings.setting-add-programs');
+});
+Route::get('/admin/setting/programs/detail', function () {
+    return view('user.admin.settings.setting-detail-programs');
+});
+
+
+Route::get('/admin/setting/categories-tags', function () {
+    return view('user.admin.setting');
 });
