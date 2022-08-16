@@ -65,7 +65,6 @@ Route::get('/admin/user/mentor', function () {
 });
 
 // Editor
-
 Route::get('/admin/user/editor', function () {
     return view('user.admin.users.user-editor');
 });
@@ -118,6 +117,19 @@ Route::get('/mentor/new-request', function () {
 Route::get('/mentor/new-request', function () {
     return view('user.mentor.new-request');
 });
+
+// Mentor
+Route::get('/editor/dashboard', function () {
+    return view('user.editor.dashboard');
+});
+Route::get('/editor/essay/list', function () {
+    return view('user.editor.editor-list');
+});
+Route::get('/editor/essay/list/detail', function () {
+    return view('user.editor.essay-list-detail');
+});
+
+
 // Export to Excel
 Route::get('/admin/export-excel/student', function () {
     return view('user.admin.export-excel.export-student-essay');

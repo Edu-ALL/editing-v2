@@ -111,7 +111,7 @@
                         </a>
                         <a class="col-md-3 col-12 userCard">
                             <div class="headline text-center">
-                                <h6>Essay Editing</h6>
+                                <h6>New Request</h6>
                             </div>
                             <div class="row px-3 countUser align-items-center text-center">
                                 {{-- <div class="col">
@@ -119,7 +119,7 @@
                                 </div> --}}
                                 <div class="col">
                                     <h4>1</h4>
-                                    <h4>Mentors</h4>
+                                    <h4>Essay Editing</h4>
                                 </div>
                             </div>
                             <hr>
