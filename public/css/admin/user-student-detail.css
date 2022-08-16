@@ -121,6 +121,12 @@ body {
   max-width: 18px;
   /* text-align: center; */
 }
+
+.new-request {
+  color: var(--black);
+  /* border-left: 1px solid var(--light-grey); */
+}
+
 .student-desc {
   color: var(--black);
   border-left: 1px solid var(--light-grey);

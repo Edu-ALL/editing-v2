@@ -47,9 +47,17 @@ Route::get('/admin/dashboard', function () {
 Route::get('/admin/user/student', function () {
     return view('user.admin.users.user-student');
 });
+Route::get('/admin/user/mentor', function () {
+    return view('user.admin.user-mentor');
+});
 Route::get('/admin/user/student/detail', function () {
     return view('user.admin.users.user-student-detail');
 });
+
+Route::get('/admin/user/mentor', function () {
+    return view('user.admin.users.user-mentor');
+});
+
 
 // Mentor
 Route::get('/admin/user/mentor', function () {
@@ -70,6 +78,7 @@ Route::get('/admin/user/editor/detail', function () {
     return view('user.admin.users.user-editor-detail');
 });
 
+
 // Essay List
 Route::get('/admin/essay-list/ongoing', function () {
     return view('user.admin.essay-list.essay-ongoing');
@@ -77,12 +86,49 @@ Route::get('/admin/essay-list/ongoing', function () {
 Route::get('/admin/essay-list/ongoing/detail', function () {
     return view('user.admin.essay-list.essay-completed-detail');
 });
+
 Route::get('/admin/essay-list/completed', function () {
     return view('user.admin.essay-list.essay-completed');
 });
 Route::get('/admin/essay-list/completed/detail', function () {
     return view('user.admin.essay-list.essay-completed-detail');
 });
+
+
+// Mentor
+Route::get('/mentor/dashboard', function () {
+    return view('user.mentor.dashboard');
+});
+Route::get('/mentor/user/student', function () {
+    return view('user.mentor.user-student');
+});
+Route::get('/mentor/user/student/detail', function () {
+    return view('user.mentor.user-student-detail');
+});
+Route::get('/mentor/essay/list', function () {
+    return view('user.mentor.essay-list');
+});
+Route::get('/mentor/essay/list/detail', function () {
+    return view('user.mentor.essay-list-detail');
+});
+Route::get('/mentor/new-request', function () {
+    return view('user.mentor.new-request');
+});
+Route::get('/mentor/new-request', function () {
+    return view('user.mentor.new-request');
+});
+
+// Mentor
+Route::get('/editor/dashboard', function () {
+    return view('user.editor.dashboard');
+});
+Route::get('/editor/essay/list', function () {
+    return view('user.editor.editor-list');
+});
+Route::get('/editor/essay/list/detail', function () {
+    return view('user.editor.essay-list-detail');
+});
+
 
 // Export to Excel
 Route::get('/admin/export-excel/student', function () {
