@@ -52,7 +52,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr onclick="location.href='/mentor/user/student/detail'">
+                                        <tr onclick="location.href='/mentor/essay/list/detail'">
                                             <th scope="row">1</th>
                                             <td>Student Dummy</td>
                                             <td>Mentor Dummy</td>

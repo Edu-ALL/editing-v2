@@ -52,8 +52,28 @@ Route::get('/admin/user/mentor', function () {
 Route::get('/admin/user/student/detail', function () {
     return view('user.admin.users.user-student-detail');
 });
+Route::get('/admin/user/mentor', function () {
+    return view('user.admin.users.user-mentor');
+});
+Route::get('/admin/user/editor', function () {
+    return view('user.admin.users.user-editor');
+});
+Route::get('/admin/user/editor/add', function () {
+    return view('user.admin.users.user-editor-add');
+});
+Route::get('/admin/user/editor/invite', function () {
+    return view('user.admin.users.user-editor-invite');
+});
+Route::get('/admin/user/editor/detail', function () {
+    return view('user.admin.users.user-editor-detail');
+});
+Route::get('/admin/essay-list/completed', function () {
+    return view('user.admin.essay-list.essay-completed');
+});
+Route::get('/admin/essay-list/completed/detail', function () {
+    return view('user.admin.essay-list.essay-completed-detail');
+});
 
-<<<<<<< HEAD
 // Mentor
 Route::get('/mentor/dashboard', function () {
     return view('user.mentor.dashboard');
@@ -67,30 +87,12 @@ Route::get('/mentor/user/student/detail', function () {
 Route::get('/mentor/essay/list', function () {
     return view('user.mentor.essay-list');
 });
+Route::get('/mentor/essay/list/detail', function () {
+    return view('user.mentor.essay-list-detail');
+});
 Route::get('/mentor/new-request', function () {
     return view('user.mentor.new-request');
-=======
-Route::get('/admin/user/mentor', function () {
-    return view('user.admin.users.user-mentor');
 });
-
-Route::get('/admin/user/editor', function () {
-    return view('user.admin.users.user-editor');
-});
-Route::get('/admin/user/editor/add', function () {
-    return view('user.admin.users.user-editor-add');
-});
-Route::get('/admin/user/editor/invite', function () {
-    return view('user.admin.users.user-editor-invite');
-});
-Route::get('/admin/user/editor/detail', function () {
-    return view('user.admin.users.user-editor-detail');
-});
-
-Route::get('/admin/essay-list/completed', function () {
-    return view('user.admin.essay-list.essay-completed');
-});
-Route::get('/admin/essay-list/completed/detail', function () {
-    return view('user.admin.essay-list.essay-completed-detail');
->>>>>>> 8b38495aca7214cb9175848c1515148d56edecac
+Route::get('/mentor/new-request', function () {
+    return view('user.mentor.new-request');
 });

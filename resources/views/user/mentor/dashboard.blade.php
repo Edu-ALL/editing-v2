@@ -25,14 +25,17 @@
                 <div class="container main-content">
                     {{-- User List --}}
                     <div class="row gap-2">
-                        <a class="col-md col-12 userCard" href="/mentor/user/student">
-                            <div class="headline text-center">
-                                <h6>Students</h6>
+                        <a class="col-md-3 col-12 userCard " href="/mentor/user/student">
+                            <div class="col-md col-12 p-0 ">
+                                <div class="headline d-flex align-items-center gap-3">
+                                    <img src="/assets/pic.png" alt="">
+                                    <h6>Editor</h6>
+                                </div>
                             </div>
                             <div class="row px-3 countUser align-items-center text-center">
-                                <div class="col">
+                                {{-- <div class="col">
                                     <img class="img-fluid" src="/assets/student-bg.png" alt="">
-                                </div>
+                                </div> --}}
                                 <div class="col">
                                     <h4>1</h4>
                                     <h4>Students</h4>
@@ -43,14 +46,14 @@
                                 <h6>See the list of Students</h6>
                             </div>
                         </a>
-                        <a class="col-md col-12 userCard">
-                            <div class="headline text-center">
-                                <h6>Mentors</h6>
+                        <a class="col-md-3 col-12 userCard">
+                            <div class="headline text-center" style="background-color: var(--green)">
+                                <h6>Essay Completed</h6>
                             </div>
                             <div class="row px-3 countUser align-items-center text-center">
-                                <div class="col">
+                                {{-- <div class="col">
                                     <img class="img-fluid" src="/assets/mentor-bg.png" alt="">
-                                </div>
+                                </div> --}}
                                 <div class="col">
                                     <h4>1</h4>
                                     <h4>Mentors</h4>
@@ -61,7 +64,7 @@
                                 <h6>See the list of Mentors</h6>
                             </div>
                         </a>
-                        <a class="col-md col-12 userCard">
+                        {{-- <a class="col-md col-12 userCard">
                             <div class="headline text-center">
                                 <h6>Editors</h6>
                             </div>
@@ -78,43 +81,54 @@
                             <div class="detailCard ps-3 mt-2">
                                 <h6>See the list of Editors</h6>
                             </div>
+                        </a> --}}
+                    </div>
+                    {{-- End User List --}}
+                </div>
+                <div class="container main-content">
+                    {{-- User List --}}
+                    <div class="row gap-2">
+                        <a class="col-md-3 col-12 userCard " href="/mentor/user/student">
+                            <div class="col-md col-12 p-0 ">
+                                <div class="headline d-flex align-items-center gap-3">
+                                    <img src="/assets/pic.png" alt="">
+                                    <h6>Students</h6>
+                                </div>
+                            </div>
+                            <div class="row px-3 countUser align-items-center text-center">
+                                {{-- <div class="col">
+                                    <img class="img-fluid" src="/assets/student-bg.png" alt="">
+                                </div> --}}
+                                <div class="col">
+                                    <h4>1</h4>
+                                    <h4>Students</h4>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="detailCard ps-3 mt-2">
+                                <h6>See the list of Students</h6>
+                            </div>
+                        </a>
+                        <a class="col-md-3 col-12 userCard">
+                            <div class="headline text-center">
+                                <h6>Essay Editing</h6>
+                            </div>
+                            <div class="row px-3 countUser align-items-center text-center">
+                                {{-- <div class="col">
+                                    <img class="img-fluid" src="/assets/mentor-bg.png" alt="">
+                                </div> --}}
+                                <div class="col">
+                                    <h4>1</h4>
+                                    <h4>Mentors</h4>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="detailCard ps-3 mt-2">
+                                <h6>See the list of Mentors</h6>
+                            </div>
                         </a>
                     </div>
                     {{-- End User List --}}
-
-                    {{-- Essay --}}
-                    <div class="row gap-2 my-2">
-                        <a class="col-md col-12 userCard">
-                            <div class="headline d-flex align-items-center gap-3">
-                                <img src="/assets/ongoing-essay.png" alt="">
-                                <h6>Ongoing Essay</h6>
-                            </div>
-                            <div class="col d-flex flex-column px-3 countUser text-center justify-content-center">
-                                <h4>1</h4>
-                                <h4>Essay</h4>
-                            </div>
-                            <hr>
-                            <div class="detailCard ps-3 mt-2">
-                                <h6>See the list of Students</h6>
-                            </div>
-                        </a>
-                        <a class="col-md col-12 userCard" href="">
-                            <div class="headline d-flex align-items-center gap-3" style="background-color: var(--green)">
-                                <img src="/assets/completed-essay.png" alt="">
-                                <h6>Completed Essay</h6>
-                            </div>
-                            <div class="col d-flex flex-column px-3 countUser text-center justify-content-center"
-                                style="color: var(--green)">
-                                <h4>1</h4>
-                                <h4>Essay</h4>
-                            </div>
-                            <hr>
-                            <div class="detailCard ps-3 mt-2">
-                                <h6>See the list of Students</h6>
-                            </div>
-                        </a>
-                    </div>
-                    {{-- End Essay --}}
                 </div>
             </div>
             {{-- End Content --}}

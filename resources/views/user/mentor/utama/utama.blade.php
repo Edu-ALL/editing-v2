@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/css/admin/dashboard.css">
     <link rel="stylesheet" href="/css/admin/user-mentor.css">
     <link rel="stylesheet" href="/css/admin/user-student-detail.css">
+    <link rel="stylesheet" href="/css/admin/user-editor-detail.css">
 </head>
 
 <body>

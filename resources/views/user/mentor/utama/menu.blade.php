@@ -50,14 +50,14 @@
                 <h6 class="menu {{ request()->is('mentor/new-request') ? 'active' : '' }}">New Request</h6>
             </div>
         </div>
-        <div class="row w-100 pointer">
+        {{-- <div class="row w-100 pointer">
             <div class="col-md-3 ps-lg-1">
                 <img class="active" src="/assets/setting.png" alt="">
             </div>
             <div class="col-7 pt-1 my-auto d-none d-md-inline">
                 <h6 class="menu">Settings</h6>
             </div>
-        </div>
+        </div> --}}
     </div>
     <hr class="smallLine mx-auto mt-4">
     <div
