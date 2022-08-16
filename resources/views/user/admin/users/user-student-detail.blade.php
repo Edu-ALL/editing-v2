@@ -8,13 +8,13 @@
   <title>Essay Editing Portal</title>
   <link rel="stylesheet" href={{ asset('css/bootstrap.css') }}>
   <link rel="stylesheet" href="/css/admin/user-student-detail.css">
+  {{-- TinyMCE --}}
   <script src="https://cdn.tiny.cloud/1/h7t62ozvqkx2ifkeh051fsy3k9irz7axx1g2zitzpbaqfo8m/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-  <script>
-    tinymce.init({
-      selector: '.textarea',
-      width: 'auto'
-    });
-  </script>
+  {{-- Slim Select --}}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.27.1/slimselect.min.css" rel="stylesheet"></link>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.27.1/slimselect.min.js"></script>
+
 </head>
 <body>
   <div class="container-fluid" style="padding: 0">
@@ -28,7 +28,8 @@
         <hr class="smallLine mx-auto mt-4">
         {{-- Menu --}}
         <div class="container ps-lg-5 ps-md-4 menuList d-flex flex-column text-md-start align-items-md-start align-items-center mt-5 mb-5 gap-5">
-          <a class="row w-100" href="/admin/dashboard">
+          {{-- Dashboard --}}
+          <a class="row w-100" href="/admin/dashboard" style="cursor: pointer">
             <div class="col-md-3">
               <img class="non-active" src="/assets/dashboard-blue.png" alt="">
             </div>
@@ -36,42 +37,113 @@
               <h6 class="menu">Dashboard</h6>
             </div>
           </a>
-          <div class="row w-100">
+
+          {{-- Users --}}
+          <div class="row w-100" id="users" style="cursor: pointer">
             <div class="col-md-3 ps-lg-1">
               <img class="active" src="/assets/users-blue.png" alt="">
             </div>
             <div class="col-7 pt-1 my-auto d-none d-md-inline">
               <h6 class="menu active">Users</h6>
             </div>
+            {{-- Popup --}}
+            <div class="col-auto d-none d-flex flex-column gap-4 popup-menu ps-4 pe-5 py-3" id="menu-users">
+              <a class="col d-flex gap-3 align-items-center" href="/admin/user/student">
+                <img class="active" src="/assets/student.png" alt="">
+                <h6 class="menu">Students</h6>
+              </a>
+              <a class="col d-flex gap-3 align-items-center" href="/admin/user/mentor">
+                <img class="active" src="/assets/mentor.png" alt="">
+                <h6 class="menu">Mentors</h6>
+              </a>
+              <a class="col d-flex gap-3 align-items-center" href="/admin/user/editor">
+                <img class="active" src="/assets/editor.png" alt="">
+                <h6 class="menu">Editors</h6>
+              </a>
+            </div>
+            {{-- End Popup --}}
           </div>
-          <div class="row w-100">
+
+          {{-- Essay List --}}
+          <div class="row w-100" id="essay" style="cursor: pointer">
             <div class="col-md-3 ps-lg-1">
               <img class="active" src="/assets/essay-list.png" alt="">
             </div>
             <div class="col-7 pt-1 my-auto d-none d-md-inline">
               <h6 class="menu">Essay List</h6>
             </div>
-          </div>
-          <div class="row w-100 align-items-center">
-            <div class="col-md-3 ps-lg-1">
-              <img class="active" src="/assets/excel.png" alt="">
+            {{-- Popup --}}
+            <div class="col-auto d-none d-flex flex-column gap-4 popup-menu ps-4 pe-5 py-3" id="menu-essay">
+              <a class="col d-flex gap-3 align-items-center" href="/admin/essay-list/ongoing">
+                <img class="active" src="/assets/ongoing-essay.png" alt="">
+                <h6 class="menu">Ongoing Essay</h6>
+              </a>
+              <a class="col d-flex gap-3 align-items-center" href="/admin/essay-list/completed">
+                <img class="active" src="/assets/completed-essay.png" alt="">
+                <h6 class="menu">Completed Essay</h6>
+              </a>
             </div>
-            <div class="col-7 pt-1 my-auto d-none d-md-inline">
-              <h6 class="menu">Export to Excel</h6>
-            </div>
+            {{-- End Popup --}}
           </div>
-          <div class="row w-100">
+
+          {{-- Export to Excel --}}
+          <div class="row w-100" id="export" style="cursor: pointer">
+            <div class="col w-100 d-flex flex-row align-items-center justify-content-md-start justify-content-center">
+              <div class="col-md-3 ps-lg-1">
+                <img class="active" src="/assets/excel.png" alt="">
+              </div>
+              <div class="col-7 pt-1 my-auto d-none d-md-inline">
+                <h6 class="menu">Export to Excel</h6>
+              </div>
+            </div>
+            {{-- Popup --}}
+            <div class="col-auto d-none d-flex flex-column gap-4 popup-menu ps-4 pe-5 py-3" id="menu-export">
+              <a class="col d-flex gap-3 align-items-center" href="/admin/export-excel/student">
+                <img class="active" src="/assets/student.png" alt="">
+                <h6 class="menu">Students Essay</h6>
+              </a>
+              <a class="col d-flex gap-3 align-items-center" href="/admin/export-excel/editor">
+                <img class="active" src="/assets/editor.png" alt="">
+                <h6 class="menu">Editors Essay</h6>
+              </a>
+            </div>
+            {{-- End Popup --}}
+          </div>
+
+          {{-- Settings --}}
+          <div class="row w-100" id="setting" style="cursor: pointer">
             <div class="col-md-3 ps-lg-1">
               <img class="active" src="/assets/setting.png" alt="">
             </div>
             <div class="col-7 pt-1 my-auto d-none d-md-inline">
               <h6 class="menu">Settings</h6>
             </div>
+            {{-- Popup --}}
+            <div class="col-auto d-none d-flex flex-column gap-4 popup-menu ps-4 pe-5 py-3" id="menu-setting">
+              <a class="col d-flex gap-3 align-items-center" href="/admin/setting/universities">
+                <img class="active" src="/assets/university.png" alt="">
+                <h6 class="menu">Universities</h6>
+              </a>
+              <a class="col d-flex gap-3 align-items-center" href="/admin/setting/essay-prompt">
+                <img class="active" src="/assets/essay-prompt.png" alt="">
+                <h6 class="menu">Essay Prompt</h6>
+              </a>
+              <a class="col d-flex gap-3 align-items-center" href="/admin/setting/programs">
+                <img class="active" src="/assets/program.png" alt="">
+                <h6 class="menu">Programs</h6>
+              </a>
+              <a class="col d-flex gap-3 align-items-center" href="/admin/setting/categories-tags">
+                <img class="active" src="/assets/tags.png" alt="">
+                <h6 class="menu">Categories/Tags</h6>
+              </a>
+            </div>
+            {{-- End Popup --}}
           </div>
         </div>
+
         <hr class="smallLine mx-auto mt-4">
         <div class="container ps-lg-5 ps-md-4 menuList d-flex flex-column text-md-start align-items-md-start align-items-center mt-5 mb-5 gap-4">
-          <div class="row w-100">
+          <div class="row w-100" style="cursor: pointer">
             <div class="col-md-3 ps-lg-1">
               <img class="active" src="/assets/logout.png" alt="">
             </div>
@@ -163,19 +235,11 @@
                     </div>
                     <div class="col-1 titik2"><p>:</p></div>
                     <div class="col-7">
-                      <div class="dropdown">
-                        <button class="btn dropdown-toggle w-100 text-start" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                          <p class="d-inline-block">Mentor</p>
-                        </button>
-                        <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1">
-                          <li class="mt-1 mb-2">
-                            <input type="email" class="form-control inputField py-1 px-2" placeholder="Search">
-                          </li>
-                          <li><a class="dropdown-item ps-2 my-1" href="">Action</a></li>
-                          <li><a class="dropdown-item ps-2 my-1" href="">Another action</a></li>
-                          <li><a class="dropdown-item ps-2 my-1" href="">Something else here</a></li>
-                        </ul>
-                      </div>
+                      <select id="single">
+                        <option value="value 1">Value 1</option>
+                        <option value="value 2">Value 2</option>
+                        <option value="value 3">Value 3</option>
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -230,5 +294,17 @@
   {{-- End Footer --}}
 
   <script src={{ asset('js/bootstrap.bundle.js') }}></script>
+  <script src="/js/admin/admin.js"></script>
+  
+  <script>
+    tinymce.init({
+      selector: '.textarea',
+      width: 'auto',
+      height: '300'
+    });
+    new SlimSelect({
+      select: '#single'
+    })
+  </script>
 </body>
 </html>
