@@ -128,5 +128,8 @@ Route::get('/admin/setting/programs/detail', function () {
 
 
 Route::get('/admin/setting/categories-tags', function () {
-    return view('user.admin.setting');
+    return view('user.admin.settings.setting-categories');
+});
+Route::get('/admin/setting/categories-tags/detail', function () {
+    return view('user.admin.settings.setting-detail-categories');
 });

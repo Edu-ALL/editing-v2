@@ -113,7 +113,7 @@ body {
 }
 .headline {
   color: var(--white);
-  padding: 20px 24px !important;
+  padding: 24px !important;
   background-color: var(--blue);
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
@@ -126,22 +126,6 @@ body {
   height: 28px;
   filter: invert(100%);
 }
-.headline .btn-delete,
-.headline .btn-edit {
-  padding: 5px 8px !important;
-  border-radius: 50%;
-}
-.headline .btn-edit {
-  background-color: var(--yellow);
-}
-.headline .btn-delete {
-  background-color: var(--red);
-}
-.headline .btn-edit img,
-.headline .btn-delete img {
-  width: 18px;
-  height: 18px;
-}
 
 .profile-editor {
   color: var(--black);
@@ -151,7 +135,7 @@ body {
   font-weight: 400;
 }
 .profile-editor .inputField {
-  width: 96%;
+  width: 93%;
   font-size: 12px;
   border-radius: 6px;
 }
@@ -161,14 +145,19 @@ body {
   border-color: var(--light-grey);
   border-radius: 6px;
 }
+.input-group-text {
+  font-size: 12px;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
 
-.btn-update, .btn-update:hover {
+.btn-create, .btn-create:hover {
   color: var(--white);
   background-color: var(--blue);
   border: 0;
   padding: 8px 16px !important;
 }
-.btn-update img {
+.btn-create img {
   width: auto;
   height: 24px;
   filter: invert(100%);

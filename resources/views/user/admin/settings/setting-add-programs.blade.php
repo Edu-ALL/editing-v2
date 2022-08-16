@@ -7,7 +7,15 @@
   <link rel="shortcut icon" href="/assets/favicon.png" type="image/x-icon">
   <title>Essay Editing Portal</title>
   <link rel="stylesheet" href={{ asset('css/bootstrap.css') }}>
-  <link rel="stylesheet" href="/css/admin/essay-ongoing.css">
+  <link rel="stylesheet" href="/css/admin/setting-add-programs.css">
+  <script src="https://cdn.tiny.cloud/1/h7t62ozvqkx2ifkeh051fsy3k9irz7axx1g2zitzpbaqfo8m/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+  <script>
+    tinymce.init({
+      selector: '#textarea',
+      width: 'auto',
+      height: '300'
+    });
+  </script>
 </head>
 <body>
   <div class="container-fluid" style="padding: 0">
@@ -34,7 +42,7 @@
           {{-- Users --}}
           <div class="row w-100" id="users" style="cursor: pointer">
             <div class="col-md-3 ps-lg-1">
-              <img class="non-active" src="/assets/users.png" alt="">
+              <img class="non-active" src="/assets/users-blue.png" alt="">
             </div>
             <div class="col-7 pt-1 my-auto d-none d-md-inline">
               <h6 class="menu">Users</h6>
@@ -60,10 +68,10 @@
           {{-- Essay List --}}
           <div class="row w-100" id="essay" style="cursor: pointer">
             <div class="col-md-3 ps-lg-1">
-              <img class="active" src="/assets/essay-list-blue.png" alt="">
+              <img class="active" src="/assets/essay-list.png" alt="">
             </div>
             <div class="col-7 pt-1 my-auto d-none d-md-inline">
-              <h6 class="menu active">Essay List</h6>
+              <h6 class="menu">Essay List</h6>
             </div>
             {{-- Popup --}}
             <div class="col-auto d-none d-flex flex-column gap-4 popup-menu ps-4 pe-5 py-3" id="menu-essay">
@@ -106,10 +114,10 @@
           {{-- Settings --}}
           <div class="row w-100" id="setting" style="cursor: pointer">
             <div class="col-md-3 ps-lg-1">
-              <img class="active" src="/assets/setting.png" alt="">
+              <img class="active" src="/assets/setting-blue.png" alt="">
             </div>
             <div class="col-7 pt-1 my-auto d-none d-md-inline">
-              <h6 class="menu">Settings</h6>
+              <h6 class="menu active">Settings</h6>
             </div>
             {{-- Popup --}}
             <div class="col-auto d-none d-flex flex-column gap-4 popup-menu ps-4 pe-5 py-3" id="menu-setting">
@@ -167,49 +175,97 @@
           </div>
         </div>
         <div class="container main-content m-0">
-          {{-- Table Student --}}
-          <div class="row">
-            <div class="col-md col-12 p-0 studentList">
-              <div class="headline d-flex justify-content-between">
-                <div class="col-md-6 col-7 d-flex align-items-center gap-md-3 gap-2">
-                  <img src="/assets/ongoing-essay.png" alt="">
-                  <h6>List of Ongoing Essay</h6>
-                </div>
-                <div class="col-md-4 col-4 d-flex align-items-center justify-content-end">
-                  <div class="input-group">
-                    <input type="email" class="form-control inputField py-2 px-3" placeholder="Search">
-                  </div>
+          <div class="row gap-2">
+            <div class="col-md col-12 p-0 userCard profile">
+              <div class="headline d-flex align-items-center gap-3">
+                <img src="/assets/pic.png" alt="">
+                <h6>Profile Picture</h6>
+              </div>
+              <div class="col d-flex align-items-center justify-content-center py-md-4 py-4">
+                <div class="pic-profile d-flex align-items-center justify-content-center">
+                  <img class="img-fluid" id="img-profile" src="/assets/editor-bg.png" alt="">
                 </div>
               </div>
-              <div class="container text-center" style="overflow-x: auto !important">
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th>No</th>
-                      <th>Student Name</th>
-                      <th>Mentor Name</th>
-                      <th>Editor Name</th>
-                      <th>Essay Title</th>
-                      <th>Essay Deadline</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr onclick="window.location='/admin/essay-list/completed/detail'">
-                      <th scope="row">1</th>
-                      <td>Student Dummy</td>
-                      <td>Mentor Dummy</td>
-                      <td>Senior Editor Dummy</td>
-                      <td>Supplemental Essay</td>
-                      <td>Thu, 28 Jul 2022</td>
-                      <td style="color: var(--red)">Ongoing</td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div class="col px-md-4 px-3">
+                <div class="mb-4">
+                  <input class="form-control form-control-sm" id="formFileSm" type="file" onchange="previewImage()">
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-8 col-12 p-0 userCard">
+              <div class="headline d-flex justify-content-between">
+                <div class="col-md-6 col-8 d-flex align-items-center gap-md-3 gap-2">
+                  <img src="/assets/edit.png" alt="">
+                  <h6>New Program</h6>
+                </div>
+                <div class="col-md-4 col-4 d-flex align-items-center justify-content-end gap-md-3 gap-2">
+                  <a href="/admin/setting/programs"><img src="/assets/back.png" alt=""></a>
+                </div>
+              </div>
+              
+              <div class="row profile-editor px-md-3 py-md-4 px-3 py-4" style="overflow: auto !important">
+                <form action="" class="p-0">
+                  <div class="col-12 d-flex mb-3">
+                    <div class="col-6">
+                      <h6 class="pb-2">Program Name :</h6>
+                      <input type="text" class="form-control inputField py-2 px-3">
+                    </div>
+                    <div class="col-6">
+                      <h6 class="pb-2">Program Category :</h6>
+                      <input type="text" class="form-control inputField py-2 px-3">
+                    </div>
+                  </div>
+                  <div class="col-12 d-flex mb-3" style="overflow: auto !important; padding-right: 3%;">
+                    <div class="col">
+                      <h6 class="pb-2">Description :</h6>
+                      <textarea name="" id="textarea" placeholder="Description"></textarea>
+                    </div>
+                  </div>
+                  <div class="col-12 d-flex mb-3">
+                    <div class="col-6">
+                      <h6 class="pb-2">Price :</h6>
+                      <input type="number" class="form-control inputField py-2 px-3">
+                    </div>
+                    <div class="col-6">
+                      <h6 class="pb-2">Discount :</h6>
+                      <input type="number" class="form-control inputField py-2 px-3">
+                    </div>
+                  </div>
+                  <div class="col-12 d-flex mb-3">
+                    <div class="col-6">
+                      <div class="col d-flex flex-lg-row flex-column mb-3" style="padding-right: 3%">
+                        <div class="col-lg-6 col mb-lg-0 mb-3">
+                          <h6 class="pb-2">Minimum Words :</h6>
+                          <input type="number" class="form-control inputField py-2 px-3">
+                        </div>
+                        <div class="col-lg-6 col">
+                          <h6 class="pb-2">Maximum Words :</h6>
+                          <input type="number" class="form-control inputField py-2 px-3">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-6" style="padding-right: 3%">
+                      <h6 class="pb-2">Country :</h6>
+                      {{-- <input type="text" class="form-control inputField py-2 px-3"> --}}
+                      <div class="input-group mb-3">
+                        <input type="number" class="form-control py-2 px-3" aria-describedby="basic-addon1">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text py-2 px-2" id="basic-addon1">Hours</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 d-flex justify-content-center pt-3" style="border-top: 1px solid var(--light-grey)">
+                    <button class="btn btn-create d-flex align-items-center gap-2">
+                      <img src="/assets/add.png" alt="">
+                      <h6>Add Program</h6>
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
-          {{-- End Table Student --}}
         </div>
       </div>
       {{-- End Content --}}
@@ -247,8 +303,14 @@
       </div>
     </div>
   </div>
-  
-  <script src={{ asset('js/bootstrap.js') }}></script>
+
+  <script src={{ asset('js/bootstrap.bundle.js') }}></script>
   <script src="/js/admin/admin.js"></script>
+  <script>
+    function previewImage(){
+      const imgPreview = document.querySelector('#img-profile');
+      imgPreview.src = URL.createObjectURL(event.target.files[0]);
+    }
+  </script>
 </body>
 </html>

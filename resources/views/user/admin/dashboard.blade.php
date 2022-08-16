@@ -136,7 +136,7 @@
 
         <hr class="smallLine mx-auto mt-4">
         <div class="container ps-lg-5 ps-md-4 menuList d-flex flex-column text-md-start align-items-md-start align-items-center mt-5 mb-5 gap-4">
-          <div class="row w-100" style="cursor: pointer">
+          <div type="button" class="row w-100" data-bs-toggle="modal" data-bs-target="#logout">
             <div class="col-md-3 ps-lg-1">
               <img class="active" src="/assets/logout.png" alt="">
             </div>
@@ -270,6 +270,31 @@
     </div>
   </footer>
   {{-- End Footer --}}
+
+  {{-- Modal Logout --}}
+  <div class="modal fade" id="logout" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content border-0">
+        <div class="modal-header">
+          <div class="col d-flex gap-2 align-items-center">
+            <img src="/assets/logout-2.png" alt="">
+            <h6 class="modal-title ms-3">Ready to leave?</h6>
+          </div>
+          <div type="button" data-bs-dismiss="modal" aria-label="Close">
+            <img src="/assets/close.png" alt="" style="height: 26px">
+          </div>
+        </div>
+        <div class="modal-body text-center px-4 py-4">
+          <p>Select "Logout" below if you are ready to end your current session.</p>
+        </div>
+        <div class="modal-footer d-flex align-items-start justify-content-center border-0 pt-1 pb-4">
+          <form action="/">
+            <button type="submit">Logout</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src={{ asset('js/bootstrap.js') }}></script>
   <script src="/js/admin/admin.js"></script>

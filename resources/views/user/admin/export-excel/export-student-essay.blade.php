@@ -8,6 +8,12 @@
   <title>Essay Editing Portal</title>
   <link rel="stylesheet" href={{ asset('css/bootstrap.css') }}>
   <link rel="stylesheet" href="/css/admin/export-student-essay.css">
+
+  {{-- Selectize --}}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.6/css/selectize.bootstrap5.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.6/js/standalone/selectize.min.js"></script>
+
 </head>
 <body>
   <div class="container-fluid" style="padding: 0">
@@ -136,7 +142,7 @@
 
         <hr class="smallLine mx-auto mt-4">
         <div class="container ps-lg-5 ps-md-4 menuList d-flex flex-column text-md-start align-items-md-start align-items-center mt-5 mb-5 gap-4">
-          <div class="row w-100" style="cursor: pointer">
+          <div type="button" class="row w-100" data-bs-toggle="modal" data-bs-target="#logout">
             <div class="col-md-3 ps-lg-1">
               <img class="active" src="/assets/logout.png" alt="">
             </div>
@@ -181,11 +187,21 @@
                   <div class="col-md-8 col-10 d-flex py-md-3 py-2">
                     <div class="col-6">
                       <h6 class="pb-2">Month</h6>
-                      <input type="text" class="form-control inputField py-2 px-3">
+                      <select class="select-beast inputField">
+                        <option value=""></option>
+                        <option value="value 1">Value 1</option>
+                        <option value="value 2">Value 2</option>
+                        <option value="value 3">Value 3</option>
+                      </select>
                     </div>
                     <div class="col-6">
                       <h6 class="pb-2">Year</h6>
-                      <input type="text" class="form-control inputField py-2 px-3">
+                      <select class="select-beast inputField">
+                        <option value=""></option>
+                        <option value="value 1">Value 1</option>
+                        <option value="value 2">Value 2</option>
+                        <option value="value 3">Value 3</option>
+                      </select>
                     </div>
                   </div>
                   <div class="col-12 d-flex justify-content-center py-md-3 py-2">
@@ -247,6 +263,37 @@
   </footer>
   {{-- End Footer --}}
 
+  {{-- Modal Logout --}}
+  <div class="modal fade" id="logout" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content border-0">
+        <div class="modal-header">
+          <div class="col d-flex gap-2 align-items-center">
+            <img src="/assets/logout-2.png" alt="">
+            <h6 class="modal-title ms-3">Ready to leave?</h6>
+          </div>
+          <div type="button" data-bs-dismiss="modal" aria-label="Close">
+            <img src="/assets/close.png" alt="" style="height: 26px">
+          </div>
+        </div>
+        <div class="modal-body text-center px-4 py-4">
+          <p>Select "Logout" below if you are ready to end your current session.</p>
+        </div>
+        <div class="modal-footer d-flex align-items-start justify-content-center border-0 pt-1 pb-4">
+          <form action="/">
+            <button type="submit">Logout</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    $(".select-beast").selectize({
+      create: false,
+      sortField: "text",
+    });
+  </script>
   <script src={{ asset('js/bootstrap.js') }}></script>
   <script src="/js/admin/admin.js"></script>
 </body>
