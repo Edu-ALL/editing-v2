@@ -1,4 +1,7 @@
 @extends('user.admin.utama.utama')
+@section('css')
+  <link rel="stylesheet" href="/css/admin/user-editor-detail.css">
+@endsection
 @section('content')
 <div class="container-fluid" style="padding: 0">
   <div class="row flex-nowrap main">
@@ -8,22 +11,7 @@
 
     {{-- Content --}}
     <div class="col" style="overflow: auto !important">
-      <div class="row head py-4 align-items-center">
-        <div class="col-md-6 col-10 ps-md-5 ps-3">
-          <h4 class="">Admin Dashboard</h4>
-        </div>
-        <div class="col-md-6 col-2 pe-md-5 pe-3">
-          <div class="head-content d-flex flex-row align-items-center justify-content-end gap-md-4 gap-2">
-            <a class="help d-flex flex-row align-items-center gap-md-2 gap-1" href="">
-              <img class="img-fluid" src="/assets/help-grey.png" alt="">
-              <h6 class="d-none d-md-inline">Help</h6>
-            </a>
-            <a href="">
-              <h6 class="pt-1 d-none d-md-inline">Admin Name</h6>
-            </a>
-          </div>
-        </div>
-      </div>
+      @include('user.admin.utama.head')
       <div class="container main-content m-0">
         <div class="row gap-2">
           <div class="col-md col-12 p-0 userCard profile">
@@ -112,13 +100,13 @@
                 <div class="col-12 d-flex mb-3" style="overflow: auto !important">
                   <div class="col">
                     <h6 class="pb-2">Address :</h6>
-                    <textarea name="" id="textarea" input="dsad"></textarea>
+                    <textarea name="" class="textarea" input="dsad"></textarea>
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-5">
                   <div class="col">
                     <h6 class="pb-2">Position :</h6>
-                    <select class="select-beast inputField">
+                    <select class="select-beast">
                       <option value="value 1">Value 1</option>
                       <option value="value 2">Value 2</option>
                       <option value="value 3">Value 3</option>

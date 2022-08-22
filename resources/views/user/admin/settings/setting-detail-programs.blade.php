@@ -1,4 +1,8 @@
 @extends('user.admin.utama.utama')
+@section('css')
+  <link rel="stylesheet" href="/css/admin/setting-detail-programs.css">
+@endsection
+
 @section('content')
 <div class="container-fluid" style="padding: 0">
   <div class="row flex-nowrap main">
@@ -8,22 +12,7 @@
 
     {{-- Content --}}
     <div class="col" style="overflow: auto !important">
-      <div class="row head py-4 align-items-center">
-        <div class="col-md-6 col-10 ps-md-5 ps-3">
-          <h4 class="">Admin Dashboard</h4>
-        </div>
-        <div class="col-md-6 col-2 pe-md-5 pe-3">
-          <div class="head-content d-flex flex-row align-items-center justify-content-end gap-md-4 gap-2">
-            <a class="help d-flex flex-row align-items-center gap-md-2 gap-1" href="">
-              <img class="img-fluid" src="/assets/help-grey.png" alt="">
-              <h6 class="d-none d-md-inline">Help</h6>
-            </a>
-            <a href="">
-              <h6 class="pt-1 d-none d-md-inline">Admin Name</h6>
-            </a>
-          </div>
-        </div>
-      </div>
+      @include('user.admin.utama.head')
       <div class="container main-content m-0">
         <div class="row gap-2">
           <div class="col-md col-12 p-0 userCard profile">
@@ -103,7 +92,6 @@
                   </div>
                   <div class="col-6" style="padding-right: 3%">
                     <h6 class="pb-2">Completed Within :</h6>
-                    {{-- <input type="text" class="form-control inputField py-2 px-3"> --}}
                     <div class="input-group mb-3">
                       <input type="number" class="form-control py-2 px-3" id="complete" disabled value="0" aria-describedby="basic-addon1">
                       <div class="input-group-prepend">
@@ -127,4 +115,44 @@
     {{-- End Content --}}
   </div>
 </div>
+@endsection
+
+@section('js')
+<script>
+  var check = false;
+  function enableEdit(){
+    var chooseFile = document.getElementById('chooseFile');
+    var name = document.getElementById('name');
+    var category = document.getElementById('category');
+    var price = document.getElementById('price');
+    var discount = document.getElementById('discount');
+    var min = document.getElementById('min');
+    var max = document.getElementById('max');
+    var complete = document.getElementById('complete');
+    var btnAddUniv = document.getElementById('btnAddUniv');
+    if (check == false){
+      chooseFile.classList.remove('d-none');
+      name.disabled = false;
+      category.disabled = false;
+      price.disabled = false;
+      discount.disabled = false;
+      min.disabled = false;
+      max.disabled = false;
+      complete.disabled = false;
+      btnAddUniv.classList.remove('d-none');
+      check = true;
+    } else if (check == true){
+      chooseFile.classList.add('d-none');
+      name.disabled = true;
+      category.disabled = true;
+      price.disabled = true;
+      discount.disabled = true;
+      min.disabled = true;
+      max.disabled = true;
+      complete.disabled = true;
+      btnAddUniv.classList.add('d-none');
+      check = false;
+    }
+  }
+</script>
 @endsection

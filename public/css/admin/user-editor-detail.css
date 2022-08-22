@@ -78,9 +78,9 @@ body {
 .main-content {
   padding: 20px !important;
 }
-/* .profile {
+.profile {
   height: fit-content !important;
-} */
+}
 .userCard {
   color: var(--blue);
   /* min-height: 250px; */
@@ -204,6 +204,16 @@ body {
   filter: invert(100%);
 }
 
+/* Selectize */
+.selectize-control,
+.selectize-dropdown {
+  font-size: 13px !important;
+}
+.selectize-input.focus {
+  box-shadow: none !important;
+}
+/* End Selectize */
+
 .footer {
   color: var(--white);
   background: var(--blue);
@@ -260,6 +270,12 @@ body {
     font-size: 12px;
     font-weight: 400;
   }
+  /* Selectize */
+  .selectize-control,
+  .selectize-dropdown {
+    font-size: 10px !important;
+  }
+  /* End Selectize */
 }
 
 @media (max-width: 768px) {

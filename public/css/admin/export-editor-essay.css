@@ -221,6 +221,12 @@ body {
 }
 
 @media (max-width: 992px) {
+  /* Selectize */
+  .selectize-control,
+  .selectize-dropdown {
+    font-size: 10px !important;
+  }
+  /* End Selectize */
 }
 
 @media (max-width: 768px) {
