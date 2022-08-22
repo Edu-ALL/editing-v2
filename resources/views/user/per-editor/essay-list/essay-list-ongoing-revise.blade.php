@@ -18,8 +18,8 @@
               <h6>Status</h6>
             </div>
             <div class="col d-flex flex-column align-items-center px-3 py-md-5 py-4 gap-3 text-center justify-content-center" style="color: var(--black)">
-              <img class="img-status" src="/assets/status-ongoing.png" alt="">
-              <h6>Accepted and Ongoing</h6>
+              <img class="img-status" src="/assets/status-edit.png" alt="">
+              <h6>Revision</h6>
             </div>
             <div class="headline d-flex align-items-center gap-3">
               <img src="/assets/file.png" alt="">
@@ -131,7 +131,87 @@
             <div class="headline d-flex justify-content-between">
               <div class="col d-flex align-items-center gap-3">
                 <img src="/assets/file.png" alt="">
-                <h6>Upload Your File</h6>
+                <h6>Old Essay</h6>
+              </div>
+            </div>
+            <div class="row field px-md-3 pt-md-4 px-3 pt-4" style="overflow: auto !important">
+              <form action="" class="p-0">
+                <div class="col-12 d-flex flex-lg-row flex-column gap-2 mb-3">
+                  <div class="col-lg-4 col px-2">
+                    <div class="col pb-4">
+                      <h6 class="pb-2">Tags :</h6>
+                      <div class="col d-flex flex-wrap gap-1 list-tags pe-2">
+                        <div class="tags py-2 px-3">
+                          <h6 style="font-size: 12px; font-weight: 500">The role model</h6>
+                        </div>
+                        <div class="tags py-2 px-3">
+                          <h6 style="font-size: 12px; font-weight: 500">The model</h6>
+                        </div>
+                        <div class="tags py-2 px-3">
+                          <h6 style="font-size: 12px; font-weight: 500">The role</h6>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col mb-3">
+                      <h6 class="pb-2">Your Old Essay :</h6>
+                      <div class="col d-flex align-items-center justify-content-center py-md-4 py-4">
+                        <img class="img-word" src="/assets/logo-word.png" alt="">
+                      </div>
+                      <div class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
+                        <form action="">
+                          <button class="btn btn-download d-flex align-items-center gap-2">
+                            <img src="/assets/download.png" alt="">
+                            <h6>Download</h6>
+                          </button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="col-12 d-flex mb-3" style="overflow: auto !important">
+                      <div class="col">
+                        <h6 class="pb-2">Notes :</h6>
+                        <div class="chat-messages p-3">
+                          <div class="chat-message-right pb-3">
+                            <div>
+                              <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle mr-1" width="40" height="40">
+                              <div class="text-muted d-none small text-nowrap mt-2">2:33 am</div>
+                            </div>
+                            <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3 mt-2">
+                              <p><b>Managing</b></p>
+                              <p>Lorem ipsum dolor sit amet, vis erat denique in, dicunt prodesset te vix.</p>
+                            </div>
+                          </div>
+                          <div class="chat-message-left pb-3">
+                            <div class="text-end">
+                              <img src="https://bootdey.com/img/Content/avatar/avatar3.png" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40">
+                              <div class="text-muted d-none small text-nowrap mt-2">2:34 am</div>
+                            </div>
+                            <div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3 mt-2">
+                              <p><b>Editor</b></p>
+                              <p>Sit meis deleniti eu, pri vidit meliore docendi ut, an eum erat animal commodo.</p>
+                            </div>
+                          </div>
+                        </div>
+                        <textarea name="" class="textarea" style="overflow: auto !important"></textarea>
+                        <div class="col d-flex align-items-center justify-content-center pt-3">
+                          <form action="">
+                            <button class="btn btn-download d-flex align-items-center gap-2" style="background-color: var(--yellow)">
+                              <img src="/assets/comment.png" alt="">
+                              <h6>Comments</h6>
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="headline d-flex justify-content-between">
+              <div class="col d-flex align-items-center gap-3">
+                <img src="/assets/file.png" alt="">
+                <h6>Upload Your Revision</h6>
               </div>
             </div>
             <div class="row field px-md-3 py-md-4 px-3 py-4" style="overflow: auto !important">
@@ -194,32 +274,4 @@
     {{-- End Content --}}
   </div>
 </div>
-
-{{-- Modal Info --}}
-<div class="modal fade" id="info" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog d-flex align-items-center justify-content-center">
-    <div class="modal-content border-0 w-75">
-      <div class="modal-header" style="background-color: var(--green)">
-        <div class="col d-flex gap-1 align-items-center">
-          <img src="/assets/thumbsup.png" alt="">
-          <h6 class="modal-title ms-3">Congratulations</h6>
-        </div>
-        <div type="button" data-bs-dismiss="modal" aria-label="Close">
-          <img src="/assets/close.png" alt="" style="height: 26px">
-        </div>
-      </div>
-      <div class="modal-body text-center px-4 py-4 my-md-3">
-        <p>Student Essay Was Accepted <span style="color: var(--red)">*</span></p>
-      </div>
-    </div>
-  </div>
-</div>
-@endsection
-
-@section('js')
-<script>
-  $(document).ready(function(){
-      $("#info").modal('show');
-  });
-</script>
 @endsection

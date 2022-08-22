@@ -214,3 +214,9 @@ Route::get('/editors/essay-list/ongoing/detail', function () {
 Route::get('/editors/essay-list/ongoing/accepted', function () {
     return view('user.per-editor.essay-list.essay-list-ongoing-accepted');
 });
+Route::get('/editors/essay-list/ongoing/submitted', function () {
+    return view('user.per-editor.essay-list.essay-list-ongoing-submitted');
+});
+Route::get('/editors/essay-list/ongoing/revise', function () {
+    return view('user.per-editor.essay-list.essay-list-ongoing-revise');
+});
