@@ -1,8 +1,8 @@
-@extends('user.mentor.utama.utama')
+@extends('user.editor.utama.utama')
 @section('content')
     <div class="container-fluid">
         <div class="row flex-nowrap main">
-            @include('user.mentor.utama.menu')
+            @include('user.editor.utama.menu')
 
             {{-- Content --}}
             <div class="col">
@@ -28,8 +28,8 @@
                         <div class="col-md col-12 p-0 studentList">
                             <div class="headline d-flex justify-content-between">
                                 <div class="col-md-6 col-5 d-flex align-items-center gap-md-3 gap-2">
-                                    <img src="/assets/editor.png" alt="">
-                                    <h6>Editor List</h6>
+                                    <img src="/assets/essay-list.png" alt="">
+                                    <h6>Not Assign Essay List</h6>
                                 </div>
                                 <div class="col-md-4 col-6 d-flex align-items-center justify-content-end gap-md-3 gap-2">
                                     <img src="/assets/reload.png" alt="">
@@ -44,30 +44,31 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
+                                            <th>Student Name</th>
+                                            <th>Mentor Name</th>
                                             <th>Editor Name</th>
-                                            <th>Email</th>
-                                            <th>Due Tomorrow</th>
-                                            <th>Due Within 3 Days</th>
-                                            <th>Due Within 5 Days</th>
-                                            <th>Position</th>
+                                            <th>Request(Editor)</th>
+                                            <th>Program Name</th>
+                                            <th>Essay Title</th>
+                                            <th>Upload Date</th>
+                                            <th>Essay Deadline</th>
+                                            <th>App Deadline</th>
                                             <th>Status</th>
-                                            <th>View</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr onclick="location.href='/editor/essay/list/detail'">
+                                        <tr onclick="location.href='/editor/list/detail'">
                                             <th scope="row">1</th>
+                                            <td>Student Name Dummy</td>
+                                            <td>Mentor Name Dummy</td>
                                             <td>Editor Name Dummy</td>
-                                            <td>editordummy@example.com</td>
-                                            <td>0 Essay</td>
-                                            <td>0 Essay</td>
-                                            <td>0 Essay</td>
-                                            <td>Managing Editor</td>
-                                            <td><span class="badge badge-success">Success</span>
-                                            </td>
-                                            <td><button class="container-fluid btn btn-warning btnLogin"> <img
-                                                        src="" style="weight: 1%" alt=""></button>
-                                            </td>
+                                            <td>Request</td>
+                                            <td>Program name</td>
+                                            <td>Title of Essay</td>
+                                            <td>01-08-2022</td>
+                                            <td>01-09-2022</td>
+                                            <td>01-10-2022</td>
+                                            <td>Uploaded</td>
                                         </tr>
                                     </tbody>
                                 </table>

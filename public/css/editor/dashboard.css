@@ -125,6 +125,19 @@ color: var(--blue);
   font-size: 18px;
   font-weight: 600;
 }
+
+.countUser-editor {
+  min-height: 100%;
+}
+.countUser-editor img {
+  width: 180px;
+  height: 150px;
+}
+.countUser-editor h4 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
 .countEssay {
   min-height: 56%;
 }
@@ -180,6 +193,12 @@ color: var(--blue);
   .countUser img {
     height: 120px;
   }
+  .countUser-editor {
+    min-height: 60%;
+  }
+  .countUser-editor img {
+    height: 120px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -193,6 +212,9 @@ color: var(--blue);
     font-size: 18px;
   }
   .countUser img {
+    height: 140px;
+  }
+  .countUser-editor img {
     height: 140px;
   }
   .footer p {

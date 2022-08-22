@@ -99,6 +99,46 @@ body {
   border: 1px solid var(--light-grey);
   border-radius: 50%;
 }
+
+.userCard-all-essay {
+  color: var(--blue);
+  min-height: 90px;
+  background-color: var(--white);
+  border-radius: 6px;
+  box-shadow: 0px 2px 10px rgba(58, 53, 65, 0.1);
+  /* cursor: pointer; */
+}
+.userCard-all-essay * {
+  /* padding: 0; */
+  margin: 0;
+}
+.userCard-all-essay .pic-profile {
+  width: 50%;
+  height: auto;
+  border: 1px solid var(--light-grey);
+  border-radius: 50%;
+}
+
+.headline-editor {
+  color: var(--white);
+  padding: 20px 24px !important;
+  background-color: var(--blue);
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+.headline-editor h6 {
+  font-size: 14px;
+}
+.headline-editor img {
+  width: auto;
+  height: 26px;
+  filter: invert(100%);
+}
+.headline-editor input.inputField {
+  font-size: 12px;
+  padding: 15px;
+}
+
 .headline {
   color: var(--white);
   padding: 20px 24px !important;
@@ -128,6 +168,24 @@ body {
   font-size: 12px;
   font-weight: 400;
 }
+
+.countEssay-editor img {
+  width: 180px;
+  height: 150px;
+}
+.countEssay-editor h4 {
+  font-size: 18px;
+  font-weight: 600;
+}
+.countEssay-editor .fa-star {
+  color: var(--light-grey);
+  font-size: 24px;
+}
+.countEssay-editor .checked {
+  color: var(--yellow);
+}
+
+
 .countEssay img {
   width: 180px;
   height: 150px;
@@ -272,17 +330,36 @@ body {
   .head h4 {
     font-size: 18px;
   }
+
+  .headline-editor img {
+    width: auto;
+    height: 24px;
+  }
+
   .headline img {
     width: auto;
     height: 24px;
   }
+  .userCard-all-essay .pic-profile {
+    width: 45%;
+    height: auto;
+  }
+
   .userCard .pic-profile {
     width: 45%;
     height: auto;
   }
+  .headline-editor input.inputField {
+    font-size: 10px;
+    padding: 15px;
+  }
   .headline input.inputField {
     font-size: 10px;
     padding: 15px;
+  }
+
+  .countEssay-editor h4 {
+    font-size: 14px;
   }
   .countEssay h4 {
     font-size: 14px;
