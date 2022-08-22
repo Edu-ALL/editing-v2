@@ -1,0 +1,24 @@
+// TinyMCE
+tinymce.init({
+  selector: '.textarea',
+  width: 'auto',
+  height: '300'
+});
+
+// Selectize
+$(".select-beast").selectize({
+  create: false,
+  sortField: "text",
+});
+
+// Close Alert Completed
+function closeAlert(){
+  var alert = document.getElementById("alertComplete");
+  alert.classList.add("d-none");
+}
+
+// Preview Image
+function previewImage(){
+  const imgPreview = document.querySelector('#img-profile');
+  imgPreview.src = URL.createObjectURL(event.target.files[0]);
+}

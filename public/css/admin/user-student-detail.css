@@ -86,7 +86,7 @@ body {
   box-shadow: 0px 2px 10px rgba(58, 53, 65, 0.1);
 }
 .studentList * {
-  padding: 0;
+  /* padding: 0; */
   margin: 0;
 }
 .headline {
@@ -170,6 +170,16 @@ body {
   padding: 12px 18px !important;
 }
 
+/* Selectize */
+.selectize-control,
+.selectize-dropdown {
+  font-size: 13px !important;
+}
+.selectize-input.focus {
+  box-shadow: none !important;
+}
+/* End Selectize */
+
 .footer {
   color: var(--white);
   background: var(--blue);
@@ -222,6 +232,12 @@ body {
   .student-addition .attachment-status p {
     font-size: 14px;
   }
+  /* Selectize */
+  .selectize-control,
+  .selectize-dropdown {
+    font-size: 10px !important;
+  }
+  /* End Selectize */
 }
 
 @media (max-width: 768px) {

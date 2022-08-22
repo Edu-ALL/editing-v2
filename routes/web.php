@@ -40,6 +40,10 @@ Route::get('/forgot/admin', function () {
 });
 
 // Admin
+// Help
+Route::get('/admin/help', function () {
+    return view('user.admin.help.help');
+});
 // User
 Route::get('/admin/dashboard', function () {
     return view('user.admin.dashboard');
@@ -84,7 +88,16 @@ Route::get('/admin/essay-list/ongoing', function () {
     return view('user.admin.essay-list.essay-ongoing');
 });
 Route::get('/admin/essay-list/ongoing/detail', function () {
-    return view('user.admin.essay-list.essay-completed-detail');
+    return view('user.admin.essay-list.essay-ongoing-detail');
+});
+Route::get('/admin/essay-list/ongoing/assign', function () {
+    return view('user.admin.essay-list.essay-ongoing-assign');
+});
+Route::get('/admin/essay-list/ongoing/submitted', function () {
+    return view('user.admin.essay-list.essay-ongoing-submitted');
+});
+Route::get('/admin/essay-list/ongoing/accepted', function () {
+    return view('user.admin.essay-list.essay-ongoing-accepted');
 });
 
 Route::get('/admin/essay-list/completed', function () {
@@ -240,4 +253,26 @@ Route::get('/admin/setting/categories-tags', function () {
 });
 Route::get('/admin/setting/categories-tags/detail', function () {
     return view('user.admin.settings.setting-detail-categories');
+});
+
+// Per Editor
+Route::get('/editors/dashboard', function () {
+    return view('user.per-editor.dashboard');
+});
+Route::get('/editors/profile', function () {
+    return view('user.per-editor.profile.profile');
+});
+
+Route::get('/editors/essay-list', function () {
+    return view('user.per-editor.essay-list.essay-list');
+});
+Route::get('/editors/essay-list/completed/detail', function () {
+    return view('user.per-editor.essay-list.essay-list-completed-detail');
+});
+
+Route::get('/editors/essay-list/ongoing/detail', function () {
+    return view('user.per-editor.essay-list.essay-list-ongoing-detail');
+});
+Route::get('/editors/essay-list/ongoing/accepted', function () {
+    return view('user.per-editor.essay-list.essay-list-ongoing-accepted');
 });
