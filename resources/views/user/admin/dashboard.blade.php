@@ -141,7 +141,12 @@
               <img class="active" src="/assets/logout.png" alt="">
             </div>
             <div class="col-8 pt-1 my-auto d-none d-md-inline">
-              <h6 class="menu">Logout</h6>
+              <h6 class="menu">
+                <form action="{{ route('logout') }}">
+                  @csrf
+                  <button type="submit" class="border-0 bg-transparent">Logout</button>
+                </form>
+              </h6>
             </div>
           </div>
         </div>
@@ -167,6 +172,11 @@
           </div>
         </div>
         <div class="container main-content m-0">
+          @if(session()->has('login-successful'))
+            <div class="row alert alert-success fade show" role="alert">
+              {{ session()->get('login-successful') }}
+            </div>
+          @endif
           {{-- User List --}}
           <div class="row gap-2">
             <a class="col-md col-12 p-0 userCard" href="/admin/user/student">
@@ -273,5 +283,15 @@
 
   <script src={{ asset('js/bootstrap.js') }}></script>
   <script src="/js/admin/admin.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  @if(session()->has('login-successful'))
+  <script>
+    $(document).ready(function() {
+      setTimeout(() => {
+        $(".alert-success").alert('close');
+      }, 3000);
+    });
+  </script>
+  @endif
 </body>
 </html>

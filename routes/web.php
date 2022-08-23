@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\Clients;
+use App\Http\Controllers\Admin\UserStudent;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,9 +46,7 @@ Route::get('/forgot/admin', function () {
 Route::get('/admin/dashboard', function () {
     return view('user.admin.dashboard');
 });
-Route::get('/admin/user/student', function () {
-    return view('user.admin.users.user-student');
-});
+Route::get('/admin/user/student', [Clients::class, 'index']);
 Route::get('/admin/user/mentor', function () {
     return view('user.admin.user-mentor');
 });
