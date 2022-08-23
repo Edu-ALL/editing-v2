@@ -146,21 +146,6 @@ body {
   border-radius: 6px;
 }
 
-.dropdown button, .dropdown ul {
-  width: 96%;
-  padding: 5px 15px !important;
-  font-size: 12px;
-  font-family: var(--font-poppins);
-}
-.dropdown-toggle, .dropdown-toggle:focus, .dropdown-toggle:hover {
-  border: 1px solid var(--light-grey);
-}
-.dropdown p {
-  width: 95%;
-}
-.dropdown input.inputField {
-  font-size: 12px;
-}
 .btn-create, .btn-create:hover {
   color: var(--white);
   background-color: var(--blue);
@@ -172,7 +157,6 @@ body {
   height: 24px;
   filter: invert(100%);
 }
-
 
 .footer {
   color: var(--white);
@@ -188,6 +172,37 @@ body {
 .footer p {
   padding: 0 !important;
   font-size: 12px;
+}
+
+/* Logout */
+.modal-dialog {
+  margin-top: 5px;
+}
+.modal-header {
+  background-color: var(--blue);
+  padding: 24px !important;
+}
+.modal-header img {
+  width: auto;
+  height: 22px;
+  filter: invert(100%);
+}
+.modal-header h6 {
+  color: var(--white);
+  font-size: 14px;
+  line-height: 14px;
+}
+.modal-body p, .modal-footer button {
+  font-size: 13px;
+  margin: 0;
+}
+.modal-footer button,
+.modal-footer button:hover {
+  background-color: var(--yellow);
+  color: var(--white);
+  padding: 10px 25px;
+  border: 0;
+  border-radius: 10px;
 }
 
 @media (max-width: 992px) {

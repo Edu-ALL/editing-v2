@@ -135,7 +135,7 @@ body {
 }
 /* Selectize */
 .selectize-control {
-  font-size: 12px;
+  font-size: 13px !important;
 }
 .selectize-input.focus {
   box-shadow: none !important;
@@ -189,7 +189,44 @@ body {
   font-size: 12px;
 }
 
+/* Logout */
+.modal-dialog {
+  margin-top: 5px;
+}
+.modal-header {
+  background-color: var(--blue);
+  padding: 24px !important;
+}
+.modal-header img {
+  width: auto;
+  height: 22px;
+  filter: invert(100%);
+}
+.modal-header h6 {
+  color: var(--white);
+  font-size: 14px;
+  line-height: 14px;
+}
+.modal-body p, .modal-footer button {
+  font-size: 13px;
+  margin: 0;
+}
+.modal-footer button,
+.modal-footer button:hover {
+  background-color: var(--yellow);
+  color: var(--white);
+  padding: 10px 25px;
+  border: 0;
+  border-radius: 10px;
+}
+
 @media (max-width: 992px) {
+  /* Selectize */
+  .selectize-control,
+  .selectize-dropdown {
+    font-size: 10px !important;
+  }
+  /* End Selectize */
 }
 
 @media (max-width: 768px) {

@@ -125,6 +125,18 @@ color: var(--blue);
   font-size: 18px;
   font-weight: 600;
 }
+
+.countUser-editor {
+  min-height: 85%;
+}
+.countUser-editor img {
+  width: 300px;
+  height: 300px;
+}
+.countUser-editor h4 {
+  font-size: 18px;
+  font-weight: 600;
+}
 .countEssay {
   min-height: 56%;
 }
@@ -162,6 +174,37 @@ color: var(--blue);
   font-size: 12px;
 }
 
+/* Logout */
+.modal-dialog {
+  margin-top: 5px;
+}
+.modal-header {
+  background-color: var(--blue);
+  padding: 24px !important;
+}
+.modal-header img {
+  width: auto;
+  height: 22px;
+  filter: invert(100%);
+}
+.modal-header h6 {
+  color: var(--white);
+  font-size: 14px;
+  line-height: 14px;
+}
+.modal-body p, .modal-footer button {
+  font-size: 13px;
+  margin: 0;
+}
+.modal-footer button,
+.modal-footer button:hover {
+  background-color: var(--yellow);
+  color: var(--white);
+  padding: 10px 25px;
+  border: 0;
+  border-radius: 10px;
+}
+
 @media (max-width: 992px) {
   .menuList img {
     width: 20px;
@@ -180,6 +223,12 @@ color: var(--blue);
   .countUser img {
     height: 120px;
   }
+  .countUser-editor {
+    min-height: 60%;
+  }
+  .countUser-editor img {
+    height: 120px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -193,6 +242,9 @@ color: var(--blue);
     font-size: 18px;
   }
   .countUser img {
+    height: 140px;
+  }
+  .countUser-editor img {
     height: 140px;
   }
   .footer p {

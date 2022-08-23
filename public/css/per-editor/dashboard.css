@@ -1,0 +1,248 @@
+/* .main {
+  height: 100%;
+  min-height: 580px;
+} */
+* input {
+  box-shadow: none !important;
+}
+.main-content {
+  padding: 20px !important;
+}
+.profile {
+  height: fit-content !important;
+}
+.userCard {
+  color: var(--blue);
+  /* min-height: 250px; */
+  background-color: var(--white);
+  border-radius: 6px;
+  box-shadow: 0px 2px 10px rgba(58, 53, 65, 0.1);
+}
+.userCard * {
+  /* padding: 0; */
+  margin: 0;
+}
+.userCard .pic-profile {
+  width: 50%;
+  height: auto;
+  border: 1px solid var(--light-grey);
+  border-radius: 50%;
+}
+.userCard input {
+  font-size: 12px;
+}
+.userCard .pic-profile img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+}
+.headline {
+  color: var(--white);
+  padding: 24px !important;
+  background-color: var(--blue);
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+.headline h6 {
+  font-size: 14px;
+}
+.headline img {
+  width: auto;
+  height: 28px;
+  filter: invert(100%);
+}
+.countEssay h4 {
+  font-size: 18px;
+  font-weight: 600;
+}
+.userCard hr {
+  color: var(--grey);
+}
+.detailCard h6 {
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--black);
+}
+.field {
+  color: var(--black);
+}
+.field h6 {
+  font-size: 12px;
+  font-weight: 400;
+}
+.field .inputField {
+  width: 93%;
+  font-size: 12px;
+  border-radius: 6px;
+}
+.table thead {
+  background-color: #F9FAFC;
+  text-transform: uppercase;
+}
+.table tr {
+  color: rgba(58, 53, 65, 0.87);
+  font-size: 11px;
+}
+.table tbody tr:hover {
+  background-color: rgba(234, 234, 234, 0.4);
+  cursor: pointer;
+}
+.table th,
+.table td {
+  padding: 14px 8px !important;
+  text-align: center;
+  vertical-align: middle;
+}
+img.img-status {
+  width: auto;
+  height: 42px;
+}
+img.img-word {
+  width: auto;
+  height: 62px;
+}
+.list-tags {
+  width: fit-content !important;
+  height: fit-content !important;
+  align-self: center;
+}
+.tags {
+  color: var(--white);
+  background-color: var(--yellow);
+  border-radius: 10px;
+}
+.student-desc .titik2 {
+  max-width: 18px;
+  /* text-align: center; */
+}
+.student-desc {
+  color: var(--black);  
+}
+.student-desc * {
+  padding: 0;
+  margin: 0;
+}
+.student-desc h6 {
+  font-size: 14px;
+  font-weight: 600;
+}
+.student-desc p {
+  font-size: 14px;
+  font-weight: 400;
+}
+.alert-complete {
+  background-color: var(--green);
+  color: var(--white);
+}
+.alert-complete img {
+  width: auto;
+  height: 22px;
+  filter: invert(100%);
+}
+.alert-complete .col img {
+  width: auto;
+  height: 18px;
+  filter: invert(100%);
+}
+.alert-complete h6 {
+  font-size: 12px;
+  font-weight: 400;
+}
+.chat-messages {
+  max-height: 300px;
+  border: 1px solid var(--light-grey);
+  overflow-y: auto;
+}
+.chat-messages p {
+  font-size: 14px;
+}
+
+/* Button */
+.btn, .btn:hover {
+  color: var(--white);
+  background-color: var(--blue);
+  border: 0;
+  padding: 8px 16px !important;
+}
+.btn img {
+  width: auto;
+  height: 24px;
+  filter: invert(100%);
+}
+.btn-edit {
+  padding: 5px 8px !important;
+  border-radius: 50%;
+  background-color: var(--yellow);
+}
+.btn-edit img {
+  width: 18px;
+  height: 18px;
+}
+.btn-download, .btn-download:hover {
+  color: var(--white);
+  background-color: var(--green);
+  border: 0;
+  padding: 8px 16px !important;
+}
+.btn-download h6 {
+  font-size: 12px;
+  font-weight: 400;
+}
+.btn-download img {
+  width: auto;
+  height: 18px;
+  filter: invert(100%);
+}
+/* End Button */
+
+/* Selectize */
+.selectize-control,
+.selectize-dropdown {
+  font-size: 13px !important;
+}
+.selectize-input.focus {
+  box-shadow: none !important;
+}
+/* End Selectize */
+
+@media (max-width: 992px) {
+  .student-desc h6,
+  .student-desc p  {
+    font-size: 12px;
+  }
+  .userCard h6 {
+    font-size: 12px;
+  }
+  img.img-status {
+    width: auto;
+    height: 36px;
+  }
+  img.img-word {
+    width: auto;
+    height: 54px;
+  }
+  /* Selectize */
+  .selectize-control,
+  .selectize-dropdown {
+    font-size: 10px !important;
+  }
+  /* End Selectize */
+}
+
+@media (max-width: 768px) {
+  .main {
+    min-height: 850px;
+  }
+  .main-content {
+    padding: 10px !important;
+  }
+  .userCard .pic-profile {
+    width: 45%;
+    height: auto;
+  }
+  .footer p {
+    font-size: 10px;
+  }
+}
