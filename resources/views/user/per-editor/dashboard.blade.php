@@ -71,7 +71,7 @@
                 </div>
                 <canvas class="mt-4 mb-1" id="doughnut-chart" style="width:100%"></canvas>
                 <div class="text-center mt-4 mb-lg-0 mb-4">
-                  <h6 style="font-size: 12px; color: var(--black)">Fri, 19 Aug 2022 | Total Essay : 1 Essay</h6>
+                  <h6 class="mb-4" style="font-size: 12px; color: var(--black)">Fri, 19 Aug 2022 | Total Essay : 1 Essay</h6>
                 </div>
               </div>
             </div>
