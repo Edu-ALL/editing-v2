@@ -1,6 +1,6 @@
 @extends('user.editor.utama.utama')
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid p-0">
         <div class="row flex-nowrap main">
             @include('user.editor.utama.menu')
             {{-- Content --}}
@@ -22,12 +22,12 @@
                     </div>
                 </div>
                 <div class="row gap-2 my-2">
-                    <a class="col-md col-12 p-2 userCard">
-                        <div class="headline d-flex align-items-center gap-3">
+                    <a class="col-md col-12 p-0 userCard">
+                        <div class="headline d-flex align-items-center gap-3 p-0">
                             <img src="/assets/essay-list.png" alt="">
                             <h6>All Essay</h6>
                         </div>
-                        <div class="col-md col-12 p-4">
+                        <div class="col-md col-12 p-4" onclick="location.href='/editor/all-essays/essay-list-due-tommorow'">
                             <div class="headline d-flex align-items-center gap-3" style="background-color: var(--red)">
                                 <img src="/assets/danger.png" alt="">
                                 <h6>Due Tomorrow</h6>
@@ -44,8 +44,9 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md col-6 p-2 ">
-                                <div class="headline d-flex align-items-center gap-3"
+                            <div class="col-md col-6 p-3 "
+                                onclick="location.href='/editor/all-essays/essay-list-due-within-three'">
+                                <div class="headline d-flex align-items-center gap-3 p-0"
                                     style="background-color: var(--yellow)">
                                     <img src="/assets/danger.png" alt="">
                                     <h6>Due Within 3 Days</h6>
@@ -61,7 +62,8 @@
                                     <h6>See the list of Essay Due Within 3 Days</h6>
                                 </div>
                             </div>
-                            <div class="col-md col-6 p-2 ">
+                            <div class="col-md col-6 p-3 "
+                                onclick="location.href='/editor/all-essays/essay-list-due-within-five'">
                                 <div class="headline d-flex align-items-center gap-3">
                                     <img src="/assets/danger.png" alt="">
                                     <h6>Due Within 5 Days</h6>
@@ -79,12 +81,12 @@
                             </div>
                         </div>
                     </a>
-                    <a class="col-md col-12 p-2 userCard">
+                    <a class="col-md col-12 p-0 userCard">
                         <div class="headline d-flex align-items-center gap-3">
                             <img src="/assets/essay-list.png" alt="">
                             <h6>Your Essay</h6>
                         </div>
-                        <div class="col-md col-12 p-4">
+                        <div class="col-md col-12 p-4" onclick="location.href='/editor/essay-list-due-tommorow'">
                             <div class="headline d-flex align-items-center gap-3" style="background-color: var(--red)">
                                 <img src="/assets/danger.png" alt="">
                                 <h6>Due Tomorrow</h6>
@@ -101,7 +103,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md col-6 p-2 ">
+                            <div class="col-md col-6 p-3 " onclick="location.href='/editor/essay-list-due-within-three'">
                                 <div class="headline d-flex align-items-center gap-3">
                                     <img src="/assets/danger.png" alt="">
                                     <h6>Due Within 3 Days</h6>
@@ -117,7 +119,7 @@
                                     <h6>See the list of Essay Due Within 3 Days</h6>
                                 </div>
                             </div>
-                            <div class="col-md col-6 p-2 ">
+                            <div class="col-md col-6 p-3 " onclick="location.href='/editor/essay-list-due-within-five'">
                                 <div class="headline d-flex align-items-center gap-3"
                                     style="background-color: var(--yellow)">
                                     <img src="/assets/danger.png" alt="">

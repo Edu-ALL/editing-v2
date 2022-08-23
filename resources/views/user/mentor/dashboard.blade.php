@@ -1,6 +1,6 @@
 @extends('user.mentor.utama.utama')
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid p-0">
         <div class="row flex-nowrap main">
 
             @include('user.mentor.utama.menu')
@@ -25,7 +25,7 @@
                 <div class="container main-content">
                     {{-- User List --}}
                     <div class="row gap-2">
-                        <a class="col-md-3 col-12 userCard " href="/mentor/user/student">
+                        <a class="col-md-3 col-12 userCard p-0" href="/mentor/user/student">
                             <div class="col-md col-12 p-0 ">
                                 <div class="headline d-flex align-items-center gap-3">
                                     <img src="/assets/pic.png" alt="">
@@ -46,7 +46,7 @@
                                 <h6>See the list of Students</h6>
                             </div>
                         </a>
-                        <a class="col-md-3 col-12 userCard">
+                        <a class="col-md-3 col-12 userCard p-0">
                             <div class="headline text-center" style="background-color: var(--green)">
                                 <h6>Essay Completed</h6>
                             </div>
@@ -88,7 +88,7 @@
                 <div class="container main-content">
                     {{-- User List --}}
                     <div class="row gap-2">
-                        <a class="col-md-3 col-12 userCard " href="/mentor/user/student">
+                        <a class="col-md-3 col-12 userCard p-0" href="/mentor/user/student">
                             <div class="col-md col-12 p-0 ">
                                 <div class="headline d-flex align-items-center gap-3">
                                     <img src="/assets/pic.png" alt="">
@@ -109,7 +109,7 @@
                                 <h6>See the list of Students</h6>
                             </div>
                         </a>
-                        <a class="col-md-3 col-12 userCard">
+                        <a class="col-md-3 col-12 userCard p-0">
                             <div class="headline text-center">
                                 <h6>New Request</h6>
                             </div>

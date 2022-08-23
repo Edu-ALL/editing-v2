@@ -108,7 +108,7 @@ Route::get('/admin/essay-list/completed/detail', function () {
 });
 
 
-// Mentor
+//**********Role Mentor**********//
 Route::get('/mentor/dashboard', function () {
     return view('user.mentor.dashboard');
 });
@@ -131,16 +131,78 @@ Route::get('/mentor/new-request', function () {
     return view('user.mentor.new-request');
 });
 
-// Mentor
+
+
+//**********Role Editor**********//
 Route::get('/editor/dashboard', function () {
     return view('user.editor.dashboard');
 });
-Route::get('/editor/essay/list', function () {
-    return view('user.editor.editor-list');
+//Editor List Menu
+Route::get('/editor/list', function () {
+    return view('user.editor.editor-list.editor-list');
 });
-Route::get('/editor/essay/list/detail', function () {
-    return view('user.editor.essay-list-detail');
+Route::get('/editor/list/detail', function () {
+    return view('user.editor.editor-list.editor-list-detail');
 });
+//All Essays Menu
+Route::get('/editor/all-essays', function () {
+    return view('user.editor.all-essays.editor-all-essays');
+});
+Route::get('/editor/all-essays/not-assign-essay-list', function () {
+    return view('user.editor.all-essays.editor-not-assign-essays-list');
+});
+Route::get('/editor/all-essays/assigned-essay-list', function () {
+    return view('user.editor.all-essays.editor-assigned-essays-list');
+});
+Route::get('/editor/all-essays/ongoing-essay-list', function () {
+    return view('user.editor.all-essays.editor-ongoing-essays-list');
+});
+Route::get('/editor/all-essays/completed-essay-list', function () {
+    return view('user.editor.all-essays.editor-completed-essays-list');
+});
+Route::get('/editor/all-essays/essay-list-due-tommorow', function () {
+    return view('user.editor.all-essays.editor-list-due-tomorrow');
+});
+Route::get('/editor/all-essays/essay-list-due-within-three', function () {
+    return view('user.editor.all-essays.editor-list-due-within-three');
+});
+Route::get('/editor/all-essays/essay-list-due-within-five', function () {
+    return view('user.editor.all-essays.editor-list-due-within-five');
+});
+Route::get('/editor/all-essays/essay-list-due-tomorrow-detail', function () {
+    return view('user.editor.all-essays.editor-list-due-detail');
+});
+//All Essays detail
+Route::get('/editor/all-essays/not-assign-essay-list-detail', function () {
+    return view('user.editor.all-essays.editor-not-assign-essays-list-detail');
+});
+Route::get('/editor/all-essays/assign-essay-list-detail', function () {
+    return view('user.editor.all-essays.editor-assign-essays-list-detail');
+});
+Route::get('/editor/all-essays/ongoing-essay-list-detail', function () {
+    return view('user.editor.editor-ongoing-essays-list-detail');
+});
+Route::get('/editor/all-essays/completed-essay-list-detail', function () {
+    return view('user.editor.all-essays.editor-completed-essays-list-detail');
+});
+//Essay List Menu
+Route::get('/editor/essay-list', function () {
+    return view('user.editor.essay-list.editor-essay-list');
+});
+Route::get('/editor/essay-list-detail', function () {
+    return view('user.editor.essay-list.editor-list-detail');
+});
+Route::get('/editor/essay-list-due-tommorow', function () {
+    return view('user.editor.essay-list.editor-list-due-tomorrow');
+});
+Route::get('/editor/essay-list-due-within-three', function () {
+    return view('user.editor.essay-list.editor-list-due-within-three');
+});
+Route::get('/editor/essay-list-due-within-five', function () {
+    return view('user.editor.essay-list.editor-list-due-within-five');
+});
+
+
 
 
 // Export to Excel
