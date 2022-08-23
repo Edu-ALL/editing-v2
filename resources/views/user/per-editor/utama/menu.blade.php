@@ -19,10 +19,10 @@
     {{-- Essay List --}}
     <a class="row w-100" href="/editors/essay-list" style="cursor: pointer">
       <div class="col-md-3 ps-lg-1">
-        <img class="{{ request()->is('editors/essay-list') || request()->is('editors/essay-list/completed/detail') || request()->is('editors/essay-list/ongoing/detail') || request()->is('editors/essay-list/ongoing/eccepted') || request()->is('editors/essay-list/ongoing/submitted') || request()->is('editors/essay-list/ongoing/revise') ? 'active' : 'non-active' }}" src="/assets/essay-list-blue.png" alt="">
+        <img class="{{ request()->is('editors/essay-list') || request()->is('editors/essay-list/completed/detail') || request()->is('editors/essay-list/ongoing/detail') || request()->is('editors/essay-list/ongoing/eccepted') || request()->is('editors/essay-list/ongoing/submitted') || request()->is('editors/essay-list/ongoing/revise') || request()->is('editors/essay-list/ongoing/revised') ? 'active' : 'non-active' }}" src="/assets/essay-list-blue.png" alt="">
       </div>
       <div class="col-7 pt-1 my-auto d-none d-md-inline">
-        <h6 class="menu {{ request()->is('editors/essay-list') || request()->is('editors/essay-list/completed/detail') || request()->is('editors/essay-list/ongoing/detail') || request()->is('editors/essay-list/ongoing/eccepted') || request()->is('editors/essay-list/ongoing/submitted') || request()->is('editors/essay-list/ongoing/revise') ? 'active' : '' }}">Essay List</h6>
+        <h6 class="menu {{ request()->is('editors/essay-list') || request()->is('editors/essay-list/completed/detail') || request()->is('editors/essay-list/ongoing/detail') || request()->is('editors/essay-list/ongoing/eccepted') || request()->is('editors/essay-list/ongoing/submitted') || request()->is('editors/essay-list/ongoing/revise') || request()->is('editors/essay-list/ongoing/revised') ? 'active' : '' }}">Essay List</h6>
       </div>
     </a>
   </div>

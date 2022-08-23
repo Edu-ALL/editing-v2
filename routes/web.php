@@ -220,3 +220,6 @@ Route::get('/editors/essay-list/ongoing/submitted', function () {
 Route::get('/editors/essay-list/ongoing/revise', function () {
     return view('user.per-editor.essay-list.essay-list-ongoing-revise');
 });
+Route::get('/editors/essay-list/ongoing/revised', function () {
+    return view('user.per-editor.essay-list.essay-list-ongoing-revised');
+});
