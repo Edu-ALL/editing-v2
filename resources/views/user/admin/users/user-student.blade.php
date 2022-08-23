@@ -1,18 +1,11 @@
 @extends('user.admin.utama.utama')
 @section('css')
   <link rel="stylesheet" href="/css/admin/user-student.css">
-<<<<<<< HEAD
   <style>
     .pagination { margin: 15px 0}
     .pagination .page-item .page-link { padding: 10px 15px; font-size: 12px; }
   </style>
-</head>
-<body>
-  <div class="container-fluid" style="padding: 0">
-    <div class="row flex-nowrap main">
-=======
 @endsection
->>>>>>> b115ecc8ae4b0c88efeb4760a6c90bbac3661077
 
 @section('content')
 <div class="container-fluid" style="padding: 0">
