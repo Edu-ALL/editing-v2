@@ -35,6 +35,11 @@
 
   <script src={{ asset('js/bootstrap.js') }}></script>
   <script src="/js/per-editor/per-editor.js"></script>
+  <script>
+    var main = document.getElementById('main');
+    let height = window.innerHeight;
+    main.style.minHeight = height+"px";
+  </script>
   @yield('js')
 </body>
 </html>

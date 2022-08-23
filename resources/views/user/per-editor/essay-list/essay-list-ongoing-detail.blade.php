@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container-fluid">
-  <div class="row flex-nowrap main">
+  <div class="row flex-nowrap main" id="main">
 
     {{-- Sidenav --}}
     @include('user.per-editor.utama.menu')
@@ -120,7 +120,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7 ps-3">
-                    <ul>
+                    <ul class="d-flex flex-column gap-2">
                       <li><p><b>Essay Deadline</b> : Thu, 28 Jul 2022</p></li>
                       <li><p><b>Application Deadline</b> : Fri, 29 Jul 2022</p></li>
                     </ul>

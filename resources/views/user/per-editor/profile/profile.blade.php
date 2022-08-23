@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container-fluid">
-  <div class="row flex-nowrap main">
+  <div class="row flex-nowrap main" id="main">
 
     {{-- Sidenav --}}
     @include('user.per-editor.utama.menu')

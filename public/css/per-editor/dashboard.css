@@ -1,7 +1,7 @@
-.main {
+/* .main {
   height: 100%;
   min-height: 580px;
-}
+} */
 * input {
   box-shadow: none !important;
 }
@@ -109,7 +109,8 @@ img.img-word {
   align-self: center;
 }
 .tags {
-  background-color: rgba(214, 214, 214, 0.5);
+  color: var(--white);
+  background-color: var(--yellow);
   border-radius: 10px;
 }
 .student-desc .titik2 {
@@ -148,6 +149,14 @@ img.img-word {
 .alert-complete h6 {
   font-size: 12px;
   font-weight: 400;
+}
+.chat-messages {
+  max-height: 300px;
+  border: 1px solid var(--light-grey);
+  overflow-y: auto;
+}
+.chat-messages p {
+  font-size: 14px;
 }
 
 /* Button */

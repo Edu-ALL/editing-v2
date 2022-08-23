@@ -2,13 +2,13 @@
 
 @section('content')
 <div class="container-fluid">
-  <div class="row flex-nowrap main">
+  <div class="row flex-nowrap main" id="main">
 
     {{-- Sidenav --}}
     @include('user.per-editor.utama.menu')
 
     {{-- Content --}}
-    <div class="col">
+    <div class="col" style="overflow-x: auto !important">
       @include('user.per-editor.utama.head')
       <div class="container main-content m-0">
         <div class="row flex-column gap-4">

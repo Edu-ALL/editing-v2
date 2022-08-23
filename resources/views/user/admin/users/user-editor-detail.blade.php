@@ -4,7 +4,7 @@
 @endsection
 @section('content')
 <div class="container-fluid" style="padding: 0">
-  <div class="row flex-nowrap main">
+  <div class="row flex-nowrap main" id="main">
 
     {{-- Sidenav --}}
     @include('user.admin.utama.menu')
