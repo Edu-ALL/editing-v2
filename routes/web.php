@@ -15,20 +15,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home.home');
-});
+    Route::get('/', function () {
+        return view('home.home');
+    });
 
-// Login
-Route::get('/login/mentor', function () {   
-    return view('login.login-mentor');
-});
-Route::get('/login/editor', function () {
-    return view('login.login-editor');
-});
-Route::get('/login/admin', function () {
-    return view('login.login-admin');
-});
+    // Login
+    Route::get('/login/mentor', function () {   
+        return view('login.login-mentor');
+    });
+    Route::get('/login/editor', function () {
+        return view('login.login-editor');
+    });
+    Route::get('/login/admin', function () {
+        return view('login.login-admin');
+    })->middleware('check.login')->name('login.admin');
 
 
 Route::get('/forgot/mentor', function () {
@@ -49,8 +49,8 @@ Route::get('/admin/help', function () {
 // User
 Route::get('/admin/dashboard', function () {
     return view('user.admin.dashboard');
-});
-Route::get('/admin/user/student', [Clients::class, 'index']);
+})->name('admin.dashboard');
+Route::get('/admin/user/student', [Clients::class, 'index'])->name('list-client');
 Route::get('/admin/user/mentor', function () {
     return view('user.admin.user-mentor');
 });
