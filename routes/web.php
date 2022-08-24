@@ -169,7 +169,7 @@ Route::get('/editor/all-essays/essay-list-due-within-three', function () {
 Route::get('/editor/all-essays/essay-list-due-within-five', function () {
     return view('user.editor.all-essays.editor-list-due-within-five');
 });
-Route::get('/editor/all-essays/essay-list-due-tomorrow-detail', function () {
+Route::get('/editor/all-essays/essay-list-due-detail', function () {
     return view('user.editor.all-essays.editor-list-due-detail');
 });
 //All Essays detail

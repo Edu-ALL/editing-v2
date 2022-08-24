@@ -40,14 +40,25 @@
                     request()->is('editor/all-essays/completed-essay-list') ||
                     request()->is('editor/all-essays/essay-list-due-tommorow') ||
                     request()->is('editor/all-essays/essay-list-due-within-three') ||
-                    request()->is('editor/all-essays/essay-list-due-within-five')
+                    request()->is('editor/all-essays/essay-list-due-within-five') ||
+                    request()->is('editor/all-essays/essay-list-due-tomorrow-detail')
                         ? '/assets/all-essays-blue.png'
                         : '/assets/all-essays.png' }}"
                     alt="">
             </div>
             <div class="col-7 pt-1 my-auto d-none d-md-inline">
                 <h6
-                    class="menu {{ request()->is('editor/all-essays') || request()->is('mentor/user/student/detail') ? 'active' : '' }} ">
+                    class="menu {{ request()->is('editor/all-essays') ||
+                    request()->is('editor/all-essays/not-assign-essay-list') ||
+                    request()->is('editor/all-essays/assign-essay-list') ||
+                    request()->is('editor/all-essays/ongoing-essay-list') ||
+                    request()->is('editor/all-essays/completed-essay-list') ||
+                    request()->is('editor/all-essays/essay-list-due-tommorow') ||
+                    request()->is('editor/all-essays/essay-list-due-within-three') ||
+                    request()->is('editor/all-essays/essay-list-due-within-five') ||
+                    request()->is('editor/all-essays/essay-list-due-tomorrow-detail')
+                        ? 'active'
+                        : '' }} ">
                     All Essays</h6>
             </div>
         </div>
