@@ -43,6 +43,14 @@ return [
         'web-admin' => [
             'driver' => 'session',
             'provider' => 'admins',
+        ],
+        'web-mentor' => [
+            'driver' => 'session',
+            'provider' => 'mentors',
+        ],
+        'web-editor' => [
+            'driver' => 'session',
+            'provider' => 'editors',
         ]
     ],
 
@@ -71,7 +79,15 @@ return [
         'admins' => [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
-        ]
+        ],
+        'mentors' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Mentor::class,
+        ],
+        'editors' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Editor::class,
+        ],
 
         // 'users' => [
         //     'driver' => 'database',

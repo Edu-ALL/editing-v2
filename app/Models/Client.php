@@ -14,6 +14,7 @@ class Client extends Model
     public $incrementing = false;
 
     protected $fillable = [
+        'id_clients',
         'first_name',
         'last_name',
         'phone',
@@ -37,7 +38,10 @@ class Client extends Model
         'others',
         'role',
         'status',
-        'password'
+        'password',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     protected $hidden = [

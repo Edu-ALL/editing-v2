@@ -15,7 +15,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.6/css/selectize.bootstrap5.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.6/js/standalone/selectize.min.js"></script>
-
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   @yield('css')
   
 </head>
@@ -29,7 +29,7 @@
   </footer>
   {{-- End Footer --}}
 
-  <script src={{ asset('js/bootstrap.js') }}></script>
+  <script src="{{ asset('js/bootstrap.js') }}"></script>
   <script src="/js/admin/admin.js"></script>
   <script>
     var main = document.getElementById('main');
