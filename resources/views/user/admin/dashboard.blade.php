@@ -14,6 +14,11 @@
     <div class="col">
       @include('user.admin.utama.head')
       <div class="container main-content m-0">
+        @if(session()->has('login-successful'))
+          <div class="row alert alert-success fade show" role="alert">
+            {{ session()->get('login-successful') }}
+          </div>
+        @endif
         {{-- User List --}}
         <div class="row gap-2">
           <a class="col-md col-12 p-0 userCard" href="/admin/user/student">
@@ -111,3 +116,15 @@
   </div>
 </div>
 @endsection
+
+@section('js')
+  @if(session()->has('login-successful'))
+  <script>
+    $(document).ready(function() {
+      setTimeout(() => {
+        $(".alert-success").alert('close');
+      }, 3000);
+    });
+  </script>
+  @endif
+@stop

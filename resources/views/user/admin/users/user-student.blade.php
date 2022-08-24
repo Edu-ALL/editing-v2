@@ -1,6 +1,10 @@
 @extends('user.admin.utama.utama')
 @section('css')
   <link rel="stylesheet" href="/css/admin/user-student.css">
+  <style>
+    .pagination { margin: 15px 0}
+    .pagination .page-item .page-link { padding: 10px 15px; font-size: 12px; }
+  </style>
 @endsection
 
 @section('content')
@@ -42,16 +46,23 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <?php $i = ($clients->currentpage()-1)* $clients->perpage() + 1;?>
+                  @foreach ($clients as $client)
                   <tr onclick="window.location='/admin/user/student/detail'">
-                    <th scope="row">1</th>
-                    <td>Student Dummy</td>
-                    <td>Mentor Dummy</td>
-                    <td>studentdummy@example.com</td>
-                    <td>12345678</td>
-                    <td>Jl Jeruk kembar blok Q9 no. 15</td>
+                    <th scope="row">{{ $i++ }}</th>
+                    <td>{{ $client->first_name.' '.$client->last_name }}</td>
+                    <td>{{ $client->mentors->first_name.' '.$client->mentors->last_name }}</td>
+                    <td>{{ $client->email }}</td>
+                    <td>{{ $client->phone }}</td>
+                    <td>{{ strip_tags($client->address) }}</td>
                   </tr>
+                  @endforeach
                 </tbody>
               </table>
+              {{-- Pagination --}}
+              <div class="d-flex justify-content-center">
+              {{ $clients->links() }}
+              </div>
             </div>
           </div>
         </div>
