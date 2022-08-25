@@ -33,4 +33,9 @@ class Editor extends Model
     protected $hidden = [
         'password'
     ];
+
+    public function essay_clients()
+    {
+        return $this->hasMany(EssayClients::class, 'id_editors', 'id_editors');
+    }
 }

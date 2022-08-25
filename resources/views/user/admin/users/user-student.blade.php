@@ -158,6 +158,16 @@
       $.ajax({
         url: $(this).attr('href'),
       }).done(function(msg) {
+        if (msg.length === 0) {
+          swal.close();
+          Swal.fire(
+            'Sync Clients From Bigdata',
+            'There are no data to sync',
+            'info'
+          );
+          return;
+        }
+
         var markup = "";
         var no = 1;
         for (i in msg) {

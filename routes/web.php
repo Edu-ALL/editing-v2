@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\Clients;
+use App\Http\Controllers\Admin\Essays;
 use App\Http\Controllers\Admin\UserStudent;
 use Illuminate\Support\Facades\Route;
 
@@ -84,9 +85,7 @@ Route::get('/admin/user/editor/detail', function () {
 
 
 // Essay List
-Route::get('/admin/essay-list/ongoing', function () {
-    return view('user.admin.essay-list.essay-ongoing');
-});
+Route::get('/admin/essay-list/ongoing', [Essays::class, 'index'])->name('list-ongoing-essay');
 Route::get('/admin/essay-list/ongoing/detail', function () {
     return view('user.admin.essay-list.essay-ongoing-detail');
 });

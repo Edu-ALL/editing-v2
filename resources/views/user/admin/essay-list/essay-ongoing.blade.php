@@ -1,6 +1,10 @@
 @extends('user.admin.utama.utama')
 @section('css')
   <link rel="stylesheet" href="/css/admin/essay-ongoing.css">
+  <style>
+    .pagination { margin: 15px 0}
+    .pagination .page-item .page-link { padding: 10px 15px; font-size: 12px; }
+  </style>
 @endsection
 
 @section('content')
@@ -24,7 +28,9 @@
               </div>
               <div class="col-md-4 col-4 d-flex align-items-center justify-content-end">
                 <div class="input-group">
-                  <input type="email" class="form-control inputField py-2 px-3" placeholder="Search">
+                  <form id="form-ongoing-essay-searching" action="{{ route('list-ongoing-essay') }}" method="GET" role="search" class="w-100">
+                    <input type="email" class="form-control inputField py-2 px-3" name="keyword" placeholder="Search">
+                  </form>
                 </div>
               </div>
             </div>
@@ -42,17 +48,31 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <?php $i = ($essays->currentpage()-1)* $essays->perpage() + 1;?>
+                  @foreach ($essays as $essay)
                   <tr onclick="window.location='/admin/essay-list/ongoing/detail'">
-                    <th scope="row">1</th>
-                    <td>Student Dummy</td>
-                    <td>Mentor Dummy</td>
-                    <td>Senior Editor Dummy</td>
-                    <td>Supplemental Essay</td>
-                    <td>Thu, 28 Jul 2022</td>
-                    <td style="color: var(--red)">Ongoing</td>
-                  </tr>
+                    <th scope="row">{{ $i++ }}</th>
+                    
+                    @if ($essay->client_by_id)
+                      <td>{{ $essay->client_by_id->first_name.' '.$essay->client_by_id->last_name }}</td>
+                      <td>{{ $essay->client_by_id->mentors->first_name.' '.$essay->client_by_id->mentors->last_name  }}</td>
+                    @elseif ($essay->client_by_email)
+                      <td>{{ $essay->client_by_email->first_name.' '.$essay->client_by_email->last_name }}</td>
+                      <td>{{ $essay->client_by_email->mentors->first_name.' '.$essay->client_by_email->mentors->last_name }}</td>
+                    @endif
+                    
+                    <td><?php echo $essay->editor ? $essay->editor->first_name.' '.$essay->editor->last_name : "-" ?></td>
+                    <td>{{ $essay->essay_title }}</td>
+                    <td>{{ date('D, d M Y', strtotime($essay->essay_deadline)) }}</td>
+                    <td style="color: var(--red)">{{ $essay->status->status_title }}</td>
+                  </td>
+                  @endforeach
                 </tbody>
               </table>
+              {{-- Pagination --}}
+              <div class="d-flex justify-content-center">
+              {{ $essays->links() }}
+              </div>
             </div>
           </div>
         </div>
@@ -63,3 +83,15 @@
   </div>
 </div>
 @endsection
+
+@section('js')
+  <script type="text/javascript">
+    $("#form-ongoing-essay-searching").keypress(function(e) {
+      if (e.keyCode === 13) {
+        swal.showLoading();
+        e.preventDefault();
+        $("#form-ongoing-essay-searching").submit();
+      }
+    });
+  </script>
+@stop
