@@ -29,7 +29,7 @@ class Essays extends Controller
                 });
             });
         })->paginate(10);
-        
+
         if ($keyword) 
             $essays->appends(['keyword' => $keyword]);
         return view('user.admin.essay-list.essay-ongoing', ['essays' => $essays]);
