@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInita82d0a8894c11cc9ee4f8625462354fe
+class ComposerStaticInitdadec92b8091a5b973cbf58896ac0cf9
 {
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
@@ -316,7 +316,7 @@ class ComposerStaticInita82d0a8894c11cc9ee4f8625462354fe
         ),
         'Psr\\Log\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+            0 => __DIR__ . '/..' . '/psr/log/src',
         ),
         'Psr\\Http\\Message\\' => 
         array (
@@ -505,9 +505,15 @@ class ComposerStaticInita82d0a8894c11cc9ee4f8625462354fe
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\Admin\\Authentication' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Authentication.php',
         'App\\Http\\Controllers\\Admin\\Clients' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Clients.php',
+        'App\\Http\\Controllers\\Admin\\Editors' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Editors.php',
+        'App\\Http\\Controllers\\Admin\\Essays' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Essays.php',
+        'App\\Http\\Controllers\\Admin\\Export' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Export.php',
+        'App\\Http\\Controllers\\Admin\\Mentors' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Mentors.php',
+        'App\\Http\\Controllers\\CRM\\Clients' => __DIR__ . '/../..' . '/app/Http/Controllers/CRM/Clients.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
+        'App\\Http\\Middleware\\CheckLogin' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckLogin.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
         'App\\Http\\Middleware\\PreventRequestsDuringMaintenance' => __DIR__ . '/../..' . '/app/Http/Middleware/PreventRequestsDuringMaintenance.php',
         'App\\Http\\Middleware\\RedirectIfAuthenticated' => __DIR__ . '/../..' . '/app/Http/Middleware/RedirectIfAuthenticated.php',
@@ -516,8 +522,27 @@ class ComposerStaticInita82d0a8894c11cc9ee4f8625462354fe
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Models\\Admin' => __DIR__ . '/../..' . '/app/Models/Admin.php',
+        'App\\Models\\CRM\\Alumni' => __DIR__ . '/../..' . '/app/Models/CRM/Alumni.php',
+        'App\\Models\\CRM\\AlumniDetail' => __DIR__ . '/../..' . '/app/Models/CRM/AlumniDetail.php',
+        'App\\Models\\CRM\\Client' => __DIR__ . '/../..' . '/app/Models/CRM/Client.php',
+        'App\\Models\\CRM\\Editor' => __DIR__ . '/../..' . '/app/Models/CRM/Editor.php',
+        'App\\Models\\CRM\\Mentor' => __DIR__ . '/../..' . '/app/Models/CRM/Mentor.php',
+        'App\\Models\\CRM\\Program' => __DIR__ . '/../..' . '/app/Models/CRM/Program.php',
+        'App\\Models\\CRM\\School' => __DIR__ . '/../..' . '/app/Models/CRM/School.php',
+        'App\\Models\\CRM\\StudentMentor' => __DIR__ . '/../..' . '/app/Models/CRM/StudentMentor.php',
+        'App\\Models\\CRM\\StudentProgram' => __DIR__ . '/../..' . '/app/Models/CRM/StudentProgram.php',
+        'App\\Models\\CRM\\University' => __DIR__ . '/../..' . '/app/Models/CRM/University.php',
+        'App\\Models\\Category' => __DIR__ . '/../..' . '/app/Models/Category.php',
         'App\\Models\\Client' => __DIR__ . '/../..' . '/app/Models/Client.php',
+        'App\\Models\\Editor' => __DIR__ . '/../..' . '/app/Models/Editor.php',
+        'App\\Models\\EssayClients' => __DIR__ . '/../..' . '/app/Models/EssayClients.php',
+        'App\\Models\\EssayEditors' => __DIR__ . '/../..' . '/app/Models/EssayEditors.php',
+        'App\\Models\\EssayFeedbacks' => __DIR__ . '/../..' . '/app/Models/EssayFeedbacks.php',
         'App\\Models\\Mentor' => __DIR__ . '/../..' . '/app/Models/Mentor.php',
+        'App\\Models\\PositionEditor' => __DIR__ . '/../..' . '/app/Models/PositionEditor.php',
+        'App\\Models\\Programs' => __DIR__ . '/../..' . '/app/Models/Programs.php',
+        'App\\Models\\Status' => __DIR__ . '/../..' . '/app/Models/Status.php',
+        'App\\Models\\University' => __DIR__ . '/../..' . '/app/Models/University.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
@@ -4054,17 +4079,14 @@ class ComposerStaticInita82d0a8894c11cc9ee4f8625462354fe
         'Psr\\Http\\Message\\UploadedFileInterface' => __DIR__ . '/..' . '/psr/http-message/src/UploadedFileInterface.php',
         'Psr\\Http\\Message\\UriFactoryInterface' => __DIR__ . '/..' . '/psr/http-factory/src/UriFactoryInterface.php',
         'Psr\\Http\\Message\\UriInterface' => __DIR__ . '/..' . '/psr/http-message/src/UriInterface.php',
-        'Psr\\Log\\AbstractLogger' => __DIR__ . '/..' . '/psr/log/Psr/Log/AbstractLogger.php',
-        'Psr\\Log\\InvalidArgumentException' => __DIR__ . '/..' . '/psr/log/Psr/Log/InvalidArgumentException.php',
-        'Psr\\Log\\LogLevel' => __DIR__ . '/..' . '/psr/log/Psr/Log/LogLevel.php',
-        'Psr\\Log\\LoggerAwareInterface' => __DIR__ . '/..' . '/psr/log/Psr/Log/LoggerAwareInterface.php',
-        'Psr\\Log\\LoggerAwareTrait' => __DIR__ . '/..' . '/psr/log/Psr/Log/LoggerAwareTrait.php',
-        'Psr\\Log\\LoggerInterface' => __DIR__ . '/..' . '/psr/log/Psr/Log/LoggerInterface.php',
-        'Psr\\Log\\LoggerTrait' => __DIR__ . '/..' . '/psr/log/Psr/Log/LoggerTrait.php',
-        'Psr\\Log\\NullLogger' => __DIR__ . '/..' . '/psr/log/Psr/Log/NullLogger.php',
-        'Psr\\Log\\Test\\DummyTest' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/DummyTest.php',
-        'Psr\\Log\\Test\\LoggerInterfaceTest' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
-        'Psr\\Log\\Test\\TestLogger' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/TestLogger.php',
+        'Psr\\Log\\AbstractLogger' => __DIR__ . '/..' . '/psr/log/src/AbstractLogger.php',
+        'Psr\\Log\\InvalidArgumentException' => __DIR__ . '/..' . '/psr/log/src/InvalidArgumentException.php',
+        'Psr\\Log\\LogLevel' => __DIR__ . '/..' . '/psr/log/src/LogLevel.php',
+        'Psr\\Log\\LoggerAwareInterface' => __DIR__ . '/..' . '/psr/log/src/LoggerAwareInterface.php',
+        'Psr\\Log\\LoggerAwareTrait' => __DIR__ . '/..' . '/psr/log/src/LoggerAwareTrait.php',
+        'Psr\\Log\\LoggerInterface' => __DIR__ . '/..' . '/psr/log/src/LoggerInterface.php',
+        'Psr\\Log\\LoggerTrait' => __DIR__ . '/..' . '/psr/log/src/LoggerTrait.php',
+        'Psr\\Log\\NullLogger' => __DIR__ . '/..' . '/psr/log/src/NullLogger.php',
         'Psr\\SimpleCache\\CacheException' => __DIR__ . '/..' . '/psr/simple-cache/src/CacheException.php',
         'Psr\\SimpleCache\\CacheInterface' => __DIR__ . '/..' . '/psr/simple-cache/src/CacheInterface.php',
         'Psr\\SimpleCache\\InvalidArgumentException' => __DIR__ . '/..' . '/psr/simple-cache/src/InvalidArgumentException.php',
@@ -4784,7 +4806,6 @@ class ComposerStaticInita82d0a8894c11cc9ee4f8625462354fe
         'Symfony\\Component\\EventDispatcher\\EventSubscriberInterface' => __DIR__ . '/..' . '/symfony/event-dispatcher/EventSubscriberInterface.php',
         'Symfony\\Component\\EventDispatcher\\GenericEvent' => __DIR__ . '/..' . '/symfony/event-dispatcher/GenericEvent.php',
         'Symfony\\Component\\EventDispatcher\\ImmutableEventDispatcher' => __DIR__ . '/..' . '/symfony/event-dispatcher/ImmutableEventDispatcher.php',
-        'Symfony\\Component\\EventDispatcher\\LegacyEventDispatcherProxy' => __DIR__ . '/..' . '/symfony/event-dispatcher/LegacyEventDispatcherProxy.php',
         'Symfony\\Component\\Finder\\Comparator\\Comparator' => __DIR__ . '/..' . '/symfony/finder/Comparator/Comparator.php',
         'Symfony\\Component\\Finder\\Comparator\\DateComparator' => __DIR__ . '/..' . '/symfony/finder/Comparator/DateComparator.php',
         'Symfony\\Component\\Finder\\Comparator\\NumberComparator' => __DIR__ . '/..' . '/symfony/finder/Comparator/NumberComparator.php',
@@ -5430,10 +5451,10 @@ class ComposerStaticInita82d0a8894c11cc9ee4f8625462354fe
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInita82d0a8894c11cc9ee4f8625462354fe::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInita82d0a8894c11cc9ee4f8625462354fe::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInita82d0a8894c11cc9ee4f8625462354fe::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInita82d0a8894c11cc9ee4f8625462354fe::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitdadec92b8091a5b973cbf58896ac0cf9::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitdadec92b8091a5b973cbf58896ac0cf9::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitdadec92b8091a5b973cbf58896ac0cf9::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitdadec92b8091a5b973cbf58896ac0cf9::$classMap;
 
         }, null, ClassLoader::class);
     }
