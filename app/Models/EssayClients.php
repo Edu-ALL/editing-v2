@@ -66,4 +66,14 @@ class EssayClients extends Model
     {
         return $this->belongsTo(Status::class, 'status_essay_clients', 'id');
     }
+
+    public function essay_editors()
+    {
+        return $this->hasMany(EssayEditors::class, 'id_essay_clients', 'id_essay_clients');
+    }
+
+    public function feedback()
+    {
+        return $this->hasMany(EssayFeedbacks::class, 'id_essay_clients', 'id_essay_clients');
+    }
 }

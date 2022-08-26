@@ -65,28 +65,14 @@
     </div>
 
     {{-- Export to Excel --}}
-    <div class="row w-100" id="export" style="cursor: pointer">
-      <div class="col w-100 d-flex flex-row align-items-center justify-content-md-start justify-content-center">
-        <div class="col-md-3 ps-lg-1">
-          <img class="{{ request()->is('admin/export-excel/student') || request()->is('admin/export-excel/editor') ? 'active' : 'non-active' }}" src="/assets/excel-blue.png" alt="">
-        </div>
-        <div class="col-7 pt-1 my-auto d-none d-md-inline">
-          <h6 class="menu {{ request()->is('admin/export-excel/student') || request()->is('admin/export-excel/editor') ? 'active' : '' }}">Export to Excel</h6>
-        </div>
+    <a class="row w-100" href="/admin/export-excel/editor" style="cursor: pointer">
+      <div class="col-md-3">
+        <img class="{{ request()->is('admin/export-excel/student') || request()->is('admin/export-excel/editor') ? 'active' : 'non-active' }}" src="/assets/excel-blue.png" alt="">
       </div>
-      {{-- Popup --}}
-      <div class="col-auto d-none d-flex flex-column gap-4 popup-menu ps-4 pe-5 py-3" id="menu-export">
-        <a class="col d-flex gap-3 align-items-center" href="/admin/export-excel/student">
-          <img class="active" src="/assets/student.png" alt="">
-          <h6 class="menu">Students Essay</h6>
-        </a>
-        <a class="col d-flex gap-3 align-items-center" href="/admin/export-excel/editor">
-          <img class="active" src="/assets/editor.png" alt="">
-          <h6 class="menu">Editors Essay</h6>
-        </a>
+      <div class="col-7 pt-1 my-auto d-none d-md-inline">
+        <h6 class="menu {{ request()->is('admin/export-excel/student') || request()->is('admin/export-excel/editor') ? 'active' : '' }}">Export to Excel</h6>
       </div>
-      {{-- End Popup --}}
-    </div>
+    </a>
 
     {{-- Settings --}}
     <div class="row w-100" id="setting" style="cursor: pointer">

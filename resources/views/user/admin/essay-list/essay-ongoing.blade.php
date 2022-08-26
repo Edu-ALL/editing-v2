@@ -48,6 +48,7 @@
                   </tr>
                 </thead>
                 <tbody>
+                  @if ($essays->hasPages()) 
                   <?php $i = ($essays->currentpage()-1)* $essays->perpage() + 1;?>
                   @foreach ($essays as $essay)
                   <tr onclick="window.location='/admin/essay-list/ongoing/detail'">
@@ -67,6 +68,11 @@
                     <td style="color: var(--red)">{{ $essay->status->status_title }}</td>
                   </td>
                   @endforeach
+                  @else
+                  <tr>
+                    <td colspan="7">No data</td>
+                  </tr>
+                  @endif
                 </tbody>
               </table>
               {{-- Pagination --}}

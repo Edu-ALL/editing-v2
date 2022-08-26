@@ -22,4 +22,9 @@ class Status extends Model
     {
         return $this->hasMany(EssayClients::class, 'status_essay_clients', 'id');
     }
+
+    public function essay_editors()
+    {
+        return $this->hasMany(EssayEditors::class, 'status_essay_editors', 'id');
+    }
 }
