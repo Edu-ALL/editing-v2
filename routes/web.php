@@ -1,9 +1,11 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Clients;
 use App\Http\Controllers\Admin\Essays;
+use App\Http\Controllers\Admin\Editors;
+use App\Http\Controllers\Admin\Mentors;
 use App\Http\Controllers\Admin\UserStudent;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,27 +54,15 @@ Route::get('/admin/dashboard', function () {
     return view('user.admin.dashboard');
 })->name('admin.dashboard');
 Route::get('/admin/user/student', [Clients::class, 'index'])->name('list-client');
-Route::get('/admin/user/mentor', function () {
-    return view('user.admin.user-mentor');
-});
 Route::get('/admin/user/student/detail', function () {
     return view('user.admin.users.user-student-detail');
 });
 
-Route::get('/admin/user/mentor', function () {
-    return view('user.admin.users.user-mentor');
-});
-
-
 // Mentor
-Route::get('/admin/user/mentor', function () {
-    return view('user.admin.users.user-mentor');
-});
+Route::get('/admin/user/mentor', [Mentors::class, 'index'])->name('list-mentor');
 
 // Editor
-Route::get('/admin/user/editor', function () {
-    return view('user.admin.users.user-editor');
-});
+Route::get('/admin/user/editor', [Editors::class, 'index'])->name('list-editor');
 Route::get('/admin/user/editor/add', function () {
     return view('user.admin.users.user-editor-add');
 });
