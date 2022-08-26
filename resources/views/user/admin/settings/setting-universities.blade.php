@@ -50,11 +50,17 @@
                   <tr onclick="window.location='/admin/setting/universities/detail'">
                     <th scope="row">{{ $i++ }}</th>
                     <td>{{ $university->university_name }}</td>
-                    <td>{{ $university->webiste }}</td>
+                    <td>{{ $university->website }}</td>
                     <td>{{ $university->country }}</td>
                     <td>{{ $university->phone }}</td>
                     <td>{{ $university->address }}</td>
-                    <td>{{ $university->photo }}</td>
+                    <td><img src="
+                      @if ($university->photo)
+                      {{ asset('uploaded_files/univ/'.$university->photo) }}
+                      @else
+                      {{ asset('uploaded_files/univ/default.png') }}
+                      @endif
+                      " alt="{{ $university->photo }}" style="max-width:50px;" /></td>
                   </tr>
                   @endforeach
                   @else
