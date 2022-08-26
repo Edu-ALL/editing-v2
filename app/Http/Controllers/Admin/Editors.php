@@ -20,4 +20,8 @@ class Editors extends Controller
 
         return view('user.admin.users.user-editor', ['editors' => $editors]);
     }
+
+    public function detail($id){
+        return view('user.admin.users.user-editor-detail', ['editor' => Editor::find($id)]);
+    }
 }

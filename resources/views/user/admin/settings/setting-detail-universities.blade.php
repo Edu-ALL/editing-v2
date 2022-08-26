@@ -54,33 +54,33 @@
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6">
                     <h6 class="pb-2">University Name :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" id="university" value="Adelphi University" disabled>
+                    <input type="text" class="form-control inputField py-2 px-3" id="university" value="{{ $university->university_name }}" disabled>
                   </div>
                   <div class="col-6">
                     <h6 class="pb-2">Email :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" id="email" value="adelphi@example.com" disabled>
+                    <input type="text" class="form-control inputField py-2 px-3" id="email" value="{{ $university->univ_email }}" disabled>
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-3">
                   <div class="col-12">
                     <h6 class="pb-2">Website :</h6>
-                    <input type="email" class="form-control inputField py-2 px-3" id="website" style="width: 96.5%;" value="adelphi-university.com" disabled>
+                    <input type="email" class="form-control inputField py-2 px-3" id="website" style="width: 96.5%;" value="{{ $university->website }}" disabled>
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6">
                     <h6 class="pb-2">Phone :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" id="phone" value="12345678" disabled>
+                    <input type="text" class="form-control inputField py-2 px-3" id="phone" value="{{ $university->phone }}" disabled>
                   </div>
                   <div class="col-6">
                     <h6 class="pb-2">Country :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" id="country" value="US" disabled>
+                    <input type="text" class="form-control inputField py-2 px-3" id="country" value="{{ $university->country }}" disabled>
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-5" style="overflow: auto !important">
                   <div class="col">
                     <h6 class="pb-2">Address :</h6>
-                    <textarea name="" class="textarea" placeholder="Address"></textarea>
+                    <textarea name="" class="textarea" placeholder="Address">{{ $university->address }}</textarea>
                   </div>
                 </div>
                 <div class="col-12 d-none d-flex justify-content-center pt-3" id="btnAddUniv" style="border-top: 1px solid var(--light-grey)">

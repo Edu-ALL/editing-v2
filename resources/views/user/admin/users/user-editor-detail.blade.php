@@ -70,46 +70,52 @@
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6">
                     <h6 class="pb-2">First Name :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" disabled value="Senior Editor">
+                    <input type="text" class="form-control inputField py-2 px-3" disabled value="{{ $editor->first_name }}">
                   </div>
                   <div class="col-6">
                     <h6 class="pb-2">Last Name :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" disabled value="Dummy">
+                    <input type="text" class="form-control inputField py-2 px-3" disabled value="{{ $editor->last_name }}">
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6">
                     <h6 class="pb-2">Email :</h6>
-                    <input type="email" class="form-control inputField py-2 px-3" disabled value="senioreditor.dummy@example.com">
+                    <input type="email" class="form-control inputField py-2 px-3" disabled value="{{ $editor->email }}">
                   </div>
                   <div class="col-6">
                     <h6 class="pb-2">Phone :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" disabled value="12345678">
+                    <input type="text" class="form-control inputField py-2 px-3" disabled value="{{ $editor->phone }}">
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6">
                     <h6 class="pb-2">Graduated From :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" disabled value="BA, UC Berkeley">
+                    <input type="text" class="form-control inputField py-2 px-3" disabled value="{{ $editor->graduated_from }}">
                   </div>
                   <div class="col-6">
                     <h6 class="pb-2">Major :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" disabled value="Space Travel">
+                    <input type="text" class="form-control inputField py-2 px-3" disabled value="{{ $editor->major }}">
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-3" style="overflow: auto !important">
                   <div class="col">
                     <h6 class="pb-2">Address :</h6>
-                    <textarea name="" class="textarea" input="dsad"></textarea>
+                    <textarea name="" class="textarea">{{ $editor->address }}</textarea>
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-5">
                   <div class="col">
                     <h6 class="pb-2">Position :</h6>
-                    <select class="select-beast">
-                      <option value="value 1">Value 1</option>
-                      <option value="value 2">Value 2</option>
-                      <option value="value 3">Value 3</option>
+                    <select class="select-beast" name="position">
+                      <option value="1" @if ($editor->position == 1)
+                          selected
+                      @endif>Associate</option>
+                      <option value="2" @if ($editor->position == 2)
+                        selected
+                      @endif>Senior</option>
+                      <option value="3" @if ($editor->position == 3)
+                        selected
+                      @endif>Managing</option>
                     </select>
                   </div>
                 </div>

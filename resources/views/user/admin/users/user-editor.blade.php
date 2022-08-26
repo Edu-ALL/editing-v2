@@ -56,7 +56,7 @@
                 <tbody>
                   <?php $i = ($editors->currentpage()-1)* $editors->perpage() + 1;?>
                   @foreach ($editors as $editor)
-                  <tr onclick="window.location='/admin/user/student/detail'">
+                  <tr onclick="window.location='/admin/user/editor/detail/{{ $editor->id_editors }}'">
                     <th scope="row">{{ $i++ }}</th>
                     <td>{{ $editor->first_name.' '.$editor->last_name }}</td>
                     <td>{{ $editor->email }}</td>

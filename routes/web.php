@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\Essays;
 use App\Http\Controllers\Admin\Editors;
 use App\Http\Controllers\Admin\Mentors;
 use App\Http\Controllers\Admin\Export;
+use App\Http\Controllers\Admin\Universities;
 use App\Http\Controllers\Admin\UserStudent;
 
 /*
@@ -64,15 +65,16 @@ Route::get('/admin/user/mentor', [Mentors::class, 'index'])->name('list-mentor')
 
 // Editor
 Route::get('/admin/user/editor', [Editors::class, 'index'])->name('list-editor');
+Route::get('/admin/user/editor/detail/{id}', [Editors::class, 'detail']);
 Route::get('/admin/user/editor/add', function () {
     return view('user.admin.users.user-editor-add');
 });
 Route::get('/admin/user/editor/invite', function () {
     return view('user.admin.users.user-editor-invite');
 });
-Route::get('/admin/user/editor/detail', function () {
-    return view('user.admin.users.user-editor-detail');
-});
+// Route::get('/admin/user/editor/detail', function () {
+//     return view('user.admin.users.user-editor-detail');
+// });
 
 
 // Essay List
@@ -203,15 +205,14 @@ Route::get('/admin/export-excel/editor', [Export::class, 'index'])->name('export
 
 // Setting
 // University
-Route::get('/admin/setting/universities', function () {
-    return view('user.admin.settings.setting-universities');
-});
+Route::get('/admin/setting/universities', [Universities::class, 'index']);
+Route::get('/admin/setting/universities/detail/{id}', [Universities::class, 'detail']);
 Route::get('/admin/setting/universities/add', function () {
     return view('user.admin.settings.setting-add-universities');
 });
-Route::get('/admin/setting/universities/detail', function () {
-    return view('user.admin.settings.setting-detail-universities');
-});
+// Route::get('/admin/setting/universities/detail', function () {
+//     return view('user.admin.settings.setting-detail-universities');
+// });
 
 // Essay Prompt
 Route::get('/admin/setting/essay-prompt', function () {
