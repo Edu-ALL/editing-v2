@@ -28,6 +28,11 @@
               </div>
               <div class="col-md-4 col-6 d-flex align-items-center justify-content-end gap-md-3 gap-2">
                 <a href="/admin/setting/universities/add"><img src="/assets/add.png" alt=""></a>
+                <div class="input-group">
+                  <form id="form-client-searching" action="{{ route('list-university') }}" method="GET" role="search" class="w-100">
+                    <input type="text" class="form-control inputField py-2 px-3" name="keyword" id="search-client" placeholder="Search" required>
+                  </form>
+                </div>
               </div>
             </div>
             <div class="container text-center" style="overflow-x: auto !important">
@@ -44,7 +49,6 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @if ($universities->hasPages()) 
                   <?php $i = ($universities->currentpage()-1)* $universities->perpage() + 1;?>
                   @foreach ($universities as $university)
                   <tr onclick="window.location='/admin/setting/universities/detail'">
@@ -63,11 +67,12 @@
                       " alt="{{ $university->photo }}" style="max-width:50px;" /></td>
                   </tr>
                   @endforeach
-                  @else
+                  
+                  @unless (count($universities)) 
                   <tr>
                     <td colspan="7">No data</td>
                   </tr>
-                  @endif
+                  @endunless
                 </tbody>
               </table>
               {{-- Pagination --}}

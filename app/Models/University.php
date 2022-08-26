@@ -36,6 +36,11 @@ class University extends Model
         return $value != NULL ? $value : "-";
     }
 
+    public function getAddressAttribute($value)
+    {
+        return $value != NULL ? strip_tags($value) : "-";
+    }
+
     public function essay_clients()
     {
         return $this->hasMany(EssayClients::class, 'id_univ', 'id_univ');

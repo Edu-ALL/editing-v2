@@ -8,9 +8,21 @@ use Illuminate\Http\Request;
 
 class Universities extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $universities = University::orderBy('university_name', 'asc')->paginate(10);
+        $keyword = $request->get('keyword');
+        $universities = University::when($keyword, function($query) use ($keyword) {
+            $query->where('university_name', 'like', '%'.$keyword.'%')->
+                orWhere('website', 'like', '%'.$keyword.'%')->
+                orWhere('univ_email', 'like', '%'.$keyword.'%')->
+                orWhere('country', 'like', '%'.$keyword.'%')->
+                orWhere('phone', 'like', '%'.$keyword.'%')->
+                orWhere('address', 'like', '%'.$keyword.'%');
+        })->orderBy('university_name', 'asc')->paginate(10);
+
+        if ($keyword)
+            $universities->appends(['keyword' => $keyword]);
+
         return view('user.admin.settings.setting-universities', ['universities' => $universities]);
         
     }
