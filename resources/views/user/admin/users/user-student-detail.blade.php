@@ -39,7 +39,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>Student Dummy</p>
+                    <p>{{ $client->first_name.' '.$client->last_name }}</p>
                   </div>
                 </div>
                 <div class="row d-flex align-items-center">
@@ -48,7 +48,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>12345678</p>
+                    <p>{{ $client->phone }}</p>
                   </div>
                 </div>
                 <div class="row d-flex align-items-center">
@@ -57,7 +57,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>student.dummy@gmail.com</p>
+                    <p>{{ $client->email }}</p>
                   </div>
                 </div>
                 <div class="row d-flex align-items-center">
@@ -66,7 +66,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>Jl Jeruk Kembar blok Q9 no.15</p>
+                    <p>{{ $client->address }}</p>
                   </div>
                 </div>
                 <div class="row d-flex align-items-center">

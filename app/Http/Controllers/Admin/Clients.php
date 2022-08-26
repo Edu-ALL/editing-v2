@@ -25,4 +25,8 @@ class Clients extends Controller
 
         return view('user.admin.users.user-student', ['clients' => $clients]);
     }
+
+    public function detail($id){
+        return view('user.admin.users.user-student-detail', ['client' => Client::find($id)]);
+    }
 }

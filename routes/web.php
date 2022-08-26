@@ -1,13 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\Clients;
 use App\Http\Controllers\Admin\Essays;
+use App\Http\Controllers\Admin\Export;
+use App\Http\Controllers\Admin\Clients;
 use App\Http\Controllers\Admin\Editors;
 use App\Http\Controllers\Admin\Mentors;
-use App\Http\Controllers\Admin\Export;
-use App\Http\Controllers\Admin\Universities;
 use App\Http\Controllers\Admin\UserStudent;
+use App\Http\Controllers\Admin\Universities;
+use App\Http\Controllers\Admin\Program;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,9 +57,7 @@ Route::get('/admin/dashboard', function () {
     return view('user.admin.dashboard');
 })->name('admin.dashboard');
 Route::get('/admin/user/student', [Clients::class, 'index'])->name('list-client');
-Route::get('/admin/user/student/detail', function () {
-    return view('user.admin.users.user-student-detail');
-});
+Route::get('/admin/user/student/detail/{id}', [Clients::class, 'detail']);
 
 // Mentor
 Route::get('/admin/user/mentor', [Mentors::class, 'index'])->name('list-mentor');
@@ -195,8 +194,6 @@ Route::get('/editor/essay-list-due-within-five', function () {
 });
 
 
-
-
 // Export to Excel
 Route::get('/admin/export-excel/student', function () {
     return view('user.admin.export-excel.export-student-essay');
@@ -211,9 +208,6 @@ Route::get('/admin/setting/universities/detail/{id}', [Universities::class, 'det
 Route::get('/admin/setting/universities/add', function () {
     return view('user.admin.settings.setting-add-universities');
 });
-// Route::get('/admin/setting/universities/detail', function () {
-//     return view('user.admin.settings.setting-detail-universities');
-// });
 
 // Essay Prompt
 Route::get('/admin/setting/essay-prompt', function () {
@@ -227,9 +221,7 @@ Route::get('/admin/setting/essay-prompt/detail', function () {
 });
 
 // Programs
-Route::get('/admin/setting/programs', function () {
-    return view('user.admin.settings.setting-programs');
-});
+Route::get('/admin/setting/programs', [Program::class, 'index'])->name('list-program');
 Route::get('/admin/setting/programs/add', function () {
     return view('user.admin.settings.setting-add-programs');
 });

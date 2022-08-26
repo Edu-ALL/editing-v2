@@ -53,7 +53,7 @@
                 <tbody>
                   <?php $i = ($clients->currentpage()-1)* $clients->perpage() + 1;?>
                   @foreach ($clients as $client)
-                  <tr onclick="window.location='/admin/user/student/detail'">
+                  <tr onclick="window.location='/admin/user/student/detail/{{ $client->id_clients }}'">
                     <th scope="row">{{ $i++ }}</th>
                     <td>{{ $client->first_name.' '.$client->last_name }}</td>
                     <td>{{ $client->mentors->first_name.' '.$client->mentors->last_name }}</td>

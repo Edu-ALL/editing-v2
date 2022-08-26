@@ -104,6 +104,10 @@ body {
   height: 25px;
   filter: invert(100%);
 }
+.headline input.inputField {
+  font-size: 12px;
+  padding: 20px;
+}
 .table thead {
   background-color: #F9FAFC;
   text-transform: uppercase;

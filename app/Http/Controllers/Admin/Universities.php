@@ -8,11 +8,6 @@ use Illuminate\Http\Request;
 
 class Universities extends Controller
 {
-
-    public function detail($id){
-        return view('user.admin.settings.setting-detail-universities', ['university' => University::find($id)]);
-    }
-
     public function index(Request $request)
     {
         $keyword = $request->get('keyword');
@@ -29,5 +24,9 @@ class Universities extends Controller
             $universities->appends(['keyword' => $keyword]);
 
         return view('user.admin.settings.setting-universities', ['universities' => $universities]);
+    }
+
+    public function detail($id){
+        return view('user.admin.settings.setting-detail-universities', ['university' => University::find($id)]);
     }
 }
