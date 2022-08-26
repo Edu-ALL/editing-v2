@@ -29,8 +29,8 @@
               <div class="col-md-4 col-6 d-flex align-items-center justify-content-end gap-md-3 gap-2">
                 <a href="/admin/setting/universities/add"><img src="/assets/add.png" alt=""></a>
                 <div class="input-group">
-                  <form id="form-client-searching" action="{{ route('list-university') }}" method="GET" role="search" class="w-100">
-                    <input type="text" class="form-control inputField py-2 px-3" name="keyword" id="search-client" placeholder="Search" required>
+                  <form id="form-university-searching" action="{{ route('list-university') }}" method="GET" role="search" class="w-100">
+                    <input type="text" class="form-control inputField py-2 px-3" name="keyword" id="search-university" placeholder="Search" required>
                   </form>
                 </div>
               </div>
@@ -89,3 +89,15 @@
   </div>
 </div>
 @endsection
+
+@section('js')
+<script>
+  $("#search-university").keypress(function(e) {
+    if (e.keyCode === 13) {
+      swal.showLoading();
+      e.preventDefault();
+      $("#form-university-searching").submit();
+    }
+  });
+</script>
+@stop
