@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\Essays;
 use App\Http\Controllers\Admin\Editors;
 use App\Http\Controllers\Admin\Mentors;
 use App\Http\Controllers\Admin\Export;
+use App\Http\Controllers\Admin\Universities;
 use App\Http\Controllers\Admin\UserStudent;
 
 /*
@@ -203,9 +204,7 @@ Route::get('/admin/export-excel/editor', [Export::class, 'index'])->name('export
 
 // Setting
 // University
-Route::get('/admin/setting/universities', function () {
-    return view('user.admin.settings.setting-universities');
-});
+Route::get('/admin/setting/universities', [Universities::class, 'index']);
 Route::get('/admin/setting/universities/add', function () {
     return view('user.admin.settings.setting-add-universities');
 });

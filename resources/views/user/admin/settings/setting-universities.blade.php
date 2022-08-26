@@ -1,6 +1,10 @@
 @extends('user.admin.utama.utama')
 @section('css')
   <link rel="stylesheet" href="/css/admin/setting-universities.css">
+  <style>
+    .pagination { margin: 15px 0}
+    .pagination .page-item .page-link { padding: 10px 15px; font-size: 12px; }
+  </style>
 @endsection
 
 @section('content')
@@ -40,26 +44,30 @@
                   </tr>
                 </thead>
                 <tbody>
+                  @if ($universities->hasPages()) 
+                  <?php $i = ($universities->currentpage()-1)* $universities->perpage() + 1;?>
+                  @foreach ($universities as $university)
                   <tr onclick="window.location='/admin/setting/universities/detail'">
-                    <th scope="row">1</th>
-                    <td>Adelphi University</td>
-                    <td>-</td>
-                    <td>US</td>
-                    <td>-</td>
-                    <td>Nashville, TN</td>
-                    <td>image.png</td>
+                    <th scope="row">{{ $i++ }}</th>
+                    <td>{{ $university->university_name }}</td>
+                    <td>{{ $university->webiste }}</td>
+                    <td>{{ $university->country }}</td>
+                    <td>{{ $university->phone }}</td>
+                    <td>{{ $university->address }}</td>
+                    <td>{{ $university->photo }}</td>
                   </tr>
-                  <tr onclick="window.location='/admin/setting/universities/detail'">
-                    <th scope="row">2</th>
-                    <td>Adelphi University</td>
-                    <td>-</td>
-                    <td>US</td>
-                    <td>-</td>
-                    <td>Nashville, TN</td>
-                    <td>image.png</td>
+                  @endforeach
+                  @else
+                  <tr>
+                    <td colspan="7">No data</td>
                   </tr>
+                  @endif
                 </tbody>
               </table>
+              {{-- Pagination --}}
+              <div class="d-flex justify-content-center">
+                {{ $universities->links() }}
+              </div>
             </div>
           </div>
         </div>
