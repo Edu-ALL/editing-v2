@@ -205,8 +205,9 @@ Route::get('/admin/export-excel/editor', [Export::class, 'index'])->name('export
 
 // Setting
 // University
-Route::get('/admin/setting/universities', [Universities::class, 'index']);
+Route::get('/admin/setting/universities', [Universities::class, 'index'])->name('list-university');
 Route::get('/admin/setting/universities/detail/{id}', [Universities::class, 'detail']);
+
 Route::get('/admin/setting/universities/add', function () {
     return view('user.admin.settings.setting-add-universities');
 });

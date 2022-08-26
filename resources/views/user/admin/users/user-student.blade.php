@@ -51,7 +51,6 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @if ($clients->hasPages()) 
                   <?php $i = ($clients->currentpage()-1)* $clients->perpage() + 1;?>
                   @foreach ($clients as $client)
                   <tr onclick="window.location='/admin/user/student/detail'">
@@ -63,11 +62,12 @@
                     <td>{{ strip_tags($client->address) }}</td>
                   </tr>
                   @endforeach
-                  @else
+                  
+                  @unless (count($clients)) 
                   <tr>
                     <td colspan="7">No data</td>
                   </tr>
-                  @endif
+                  @endunless
                 </tbody>
               </table>
               {{-- Pagination --}}

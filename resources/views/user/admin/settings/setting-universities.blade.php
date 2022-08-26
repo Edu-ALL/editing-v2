@@ -28,6 +28,11 @@
               </div>
               <div class="col-md-4 col-6 d-flex align-items-center justify-content-end gap-md-3 gap-2">
                 <a href="/admin/setting/universities/add"><img src="/assets/add.png" alt=""></a>
+                <div class="input-group">
+                  <form id="form-client-searching" action="{{ route('list-university') }}" method="GET" role="search" class="w-100">
+                    <input type="text" class="form-control inputField py-2 px-3" name="keyword" id="search-client" placeholder="Search" required>
+                  </form>
+                </div>
               </div>
             </div>
             <div class="container text-center" style="overflow-x: auto !important">
@@ -48,14 +53,26 @@
                   @foreach ($universities as $university)
                   <tr onclick="window.location='/admin/setting/universities/detail/{{ $university->id_univ }}'">
                     <th scope="row">{{ $i++ }}</th>
-                    <td>{{ $university->university_name}}</td>
+                    <td>{{ $university->university_name }}</td>
                     <td>{{ $university->website }}</td>
                     <td>{{ $university->country }}</td>
                     <td>{{ $university->phone }}</td>
-                    <td>{{ strip_tags($university->address) }}</td>
-                    <td>{{ $university->photo }}</td>
+                    <td>{{ $university->address }}</td>
+                    <td><img src="
+                      @if ($university->photo)
+                      {{ asset('uploaded_files/univ/'.$university->photo) }}
+                      @else
+                      {{ asset('uploaded_files/univ/default.png') }}
+                      @endif
+                      " alt="{{ $university->photo }}" style="max-width:50px;" /></td>
                   </tr>
                   @endforeach
+                  
+                  @unless (count($universities)) 
+                  <tr>
+                    <td colspan="7">No data</td>
+                  </tr>
+                  @endunless
                 </tbody>
               </table>
               {{-- Pagination --}}

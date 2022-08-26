@@ -26,6 +26,21 @@ class University extends Model
         'deleted_at'
     ];
 
+    public function getWebsiteAttribute($value)
+    {
+        return $value != NULL ? $value : "-";
+    }
+
+    public function getPhoneAttribute($value)
+    {
+        return $value != NULL ? $value : "-";
+    }
+
+    public function getAddressAttribute($value)
+    {
+        return $value != NULL ? strip_tags($value) : "-";
+    }
+
     public function essay_clients()
     {
         return $this->hasMany(EssayClients::class, 'id_univ', 'id_univ');
