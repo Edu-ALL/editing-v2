@@ -96,7 +96,11 @@ tinymce.init({
 // Selectize
 $(".select-beast").selectize({
   create: false,
-  sortField: "text",
+  sortField: "text"
+});
+
+$(".select-date, .select-normal").selectize({
+  create: false
 });
 
 // Close Alert Completed

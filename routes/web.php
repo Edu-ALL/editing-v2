@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\Clients;
 use App\Http\Controllers\Admin\Essays;
+use App\Http\Controllers\Admin\Export;
 use App\Http\Controllers\Admin\UserStudent;
 use Illuminate\Support\Facades\Route;
 
@@ -208,9 +209,7 @@ Route::get('/editor/essay-list-due-within-five', function () {
 Route::get('/admin/export-excel/student', function () {
     return view('user.admin.export-excel.export-student-essay');
 });
-Route::get('/admin/export-excel/editor', function () {
-    return view('user.admin.export-excel.export-editor-essay');
-});
+Route::get('/admin/export-excel/editor', [Export::class, 'index'])->name('export-excel');
 
 // Setting
 // University

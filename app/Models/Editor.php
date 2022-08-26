@@ -38,4 +38,14 @@ class Editor extends Model
     {
         return $this->hasMany(EssayClients::class, 'id_editors', 'id_editors');
     }
+
+    public function position()
+    {
+        return $this->belongsTo(PositionEditor::class, 'position', 'id_position');
+    }
+
+    public function essay_editors()
+    {
+        return $this->hasMany(EssayEditors::class, 'editors_mail', 'email');
+    }
 }
