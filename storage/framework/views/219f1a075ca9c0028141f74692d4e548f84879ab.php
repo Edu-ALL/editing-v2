@@ -14,6 +14,12 @@
     <div class="col">
       <?php echo $__env->make('user.admin.utama.head', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
       <div class="container main-content m-0">
+        <?php if(session()->has('login-successful')): ?>
+          <div class="row alert alert-success fade show" role="alert">
+            <?php echo e(session()->get('login-successful')); ?>
+
+          </div>
+        <?php endif; ?>
         
         <div class="row gap-2">
           <a class="col-md col-12 p-0 userCard" href="/admin/user/student">
@@ -110,5 +116,17 @@
     
   </div>
 </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?>
+  <?php if(session()->has('login-successful')): ?>
+  <script>
+    $(document).ready(function() {
+      setTimeout(() => {
+        $(".alert-success").alert('close');
+      }, 3000);
+    });
+  </script>
+  <?php endif; ?>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('user.admin.utama.utama', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH E:\ALL-in\PLATFORM\editing-v2\resources\views/user/admin/dashboard.blade.php ENDPATH**/ ?>
