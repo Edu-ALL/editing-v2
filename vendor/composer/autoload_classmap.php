@@ -14,6 +14,8 @@ return array(
     'App\\Http\\Controllers\\Admin\\Essays' => $baseDir . '/app/Http/Controllers/Admin/Essays.php',
     'App\\Http\\Controllers\\Admin\\Export' => $baseDir . '/app/Http/Controllers/Admin/Export.php',
     'App\\Http\\Controllers\\Admin\\Mentors' => $baseDir . '/app/Http/Controllers/Admin/Mentors.php',
+    'App\\Http\\Controllers\\Admin\\Program' => $baseDir . '/app/Http/Controllers/Admin/Program.php',
+    'App\\Http\\Controllers\\Admin\\Universities' => $baseDir . '/app/Http/Controllers/Admin/Universities.php',
     'App\\Http\\Controllers\\CRM\\Clients' => $baseDir . '/app/Http/Controllers/CRM/Clients.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
