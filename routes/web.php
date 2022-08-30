@@ -91,12 +91,8 @@ Route::get('/admin/essay-list/ongoing/accepted', function () {
     return view('user.admin.essay-list.essay-ongoing-accepted');
 });
 
-Route::get('/admin/essay-list/completed', function () {
-    return view('user.admin.essay-list.essay-completed');
-});
-Route::get('/admin/essay-list/completed/detail', function () {
-    return view('user.admin.essay-list.essay-completed-detail');
-});
+Route::get('/admin/essay-list/completed', [Essays::class, 'essayCompleted']);
+Route::get('/admin/essay-list/completed/detail/{id}', [Essays::class, 'detailEssayCompleted']);
 
 
 //**********Role Mentor**********//
@@ -222,13 +218,10 @@ Route::get('/admin/setting/essay-prompt/detail', function () {
 
 // Programs
 Route::get('/admin/setting/programs', [Program::class, 'index'])->name('list-program');
+Route::get('/admin/setting/programs/detail/{id}', [Program::class, 'detail']);
 Route::get('/admin/setting/programs/add', function () {
     return view('user.admin.settings.setting-add-programs');
 });
-Route::get('/admin/setting/programs/detail', function () {
-    return view('user.admin.settings.setting-detail-programs');
-});
-
 
 Route::get('/admin/setting/categories-tags', function () {
     return view('user.admin.settings.setting-categories');

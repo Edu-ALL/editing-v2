@@ -20,4 +20,8 @@ class Program extends Controller
 
         return view('user.admin.settings.setting-programs', ['programs' => $programs]);
     }
+
+    public function detail($id){
+        return view('user.admin.settings.setting-detail-programs', ['program' => Programs::find($id)]);
+    }
 }

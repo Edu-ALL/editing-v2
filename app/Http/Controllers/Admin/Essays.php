@@ -34,4 +34,12 @@ class Essays extends Controller
             $essays->appends(['keyword' => $keyword]);
         return view('user.admin.essay-list.essay-ongoing', ['essays' => $essays]);
     }
+
+    public function essayCompleted(){
+        $essays = EssayClients::with(['status', 'editor', 'university', 'program', 'program.category', 'client_by_id', 'client_by_email', 'client_by_id.mentors', 'client_by_email.mentors'])->paginate(10);
+        return view('user.admin.essay-list.essay-completed', ['essays' => $essays]);
+    }
+    public function detailEssayCompleted($id){
+        return view('user.admin.essay-list.essay-completed-detail', ['essay' => EssayClients::find($id)]);
+    }
 }

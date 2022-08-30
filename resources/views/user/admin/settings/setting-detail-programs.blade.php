@@ -22,7 +22,7 @@
             </div>
             <div class="col d-flex align-items-center justify-content-center py-md-4 py-4">
               <div class="pic-profile d-flex align-items-center justify-content-center">
-                <img class="img-fluid" id="img-profile" src="/assets/editor-bg.png" alt="">
+                <img class="img-fluid" id="img-profile" src={{ asset('uploaded_files/programs/'.$program->images) }} alt="">
               </div>
             </div>
             <div class="col d-none px-md-4 px-3" id="chooseFile">
@@ -54,27 +54,27 @@
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6">
                     <h6 class="pb-2">Program Name :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" id="name" disabled value="Cover Letter Editing">
+                    <input type="text" class="form-control inputField py-2 px-3" id="name" disabled value="{{ $program->program_name }}">
                   </div>
                   <div class="col-6">
                     <h6 class="pb-2">Program Category :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" id="category" disabled value="Cover Letter Editing">
+                    <input type="text" class="form-control inputField py-2 px-3" id="category" disabled value="{{ $program->category->category_name }}">
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-3" style="overflow: auto !important; padding-right: 3%;">
                   <div class="col">
                     <h6 class="pb-2">Description :</h6>
-                    <textarea name="" class="textarea" placeholder="Description"></textarea>
+                    <textarea name="" class="textarea" placeholder="Description">{{ $program->description }}</textarea>
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6">
                     <h6 class="pb-2">Price :</h6>
-                    <input type="number" class="form-control inputField py-2 px-3" id="price" disabled value="0">
+                    <input type="number" class="form-control inputField py-2 px-3" id="price" disabled value="{{ $program->price }}">
                   </div>
                   <div class="col-6">
                     <h6 class="pb-2">Discount :</h6>
-                    <input type="number" class="form-control inputField py-2 px-3" id="discount" disabled value="0">
+                    <input type="number" class="form-control inputField py-2 px-3" id="discount" disabled value="{{ $program->discount }}">
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-3">
@@ -82,18 +82,18 @@
                     <div class="col d-flex flex-lg-row flex-column mb-3" style="padding-right: 3%">
                       <div class="col-lg-6 col mb-lg-0 mb-3">
                         <h6 class="pb-2">Minimum Words :</h6>
-                        <input type="number" class="form-control inputField py-2 px-3" id="min" disabled value="0">
+                        <input type="number" class="form-control inputField py-2 px-3" id="min" disabled value="{{ $program->minimum_word }}">
                       </div>
                       <div class="col-lg-6 col">
                         <h6 class="pb-2">Maximum Words :</h6>
-                        <input type="number" class="form-control inputField py-2 px-3" id="max" disabled value="0">
+                        <input type="number" class="form-control inputField py-2 px-3" id="max" disabled value="{{ $program->maximum_word }}">
                       </div>
                     </div>
                   </div>
                   <div class="col-6" style="padding-right: 3%">
                     <h6 class="pb-2">Completed Within :</h6>
                     <div class="input-group mb-3">
-                      <input type="number" class="form-control py-2 px-3" id="complete" disabled value="0" aria-describedby="basic-addon1">
+                      <input type="number" class="form-control py-2 px-3" id="complete" disabled value="{{ $program->completed_within }}" aria-describedby="basic-addon1">
                       <div class="input-group-prepend">
                         <span class="input-group-text py-2 px-2" id="basic-addon1">Hours</span>
                       </div>

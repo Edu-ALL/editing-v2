@@ -25,8 +25,8 @@
               <div class="col-md-4 col-6 d-flex align-items-center justify-content-end gap-md-3 gap-2">
                 <a href="/admin/setting/programs/add"><img src="/assets/add.png" alt=""></a>
                 <div class="input-group">
-                  <form id="form-client-searching" action="{{ route('list-program') }}" method="GET" role="search" class="w-100">
-                    <input type="text" class="form-control inputField py-2 px-3" name="keyword" id="search-client" placeholder="Search" required>
+                  <form id="form-programs-searching" action="{{ route('list-program') }}" method="GET" role="search" class="w-100">
+                    <input type="text" class="form-control inputField py-2 px-3" name="keyword" id="search-programs" placeholder="Search" required>
                   </form>
                 </div>
               </div>
@@ -50,7 +50,7 @@
                   <tr onclick="window.location='/admin/setting/programs/detail/{{ $program->id_program }}'">
                     <th scope="row">{{ $i++ }}</th>
                     <td>{{ $program->program_name }}</td>
-                    <td>{{ $program->description }}</td>
+                    <td style="text-align: start">{{ $program->description }}</td>
                     <td>{{ $program->price }}</td>
                     <td>{{ $program->maximum_word }}</td>
                     <td>{{ $program->completed_within }}</td>
@@ -69,15 +69,6 @@
                     <td colspan="7">No data</td>
                   </tr>
                   @endunless
-                  {{-- <tr onclick="window.location='/admin/setting/programs/detail'">
-                    <th scope="row">1</th>
-                    <td>Cover Letter Editing</td>
-                    <td class="desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nobis sed cumque quos quia, molestias voluptatum</td>
-                    <td>Rp. 0</td>
-                    <td>100</td>
-                    <td>82</td>
-                    <td>image.png</td>
-                  </tr> --}}
                 </tbody>
               </table>
               {{-- Pagination --}}
@@ -94,3 +85,15 @@
   </div>
 </div>
 @endsection
+
+@section('js')
+<script>
+  $("#search-programs").keypress(function(e) {
+    if (e.keyCode === 13) {
+      swal.showLoading();
+      e.preventDefault();
+      $("#form-programs-searching").submit();
+    }
+  });
+</script>
+@stop
