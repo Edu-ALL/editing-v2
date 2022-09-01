@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 
 class Clients extends Controller
 {
+
     public function index(Request $request)
     {
         $keyword = $request->get('keyword');

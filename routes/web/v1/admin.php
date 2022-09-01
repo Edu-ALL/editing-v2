@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\Authentication;
+use App\Http\Controllers\Admin\CategoriesTags;
 use App\Http\Controllers\Admin\Clients;
 use App\Http\Controllers\Admin\Export;
 use App\Http\Controllers\Admin\Universities;
@@ -17,3 +18,10 @@ Route::post('sync/clients', [CRMClients::class, 'doSyncCRMClients'])->name('do-s
 Route::get('sync/mentors', [CRMMentors::class, 'doSyncCRMMentors'])->name('do-sync-mentors');
 
 Route::post('university', [Universities::class, 'store'])->name('add-university');
+
+Route::post('tag', [CategoriesTags::class, 'store'])->name('add-tag');
+
+Route::middleware(['cors'])->group(function () {
+    Route::put('tag/{tag_id}', [CategoriesTags::class, 'update'])->name('update-tag');
+    Route::delete('tag/{tag_id}', [CategoriesTags::class, 'delete'])->name('delete-tag');
+});

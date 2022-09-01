@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoriesTags;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Essays;
 use App\Http\Controllers\Admin\Export;
@@ -230,12 +231,8 @@ Route::get('/admin/setting/programs/detail', function () {
 });
 
 
-Route::get('/admin/setting/categories-tags', function () {
-    return view('user.admin.settings.setting-categories');
-});
-Route::get('/admin/setting/categories-tags/detail', function () {
-    return view('user.admin.settings.setting-detail-categories');
-});
+Route::get('/admin/setting/categories-tags', [CategoriesTags::class, 'index'])->name('list-tag');
+Route::get('/admin/setting/categories-tags/detail/{tag_id}', [CategoriesTags::class, 'detail']);
 
 // Per Editor
 Route::get('/editors/dashboard', function () {
