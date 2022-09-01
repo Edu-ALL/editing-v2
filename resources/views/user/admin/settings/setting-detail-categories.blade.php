@@ -135,36 +135,6 @@
 
   })
 
-  // $("#update-delete-form").submit(function(e) {
-  //   e.preventDefault();
-
-  //   var link = $("#"+button_pressed).data('link');
-  //   var method = $("#"+button_pressed).data('method');
-
-  //   $.ajax({
-  //     url: link,
-  //     type: method,
-  //     data: $(this).serialize(),
-  //   }).done(function(msg) {
-  //     var obj = JSON.parse(msg);
-  //     if (obj.success == true) {
-
-  //     } else {
-        
-  //       var err_message;
-  //       for (var i = 0; i < obj.message.length ; i++) {
-  //         err_message += obj.message[i];
-  //       }
-
-  //       Swal.fire({
-  //         title: '<strong>HTML <u>example</u></strong>',
-  //         icon: 'error',
-  //         html: err_message,
-  //       })
-  //     }
-  //   })
-  // })
-
 
 </script>
 @stop

@@ -102,15 +102,15 @@
               @endif
               >
 
-            <div class="headline d-flex justify-content-end">
-              <div class="col-md-5 col-12 d-flex align-items-center justify-content-end gap-md-2 gap-2">
+            <div class="headline d-flex align-items-center justify-content-between">
+              <div class="col-md-5 col-6">
+                <h6>Results</h6>
+              </div>
+              <div class="col-md-5 col-6 d-flex align-items-center justify-content-end gap-md-2 gap-2">
                 <a class="btn-export col-auto d-flex gap-2 align-items-center justify-content-center" href="{{ url()->full(); }}&f-download=1">
                   <img src="/assets/excel.png" alt="">
                   <h6>Export to Excel</h6>
                 </a>
-                <div class="input-group">
-                  <input type="search" class="form-control inputField py-2 px-3" placeholder="Search">
-                </div>
               </div>
             </div>
             <div class="container text-center p-0" style="overflow-x: auto !important">
