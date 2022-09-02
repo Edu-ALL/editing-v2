@@ -161,13 +161,13 @@
                 <tbody>
                   <?php $i = ($essay_ongoing->currentpage()-1)* $essay_ongoing->perpage() + 1;?>
                   @foreach ($essay_ongoing as $essays_ongoing)
-                  <tr>
+                  <tr style="cursor: default">
                     <th scope="row">{{ $i++ }}</th>
                     <td>{{ $essays_ongoing->client_by_id->first_name.' '.$essays_ongoing->client_by_id->last_name}}</td>
                     <td>{{ $essays_ongoing->program->program_name }}</td>
                     <td>{{ $essays_ongoing->essay_title }}</td>
                     <td>{{ date('D, d M Y', strtotime($essays_ongoing->essay_deadline)) }}</td>
-                    <td style="color: var(--green)">{{ $essays_ongoing->status->status_title }}</td>
+                    <td style="color: var(--blue)">{{ $essays_ongoing->status->status_title }}</td>
                   </tr>
                   @endforeach
                   
@@ -213,7 +213,7 @@
                 <tbody>
                   <?php $i = ($essay_completed->currentpage()-1)* $essay_completed->perpage() + 1;?>
                   @foreach ($essay_completed as $essays_completed)
-                  <tr>
+                  <tr style="cursor: default">
                     <th scope="row">{{ $i++ }}</th>
                     <td>{{ $essays_completed->client_by_id->first_name.' '.$essays_completed->client_by_id->last_name}}</td>
                     <td>{{ $essays_completed->program->program_name }}</td>

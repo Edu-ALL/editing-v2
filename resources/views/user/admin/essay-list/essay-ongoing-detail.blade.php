@@ -1,6 +1,10 @@
 @extends('user.admin.utama.utama')
 @section('css')
   <link rel="stylesheet" href="/css/admin/essay-ongoing-detail.css">
+  <style>
+    .pagination { margin: 0}
+    .pagination .page-item .page-link { padding: 10px 15px; font-size: 12px; }
+  </style>
 @endsection
 
 @section('content')
@@ -22,7 +26,7 @@
             </div>
             <div class="col d-flex flex-column align-items-center px-3 py-md-5 py-4 gap-3 text-center justify-content-center" style="color: var(--black)">
               <img class="img-status" src="/assets/status-edit.png" alt="">
-              <h6>Assigned to editor</h6>
+              <h6>{{ $ongoing->status->status_title }}</h6>
             </div>
             <div class="headline d-flex align-items-center gap-3">
               <img src="/assets/file.png" alt="">
@@ -69,7 +73,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>Student Dummy</p>
+                    <p>{{ $ongoing->client_by_id->first_name.' '.$ongoing->client_by_id->last_name }}</p>
                   </div>
                 </div>
                 <div class="row d-flex align-items-center">
@@ -78,7 +82,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>student.dummy@gmail.com</p>
+                    <p>{{ $ongoing->client_by_id->email }}</p>
                   </div>
                 </div>
                 <div class="row d-flex align-items-center">
@@ -87,7 +91,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>Jl Jeruk Kembar blok Q9 no.15</p>
+                    <p>{{ $ongoing->client_by_id->address }}</p>
                   </div>
                 </div>
                 
@@ -104,27 +108,27 @@
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6">
                     <h6 class="pb-2">University Name :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" disabled value="Arizona State University">
+                    <input type="text" class="form-control inputField py-2 px-3" disabled value="{{ $ongoing->university->university_name }}">
                   </div>
                   <div class="col-6">
                     <h6 class="pb-2">Essay Title :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" disabled value="Supplemental Essay">
+                    <input type="text" class="form-control inputField py-2 px-3" disabled value="{{ $ongoing->essay_title }}">
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-4" style="overflow: auto !important">
                   <div class="col">
                     <h6 class="pb-2">Essay Prompt :</h6>
-                    <textarea name="" class="textarea" style="overflow: auto !important"></textarea>
+                    <textarea name="" class="textarea" style="overflow: auto !important">{{ $ongoing->essay_prompt }}</textarea>
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6">
                     <h6 class="pb-2">Essay Deadline :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" disabled value="Arizona State University">
+                    <input type="text" class="form-control inputField py-2 px-3" disabled value="{{ date('D, d M Y', strtotime($ongoing->essay_deadline)) }}">
                   </div>
                   <div class="col-6">
                     <h6 class="pb-2">Application Deadline :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" disabled value="Supplemental Essay">
+                    <input type="text" class="form-control inputField py-2 px-3" disabled value="{{ date('D, d M Y', strtotime($ongoing->application_deadline)) }}">
                   </div>
                 </div>
               </form>
@@ -185,20 +189,34 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Editor Name</td>
-                <td>Graduated From</td>
-                <td>Due Tomorrow</td>
-                <td>Due Witdin 3 Days</td>
-                <td>Due Witdin 5 Days</td>
-                <td>Completed Essay</td>
-                <td>Assign</td>
+              <?php $i = ($editors->currentpage()-1)* $editors->perpage() + 1;?>
+              @foreach ($editors as $editor)
+              <tr style="cursor: default">
+                <th scope="row">{{ $i++ }}</th>
+                <td>{{ $editor->first_name.' '.$editor->last_name }}</td>
+                <td>{{ $editor->graduated_from }}</td>
+                <td>{{ $editor->graduated_from }}</td>
+                <td>{{ $editor->graduated_from }}</td>
+                <td>{{ $editor->graduated_from }}</td>
+                <td>{{ $editor->graduated_from }}</td>
+                <td class="d-flex align-items-center justify-content-center">
+                  <div class="form-check d-flex align-items-center justify-content-center">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                  </div>
+                </td>
               </tr>
+              @endforeach
+              
+              @unless (count($editors)) 
+              <tr>
+                <td colspan="8">No data</td>
+              </tr>
+              @endunless
             </tbody>
           </table>
         </div>
-        <div class="col d-flex align-items-center justify-content-end py-md-3 px-md-3 px-3 py-3">
+        <div class="col d-flex align-items-center justify-content-between py-md-3 px-md-3 px-3 py-3 gap-2">
+          {{ $editors->links() }}
           <form action="/admin/essay-list/ongoing/assign">
             <button class="btn btn-download d-flex align-items-center justify-content-center gap-2" data-bs-toggle="modal" data-bs-target="#selectEditor" style="background-color: var(--yellow); color: var(--white)">
               <img src="/assets/assign-list.png" alt="">

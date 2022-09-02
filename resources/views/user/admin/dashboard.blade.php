@@ -80,7 +80,7 @@
 
         {{-- Essay --}}
         <div class="row gap-2 my-2">
-          <a class="col-md col-12 p-0 userCard">
+          <a class="col-md col-12 p-0 userCard" href="/admin/essay-list/ongoing">
             <div class="headline d-flex align-items-center gap-3">
               <img src="/assets/ongoing-essay.png" alt="">
               <h6>Ongoing Essay</h6>

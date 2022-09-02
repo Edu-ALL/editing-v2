@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Editor;
 use Illuminate\Http\Request;
 use App\Models\EssayClients;
 use Illuminate\Support\Facades\DB;
@@ -33,6 +34,15 @@ class Essays extends Controller
         if ($keyword) 
             $essays->appends(['keyword' => $keyword]);
         return view('user.admin.essay-list.essay-ongoing', ['essays' => $essays]);
+    }
+
+    public function detailEssayOngoing($id_ongoing)
+    {
+        $editors = Editor::paginate(10);
+        return view('user.admin.essay-list.essay-ongoing-detail', [
+            'ongoing' => EssayClients::find($id_ongoing),
+            'editors' => $editors
+        ]);
     }
 
     public function essayCompleted(Request $request)

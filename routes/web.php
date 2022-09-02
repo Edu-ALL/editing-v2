@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\Essays;
 use App\Http\Controllers\Admin\Export;
 use App\Http\Controllers\Admin\Clients;
 use App\Http\Controllers\Admin\Editors;
+use App\Http\Controllers\Admin\EssayPrompt;
 use App\Http\Controllers\Admin\Mentors;
 use App\Http\Controllers\Admin\Program;
 use App\Http\Controllers\Admin\UserStudent;
@@ -89,9 +90,10 @@ Route::get('/admin/user/editor/invite', function () {
 
 // Essay List
 Route::get('/admin/essay-list/ongoing', [Essays::class, 'index'])->name('list-ongoing-essay');
-Route::get('/admin/essay-list/ongoing/detail', function () {
-    return view('user.admin.essay-list.essay-ongoing-detail');
-});
+Route::get('/admin/essay-list/ongoing/detail/{id_ongoing}', [Essays::class, 'detailEssayOngoing']);
+// Route::get('/admin/essay-list/ongoing/detail', function () {
+//     return view('user.admin.essay-list.essay-ongoing-detail');
+// });
 Route::get('/admin/essay-list/ongoing/assign', function () {
     return view('user.admin.essay-list.essay-ongoing-assign');
 });
@@ -217,9 +219,8 @@ Route::get('/admin/setting/universities/add', function () {
 });
 
 // Essay Prompt
-Route::get('/admin/setting/essay-prompt', function () {
-    return view('user.admin.settings.setting-essay-prompt');
-});
+Route::get('/admin/setting/essay-prompt', [EssayPrompt::class, 'index'])->name('list-essay-prompt');
+Route::get('/admin/setting/essay-prompt/detail/{id}', [EssayPrompt::class, 'detail']);
 Route::get('/admin/setting/essay-prompt/add', function () {
     return view('user.admin.settings.setting-add-essay-prompt');
 });

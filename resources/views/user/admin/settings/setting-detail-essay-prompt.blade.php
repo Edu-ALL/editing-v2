@@ -37,23 +37,23 @@
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6 me-3">
                     <h6 class="pb-2">University Name :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" id="university" disabled>
+                    <input type="text" class="form-control inputField py-2 px-3" id="university" disabled value="{{ $essay_prompt->university->university_name }}">
                   </div>
                   <div class="col-6">
                     <h6 class="pb-2">Title :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" id="title" disabled>
+                    <input type="text" class="form-control inputField py-2 px-3" id="title" disabled value="{{ $essay_prompt->title }}">
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-4" style="overflow: auto !important">
                   <div class="col">
                     <h6 class="pb-2">Description :</h6>
-                    <textarea name="" class="textarea" placeholder="Description"></textarea>
+                    <textarea name="" class="textarea" placeholder="Description">{{ $essay_prompt->description }}</textarea>
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-5" style="overflow: auto !important">
                   <div class="col">
                     <h6 class="pb-2">Notes :</h6>
-                    <textarea name="" class="textarea" placeholder="Notes"></textarea>
+                    <textarea name="" class="textarea" placeholder="Notes">{{ $essay_prompt->notes }}</textarea>
                   </div>
                 </div>
                 <div class="col-12 d-none d-flex justify-content-center pt-3" id="btnUpdateEssay" style="border-top: 1px solid var(--light-grey)">

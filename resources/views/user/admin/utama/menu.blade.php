@@ -1,6 +1,6 @@
 {{-- Sidenav --}}
 <div class="col-md-2 col-2 sidenav py-4 px-md-0 px-2 text-center">
-  <a class="navbar-brand mb-3" href="/">
+  <a class="navbar-brand mb-3" href="/admin/dashboard">
     <img class="img-logo img-fluid" src="/assets/admin-logo.png" alt="">
   </a>
   <hr class="smallLine mx-auto mt-4">
