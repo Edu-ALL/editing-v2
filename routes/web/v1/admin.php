@@ -18,6 +18,8 @@ Route::post('sync/clients', [CRMClients::class, 'doSyncCRMClients'])->name('do-s
 Route::get('sync/mentors', [CRMMentors::class, 'doSyncCRMMentors'])->name('do-sync-mentors');
 
 Route::post('university', [Universities::class, 'store'])->name('add-university');
+Route::post('university/{uni_id}', [Universities::class, 'update'])->name('update-university');
+Route::delete('university/{uni_id}', [Universities::class, 'delete'])->name('delete-university');
 
 Route::post('tag', [CategoriesTags::class, 'store'])->name('add-tag');
 

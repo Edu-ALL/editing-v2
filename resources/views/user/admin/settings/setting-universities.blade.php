@@ -20,6 +20,12 @@
       <div class="container main-content m-0">
         {{-- Detail Student --}}
         <div class="row">
+          @if (session()->has('delete-successful'))
+            <div class="alert alert-success fade show" role="alert">
+              {{ session()->get('delete-successful') }}
+            </div>
+          @endif
+
           <div class="col-md col-12 p-0 studentList">
             <div class="headline d-flex justify-content-between">
               <div class="col-md-6 col-5 d-flex align-items-center gap-md-3 gap-2">
@@ -30,7 +36,7 @@
                 <a href="/admin/setting/universities/add"><img src="/assets/add.png" alt=""></a>
                 <div class="input-group">
                   <form id="form-university-searching" action="{{ route('list-university') }}" method="GET" role="search" class="w-100">
-                    <input type="text" class="form-control inputField py-2 px-3" name="keyword" id="search-university" placeholder="Search" required>
+                    <input type="search" class="form-control inputField py-2 px-3" name="keyword" id="search-university" placeholder="Search" required>
                   </form>
                 </div>
               </div>
