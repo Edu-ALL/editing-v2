@@ -30,7 +30,7 @@
                 <img class="img-fluid" src="/assets/student-bg.png" alt="">
               </div>
               <div class="col">
-                <h4>1</h4>
+                <h4>{{ $count_student }}</h4>
                 <h4>Students</h4>
               </div>
             </div>
@@ -66,7 +66,7 @@
                 <img class="img-fluid" src="/assets/editor-bg.png" alt="">
               </div>
               <div class="col">
-                <h4>1</h4>
+                <h4>{{ $count_editor }}</h4>
                 <h4>Editors</h4>
               </div>
             </div>
@@ -85,8 +85,8 @@
               <img src="/assets/ongoing-essay.png" alt="">
               <h6>Ongoing Essay</h6>
             </div>
-            <div class="col d-flex flex-column px-3 countEssay text-center justify-content-center">
-              <h4>1</h4>
+            <div class="col d-flex flex-column px-3 countEssay text-center justify-content-center gap-1">
+              <h4>{{ $count_ongoing_essay }}</h4>
               <h4>Essay</h4>
             </div>
             <hr>
@@ -99,8 +99,8 @@
               <img src="/assets/completed-essay.png" alt="">
               <h6>Completed Essay</h6>
             </div>
-            <div class="col d-flex flex-column px-3 countEssay text-center justify-content-center" style="color: var(--green)">
-              <h4>1</h4>
+            <div class="col d-flex flex-column px-3 countEssay text-center justify-content-center gap-1" style="color: var(--green)">
+              <h4>{{ $count_completed_essay }}</h4>
               <h4>Essay</h4>
             </div>
             <hr>

@@ -76,9 +76,9 @@
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
                     <select class="select-beast inputField">
-                      <option value="value 1">Value 1</option>
-                      <option value="value 2">Value 2</option>
-                      <option value="value 3">Value 3</option>
+                      @foreach ($clients as $client)
+                      <option value="{{ $client->mentors->id_mentors }}">{{ $client->mentors->first_name.' '.$client->mentors->last_name }}</option>
+                      @endforeach
                     </select>
                   </div>
                 </div>

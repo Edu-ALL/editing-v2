@@ -28,7 +28,9 @@
               </div>
               <div class="col-md-4 col-4 d-flex align-items-center justify-content-end">
                 <div class="input-group">
-                  <input type="email" class="form-control inputField py-2 px-3" placeholder="Search">
+                  <form id="form-completed-essay-searching" action="{{ route('list-completed-essay') }}" method="GET" role="search" class="w-100">
+                    <input type="text" class="form-control inputField py-2 px-3" name="keyword" placeholder="Search">
+                  </form>
                 </div>
               </div>
             </div>
@@ -96,3 +98,15 @@
   </div>
 </div>
 @endsection
+
+@section('js')
+  <script type="text/javascript">
+    $("#form-ongoing-essay-searching").keypress(function(e) {
+      if (e.keyCode === 13) {
+        swal.showLoading();
+        e.preventDefault();
+        $("#form-ongoing-essay-searching").submit();
+      }
+    });
+  </script>
+@stop

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Editor;
+use App\Models\EssayClients;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class Editors extends Controller
 {
@@ -22,6 +23,12 @@ class Editors extends Controller
     }
 
     public function detail($id){
-        return view('user.admin.users.user-editor-detail', ['editor' => Editor::find($id)]);
+        $essay_ongoing = EssayClients::with('client_by_id', 'program')->where('id_editors', '=', $id)->where('status_essay_clients', '!=', 7)->paginate(5);
+        $essay_completed = EssayClients::with('client_by_id', 'program')->where('id_editors', '=', $id)->where('status_essay_clients', '=', 7)->paginate(5);
+        return view('user.admin.users.user-editor-detail', [
+            'editor' => Editor::find($id),
+            'essay_ongoing' => $essay_ongoing,
+            'essay_completed' => $essay_completed,
+        ]);
     }
 }

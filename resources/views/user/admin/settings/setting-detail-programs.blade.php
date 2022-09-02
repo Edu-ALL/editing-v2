@@ -33,7 +33,7 @@
           </div>
           
           <div class="col-md-8 col-12 p-0 userCard">
-            <div class="headline d-flex justify-content-between">
+            <div class="headline d-flex justify-content-between" style="padding: 20px 24px !important">
               <div class="col-md-6 col-8 d-flex align-items-center gap-md-3 gap-2">
                 <img src="/assets/program.png" alt="">
                 <h6>Program</h6>

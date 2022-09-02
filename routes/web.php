@@ -1,14 +1,19 @@
 <?php
 
+use App\Models\Client;
+use App\Models\Editor;
+use App\Models\Mentor;
+use App\Http\Controllers\Admin\Tag;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Essays;
 use App\Http\Controllers\Admin\Export;
 use App\Http\Controllers\Admin\Clients;
 use App\Http\Controllers\Admin\Editors;
 use App\Http\Controllers\Admin\Mentors;
+use App\Http\Controllers\Admin\Program;
 use App\Http\Controllers\Admin\UserStudent;
 use App\Http\Controllers\Admin\Universities;
-use App\Http\Controllers\Admin\Program;
+use App\Models\EssayClients;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,10 +57,18 @@ Route::get('/forgot/admin', function () {
 Route::get('/admin/help', function () {
     return view('user.admin.help.help');
 });
-// User
+// Dashboard
 Route::get('/admin/dashboard', function () {
-    return view('user.admin.dashboard');
+    return view('user.admin.dashboard', [
+        'count_student' => Client::count(),
+        'count_mentor' => Mentor::count(),
+        'count_editor' => Editor::count(),
+        'count_ongoing_essay' => EssayClients::where('status_essay_clients', '!=', 7)->count(),
+        'count_completed_essay' => EssayClients::where('status_essay_clients', '=', 7)->count(),
+    ]);
 })->name('admin.dashboard');
+
+// Student
 Route::get('/admin/user/student', [Clients::class, 'index'])->name('list-client');
 Route::get('/admin/user/student/detail/{id}', [Clients::class, 'detail']);
 
@@ -71,9 +84,6 @@ Route::get('/admin/user/editor/add', function () {
 Route::get('/admin/user/editor/invite', function () {
     return view('user.admin.users.user-editor-invite');
 });
-// Route::get('/admin/user/editor/detail', function () {
-//     return view('user.admin.users.user-editor-detail');
-// });
 
 
 // Essay List
@@ -91,7 +101,7 @@ Route::get('/admin/essay-list/ongoing/accepted', function () {
     return view('user.admin.essay-list.essay-ongoing-accepted');
 });
 
-Route::get('/admin/essay-list/completed', [Essays::class, 'essayCompleted']);
+Route::get('/admin/essay-list/completed', [Essays::class, 'essayCompleted'])->name('list-completed-essay');
 Route::get('/admin/essay-list/completed/detail/{id}', [Essays::class, 'detailEssayCompleted']);
 
 
@@ -223,12 +233,9 @@ Route::get('/admin/setting/programs/add', function () {
     return view('user.admin.settings.setting-add-programs');
 });
 
-Route::get('/admin/setting/categories-tags', function () {
-    return view('user.admin.settings.setting-categories');
-});
-Route::get('/admin/setting/categories-tags/detail', function () {
-    return view('user.admin.settings.setting-detail-categories');
-});
+// Categories / Tags
+Route::get('/admin/setting/categories-tags', [Tag::class, 'index'])->name('list-tags');
+Route::get('/admin/setting/categories-tags/detail/{id}', [Tag::class, 'detail']);
 
 // Per Editor
 Route::get('/editors/dashboard', function () {

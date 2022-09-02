@@ -51,7 +51,7 @@
                 <tbody>
                   <?php $i = ($mentors->currentpage()-1)* $mentors->perpage() + 1;?>
                   @foreach ($mentors as $mentor)
-                  <tr onclick="window.location='/admin/user/student/detail'">
+                  <tr style="cursor: default">
                     <th scope="row">{{ $i++ }}</th>
                     <td>{{ $mentor->first_name.' '.$mentor->last_name }}</td>
                     <td>{{ $mentor->email }}</td>

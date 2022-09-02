@@ -59,7 +59,7 @@
               <h6>Assignment</h6>
             </div>
             <div class="col d-flex flex-column px-3 py-md-4 py-4 my-md-1 countEssay text-center justify-content-center" style="color: var(--black)">
-              <h6 style="font-size: 14px; font-weight: 400">Senior Editor Dummy</h6>
+              <h6 style="font-size: 14px; font-weight: 400">{{ $essay->editor->first_name.' '.$essay->editor->last_name }}</h6>
             </div>
             <div class="headline d-flex align-items-center gap-3">
               <img src="/assets/tags.png" alt="">
@@ -68,7 +68,7 @@
             <div class="col d-flex flex-column px-3 py-md-4 py-4 my-md-1 countEssay text-center justify-content-center" style="color: var(--black)">
               <div class="col list-tags">
                 <div class="tags py-2 px-3">
-                  <h6 style="font-size: 14px; font-weight: 400">The role model</h6>
+                  <h6 style="font-size: 14px; font-weight: 400">{{ $essay->essay_tags->tags->topic_name }}</h6>
                 </div>
               </div>
             </div>
