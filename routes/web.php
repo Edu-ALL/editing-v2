@@ -235,8 +235,6 @@ Route::get('/admin/setting/programs/add', function () {
 });
 
 // Categories / Tags
-// Route::get('/admin/setting/categories-tags', [Tag::class, 'index'])->name('list-tags');
-// Route::get('/admin/setting/categories-tags/detail/{id}', [Tag::class, 'detail']);
 Route::get('/admin/setting/categories-tags', [CategoriesTags::class, 'index'])->name('list-tag');
 Route::get('/admin/setting/categories-tags/detail/{tag_id}', [CategoriesTags::class, 'detail']);
 

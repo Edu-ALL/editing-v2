@@ -72,13 +72,6 @@
               </div>
               <div class="col-md-4 col-6 d-flex align-items-center justify-content-end gap-md-3 gap-2">
                 <div class="input-group">
-                  <form id="form-tags-searching" action="{{ route('list-tags') }}" method="GET" role="search" class="w-100">
-                    <input type="text" class="form-control inputField py-2 px-3" name="keyword" id="search-tags" placeholder="Search" required>
-                  </form>
-                </div>
-              </div>
-              <div class="col-md-4 col-6 d-flex align-items-center justify-content-end gap-md-3 gap-2">
-                <div class="input-group">
                   <form id="form-tag-searching" action="{{ route('list-tag') }}" method="GET" role="search" class="w-100">
                     <input type="text" class="form-control inputField py-2 px-3" name="keyword" id="search-tag" placeholder="Search" required>
                   </form>

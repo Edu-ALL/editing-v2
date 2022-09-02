@@ -279,7 +279,7 @@
             <div class="col-12 d-flex px-3 py-3 feedback" style="border-top: 1px solid var(--light-grey)">
               <div class="col-12 d-flex mb-2" style="overflow: auto !important">
                 <div class="col">
-                  <h6 class="pb-2">Essay Prompt :</h6>
+                  <h6 class="pb-2">Notes :</h6>
                   <textarea name="" class="textarea" style="overflow: auto !important"></textarea>
                 </div>
               </div>
