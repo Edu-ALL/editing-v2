@@ -4,6 +4,7 @@ use App\Models\Client;
 use App\Models\Editor;
 use App\Models\Mentor;
 use App\Http\Controllers\Admin\Tag;
+use App\Http\Controllers\Admin\CategoriesTags;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Essays;
 use App\Http\Controllers\Admin\Export;
@@ -234,8 +235,10 @@ Route::get('/admin/setting/programs/add', function () {
 });
 
 // Categories / Tags
-Route::get('/admin/setting/categories-tags', [Tag::class, 'index'])->name('list-tags');
-Route::get('/admin/setting/categories-tags/detail/{id}', [Tag::class, 'detail']);
+// Route::get('/admin/setting/categories-tags', [Tag::class, 'index'])->name('list-tags');
+// Route::get('/admin/setting/categories-tags/detail/{id}', [Tag::class, 'detail']);
+Route::get('/admin/setting/categories-tags', [CategoriesTags::class, 'index'])->name('list-tag');
+Route::get('/admin/setting/categories-tags/detail/{tag_id}', [CategoriesTags::class, 'detail']);
 
 // Per Editor
 Route::get('/editors/dashboard', function () {

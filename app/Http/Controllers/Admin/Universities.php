@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class Universities extends Controller
 {
@@ -82,5 +83,55 @@ class Universities extends Controller
         }
 
         return redirect('admin/setting/universities/add')->with('input-successful', 'New university has been added');
+    }
+
+    public function update($id_univ, Request $request)
+    {
+        if (!$university = University::find($id_univ)) {
+            return Redirect::back()->withErrors(['msg' => 'Couldn\'t find the university']);
+        }
+        $university_name = $request->university_name;
+        
+        $university->university_name = $university_name;
+        $university->website = $request->website;
+        $university->univ_email = $request->email;
+        $university->phone = $request->phone;
+        $university->address = $request->address;
+        $university->country = $request->country;
+
+        if ($request->hasFile('uploaded_file')) {
+            if ($old_image_path = $university->photo) {
+                $file_path = public_path('uploaded_files/univ/'.$old_image_path);
+                if (File::exists($file_path)) {
+                    File::delete($file_path);
+                }
+            }
+            $file_name = str_replace(' ', '-', strtolower($university_name));
+            $file_format = $request->file('uploaded_file')->getClientOriginalExtension();
+            $med_file_path = $request->file('uploaded_file')->storeAs('univ', $file_name.'.'.$file_format, ['disk' => 'public_assets']);
+
+            $university->photo = $file_name.'.'.$file_format;
+        }
+        $university->save();
+
+        return redirect('admin/setting/universities/detail/'.$id_univ)->with('update-successful', 'The university has been updated');
+    }
+
+    public function delete($id_univ, Request $request)
+    {
+        if (!$university = University::find($id_univ)) {
+            return Redirect::back()->withErrors(['success' => false, 'message' => 'Couldn\'t find the university']);
+        }
+
+        //! tambahin hapus file sebelum delete data
+        if ($old_image_path = $university->photo) {
+            $file_path = public_path('uploaded_files/univ/'.$old_image_path);
+            if (File::exists($file_path)) {
+                File::delete($file_path);
+            }
+        }
+
+        $university->delete();
+        return redirect(route('list-university'))->with('delete-successful', 'The university has been deleted');
     }
 }

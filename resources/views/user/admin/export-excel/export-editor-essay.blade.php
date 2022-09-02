@@ -71,7 +71,7 @@
                 <div class="col-md-8 col-10 d-flex py-md-3 py-2">
                   <div class="col-8">
                     <h6 class="pb-2">Essay Type</h6>
-                    <select class="select-normal" style="width: 96.5%;" name="f-essay-type">
+                    <select class="select-normal" style="width: 94.5%;" name="f-essay-type">
                       <option value="all">All Essay Type</option>
                       @for ($i = 0 ; $i < count($essay_type) ; $i++)
                         <option value="{{ $essay_type[$i] }}">{{ $essay_type[$i] }}</option>
@@ -80,7 +80,7 @@
                   </div>
                   <div class="col-4">
                     <h6 class="pb-2">Status</h6>
-                    <select class="select-normal" style="width: 96.5%;" name="f-status">
+                    <select class="select-normal" style="width: 90%;" name="f-status">
                       <option value="all">All Status</option>
                       @foreach ($status as $_status)
                         <option value="{{ $_status->id }}">{{ $_status->status_title }}</option>
@@ -101,15 +101,16 @@
               class="d-none"
               @endif
               >
-            <div class="headline d-flex justify-content-end">
-              <div class="col-md-5 col-12 d-flex align-items-center justify-content-end gap-md-2 gap-2">
-                <a class="btn-export col-auto d-flex gap-2 align-items-center justify-content-center" href="">
+
+            <div class="headline d-flex align-items-center justify-content-between">
+              <div class="col-md-5 col-6">
+                <h6>Results</h6>
+              </div>
+              <div class="col-md-5 col-6 d-flex align-items-center justify-content-end gap-md-2 gap-2">
+                <a class="btn-export col-auto d-flex gap-2 align-items-center justify-content-center" href="{{ url()->full(); }}&f-download=1">
                   <img src="/assets/excel.png" alt="">
                   <h6>Export to Excel</h6>
                 </a>
-                <div class="input-group">
-                  <input type="email" class="form-control inputField py-2 px-3" placeholder="Search">
-                </div>
               </div>
             </div>
             <div class="container text-center p-0" style="overflow-x: auto !important">
@@ -117,26 +118,27 @@
                 <thead>
                   <tr>
                     <th>No</th>
-                    <th>Editors Name</th>
                     <th>Students Name</th>
+                    <th>Editors Name</th>
                     <th>Program Name</th>
+                    <th>University</th>
                     <th>Essay Title</th>
                     <th>Editors Files</th>
-                    <th>Clients Files</th>
+                    <th>Students Files</th>
                     <th>Status</th>
                     <th>Essay Rating</th>
                     <th>Work Duration (Minutes)</th>
+                    <th>Application Date</th>
                     <th>Completed Date</th>
                   </tr>
                 </thead>
                 <tbody>
-                  @if (($results != NULL) && ($results->hasPages())) 
+                  @if ($results)
                   <?php $i = ($results->currentpage()-1)* $results->perpage() + 1;?>
                   @foreach ($results as $result )
                   {{-- <tr onclick="window.location='/admin/user/student/detail'"> --}}
                   <tr>
                     <td>{{ $i++ }}</td>
-                    <td>{{ $result->editor->first_name.' '.$result->editor->last_name }}</td>
                     <td>
                         @if ($result->essay_clients->client_by_id == NULL)
                             {{ $result->essay_clients->client_by_email->first_name.' '.$result->essay_clients->client_by_email->last_name }}
@@ -144,20 +146,25 @@
                             {{ $result->essay_clients->client_by_id->first_name.' '.$result->essay_clients->client_by_id->last_name }}
                         @endif
                     </td>
+                    <td>{{ $result->editor->first_name.' '.$result->editor->last_name }}</td>
                     <td>{{ $result->essay_clients->program->program_name }}</td>
+                    <td>{{ $result->essay_clients->university->university_name }}</td>
                     <td>{{ $result->essay_clients->essay_title }}</td>
                     <td><a href="{{ public_path('uploaded_files/program/essay/editors/').$result->attached_of_editors }}" rel="noopener" target="_blank" title="{{ $result->attached_of_editors }}">Download</a></td>
                     <td><a href="{{ public_path('uploaded_files/program/essay/students/').$result->essay_clients->attached_of_clients }}" rel="noopener" target="_blank" title="{{ $result->essay_clients->attached_of_clients }}">Download</a></td>
                     <td>{{ $result->status->status_title }}</td>
                     <td>{{ $result->essay_clients->essay_rating }}</td>
                     <td>{{ $result->work_duration }}</td>
+                    <td>{{ $result->essay_clients->application_deadline }}</td>
                     <td>{{ $result->essay_clients->completed_at }}</td>
                   </tr>
                   @endforeach
-                  @else
+                  
+                  @unless (count($results)) 
                   <tr>
                     <td colspan="11">No data</td>
                   </tr>
+                  @endunless
                   @endif
                 </tbody>
               </table>

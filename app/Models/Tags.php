@@ -10,9 +10,9 @@ class Tags extends Model
     use HasFactory;
     protected $table = "tbl_tags";
     protected $primaryKey = 'id_topic';
+    public $timestamps = false;
 
     protected $fillable = [
-        'topic_name',
+        'topic_name'
     ];
-
 }
