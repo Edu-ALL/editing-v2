@@ -29,7 +29,7 @@
               <div class="col-md-4 col-auto d-flex align-items-center justify-content-end gap-md-3 gap-2">
                 <a href="/admin/setting/essay-prompt/add"><img src="/assets/add.png" alt=""></a>
                 <form id="form-prompt-searching" action="{{ route('list-essay-prompt') }}" method="GET" role="search" class="w-100">
-                  <input type="text" class="form-control inputField py-2 px-3" name="keyword" id="search-prompt" placeholder="Search" required>
+                  <input type="search" class="form-control inputField py-2 px-3" name="keyword" id="search-prompt" placeholder="Search" required>
                 </form>
               </div>
             </div>
@@ -38,8 +38,8 @@
                 <thead>
                   <tr>
                     <th>No</th>
-                    <th>University Name</th>
                     <th>Title</th>
+                    <th>University Name</th>
                     <th>Description</th>
                   </tr>
                 </thead>
@@ -48,8 +48,8 @@
                   @foreach ($essay_prompts as $essay_prompt)
                   <tr onclick="window.location='/admin/setting/essay-prompt/detail/{{ $essay_prompt->id_essay_prompt }}'">
                     <th scope="row">{{ $i++ }}</th>
-                    <td>{{ $essay_prompt->university->university_name }}</td>
                     <td>{{ $essay_prompt->title }}</td>
+                    <td>{{ $essay_prompt->university->university_name }}</td>
                     <td>{!! $essay_prompt->description !!}</td>
                   </tr>
                   @endforeach

@@ -1,6 +1,19 @@
 @extends('user.admin.utama.utama')
 @section('css')
   <link rel="stylesheet" href="/css/admin/setting-add-programs.css">
+  <style>
+    .selectize-input {padding: 8px 16px; border-radius: 6px}
+    .error-style{
+      font-size: 12px;
+      margin-bottom: 20px;
+      padding: 0px;
+    }
+    .error-style ul {
+      list-style-type: none;
+      margin: 0px; 
+      padding: 0px;
+    }
+  </style>
 @endsection
 
 @section('content')
@@ -14,6 +27,13 @@
     <div class="col" style="overflow: auto !important">
       @include('user.admin.utama.head')
       <div class="container main-content m-0">
+
+        @if(session()->has('add-program-successful'))
+          <div class="row alert alert-success fade show" role="alert">
+            {{ session()->get('add-program-successful') }}
+          </div>
+        @endif
+
         <div class="row gap-2">
           <div class="col-md col-12 p-0 userCard profile">
             <div class="headline d-flex align-items-center gap-3">
@@ -27,7 +47,7 @@
             </div>
             <div class="col px-md-4 px-3">
               <div class="mb-4">
-                <input class="form-control form-control-sm" id="formFileSm" type="file" onchange="previewImage()">
+                <input class="form-control form-control-sm" id="formFileSm" name="uploaded_file" form="form-program" type="file" onchange="previewImage()">
               </div>
             </div>
           </div>
@@ -44,31 +64,49 @@
             </div>
             
             <div class="row profile-editor px-md-3 py-md-4 px-3 py-4" style="overflow: auto !important">
-              <form action="" class="p-0">
+
+              @if($errors->any())
+                <div class="error-style">
+                  <div class="alert alert-danger" role="alert">
+                    <ul>
+                      {!! implode('', $errors->all('<li>:message</li>')) !!}
+                    </ul>
+                    
+                  </div>
+                </div>
+              @endif
+
+              <form action="{{ route('add-program') }}" id="form-program" onsubmit="swal.showLoading()" method="POST" class="p-0" enctype="multipart/form-data">
+                @csrf
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6">
                     <h6 class="pb-2">Program Name :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3">
+                    <input type="text" class="form-control inputField py-2 px-3" name="program_name">
                   </div>
                   <div class="col-6">
                     <h6 class="pb-2">Program Category :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3">
+                    <select class="select-normal" style="width: 96.5%;" name="id_category">
+                      <option value=""></option>
+                      @foreach ($category as $category)
+                        <option value="{{ $category->id_category }}">{{ $category->category_name }}</option>
+                      @endforeach
+                    </select>
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-3" style="overflow: auto !important; padding-right: 3%;">
                   <div class="col">
                     <h6 class="pb-2">Description :</h6>
-                    <textarea name="" class="textarea" placeholder="Description"></textarea>
+                    <textarea name="description" class="textarea" placeholder="Description"></textarea>
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6">
                     <h6 class="pb-2">Price :</h6>
-                    <input type="number" class="form-control inputField py-2 px-3">
+                    <input type="number" class="form-control inputField py-2 px-3" name="price">
                   </div>
                   <div class="col-6">
                     <h6 class="pb-2">Discount :</h6>
-                    <input type="number" class="form-control inputField py-2 px-3">
+                    <input type="number" class="form-control inputField py-2 px-3" name="discount">
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-3">
@@ -76,18 +114,18 @@
                     <div class="col d-flex flex-lg-row flex-column mb-3" style="padding-right: 3%">
                       <div class="col-lg-6 col mb-lg-0 mb-3">
                         <h6 class="pb-2">Minimum Words :</h6>
-                        <input type="number" class="form-control inputField py-2 px-3">
+                        <input type="number" class="form-control inputField py-2 px-3" name="min-word">
                       </div>
                       <div class="col-lg-6 col">
                         <h6 class="pb-2">Maximum Words :</h6>
-                        <input type="number" class="form-control inputField py-2 px-3">
+                        <input type="number" class="form-control inputField py-2 px-3" name="max-word">
                       </div>
                     </div>
                   </div>
                   <div class="col-6" style="padding-right: 3%">
-                    <h6 class="pb-2">Country :</h6>
+                    <h6 class="pb-2">Completed Within :</h6>
                     <div class="input-group mb-3">
-                      <input type="number" class="form-control py-2 px-3" aria-describedby="basic-addon1">
+                      <input type="text" name="complete-within" class="form-control py-2 px-3" aria-describedby="basic-addon1">
                       <div class="input-group-prepend">
                         <span class="input-group-text py-2 px-2" id="basic-addon1">Hours</span>
                       </div>

@@ -30,7 +30,7 @@
                 <a href="/admin/setting/programs/add"><img src="/assets/add.png" alt=""></a>
                 <div class="input-group">
                   <form id="form-programs-searching" action="{{ route('list-program') }}" method="GET" role="search" class="w-100">
-                    <input type="text" class="form-control inputField py-2 px-3" name="keyword" id="search-programs" placeholder="Search" required>
+                    <input type="search" class="form-control inputField py-2 px-3" name="keyword" id="search-programs" placeholder="Search" required>
                   </form>
                 </div>
               </div>

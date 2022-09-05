@@ -15,7 +15,9 @@ use App\Http\Controllers\Admin\Mentors;
 use App\Http\Controllers\Admin\Program;
 use App\Http\Controllers\Admin\UserStudent;
 use App\Http\Controllers\Admin\Universities;
+use App\Models\Category;
 use App\Models\EssayClients;
+use App\Models\University;
 
 /*
 |--------------------------------------------------------------------------
@@ -222,17 +224,18 @@ Route::get('/admin/setting/universities/add', function () {
 Route::get('/admin/setting/essay-prompt', [EssayPrompt::class, 'index'])->name('list-essay-prompt');
 Route::get('/admin/setting/essay-prompt/detail/{id}', [EssayPrompt::class, 'detail']);
 Route::get('/admin/setting/essay-prompt/add', function () {
-    return view('user.admin.settings.setting-add-essay-prompt');
-});
-Route::get('/admin/setting/essay-prompt/detail', function () {
-    return view('user.admin.settings.setting-detail-essay-prompt');
+    return view('user.admin.settings.setting-add-essay-prompt', [
+        'univ' => University::get()
+    ]);
 });
 
 // Programs
 Route::get('/admin/setting/programs', [Program::class, 'index'])->name('list-program');
 Route::get('/admin/setting/programs/detail/{id}', [Program::class, 'detail']);
 Route::get('/admin/setting/programs/add', function () {
-    return view('user.admin.settings.setting-add-programs');
+    return view('user.admin.settings.setting-add-programs', [
+        'category' => Category::get()
+    ]);
 });
 
 // Categories / Tags

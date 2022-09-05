@@ -3,7 +3,9 @@
 use App\Http\Controllers\Admin\Authentication;
 use App\Http\Controllers\Admin\CategoriesTags;
 use App\Http\Controllers\Admin\Clients;
+use App\Http\Controllers\Admin\EssayPrompt;
 use App\Http\Controllers\Admin\Export;
+use App\Http\Controllers\Admin\Program;
 use App\Http\Controllers\Admin\Universities;
 use App\Http\Controllers\CRM\Clients as CRMClients;
 use App\Http\Controllers\CRM\Mentors as CRMMentors;
@@ -27,3 +29,9 @@ Route::middleware(['cors'])->group(function () {
     Route::put('tag/{tag_id}', [CategoriesTags::class, 'update'])->name('update-tag');
     Route::delete('tag/{tag_id}', [CategoriesTags::class, 'delete'])->name('delete-tag');
 });
+
+Route::post('essay-prompt', [EssayPrompt::class, 'store'])->name('add-prompt');
+Route::post('essay-prompt/{prompt_id}', [EssayPrompt::class, 'update'])->name('update-prompt');
+Route::delete('essay-prompt/{prompt_id}', [EssayPrompt::class, 'delete'])->name('delete-prompt');
+
+Route::post('program', [Program::class, 'store'])->name('add-program');
