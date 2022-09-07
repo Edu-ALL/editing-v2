@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Editor;
-use Illuminate\Http\Request;
 use App\Models\EssayClients;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
@@ -43,7 +43,7 @@ class Essays extends Controller
     {
         $editors = Editor::paginate(10);
         $essay = EssayClients::find($id_essay);
-        if ($essay->status_essay_clients == 0) {
+        if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4) {
             return view('user.admin.essay-list.essay-ongoing-detail', [
                 'ongoing' => EssayClients::find($id_essay),
                 'editors' => $editors
@@ -56,63 +56,37 @@ class Essays extends Controller
             return view('user.admin.essay-list.essay-ongoing-submitted', [
                 'essay' => EssayClients::find($id_essay)
             ]);
-        } else if ($essay->status_essay_clients == 4) {
-            return view('user.admin.essay-list.essay-ongoing-detail', [
-                'ongoing' => EssayClients::find($id_essay),
-                'editors' => $editors
-            ]);
         }
     }
 
     public function assignEditor($id_essay, Request $request){
-        // $rules = [
-        //     'id_editors' => 'nullable'
-        // ];
-        // $validator = Validator::make($request->all() + ['id_essay_clients' => $id_essay], $rules);
-        // if ($validator->fails()) {
-        //     return Redirect::back()->withErrors($validator->messages());
-        // }
         DB::beginTransaction();
         try {
 
             $essay = EssayClients::find($id_essay);
-            $essay->id_editors = 2;
+            $essay->id_editors = $request->id_editors;
             $essay->status_essay_clients = 1;
             $essay->save();
             DB::commit();
-
         } catch (Exception $e) {
-
             DB::rollBack();
             return response()->json($e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
-
         }
-
         return redirect('admin/essay-list/ongoing');
     }
 
     public function cancel($id_essay){
-        
         DB::beginTransaction();
-        $essay = EssayClients::find($id_essay);
-        $essay->status_essay_clients = 4;
-        $essay->save();
-        DB::commit();
-        // try {
-
-        //     $essay = EssayClients::find($id_essay);
-        //     $essay->status_essay_clients = 4;
-        //     $essay->save();
-        //     DB::commit();
-
-        // } catch (Exception $e) {
-
-        //     DB::rollBack();
-        //     return Redirect::back()->withErrors($e->getMessage());
-
-        // }
-
+        try {
+            $essay = EssayClients::find($id_essay);
+            $essay->status_essay_clients = 4;
+            $essay->save();
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return Redirect::back()->withErrors($e->getMessage());
+        }
         return redirect('admin/essay-list/ongoing/detail/'.$id_essay);
     }
 
