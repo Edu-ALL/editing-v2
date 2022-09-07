@@ -7,6 +7,9 @@ use App\Models\Editor;
 use Illuminate\Http\Request;
 use App\Models\EssayClients;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
+use Exception;
 
 class Essays extends Controller
 {
@@ -36,15 +39,86 @@ class Essays extends Controller
         return view('user.admin.essay-list.essay-ongoing', ['essays' => $essays]);
     }
 
-    public function detailEssayOngoing($id_ongoing)
+    public function detailEssayOngoing($id_essay, Request $request)
     {
         $editors = Editor::paginate(10);
-        return view('user.admin.essay-list.essay-ongoing-detail', [
-            'ongoing' => EssayClients::find($id_ongoing),
-            'editors' => $editors
-        ]);
+        $essay = EssayClients::find($id_essay);
+        if ($essay->status_essay_clients == 0) {
+            // $this->assignEditor($id_essay, $request);
+            return view('user.admin.essay-list.essay-ongoing-detail', [
+                'ongoing' => EssayClients::find($id_essay),
+                'editors' => $editors
+            ]);
+        } else if ($essay->status_essay_clients == 1) {
+            return view('user.admin.essay-list.essay-ongoing-assign', [
+                'essay' => EssayClients::find($id_essay)
+            ]);
+        } else if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 6) {
+            return view('user.admin.essay-list.essay-ongoing-submitted', [
+                'essay' => EssayClients::find($id_essay)
+            ]);
+        } else if ($essay->status_essay_clients == 4) {
+            return view('user.admin.essay-list.essay-ongoing-detail', [
+                'ongoing' => EssayClients::find($id_essay),
+                'editors' => $editors
+            ]);
+        }
     }
 
+    public function assignEditor($id_essay, Request $request){
+        // $rules = [
+        //     'id_editors' => 'nullable'
+        // ];
+        // $validator = Validator::make($request->all() + ['id_essay_clients' => $id_essay], $rules);
+        // if ($validator->fails()) {
+        //     return Redirect::back()->withErrors($validator->messages());
+        // }
+        DB::beginTransaction();
+        try {
+
+            $essay = EssayClients::find($id_essay);
+            $essay->id_editors = 2;
+            $essay->status_essay_clients = 1;
+            dd($essay->id_editors);
+            $essay->save();
+            DB::commit();
+
+        } catch (Exception $e) {
+
+            DB::rollBack();
+            return Redirect::back()->withErrors($e->getMessage());
+
+        }
+
+        return redirect('admin/essay-list/ongoing');
+    }
+
+    public function cancel($id_essay){
+        
+        DB::beginTransaction();
+        $essay = EssayClients::find($id_essay);
+        $essay->status_essay_clients = 4;
+        dd($essay->status_essay_clients);
+        $essay->save();
+        DB::commit();
+        // try {
+
+        //     $essay = EssayClients::find($id_essay);
+        //     $essay->status_essay_clients = 4;
+        //     $essay->save();
+        //     DB::commit();
+
+        // } catch (Exception $e) {
+
+        //     DB::rollBack();
+        //     return Redirect::back()->withErrors($e->getMessage());
+
+        // }
+
+        return redirect('admin/essay-list/ongoing/detail/'.$id_essay);
+    }
+
+    // Essay Completed
     public function essayCompleted(Request $request)
     {
         $keyword = $request->get('keyword');

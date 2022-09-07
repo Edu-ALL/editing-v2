@@ -4,6 +4,7 @@
   <style>
     .pagination { margin: 15px 0}
     .pagination .page-item .page-link { padding: 10px 15px; font-size: 12px; }
+    .alert {font-size: 14px; margin: 0 -12px 16px -12px}
   </style>
 @endsection
 
@@ -18,6 +19,13 @@
     <div class="col" style="overflow: auto !important">
       @include('user.admin.utama.head')
       <div class="container main-content m-0">
+
+        @if (session()->has('add-editor-successful'))
+          <div class="alert alert-success fade show" role="alert">
+            {{ session()->get('add-editor-successful') }}
+          </div>
+        @endif
+
         {{-- Table Student --}}
         <div class="row">
           <div class="col-md col-12 p-0 studentList">

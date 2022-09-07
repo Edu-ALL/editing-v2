@@ -27,13 +27,6 @@
     <div class="col" style="overflow: auto !important">
       @include('user.admin.utama.head')
       <div class="container main-content m-0">
-
-        @if(session()->has('add-program-successful'))
-          <div class="row alert alert-success fade show" role="alert">
-            {{ session()->get('add-program-successful') }}
-          </div>
-        @endif
-
         <div class="row gap-2">
           <div class="col-md col-12 p-0 userCard profile">
             <div class="headline d-flex align-items-center gap-3">
@@ -114,18 +107,18 @@
                     <div class="col d-flex flex-lg-row flex-column mb-3" style="padding-right: 3%">
                       <div class="col-lg-6 col mb-lg-0 mb-3">
                         <h6 class="pb-2">Minimum Words :</h6>
-                        <input type="number" class="form-control inputField py-2 px-3" name="min-word">
+                        <input type="number" class="form-control inputField py-2 px-3" name="minimum_word">
                       </div>
                       <div class="col-lg-6 col">
                         <h6 class="pb-2">Maximum Words :</h6>
-                        <input type="number" class="form-control inputField py-2 px-3" name="max-word">
+                        <input type="number" class="form-control inputField py-2 px-3" name="maximum_word">
                       </div>
                     </div>
                   </div>
                   <div class="col-6" style="padding-right: 3%">
                     <h6 class="pb-2">Completed Within :</h6>
                     <div class="input-group mb-3">
-                      <input type="text" name="complete-within" class="form-control py-2 px-3" aria-describedby="basic-addon1">
+                      <input type="text" name="completed_within" class="form-control py-2 px-3" aria-describedby="basic-addon1">
                       <div class="input-group-prepend">
                         <span class="input-group-text py-2 px-2" id="basic-addon1">Hours</span>
                       </div>

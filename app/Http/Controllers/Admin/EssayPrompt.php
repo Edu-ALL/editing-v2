@@ -68,7 +68,7 @@ class EssayPrompt extends Controller
 
         }
 
-        return redirect('admin/setting/essay-prompt/add')->with('add-prompt-successful', 'The new Essay Prompt has been saved');
+        return redirect('admin/setting/essay-prompt')->with('add-prompt-successful', 'The new Essay Prompt has been saved');
     }
 
     public function delete($prompt_id)
@@ -90,7 +90,7 @@ class EssayPrompt extends Controller
 
         }
 
-        return redirect('admin/setting/essay-prompt')->with('delete-essay-prompt-successful', 'The Essay Prompt has been deleted');
+        return redirect('admin/setting/essay-prompt')->with('delete-prompt-successful', 'The Essay Prompt has been deleted');
     }
     public function update($prompt_id, Request $request)
     {
@@ -124,6 +124,6 @@ class EssayPrompt extends Controller
 
         }
 
-        return redirect('admin/setting/essay-prompt')->with('update-prompt-successful', 'The Essay Prompt has been updated');
+        return redirect('admin/setting/essay-prompt/detail/'.$prompt_id)->with('update-prompt-successful', 'The Essay Prompt has been updated');
     }
 }

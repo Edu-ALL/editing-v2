@@ -4,6 +4,7 @@
   <style>
     .pagination { margin: 15px 0}
     .pagination .page-item .page-link { padding: 10px 15px; font-size: 12px; }
+    .alert {font-size: 14px; margin: 0 -12px 16px -12px}
   </style>
 @endsection
 
@@ -18,6 +19,19 @@
     <div class="col" style="overflow: auto !important">
       @include('user.admin.utama.head')
       <div class="container main-content m-0">
+
+        @if (session()->has('add-prompt-successful'))
+          <div class="alert alert-success fade show d-flex justify-content-between" role="alert">
+            {{ session()->get('add-prompt-successful') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        @elseif (session()->has('delete-prompt-successful'))
+          <div class="alert alert-success fade show d-flex justify-content-between" role="alert">
+            {{ session()->get('delete-prompt-successful') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        @endif
+
         {{-- Detail Student --}}
         <div class="row">
           <div class="col-md col-12 p-0 studentList">

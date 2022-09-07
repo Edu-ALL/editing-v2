@@ -3,6 +3,7 @@
   <link rel="stylesheet" href="/css/admin/setting-detail-essay-prompt.css">
   <style>
     .selectize-input {padding: 8px 16px; border-radius: 6px}
+    .alert {font-size: 14px; margin: 0 -12px 16px -12px}
   </style>
 @endsection
 
@@ -17,6 +18,14 @@
     <div class="col" style="overflow: auto !important">
       @include('user.admin.utama.head')
       <div class="container main-content m-0">
+
+        @if(session()->has('update-prompt-successful'))
+        <div class="row alert alert-success fade show d-flex justify-content-between" role="alert">
+          {{ session()->get('update-prompt-successful') }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
+
         <div class="row">
           <div class="col-12 p-0 userCard">
             <div class="headline d-flex justify-content-between">

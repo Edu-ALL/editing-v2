@@ -1,15 +1,17 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\Essays;
+use App\Http\Controllers\Admin\Export;
+use App\Http\Controllers\Admin\Clients;
+use App\Http\Controllers\Admin\Editors;
+use App\Http\Controllers\Admin\Program;
+use App\Http\Controllers\Admin\EssayPrompt;
+use App\Http\Controllers\Admin\Universities;
 use App\Http\Controllers\Admin\Authentication;
 use App\Http\Controllers\Admin\CategoriesTags;
-use App\Http\Controllers\Admin\Clients;
-use App\Http\Controllers\Admin\EssayPrompt;
-use App\Http\Controllers\Admin\Export;
-use App\Http\Controllers\Admin\Program;
-use App\Http\Controllers\Admin\Universities;
 use App\Http\Controllers\CRM\Clients as CRMClients;
 use App\Http\Controllers\CRM\Mentors as CRMMentors;
-use Illuminate\Support\Facades\Route;
 
 Route::post('authenticate', [Authentication::class, '_loginAdmins'])->name('admin-login');
 Route::get('logout', [Authentication::class, 'logout'])->name('logout');
@@ -35,3 +37,11 @@ Route::post('essay-prompt/{prompt_id}', [EssayPrompt::class, 'update'])->name('u
 Route::delete('essay-prompt/{prompt_id}', [EssayPrompt::class, 'delete'])->name('delete-prompt');
 
 Route::post('program', [Program::class, 'store'])->name('add-program');
+Route::post('program/{program_id}', [Program::class, 'update'])->name('update-program');
+Route::delete('program/{program_id}', [Program::class, 'delete'])->name('delete-program');
+
+Route::post('editor', [Editors::class, 'store'])->name('add-editor');
+Route::post('editor/{id_editors}', [Editors::class, 'update'])->name('update-editor');
+
+Route::post('essay-list/ongoing/{id_essay}', [Essays::class, 'assignEditor'])->name('assign-editor');
+Route::post('essay-list/ongoing/{id_essay}', [Essays::class, 'cancel'])->name('cancel-editor');

@@ -4,6 +4,7 @@
   <style>
     .pagination { margin: 15px 0}
     .pagination .page-item .page-link { padding: 10px 15px; font-size: 12px; }
+    .alert {font-size: 14px}
   </style>
 @endsection
 @section('content')
@@ -17,6 +18,14 @@
     <div class="col" style="overflow: auto !important">
       @include('user.admin.utama.head')
       <div class="container main-content m-0">
+
+        @if(session()->has('update-editor-successful'))
+        <div class="row alert alert-success fade show d-flex justify-content-between" role="alert">
+          {{ session()->get('update-editor-successful') }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
+
         <div class="row gap-2">
           <div class="col-md col-12 p-0 userCard profile">
             <div class="headline d-flex align-items-center gap-3">
@@ -70,7 +79,8 @@
             </div>
             
             <div class="row profile-editor px-md-3 py-md-4 px-3 py-4" style="overflow: auto !important">
-              <form action="" class="p-0">
+              <form action="{{ route('update-editor', ['id_editors' => $editor->id_editors]) }}" method="POST" class="p-0">
+                @csrf
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6">
                     <h6 class="pb-2">First Name :</h6>

@@ -21,12 +21,6 @@
           {!! implode('', $errors->all('<div class="alert alert-danger" role="alert">:message</div>')) !!}
         @endif
 
-        @if (session()->has('add-prompt-successful'))
-          <div class="alert alert-success fade show" role="alert">
-            {{ session()->get('add-prompt-successful') }}
-          </div>
-        @endif
-
         <div class="row">
           <div class="col-12 p-0 userCard">
             <div class="headline d-flex justify-content-between">

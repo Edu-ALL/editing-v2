@@ -14,6 +14,11 @@
     <div class="col" style="overflow: auto !important">
       @include('user.admin.utama.head')
       <div class="container main-content m-0">
+
+        @if($errors->any())
+          {!! implode('', $errors->all('<div class="alert alert-danger" role="alert">:message</div>')) !!}
+        @endif
+
         <div class="row gap-2">
           <div class="col-md col-12 p-0 userCard profile">
             <div class="headline d-flex align-items-center gap-3">
@@ -39,50 +44,52 @@
             </div>
             
             <div class="row profile-editor px-md-3 py-md-4 px-3 py-4" style="overflow: auto !important">
-              <form action="" class="p-0">
+              <form action="{{ route('add-editor') }}" method="POST" class="p-0">
+                @csrf
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6">
                     <h6 class="pb-2">First Name :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3">
+                    <input type="text" class="form-control inputField py-2 px-3" name="first_name">
                   </div>
                   <div class="col-6">
                     <h6 class="pb-2">Last Name :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3">
+                    <input type="text" class="form-control inputField py-2 px-3" name="last_name">
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6">
                     <h6 class="pb-2">Email :</h6>
-                    <input type="email" class="form-control inputField py-2 px-3">
+                    <input type="email" class="form-control inputField py-2 px-3" name="email">
                   </div>
                   <div class="col-6">
                     <h6 class="pb-2">Phone :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3">
+                    <input type="text" class="form-control inputField py-2 px-3" name="phone">
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6">
                     <h6 class="pb-2">Graduated From :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3">
+                    <input type="text" class="form-control inputField py-2 px-3" name="graduated_from">
                   </div>
                   <div class="col-6">
                     <h6 class="pb-2">Major :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3">
+                    <input type="text" class="form-control inputField py-2 px-3" name="major">
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-3" style="overflow: auto !important">
                   <div class="col">
                     <h6 class="pb-2">Address :</h6>
-                    <textarea name="" class="textarea" placeholder="Address"></textarea>
+                    <textarea name="address" class="textarea" placeholder="Address"></textarea>
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-5">
                   <div class="col">
                     <h6 class="pb-2">Position :</h6>
-                    <select class="select-beast">
-                      <option value="value 1">Associate Editor</option>
-                      <option value="value 2">Senior Editor</option>
-                      <option value="value 3">Managing Editor</option>
+                    <select class="select-normal" name="position">
+                      <option value=""></option>
+                      @foreach ($position as $position)
+                        <option value="{{ $position->id_position }}">{{ $position->position_name }}</option>
+                      @endforeach
                     </select>
                   </div>
                 </div>

@@ -36,12 +36,10 @@
               <img class="img-word" src="/assets/logo-word.png" alt="">
             </div>
             <div class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
-              <form action="">
-                <button class="btn btn-download d-flex align-items-center gap-2">
-                  <img src="/assets/download.png" alt="">
-                  <h6>Download</h6>
-                </button>
-              </form>
+              <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/students/'.$ongoing->attached_of_clients) }}>
+                <img src="/assets/download.png" alt="">
+                <h6>Download</h6>
+              </a>
             </div>
             <div class="headline d-flex align-items-center gap-3">
               <img src="/assets/assign.png" alt="">
@@ -174,56 +172,58 @@
         </div>
       </div>
       <div class="modal-body p-0">
-        <div class="container text-center p-0" style="overflow-x: auto !important">
-          <table class="table table-bordered m-0">
-            <thead>
-              <tr>
-                <th>No</th>
-                <th>Editor Name</th>
-                <th>Graduated From</th>
-                <th>Due Tomorrow</th>
-                <th>Due Within 3 Days</th>
-                <th>Due Within 5 Days</th>
-                <th>Completed Essay</th>
-                <th>Assign</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php $i = ($editors->currentpage()-1)* $editors->perpage() + 1;?>
-              @foreach ($editors as $editor)
-              <tr style="cursor: default">
-                <th scope="row">{{ $i++ }}</th>
-                <td>{{ $editor->first_name.' '.$editor->last_name }}</td>
-                <td>{{ $editor->graduated_from }}</td>
-                <td>{{ $editor->graduated_from }}</td>
-                <td>{{ $editor->graduated_from }}</td>
-                <td>{{ $editor->graduated_from }}</td>
-                <td>{{ $editor->graduated_from }}</td>
-                <td class="d-flex align-items-center justify-content-center">
-                  <div class="form-check d-flex align-items-center justify-content-center">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                  </div>
-                </td>
-              </tr>
-              @endforeach
-              
-              @unless (count($editors)) 
-              <tr>
-                <td colspan="8">No data</td>
-              </tr>
-              @endunless
-            </tbody>
-          </table>
-        </div>
-        <div class="col d-flex align-items-center justify-content-between py-md-3 px-md-3 px-3 py-3 gap-2">
-          {{ $editors->links() }}
-          <form action="/admin/essay-list/ongoing/assign">
+        <form action="{{ route('assign-editor', ['id_essay' => $ongoing->id_essay_clients]) }}" method="POST">
+        {{-- <form action="/admin/essay-list/ongoing/detail/{{ $ongoing->id_essay_clients }}" method="post"> --}}
+          @csrf
+          <div class="container text-center p-0" style="overflow-x: auto !important">
+            <table class="table table-bordered m-0">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Editor Name</th>
+                  <th>Graduated From</th>
+                  <th>Due Tomorrow</th>
+                  <th>Due Within 3 Days</th>
+                  <th>Due Within 5 Days</th>
+                  <th>Completed Essay</th>
+                  <th>Assign</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php $i = ($editors->currentpage()-1)* $editors->perpage() + 1;?>
+                @foreach ($editors as $editor)
+                <tr style="cursor: default">
+                  <th scope="row">{{ $i++ }}</th>
+                  <td>{{ $editor->first_name.' '.$editor->last_name }}</td>
+                  <td>{{ $editor->graduated_from }}</td>
+                  <td>{{ $editor->graduated_from }}</td>
+                  <td>{{ $editor->graduated_from }}</td>
+                  <td>{{ $editor->graduated_from }}</td>
+                  <td>{{ $editor->graduated_from }}</td>
+                  <td class="d-flex align-items-center justify-content-center">
+                    <div class="form-check d-flex align-items-center justify-content-center">
+                      <input class="form-check-input" type="radio" name="id_editors" id="flexRadioDefault1" value="{{ $editor->id_editors }}">
+                    </div>
+                  </td>
+                </tr>
+                @endforeach
+                
+                @unless (count($editors)) 
+                <tr>
+                  <td colspan="8">No data</td>
+                </tr>
+                @endunless
+              </tbody>
+            </table>
+          </div>
+          <div class="col d-flex align-items-center justify-content-between py-md-3 px-md-3 px-3 py-3 gap-2">
+            {{ $editors->links() }}
             <button class="btn btn-download d-flex align-items-center justify-content-center gap-2" data-bs-toggle="modal" data-bs-target="#selectEditor" style="background-color: var(--yellow); color: var(--white)">
               <img src="/assets/assign-list.png" alt="">
               <h6 class="my-auto">Select Editor</h6>
             </button>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>

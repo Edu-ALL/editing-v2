@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\UserStudent;
 use App\Http\Controllers\Admin\Universities;
 use App\Models\Category;
 use App\Models\EssayClients;
+use App\Models\PositionEditor;
 use App\Models\University;
 
 /*
@@ -30,20 +31,20 @@ use App\Models\University;
 |
 */
 
-    Route::get('/', function () {
-        return view('home.home');
-    });
+Route::get('/', function () {
+    return view('home.home');
+});
 
-    // Login
-    Route::get('/login/mentor', function () {   
-        return view('login.login-mentor');
-    });
-    Route::get('/login/editor', function () {
-        return view('login.login-editor');
-    });
-    Route::get('/login/admin', function () {
-        return view('login.login-admin');
-    })->middleware('check.login')->name('login.admin');
+// Login
+Route::get('/login/mentor', function () {   
+    return view('login.login-mentor');
+});
+Route::get('/login/editor', function () {
+    return view('login.login-editor');
+});
+Route::get('/login/admin', function () {
+    return view('login.login-admin');
+})->middleware('check.login')->name('login.admin');
 
 
 Route::get('/forgot/mentor', function () {
@@ -83,7 +84,9 @@ Route::get('/admin/user/mentor', [Mentors::class, 'index'])->name('list-mentor')
 Route::get('/admin/user/editor', [Editors::class, 'index'])->name('list-editor');
 Route::get('/admin/user/editor/detail/{id}', [Editors::class, 'detail']);
 Route::get('/admin/user/editor/add', function () {
-    return view('user.admin.users.user-editor-add');
+    return view('user.admin.users.user-editor-add', [
+        'position' => PositionEditor::get()
+    ]);
 });
 Route::get('/admin/user/editor/invite', function () {
     return view('user.admin.users.user-editor-invite');
@@ -92,7 +95,7 @@ Route::get('/admin/user/editor/invite', function () {
 
 // Essay List
 Route::get('/admin/essay-list/ongoing', [Essays::class, 'index'])->name('list-ongoing-essay');
-Route::get('/admin/essay-list/ongoing/detail/{id_ongoing}', [Essays::class, 'detailEssayOngoing']);
+Route::get('/admin/essay-list/ongoing/detail/{id_essay}', [Essays::class, 'detailEssayOngoing']);
 // Route::get('/admin/essay-list/ongoing/detail', function () {
 //     return view('user.admin.essay-list.essay-ongoing-detail');
 // });

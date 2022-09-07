@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Programs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -27,7 +28,11 @@ class Program extends Controller
     }
 
     public function detail($id){
-        return view('user.admin.settings.setting-detail-programs', ['program' => Programs::find($id)]);
+        $category = Category::get();
+        return view('user.admin.settings.setting-detail-programs', [
+            'program' => Programs::find($id),
+            'category' => $category
+        ]);
     }
 
     public function store(Request $request)
@@ -50,11 +55,11 @@ class Program extends Controller
 
         DB::beginTransaction();
         try {
-            
+
             $program_name = $request->program_name;
 
             $program = new Programs;
-            $program->program_name = $request->program_name;
+            $program->program_name = $program_name;
             $program->description = $request->description;
             $program->price = $request->price;
             $program->discount = $request->discount;
@@ -64,12 +69,12 @@ class Program extends Controller
             $program->id_category = $request->id_category;
             $program->status = 1;
 
+            $time = time();
             if ($request->hasFile('uploaded_file')) {
                 $file_name = str_replace(' ', '-', strtolower($program_name));
                 $file_format = $request->file('uploaded_file')->getClientOriginalExtension();
-                $med_file_path = $request->file('uploaded_file')->storeAs('programs', $file_name.'.'.$file_format, ['disk' => 'public_assets']);
-
-                $program->photo = $file_name.'.'.$file_format;
+                $med_file_path = $request->file('uploaded_file')->storeAs('programs', $time.'-'.$file_name.'.'.$file_format, ['disk' => 'public_assets']);
+                $program->images = $time.'-'.$file_name.'.'.$file_format;
             }
 
             $program->save();
@@ -80,6 +85,61 @@ class Program extends Controller
             return Redirect::back()->withErrors(['msg' => 'Something went wrong when processing the data.']);
         }
 
-        return redirect('admin/setting/programs/add')->with('add-program-successful', 'New Program has been added');
+        return redirect('admin/setting/programs')->with('add-program-successful', 'New Program has been added');
+    }
+
+    public function update($id_program, Request $request)
+    {
+        if (!$program = Programs::find($id_program)) {
+            return Redirect::back()->withErrors(['msg' => 'Couldn\'t find the program']);
+        }
+
+        $program_name = $request->program_name;
+
+        $program->program_name = $program_name;
+        $program->description = $request->description;
+        $program->price = $request->price;
+        $program->discount = $request->discount;
+        $program->minimum_word = $request->minimum_word;
+        $program->maximum_word = $request->maximum_word;
+        $program->completed_within = $request->completed_within;
+        $program->id_category = $request->id_category;
+        $program->status = 1;
+
+        $time = time();
+        if ($request->hasFile('uploaded_file')) {
+            if ($old_image_path = $program->images) {
+                $file_path = public_path('uploaded_files/programs/'.$old_image_path);
+                if (File::exists($file_path)) {
+                    File::delete($file_path);
+                }
+            }
+            $file_name = str_replace(' ', '-', strtolower($program_name));
+            $file_format = $request->file('uploaded_file')->getClientOriginalExtension();
+            $med_file_path = $request->file('uploaded_file')->storeAs('programs', $time.'-'.$file_name.'.'.$file_format, ['disk' => 'public_assets']);
+
+            $program->images = $time.'-'.$file_name.'.'.$file_format;
+        }
+        $program->save();
+
+        return redirect('admin/setting/programs/detail/'.$id_program)->with('update-program-successful', 'The Program has been updated');
+    }
+
+    public function delete($id_program, Request $request)
+    {
+        if (!$program = Programs::find($id_program)) {
+            return Redirect::back()->withErrors(['success' => false, 'message' => 'Couldn\'t find the program']);
+        }
+
+        //! tambahin hapus file sebelum delete data
+        if ($old_image_path = $program->images) {
+            $file_path = public_path('uploaded_files/programs/'.$old_image_path);
+            if (File::exists($file_path)) {
+                File::delete($file_path);
+            }
+        }
+
+        $program->delete();
+        return redirect(route('list-program'))->with('delete-program-successful', 'The program has been deleted');
     }
 }
