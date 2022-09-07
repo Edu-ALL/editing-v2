@@ -21,8 +21,9 @@
       <div class="container main-content m-0">
 
         @if (session()->has('add-editor-successful'))
-          <div class="alert alert-success fade show" role="alert">
+          <div class="alert alert-success fade show d-flex justify-content-between" role="alert">
             {{ session()->get('add-editor-successful') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
         @endif
 

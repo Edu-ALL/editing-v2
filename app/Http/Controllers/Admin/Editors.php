@@ -62,6 +62,7 @@ class Editors extends Controller
             $new_editor->major = $request->major;
             $new_editor->address = $request->address;
             $new_editor->position = $request->position;
+            $new_editor->image = "default.png";
             $new_editor->status = 1;
             $new_editor->save();
             DB::commit();

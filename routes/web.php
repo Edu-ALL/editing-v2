@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\Mentors;
 use App\Http\Controllers\Admin\Program;
 use App\Http\Controllers\Admin\UserStudent;
 use App\Http\Controllers\Admin\Universities;
+use App\Http\Controllers\Editor\Profile;
 use App\Models\Category;
 use App\Models\EssayClients;
 use App\Models\PositionEditor;
@@ -99,15 +100,15 @@ Route::get('/admin/essay-list/ongoing/detail/{id_essay}', [Essays::class, 'detai
 // Route::get('/admin/essay-list/ongoing/detail', function () {
 //     return view('user.admin.essay-list.essay-ongoing-detail');
 // });
-Route::get('/admin/essay-list/ongoing/assign', function () {
-    return view('user.admin.essay-list.essay-ongoing-assign');
-});
-Route::get('/admin/essay-list/ongoing/submitted', function () {
-    return view('user.admin.essay-list.essay-ongoing-submitted');
-});
-Route::get('/admin/essay-list/ongoing/accepted', function () {
-    return view('user.admin.essay-list.essay-ongoing-accepted');
-});
+// Route::get('/admin/essay-list/ongoing/assign', function () {
+//     return view('user.admin.essay-list.essay-ongoing-assign');
+// });
+// Route::get('/admin/essay-list/ongoing/submitted', function () {
+//     return view('user.admin.essay-list.essay-ongoing-submitted');
+// });
+// Route::get('/admin/essay-list/ongoing/accepted', function () {
+//     return view('user.admin.essay-list.essay-ongoing-accepted');
+// });
 
 Route::get('/admin/essay-list/completed', [Essays::class, 'essayCompleted'])->name('list-completed-essay');
 Route::get('/admin/essay-list/completed/detail/{id}', [Essays::class, 'detailEssayCompleted']);
@@ -249,9 +250,10 @@ Route::get('/admin/setting/categories-tags/detail/{tag_id}', [CategoriesTags::cl
 Route::get('/editors/dashboard', function () {
     return view('user.per-editor.dashboard');
 });
-Route::get('/editors/profile', function () {
-    return view('user.per-editor.profile.profile');
-});
+Route::get('/editors/profile', [Profile::class, 'index']);
+// Route::get('/editors/profile', function () {
+//     return view('user.per-editor.profile.profile');
+// });
 
 Route::get('/editors/essay-list', function () {
     return view('user.per-editor.essay-list.essay-list');

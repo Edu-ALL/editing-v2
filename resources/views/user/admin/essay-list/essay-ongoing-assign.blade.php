@@ -48,6 +48,7 @@
             </div>
             <div class="col d-flex align-items-center justify-content-center py-md-3 py-3">
               <form action="{{ route('cancel-editor', ['id_essay' => $essay->id_essay_clients]) }}" method="POST" class="p-0">
+                {{-- @method('PUT') --}}
                 @csrf
                 <button class="btn btn-download d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#selectEditor" style="background-color: var(--red); color: var(--white)">
                   <img src="/assets/exit.png" alt="">

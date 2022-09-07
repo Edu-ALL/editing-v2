@@ -44,7 +44,6 @@ class Essays extends Controller
         $editors = Editor::paginate(10);
         $essay = EssayClients::find($id_essay);
         if ($essay->status_essay_clients == 0) {
-            // $this->assignEditor($id_essay, $request);
             return view('user.admin.essay-list.essay-ongoing-detail', [
                 'ongoing' => EssayClients::find($id_essay),
                 'editors' => $editors
@@ -79,7 +78,6 @@ class Essays extends Controller
             $essay = EssayClients::find($id_essay);
             $essay->id_editors = 2;
             $essay->status_essay_clients = 1;
-            dd($essay->id_editors);
             $essay->save();
             DB::commit();
 
@@ -98,7 +96,6 @@ class Essays extends Controller
         DB::beginTransaction();
         $essay = EssayClients::find($id_essay);
         $essay->status_essay_clients = 4;
-        dd($essay->status_essay_clients);
         $essay->save();
         DB::commit();
         // try {
