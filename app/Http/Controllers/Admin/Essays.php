@@ -79,13 +79,13 @@ class Essays extends Controller
             $essay = EssayClients::find($id_essay);
             $essay->id_editors = 2;
             $essay->status_essay_clients = 1;
-            dd($essay->id_editors);
             $essay->save();
             DB::commit();
 
         } catch (Exception $e) {
 
             DB::rollBack();
+            return response()->json($e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
 
         }
@@ -98,7 +98,6 @@ class Essays extends Controller
         DB::beginTransaction();
         $essay = EssayClients::find($id_essay);
         $essay->status_essay_clients = 4;
-        dd($essay->status_essay_clients);
         $essay->save();
         DB::commit();
         // try {

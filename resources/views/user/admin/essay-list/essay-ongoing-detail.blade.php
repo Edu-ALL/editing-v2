@@ -172,7 +172,7 @@
         </div>
       </div>
       <div class="modal-body p-0">
-        <form action="{{ route('assign-editor', ['id_essay' => $ongoing->id_essay_clients]) }}" method="POST">
+        <form action="{{ route('assign-editor', $ongoing->id_essay_clients) }}" method="POST">
         {{-- <form action="/admin/essay-list/ongoing/detail/{{ $ongoing->id_essay_clients }}" method="post"> --}}
           @csrf
           <div class="container text-center p-0" style="overflow-x: auto !important">
