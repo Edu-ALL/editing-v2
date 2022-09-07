@@ -44,4 +44,4 @@ Route::post('editor', [Editors::class, 'store'])->name('add-editor');
 Route::post('editor/{id_editors}', [Editors::class, 'update'])->name('update-editor');
 
 Route::post('essay-list/ongoing/assign/{id_essay}', [Essays::class, 'assignEditor'])->name('assign-editor');
-Route::post('essay-list/ongoing/{id_essay}', [Essays::class, 'cancel'])->name('cancel-editor');
+Route::post('essay-list/ongoing/cancel/{id_essay}', [Essays::class, 'cancel'])->name('cancel-editor');
