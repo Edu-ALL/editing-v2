@@ -12,7 +12,7 @@ class EssayClients extends Model
     protected $table = "tbl_essay_clients";
     protected $primaryKey = 'id_essay_clients';
     public $incrementing = false;
-    public $timestamp = false;
+    public $timestamps = false;
 
     protected $fillable = [
         'id_essay_clients',

@@ -84,6 +84,7 @@ class Essays extends Controller
         } catch (Exception $e) {
 
             DB::rollBack();
+            return response()->json($e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
 
         }
