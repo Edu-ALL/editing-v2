@@ -48,6 +48,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/web.php'));
 
             $this->mapAdminRoutes();
+            $this->mapEditorRoutes();
         });
     }
 
@@ -57,6 +58,13 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware('web')
             ->namespace($this->namespace)
             ->group(base_path('routes/web/v1/admin.php'));
+    }
+    protected function mapEditorRoutes()
+    {
+        Route::prefix('v1/editor')
+            ->middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web/v1/editor.php'));
     }
 
     /**

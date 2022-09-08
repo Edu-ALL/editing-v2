@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\Mentors;
 use App\Http\Controllers\Admin\Program;
 use App\Http\Controllers\Admin\UserStudent;
 use App\Http\Controllers\Admin\Universities;
+use App\Http\Controllers\Editor\Dashboard;
 use App\Http\Controllers\Editor\Profile;
 use App\Models\Category;
 use App\Models\EssayClients;
@@ -42,7 +43,7 @@ Route::get('/login/mentor', function () {
 });
 Route::get('/login/editor', function () {
     return view('login.login-editor');
-});
+})->middleware('check.login')->name('login.editor');
 Route::get('/login/admin', function () {
     return view('login.login-admin');
 })->middleware('check.login')->name('login.admin');
@@ -246,14 +247,13 @@ Route::get('/admin/setting/programs/add', function () {
 Route::get('/admin/setting/categories-tags', [CategoriesTags::class, 'index'])->name('list-tag');
 Route::get('/admin/setting/categories-tags/detail/{tag_id}', [CategoriesTags::class, 'detail']);
 
-// Per Editor
-Route::get('/editors/dashboard', function () {
-    return view('user.per-editor.dashboard');
-});
-Route::get('/editors/profile', [Profile::class, 'index']);
-// Route::get('/editors/profile', function () {
-//     return view('user.per-editor.profile.profile');
+
+// **** Per Editor *****
+// Route::get('/editors/dashboard', function () {
+//     return view('user.per-editor.dashboard');
 // });
+Route::get('/editors/dashboard', [Dashboard::class, 'index']);
+Route::get('/editors/profile', [Profile::class, 'index']);
 
 Route::get('/editors/essay-list', function () {
     return view('user.per-editor.essay-list.essay-list');

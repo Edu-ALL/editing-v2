@@ -25,7 +25,7 @@
                     <h6>Due Tomorrow</h6>
                   </div>
                   <div class="col d-flex flex-column px-3 py-2 my-4 countEssay text-center justify-content-center" style="color: var(--red)">
-                    <h4>1</h4>
+                    <h4>{{ $duetomorrow->count() }}</h4>
                     <h4>Essay</h4>
                   </div>
                   <hr>
@@ -40,7 +40,7 @@
                       <h6>Due Within 3 Days</h6>
                     </div>
                     <div class="col d-flex flex-column px-3 py-2 my-4 countEssay text-center justify-content-center" style="color: var(--yellow)">
-                      <h4>1</h4>
+                      <h4>{{ $duethree->count() }}</h4>
                       <h4>Essay</h4>
                     </div>
                     <hr>
@@ -54,7 +54,7 @@
                       <h6>Due Within 5 Days</h6>
                     </div>
                     <div class="col d-flex flex-column px-3 py-2 my-4 countEssay text-center justify-content-center">
-                      <h4>1</h4>
+                      <h4>{{ $duefive->count() }}</h4>
                       <h4>Essay</h4>
                     </div>
                     <hr>
@@ -71,7 +71,7 @@
                 </div>
                 <canvas class="mt-4 mb-1" id="doughnut-chart" style="width:100%"></canvas>
                 <div class="text-center mt-4 mb-lg-0 mb-4">
-                  <h6 class="mb-4" style="font-size: 12px; color: var(--black)">Fri, 19 Aug 2022 | Total Essay : 1 Essay</h6>
+                  <h6 class="mb-4" style="font-size: 12px; color: var(--black)">{{ date('D, d M Y') }} | Total Essay : {{ $ongoing_essay + $completed_essay }} Essay</h6>
                 </div>
               </div>
             </div>
@@ -93,7 +93,7 @@
       datasets: [
         {
           backgroundColor: ["#2785DD", "#44DE37"],
-          data: [3,1]
+          data: [{{ $ongoing_essay }},{{ $completed_essay }}]
         }
       ]
     }
