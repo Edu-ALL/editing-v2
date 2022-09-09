@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\Program;
 use App\Http\Controllers\Admin\UserStudent;
 use App\Http\Controllers\Admin\Universities;
 use App\Http\Controllers\Editor\Dashboard;
+use App\Http\Controllers\Editor\Essays as EditorEssays;
 use App\Http\Controllers\Editor\Profile;
 use App\Models\Category;
 use App\Models\EssayClients;
@@ -249,18 +250,11 @@ Route::get('/admin/setting/categories-tags/detail/{tag_id}', [CategoriesTags::cl
 
 
 // **** Per Editor *****
-// Route::get('/editors/dashboard', function () {
-//     return view('user.per-editor.dashboard');
-// });
 Route::get('/editors/dashboard', [Dashboard::class, 'index']);
 Route::get('/editors/profile', [Profile::class, 'index']);
 
-Route::get('/editors/essay-list', function () {
-    return view('user.per-editor.essay-list.essay-list');
-});
-Route::get('/editors/essay-list/completed/detail', function () {
-    return view('user.per-editor.essay-list.essay-list-completed-detail');
-});
+Route::get('/editors/essay-list', [EditorEssays::class, 'index']);
+Route::get('/editors/essay-list/completed/detail/{id_essay}', [EditorEssays::class, 'detailEssay']);
 
 Route::get('/editors/essay-list/ongoing/detail', function () {
     return view('user.per-editor.essay-list.essay-list-ongoing-detail');

@@ -19,7 +19,7 @@
             </div>
             <div class="col d-flex flex-column align-items-center px-3 py-md-5 py-4 gap-3 text-center justify-content-center" style="color: var(--black)">
               <img class="img-status" src="/assets/status-complete.png" alt="">
-              <h6>Completed</h6>
+              <h6>{{ $essay->status->status_title }}</h6>
             </div>
             <div class="headline d-flex align-items-center gap-3">
               <img src="/assets/file.png" alt="">
@@ -58,7 +58,7 @@
             <div class="col d-flex flex-column px-3 py-md-4 py-4 my-md-1 countEssay text-center justify-content-center" style="color: var(--black)">
               <div class="col list-tags">
                 <div class="tags py-2 px-3">
-                  <h6 style="font-size: 14px; font-weight: 400">The role model</h6>
+                  <h6 style="font-size: 14px; font-weight: 400">{{ $essay->essay_tags->tags->topic_name }}</h6>
                 </div>
               </div>
             </div>
@@ -74,7 +74,7 @@
                 <a href="/editors/essay-list"><img src="/assets/back.png" alt=""></a>
               </div>
             </div>
-            <div class="row profile-editor px-md-4 py-md-4 px-3 py-4 mb-2" style="overflow: auto !important">
+            <div class="row profile-editor px-md-4 py-md-5 px-3 py-4 mb-2" style="overflow: auto !important">
               <div class="col-md student-desc d-flex flex-column justify-content-center gap-lg-3 gap-2 ps-lg-3 px-2 border-0">
                 <div class="row d-flex align-items-center">
                   <div class="col-md-3 col-4">
@@ -82,7 +82,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>Student Dummy</p>
+                    <p>{{ $essay->client_by_id->first_name.' '.$essay->client_by_id->last_name }}</p>
                   </div>
                 </div>
                 <div class="row d-flex align-items-center">
@@ -91,7 +91,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>student.dummy@gmail.com</p>
+                    <p>{{ $essay->client_by_id->email }}</p>
                   </div>
                 </div>
                 <div class="row d-flex">
@@ -100,7 +100,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>Jl Jeruk Kembar blok Q9 no.15</p>
+                    <p>{{ $essay->client_by_id->address }}</p>
                   </div>
                 </div>
               </div>
@@ -111,7 +111,7 @@
                 <h6>Essay Detail</h6>
               </div>
             </div>
-            <div class="row profile-editor px-md-4 py-md-4 px-3 py-4 mb-2" style="overflow: auto !important">
+            <div class="row profile-editor px-md-4 py-md-4 px-3 py-4 mb-4" style="overflow: auto !important">
               <div class="col-md student-desc d-flex flex-column justify-content-center gap-lg-3 gap-2 ps-lg-3 px-2 border-0">
                 <div class="row d-flex align-items-center">
                   <div class="col-md-3 col-4">
@@ -119,16 +119,16 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>Arizona State University</p>
+                    <p>{{ $essay->university->university_name }}</p>
                   </div>
                 </div>
                 <div class="row d-flex align-items-center">
                   <div class="col-md-3 col-4">
-                    <h6>Essay Type</h6>
+                    <h6>Essay Title</h6>
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>Supplemental Essay</p>
+                    <p>{{ $essay->essay_title }}</p>
                   </div>
                 </div>
                 <div class="row d-flex align-items-center">
@@ -137,7 +137,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>Essay</p>
+                    <p>{!! $essay->essay_prompt !!}</p>
                   </div>
                 </div>
                 <div class="row d-flex">
@@ -147,8 +147,8 @@
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7 ps-3">
                     <ul>
-                      <li><p><b>Essay Deadline</b> : Thu, 28 Jul 2022</p></li>
-                      <li><p><b>Application Deadline</b> : Fri, 29 Jul 2022</p></li>
+                      <li><p><b>Essay Deadline</b> : {{ date('D, d M Y', strtotime($essay->essay_deadline)) }}</p></li>
+                      <li><p><b>Application Deadline</b> : {{ date('D, d M Y', strtotime($essay->application_deadline)) }}</p></li>
                     </ul>
                   </div>
                 </div>
@@ -157,7 +157,7 @@
             <div class="col d-flex flex-row alert-complete py-3 px-4" id="alertComplete">
               <div class="col d-flex align-items-center gap-2">
                 <img src="/assets/thumbsup.png" alt="">
-                <h6><b>Congratulations</b>, editor essay has been completed</h6>
+                <h6><b>Congratulations</b>, {{ $essay->status->status_desc }}</h6>
               </div>
               <img src="/assets/exit.png" alt="" onclick="closeAlert()" style="cursor: pointer">
             </div>
