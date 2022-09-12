@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\Authentication;
 use App\Http\Controllers\Admin\CategoriesTags;
 use App\Http\Controllers\CRM\Clients as CRMClients;
 use App\Http\Controllers\CRM\Mentors as CRMMentors;
+use App\Models\Editor;
 
 Route::post('authenticate', [Authentication::class, '_loginAdmins'])->name('admin-login');
 Route::get('logout', [Authentication::class, 'logout'])->name('logout');
@@ -45,3 +46,7 @@ Route::post('editor/{id_editors}', [Editors::class, 'update'])->name('update-edi
 
 Route::post('essay-list/ongoing/assign/{id_essay}', [Essays::class, 'assignEditor'])->name('assign-editor');
 Route::post('essay-list/ongoing/{id_essay}', [Essays::class, 'cancel'])->name('cancel-editor');
+
+Route::post('invite-editor', [Editors::class, 'invite'])->name('invite-editor');
+
+Route::get('joined-editor', [Editors::class, 'joined_editor'])->name('joined-editor');

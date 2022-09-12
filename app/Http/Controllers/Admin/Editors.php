@@ -9,10 +9,66 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Exception;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use App\Models\Token;
+use Illuminate\Support\Facades\Auth;
 
 class Editors extends Controller
 {
+    public function invite(Request $request)
+    {
+        $email = $request->email;
+        $user_token = [
+            'email' => $email,
+            'token' => Crypt::encrypt(Str::random(32)),
+            'activated_at' => time()
+        ];
+
+        # save token
+        Token::create($user_token);
+
+        # send email to user
+        Mail::send('mail.invite-editor', $user_token, function($mail) use ($email) {
+            $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+            $mail->to($email);
+            $mail->subject('Invitation To The Editor');
+        });
+
+        if (Mail::failures()) {
+            return response()->json(Mail::failures());
+        }
+
+        return redirect('admin/user/editor/invite')->with('invite-editor-successful', 'Invitation email has been sent');
+    }
+
+    public function joined_editor(Request $request)
+    {
+        $email = $request->get('email');
+        $token = $request->get('token');
+
+
+
+        // $data['role'] = $this->session->userdata('role');
+        // if($data['role']){
+        //     $this->session->set_flashdata('error', 'Sorry, you have to logged in');
+        //     return redirect('/'); 
+        // }
+
+        //! perlu dilanjut dulu ubtuk konfirmasinya
+        $user_token = '';
+
+        $user_token = $this->Auth_model->clientByToken($token);
+        if($user_token){
+            $this->addEditors($email, $token);            
+        } else {
+            $this->session->set_flashdata('error', 'Token is not found');
+            redirect('/');
+        }
+    }
+
     public function index(Request $request){
         $keyword = $request->get('keyword');
         $editors = Editor::when($keyword, function($query) use ($keyword) {

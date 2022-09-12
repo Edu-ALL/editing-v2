@@ -16,6 +16,11 @@
       <div class="container main-content m-0">
         {{-- Detail Student --}}
         <div class="row justify-content-center mt-md-5">
+          @if (session()->has('invite-editor-successful'))
+            <div class="alert alert-success fade show" role="alert">
+              {{ session()->get('invite-editor-successful') }}
+            </div>
+          @endif
           <div class="col-lg-7 col-12 p-0 invite-card">
             <div class="headline d-flex justify-content-between">
               <div class="col-lg col d-flex align-items-center gap-md-3 gap-2">
@@ -26,13 +31,14 @@
                 <a href="/admin/user/editor"><img src="/assets/back.png" alt=""></a>
               </div>
             </div>
-            <form action="">
+            <form action="{{ route('invite-editor') }}" method="POST">
+              @csrf
               <div class="col d-flex flex-column align-items-center justify-content-center field-content p-3 my-4">
                 <div class="col-md-8 col-10 mb-md-4 mb-3">
                   <h6 class="pb-2">Email</h6>
-                  <input type="email" class="form-control inputField py-2 px-3">
+                  <input type="email" name="email" class="form-control inputField py-2 px-3">
                 </div>
-                <button class="btn btn-create d-flex align-items-center gap-2">
+                <button type="submit" class="btn btn-create d-flex align-items-center gap-2">
                   <img src="/assets/send.png" alt="">
                   <h6>Send Email</h6>
                 </button>
