@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class Editors extends Controller
 {
@@ -63,6 +64,7 @@ class Editors extends Controller
             $new_editor->address = $request->address;
             $new_editor->position = $request->position;
             $new_editor->image = "default.png";
+            $new_editor->password = Hash::make(12345678);
             $new_editor->status = 1;
             $new_editor->save();
             DB::commit();

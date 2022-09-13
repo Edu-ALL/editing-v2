@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Editor;
 use App\Models\EssayClients;
+use App\Models\EssayEditors;
+use App\Models\EssayStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -52,6 +54,10 @@ class Essays extends Controller
             return view('user.admin.essay-list.essay-ongoing-assign', [
                 'essay' => EssayClients::find($id_essay)
             ]);
+        } else if ($essay->status_essay_clients == 2) {
+            return view('user.admin.essay-list.essay-ongoing-ongoing', [
+                'essay' => EssayClients::find($id_essay)
+            ]);
         } else if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 6) {
             return view('user.admin.essay-list.essay-ongoing-submitted', [
                 'essay' => EssayClients::find($id_essay)
@@ -66,6 +72,18 @@ class Essays extends Controller
             $essay->id_editors = $request->id_editors;
             $essay->status_essay_clients = 1;
             $essay->save();
+
+            $essay_editor = new EssayEditors;
+            $essay_editor->id_essay_clients = $essay->id_essay_clients;
+            $essay_editor->editors_mail = $essay->editor->email;
+            $essay_editor->status_essay_editors = 1;
+            $essay_editor->save();
+
+            $essay_status = new EssayStatus;
+            $essay_status->id_essay_clients = $essay->id_essay_clients;
+            $essay_status->status = 1;
+            $essay_status->save();
+
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
@@ -81,6 +99,14 @@ class Essays extends Controller
             $essay = EssayClients::find($id_essay);
             $essay->status_essay_clients = 4;
             $essay->save();
+            
+            EssayEditors::where('id_essay_clients', '=', $essay->id_essay_clients)->delete();
+
+            $essay_status = new EssayStatus;
+            $essay_status->id_essay_clients = $essay->id_essay_clients;
+            $essay_status->status = 4;
+            $essay_status->save();
+
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();

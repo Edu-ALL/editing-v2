@@ -12,6 +12,7 @@ class EssayEditors extends Model
     protected $table = "tbl_essay_editors";
     protected $primaryKey = 'id_essay_editors';
     public $incrementing = false;
+    public $timestamps = false;
 
     protected $fillable = [
         'id_essay_editors',

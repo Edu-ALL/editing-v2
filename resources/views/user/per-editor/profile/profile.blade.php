@@ -119,7 +119,7 @@
                   </div>
                   <div class="col-6">
                     <h6 class="pb-2">Password Confirm :</h6>
-                    <input type="password" class="form-control inputField py-2 px-3" id="confirm" name="password_confirm" disabled>
+                    <input type="password" class="form-control inputField py-2 px-3" id="confirm" name="password_confirmation" disabled>
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-4">

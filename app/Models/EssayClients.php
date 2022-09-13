@@ -70,7 +70,7 @@ class EssayClients extends Model
 
     public function essay_editors()
     {
-        return $this->hasMany(EssayEditors::class, 'id_essay_clients', 'id_essay_clients');
+        return $this->belongsTo(EssayEditors::class, 'id_essay_clients', 'id_essay_clients');
     }
 
     public function feedback()

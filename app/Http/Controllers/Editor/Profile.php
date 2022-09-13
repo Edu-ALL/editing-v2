@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
 
 class Profile extends Controller
 {
@@ -31,7 +32,8 @@ class Profile extends Controller
             'graduated_from' => 'nullable',
             'major' => 'nullable',
             'address' => 'nullable',
-            'uploaded_file' => 'required|mimes:jpeg,jpg,png,bmp,webp|max:2048'
+            'uploaded_file' => 'mimes:jpeg,jpg,png,bmp,webp|max:2048',
+            'password' => 'confirmed|min:6',
         ];
 
         $validator = Validator::make($request->all() + ['id_editors' => $id_editors], $rules);
@@ -51,6 +53,7 @@ class Profile extends Controller
             $editor->major = $request->major;
             $editor->address = $request->address;
             $editor->about_me = $request->about_me;
+            $editor->password = Hash::make($request->password);
 
             $name = $request->first_name;
             $time = time();

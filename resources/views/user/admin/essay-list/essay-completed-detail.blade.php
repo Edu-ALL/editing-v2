@@ -32,12 +32,10 @@
               <img class="img-word" src="/assets/logo-word.png" alt="">
             </div>
             <div class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
-              <form action="">
-                <button class="btn btn-download d-flex align-items-center gap-2">
-                  <img src="/assets/download.png" alt="">
-                  <h6>Download</h6>
-                </button>
-              </form>
+              <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/students/'.$essay->attached_of_clients) }}>
+                <img src="/assets/download.png" alt="">
+                <h6>Download</h6>
+              </a>
             </div>
             <div class="headline d-flex align-items-center gap-3" style="background-color: var(--yellow)">
               <img src="/assets/file.png" alt="">
@@ -47,12 +45,10 @@
               <img class="img-word" src="/assets/logo-word.png" alt="">
             </div>
             <div class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
-              <form action="">
-                <button class="btn btn-download d-flex align-items-center gap-2">
-                  <img src="/assets/download.png" alt="">
-                  <h6>Download</h6>
-                </button>
-              </form>
+              <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/editors/'.$essay->essay_editors->attached_of_editors) }}>
+                <img src="/assets/download.png" alt="">
+                <h6>Download</h6>
+              </a>
             </div>
             <div class="headline d-flex align-items-center gap-3">
               <img src="/assets/assign.png" alt="">

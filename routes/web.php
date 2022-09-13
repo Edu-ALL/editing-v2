@@ -255,6 +255,7 @@ Route::get('/editors/profile', [Profile::class, 'index']);
 
 Route::get('/editors/essay-list', [EditorEssays::class, 'index']);
 Route::get('/editors/essay-list/completed/detail/{id_essay}', [EditorEssays::class, 'detailEssay']);
+Route::get('/editors/essay-list/ongoing/detail/{id_essay}', [EditorEssays::class, 'detailEssay']);
 
 Route::get('/editors/essay-list/ongoing/detail', function () {
     return view('user.per-editor.essay-list.essay-list-ongoing-detail');

@@ -229,6 +229,9 @@ img.img-word {
     font-size: 10px !important;
   }
   /* End Selectize */
+  .field .inputField {
+    width: 100%;
+  }
 }
 
 @media (max-width: 768px) {
