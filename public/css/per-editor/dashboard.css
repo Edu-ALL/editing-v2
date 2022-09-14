@@ -197,6 +197,12 @@ img.img-word {
 }
 /* End Button */
 
+.input-group-text {
+  font-size: 12px;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
 /* Selectize */
 .selectize-control,
 .selectize-dropdown {

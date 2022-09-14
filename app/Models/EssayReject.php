@@ -5,22 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EssayTags extends Model
+class EssayReject extends Model
 {
     use HasFactory;
-    protected $table = "tbl_essay_tags";
-    protected $primaryKey = 'id';
+
+    protected $table = "tbl_essay_reject";
     public $incrementing = false;
     public $timestamps = false;
 
     protected $fillable = [
         'id',
         'id_essay_clients',
-        'id_topic',
+        'editors_mail',
+        'notes',
+        'created_at'
     ];
 
-    public function tags()
+    public function essay_clients()
     {
-        return $this->belongsTo(Tags::class, 'id_topic', 'id_topic');
+        return $this->belongsTo(EssayClients::class, 'id_essay_clients', 'id_essay_clients');
     }
 }

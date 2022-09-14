@@ -7,20 +7,23 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\EssayClients;
 use App\Models\Editor;
 use App\Models\EssayEditors;
+use App\Models\EssayReject;
 use App\Models\EssayStatus;
+use App\Models\EssayTags;
 use App\Models\Tags;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Exception;
+use Illuminate\Support\Facades\File;
 
 class Essays extends Controller
 {
     public function index(Request $request){
         $editor = Auth::guard('web-editor')->user();
         $essays = EssayClients::where('id_editors', '=', $editor->id_editors);
-        $ongoing_essay = $essays->where('status_essay_clients', '!=', 7)->where('status_essay_clients', '!=', 0)->paginate(10);
+        $ongoing_essay = $essays->where('status_essay_clients', '!=', 7)->where('status_essay_clients', '!=', 0)->where('status_essay_clients', '!=', 5)->paginate(10);
         $completed_essay = EssayClients::where('id_editors', '=', $editor->id_editors)->where('status_essay_clients', '=', 7)->paginate(10);
 
         return view('user.per-editor.essay-list.essay-list', [
@@ -33,7 +36,7 @@ class Essays extends Controller
     {
         $editors = Editor::paginate(10);
         $essay = EssayClients::find($id_essay);
-        if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4 || $essay->status_essay_clients == 5) {
+        if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4) {
             return view('user.per-editor.essay-list.essay-list-ongoing-detail', [
                 'essay' => EssayClients::find($id_essay),
                 'editors' => $editors
@@ -47,8 +50,8 @@ class Essays extends Controller
                 'essay' => EssayClients::find($id_essay),
                 'tags' => Tags::get()
             ]);
-        } else if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 6) {
-            return view('user.per-editor.essay-list.essay-ongoing-submitted', [
+        } else if ($essay->status_essay_clients == 3) {
+            return view('user.per-editor.essay-list.essay-list-ongoing-submitted', [
                 'essay' => EssayClients::find($id_essay)
             ]);
         } else if ($essay->status_essay_clients == 7) {
@@ -74,6 +77,89 @@ class Essays extends Controller
             $essay_status->id_essay_clients = $id_essay;
             $essay_status->status = 2;
             $essay_status->save();
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return Redirect::back()->withErrors($e->getMessage());
+        }
+        return redirect('editors/essay-list/ongoing/detail/'.$id_essay);
+    }
+
+    public function reject($id_essay, Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $essay = EssayClients::find($id_essay);
+            $essay->status_essay_clients = 5;
+            $essay->save();
+            
+            $essay_status = new EssayStatus;
+            $essay_status->id_essay_clients = $id_essay;
+            $essay_status->status = 5;
+            $essay_status->save();
+            
+            $essay_reject = new EssayReject;
+            $essay_reject->id_essay_clients = $id_essay;
+            $essay_reject->editors_mail = EssayEditors::where('id_essay_clients', '=', $id_essay)->first()->editors_mail;
+            $essay_reject->notes = $request->notes;
+            $essay_reject->created_at = date('Y-m-d H:i:s');
+            $essay_reject->save();
+            
+            EssayEditors::where('id_essay_clients', '=', $essay->id_essay_clients)->delete();
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return Redirect::back()->withErrors($e->getMessage());
+        }
+        return redirect('editors/essay-list');
+    }
+
+    public function uploadEssay($id_essay, Request $request)
+    {
+        $rules = [
+            'uploaded_file' => 'mimes:doc,docx|max:2048'
+        ];
+
+        $validator = Validator::make($request->all() + ['id_essay_clients' => $id_essay], $rules);
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator->messages());
+        }
+
+        DB::beginTransaction();
+        try {
+            $essay = EssayClients::find($id_essay);
+            $essay->status_essay_clients = 3;
+            $essay->save();
+            
+            $essay_editor = EssayEditors::where('id_essay_clients', '=', $id_essay)->first();
+            $essay_editor->status_essay_editors = 3;
+            $essay_editor->work_duration = $request->work_duration;
+            $essay_editor->notes_editors = $request->description;
+            if ($request->hasFile('uploaded_file')) {
+                if ($old_file_path = $essay_editor->attached_of_editors) {
+                    $file_path = public_path('uploaded_files/program/essay/editors'.$old_file_path);
+                    if (File::exists($file_path)) {
+                        File::delete($file_path);
+                    }
+                }
+                $file_name = 'Editing-'.$essay->client_by_id->first_name.'-Essays-by-'.$essay->editor->first_name.'('.date('d-m-Y').')';
+                $file_format = $request->file('uploaded_file')->getClientOriginalExtension();
+                $med_file_path = $request->file('uploaded_file')->storeAs('program/essay/editors', $file_name.'.'.$file_format, ['disk' => 'public_assets']);
+                $essay_editor->attached_of_editors = $file_name.'.'.$file_format;
+            }
+            $essay_editor->save();
+
+            $essay_status = new EssayStatus;
+            $essay_status->id_essay_clients = $id_essay;
+            $essay_status->status = 3;
+            $essay_status->save();
+            
+            $tag = new EssayTags;
+            $tag->id_essay_clients = $id_essay;
+            $tag->id_topic = $request->tag;
+            $tag->save();
 
             DB::commit();
         } catch (Exception $e) {
