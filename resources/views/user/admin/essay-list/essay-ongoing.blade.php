@@ -29,7 +29,7 @@
               <div class="col-md-4 col-4 d-flex align-items-center justify-content-end">
                 <div class="input-group">
                   <form id="form-ongoing-essay-searching" action="{{ route('list-ongoing-essay') }}" method="GET" role="search" class="w-100">
-                    <input type="email" class="form-control inputField py-2 px-3" name="keyword" placeholder="Search">
+                    <input type="search" class="form-control inputField py-2 px-3" name="keyword" placeholder="Search">
                   </form>
                 </div>
               </div>
