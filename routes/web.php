@@ -10,6 +10,9 @@ use App\Http\Controllers\Admin\UserStudent;
 use App\Http\Controllers\Admin\Universities;
 use App\Http\Controllers\Admin\Program;
 
+use App\Http\Controllers\Mentor\EssaysMenu;
+use App\Http\Controllers\Mentor\StudentsMenu;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -100,21 +103,29 @@ Route::get('/admin/essay-list/completed/detail', function () {
 
 
 //**********Role Mentor**********//
+Route::get('/mentor/essay-list', [EssaysMenu::class, 'index'])->name('list-essay');
+Route::get('/admin/essay-list/detail', function () {
+    return view('user.admin.essay-list.essay-ongoing-detail');
+});
+Route::get('/mentor/essay-list/completed', [EssaysMenu::class, 'index'])->name('list-essay-completed');
+
 Route::get('/mentor/dashboard', function () {
     return view('user.mentor.dashboard');
 });
-Route::get('/mentor/user/student', function () {
-    return view('user.mentor.user-student');
-});
+Route::get('/mentor/user/student', [StudentsMenu::class, 'index'])->name('list-student');
+Route::get('/mentor/user/student/detail/{id}', [StudentsMenu::class, 'detail']);
+// Route::get('/mentor/user/student', function () {
+//     return view('user.mentor.user-student');
+// });
 Route::get('/mentor/user/student/detail', function () {
     return view('user.mentor.user-student-detail');
 });
-Route::get('/mentor/essay/list', function () {
-    return view('user.mentor.essay-list');
-});
-Route::get('/mentor/essay/list/detail', function () {
-    return view('user.mentor.essay-list-detail');
-});
+// Route::get('/mentor/essay/list', function () {
+//     return view('user.mentor.essay-list');
+// });
+// Route::get('/mentor/essay/list/detail', function () {
+//     return view('user.mentor.essay-list-detail');
+// });
 Route::get('/mentor/new-request', function () {
     return view('user.mentor.new-request');
 });

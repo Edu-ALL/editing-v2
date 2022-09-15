@@ -1,4 +1,7 @@
 @extends('user.mentor.utama.utama')
+@section('css')
+    <link rel="stylesheet" href="/css/admin/dashboard.css">
+@endsection
 @section('content')
     <div class="container-fluid p-0">
         <div class="row flex-nowrap main">
@@ -135,3 +138,14 @@
         </div>
     </div>
 @endsection
+@section('js')
+    @if (session()->has('login-successful'))
+        <script>
+            $(document).ready(function() {
+                setTimeout(() => {
+                    $(".alert-success").alert('close');
+                }, 3000);
+            });
+        </script>
+    @endif
+@stop

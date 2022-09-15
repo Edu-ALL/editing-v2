@@ -1,4 +1,7 @@
 @extends('user.mentor.utama.utama')
+@section('css')
+    <link rel="stylesheet" href="/css/admin/user-student-detail.css">
+@endsection
 @section('content')
     <div class="container-fluid" style="padding: 0">
         <div class="row flex-nowrap main">
@@ -50,7 +53,7 @@
                                             <p>:</p>
                                         </div>
                                         <div class="col-7">
-                                            <p>Student Dummy</p>
+                                            <p>{{ $client->first_name . ' ' . $client->last_name }}</p>
                                         </div>
                                     </div>
                                     <div class="row d-flex align-items-center">
@@ -61,7 +64,7 @@
                                             <p>:</p>
                                         </div>
                                         <div class="col-7">
-                                            <p>12345678</p>
+                                            <p>{{ $client->phone }}</p>
                                         </div>
                                     </div>
                                     <div class="row d-flex align-items-center">
@@ -72,7 +75,7 @@
                                             <p>:</p>
                                         </div>
                                         <div class="col-7">
-                                            <p>student.dummy@gmail.com</p>
+                                            <p>{{ $client->email }}</p>
                                         </div>
                                     </div>
                                     <div class="row d-flex align-items-center">
@@ -83,7 +86,7 @@
                                             <p>:</p>
                                         </div>
                                         <div class="col-7">
-                                            <p>Jl Jeruk Kembar blok Q9 no.15</p>
+                                            <p>{{ $client->address }}</p>
                                         </div>
                                     </div>
                                     <div class="row d-flex align-items-center">
@@ -94,24 +97,11 @@
                                             <p>:</p>
                                         </div>
                                         <div class="col-7">
-                                            <div class="dropdown">
-                                                <button class="btn dropdown-toggle w-100 text-start" type="button"
-                                                    id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                                    aria-expanded="false">
-                                                    <p class="d-inline-block">Mentor</p>
-                                                </button>
-                                                <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1">
-                                                    <li class="mt-1 mb-2">
-                                                        <input type="email" class="form-control inputField py-1 px-2"
-                                                            placeholder="Search">
-                                                    </li>
-                                                    <li><a class="dropdown-item ps-2 my-1" href="">Action</a></li>
-                                                    <li><a class="dropdown-item ps-2 my-1" href="">Another
-                                                            action</a></li>
-                                                    <li><a class="dropdown-item ps-2 my-1" href="">Something else
-                                                            here</a></li>
-                                                </ul>
-                                            </div>
+                                            <select class="select-beast inputField">
+                                                <option value="value 1">Value 1</option>
+                                                <option value="value 2">Value 2</option>
+                                                <option value="value 3">Value 3</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>

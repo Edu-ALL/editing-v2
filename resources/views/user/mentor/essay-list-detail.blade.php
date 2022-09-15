@@ -22,285 +22,154 @@
                     </div>
                 </div>
                 <div class="container main-content m-0">
-                    {{-- Detail Student --}}
-                    <div class="row">
-                        <div class="row gap-2 my-2">
-                            <div class="col-md col-5 p-0 studentList gap-3">
-                                <div class="headline d-flex justify-content-between">
-                                    <div class="col-md-6 col-5 d-flex align-items-center gap-md-3 gap-2">
-                                        <img src="/assets/student.png" alt="">
-                                        <h6>Students</h6>
-                                    </div>
-                                    <div
-                                        class="col-md-4 col-6 d-flex align-items-center justify-content-end gap-md-3 gap-2">
-                                        <a href="/admin/user/student"><img src="/assets/back.png" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="row student-info pb-md-0 pb-4">
-                                    <div class="col-md-4 d-flex align-items-center justify-content-center py-md-0 py-4">
-                                        <div class="pic-profile">
-                                            <img class="img-fluid" src="/assets/student-bg.png" alt="">
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="col-md-8 student-desc d-flex flex-column justify-content-center gap-lg-3 gap-2 ps-md-5 px-4">
-                                        <div class="row d-flex align-items-center">
-                                            <div class="col-md-3 col-4">
-                                                <h6>Full Name</h6>
-                                            </div>
-                                            <div class="col-1 titik2">
-                                                <p>:</p>
-                                            </div>
-                                            <div class="col-7">
-                                                <p>Student Dummy</p>
-                                            </div>
-                                        </div>
-                                        <div class="row d-flex align-items-center">
-                                            <div class="col-md-3 col-4">
-                                                <h6>Phone Number</h6>
-                                            </div>
-                                            <div class="col-1 titik2">
-                                                <p>:</p>
-                                            </div>
-                                            <div class="col-7">
-                                                <p>12345678</p>
-                                            </div>
-                                        </div>
-                                        <div class="row d-flex align-items-center">
-                                            <div class="col-md-3 col-4">
-                                                <h6>Email</h6>
-                                            </div>
-                                            <div class="col-1 titik2">
-                                                <p>:</p>
-                                            </div>
-                                            <div class="col-7">
-                                                <p>student.dummy@gmail.com</p>
-                                            </div>
-                                        </div>
-                                        <div class="row d-flex align-items-center">
-                                            <div class="col-md-3 col-4">
-                                                <h6>Address</h6>
-                                            </div>
-                                            <div class="col-1 titik2">
-                                                <p>:</p>
-                                            </div>
-                                            <div class="col-7">
-                                                <p>Jl Jeruk Kembar blok Q9 no.15</p>
-                                            </div>
-                                        </div>
-                                        <div class="row d-flex align-items-center">
-                                            <div class="col-md-3 col-4">
-                                                <h6>Mentor Name</h6>
-                                            </div>
-                                            <div class="col-1 titik2">
-                                                <p>:</p>
-                                            </div>
-                                            <div class="col-7">
-                                                <div class="dropdown">
-                                                    <button class="btn dropdown-toggle w-100 text-start" type="button"
-                                                        id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                                        aria-expanded="false">
-                                                        <p class="d-inline-block">Mentor</p>
-                                                    </button>
-                                                    <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1">
-                                                        <li class="mt-1 mb-2">
-                                                            <input type="email" class="form-control inputField py-1 px-2"
-                                                                placeholder="Search">
-                                                        </li>
-                                                        <li><a class="dropdown-item ps-2 my-1" href="">Action</a>
-                                                        </li>
-                                                        <li><a class="dropdown-item ps-2 my-1" href="">Another
-                                                                action</a></li>
-                                                        <li><a class="dropdown-item ps-2 my-1" href="">Something else
-                                                                here</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row student-addition p-md-5 p-3">
-                                    {{-- Text Area --}}
-                                    <div class="text-area p-md-1 mb-3">
-                                        <h6 class="pb-3">Personal Brand Statement :</h6>
-                                        <textarea name="" id=""></textarea>
-                                    </div>
-                                    <div class="text-area p-md-1 mb-3">
-                                        <h6 class="pb-3">Academic Goals & Interest :</h6>
-                                        <textarea name="" id=""></textarea>
-                                    </div>
-                                    <div class="text-area p-md-1 mb-3">
-                                        <h6 class="pb-3">Life Philosophy (Values) & Personalities :</h6>
-                                        <textarea name="" id=""></textarea>
-                                    </div>
-                                    {{-- End Text Area --}}
-                                    {{-- Attachment --}}
-                                    <div
-                                        class="col-lg-2 col-3 mb-lg-4 mb-3 attachment d-flex align-items-center justify-content-center">
-                                        <h6 class="text-center">Attachment</h6>
-                                    </div>
-                                    <div
-                                        class="row d-flex flex-lg-row flex-column attachment-status gap-lg-0 gap-2 ps-lg-0 ps-2 mb-3">
-                                        <div class="col-lg-4 me-2">
-                                            <h6>Activities Resume<span class="px-2">:</span><span
-                                                    style="color: var(--red)">Not Available</span></h6>
-                                        </div>
-                                        <div class="col-lg">
-                                            <h6>Questionnaire<span class="px-2">:</span><span
-                                                    style="color: var(--red)">Not
-                                                    Available</span></h6>
-                                        </div>
-                                        <div class="col-lg">
-                                            <h6>Others<span class="px-2">:</span><span style="color: var(--red)">Not
-                                                    Available</span></h6>
-                                        </div>
-                                    </div>
-                                    {{-- End Attachment --}}
-                                </div>
-                                </a>
+                    <div class="row gap-2">
+                        <div class="col-md col-12 p-0 userCard profile">
+                            <div class="headline d-flex align-items-center gap-3">
+                                <img src="/assets/status.png" alt="">
+                                <h6>Status</h6>
                             </div>
-                            <div class="col-md col-7 p-0 studentList gap-3">
-                                <div class="headline d-flex justify-content-between">
-                                    <div class="col-md-6 col-5 d-flex align-items-center gap-md-3 gap-2">
-                                        <img src="/assets/student.png" alt="">
-                                        <h6>Students</h6>
-                                    </div>
-                                    <div
-                                        class="col-md-4 col-6 d-flex align-items-center justify-content-end gap-md-3 gap-2">
-                                        <a href="/admin/user/student"><img src="/assets/back.png" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="row student-info pb-md-0 pb-4">
-                                    <div class="col-md-4 d-flex align-items-center justify-content-center py-md-0 py-4">
-                                        <div class="pic-profile">
-                                            <img class="img-fluid" src="/assets/student-bg.png" alt="">
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="col-md-8 student-desc d-flex flex-column justify-content-center gap-lg-3 gap-2 ps-md-5 px-4">
-                                        <div class="row d-flex align-items-center">
-                                            <div class="col-md-3 col-4">
-                                                <h6>Full Name</h6>
-                                            </div>
-                                            <div class="col-1 titik2">
-                                                <p>:</p>
-                                            </div>
-                                            <div class="col-7">
-                                                <p>Student Dummy</p>
-                                            </div>
-                                        </div>
-                                        <div class="row d-flex align-items-center">
-                                            <div class="col-md-3 col-4">
-                                                <h6>Phone Number</h6>
-                                            </div>
-                                            <div class="col-1 titik2">
-                                                <p>:</p>
-                                            </div>
-                                            <div class="col-7">
-                                                <p>12345678</p>
-                                            </div>
-                                        </div>
-                                        <div class="row d-flex align-items-center">
-                                            <div class="col-md-3 col-4">
-                                                <h6>Email</h6>
-                                            </div>
-                                            <div class="col-1 titik2">
-                                                <p>:</p>
-                                            </div>
-                                            <div class="col-7">
-                                                <p>student.dummy@gmail.com</p>
-                                            </div>
-                                        </div>
-                                        <div class="row d-flex align-items-center">
-                                            <div class="col-md-3 col-4">
-                                                <h6>Address</h6>
-                                            </div>
-                                            <div class="col-1 titik2">
-                                                <p>:</p>
-                                            </div>
-                                            <div class="col-7">
-                                                <p>Jl Jeruk Kembar blok Q9 no.15</p>
-                                            </div>
-                                        </div>
-                                        <div class="row d-flex align-items-center">
-                                            <div class="col-md-3 col-4">
-                                                <h6>Mentor Name</h6>
-                                            </div>
-                                            <div class="col-1 titik2">
-                                                <p>:</p>
-                                            </div>
-                                            <div class="col-7">
-                                                <div class="dropdown">
-                                                    <button class="btn dropdown-toggle w-100 text-start" type="button"
-                                                        id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                                        aria-expanded="false">
-                                                        <p class="d-inline-block">Mentor</p>
-                                                    </button>
-                                                    <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1">
-                                                        <li class="mt-1 mb-2">
-                                                            <input type="email"
-                                                                class="form-control inputField py-1 px-2"
-                                                                placeholder="Search">
-                                                        </li>
-                                                        <li><a class="dropdown-item ps-2 my-1" href="">Action</a>
-                                                        </li>
-                                                        <li><a class="dropdown-item ps-2 my-1" href="">Another
-                                                                action</a></li>
-                                                        <li><a class="dropdown-item ps-2 my-1" href="">Something
-                                                                else
-                                                                here</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row student-addition p-md-5 p-3">
-                                    {{-- Text Area --}}
-                                    <div class="text-area p-md-1 mb-3">
-                                        <h6 class="pb-3">Personal Brand Statement :</h6>
-                                        <textarea name="" id=""></textarea>
-                                    </div>
-                                    <div class="text-area p-md-1 mb-3">
-                                        <h6 class="pb-3">Academic Goals & Interest :</h6>
-                                        <textarea name="" id=""></textarea>
-                                    </div>
-                                    <div class="text-area p-md-1 mb-3">
-                                        <h6 class="pb-3">Life Philosophy (Values) & Personalities :</h6>
-                                        <textarea name="" id=""></textarea>
-                                    </div>
-                                    {{-- End Text Area --}}
-                                    {{-- Attachment --}}
-                                    <div
-                                        class="col-lg-2 col-3 mb-lg-4 mb-3 attachment d-flex align-items-center justify-content-center">
-                                        <h6 class="text-center">Attachment</h6>
-                                    </div>
-                                    <div
-                                        class="row d-flex flex-lg-row flex-column attachment-status gap-lg-0 gap-2 ps-lg-0 ps-2 mb-3">
-                                        <div class="col-lg-4 me-2">
-                                            <h6>Activities Resume<span class="px-2">:</span><span
-                                                    style="color: var(--red)">Not Available</span></h6>
-                                        </div>
-                                        <div class="col-lg">
-                                            <h6>Questionnaire<span class="px-2">:</span><span
-                                                    style="color: var(--red)">Not
-                                                    Available</span></h6>
-                                        </div>
-                                        <div class="col-lg">
-                                            <h6>Others<span class="px-2">:</span><span style="color: var(--red)">Not
-                                                    Available</span></h6>
-                                        </div>
-                                    </div>
-                                    {{-- End Attachment --}}
-                                </div>
-                                </a>
+                            <div class="col d-flex flex-column align-items-center px-3 py-md-5 py-4 gap-3 text-center justify-content-center"
+                                style="color: var(--black)">
+                                <img class="img-status" src="/assets/status-edit.png" alt="">
+                                <h6>Assigned to editor</h6>
+                            </div>
+                            <div class="headline d-flex align-items-center gap-3">
+                                <img src="/assets/file.png" alt="">
+                                <h6>Download Student Essay</h6>
+                            </div>
+                            <div class="col d-flex align-items-center justify-content-center py-md-4 py-4">
+                                <img class="img-word" src="/assets/logo-word.png" alt="">
+                            </div>
+                            <div class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
+                                <form action="">
+                                    <button class="btn btn-download d-flex align-items-center gap-2">
+                                        <img src="/assets/download.png" alt="">
+                                        <h6>Download</h6>
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="headline d-flex align-items-center gap-3">
+                                <img src="/assets/assign.png" alt="">
+                                <h6>Assignment</h6>
+                            </div>
+                            <div class="col d-flex align-items-center justify-content-center py-md-4 py-4">
+                                <button class="btn btn-download d-flex align-items-center gap-2" data-bs-toggle="modal"
+                                    data-bs-target="#selectEditor"
+                                    style="background-color: var(--yellow); color: var(--white)">
+                                    <img src="/assets/assign-list.png" alt="">
+                                    <h6>Select Editor</h6>
+                                </button>
                             </div>
                         </div>
 
-                        {{-- End Detail Student --}}
+                        <div class="col-md-8 col-12 p-0 userCard">
+                            <div class="headline d-flex justify-content-between">
+                                <div class="col-md-6 col-8 d-flex align-items-center gap-3">
+                                    <img src="/assets/student.png" alt="">
+                                    <h6>Student Detail</h6>
+                                </div>
+                                <div class="col-md-4 col-4 d-flex align-items-center justify-content-end gap-md-3 gap-2">
+                                    <a href="/admin/essay-list/ongoing"><img src="/assets/back.png" alt=""></a>
+                                </div>
+                            </div>
+                            <div class="row profile-editor px-md-4 py-md-4 px-3 py-4 mb-2"
+                                style="overflow: auto !important">
+                                <div
+                                    class="col-md student-desc d-flex flex-column justify-content-center gap-lg-3 gap-2 ps-lg-3 px-2 border-0">
+                                    <div class="row d-flex align-items-center">
+                                        <div class="col-md-3 col-4">
+                                            <h6>Full Name</h6>
+                                        </div>
+                                        <div class="col-1 titik2">
+                                            <p>:</p>
+                                        </div>
+                                        <div class="col-7">
+                                            <p>Student Dummy</p>
+                                        </div>
+                                    </div>
+                                    <div class="row d-flex align-items-center">
+                                        <div class="col-md-3 col-4">
+                                            <h6>Email</h6>
+                                        </div>
+                                        <div class="col-1 titik2">
+                                            <p>:</p>
+                                        </div>
+                                        <div class="col-7">
+                                            <p>student.dummy@gmail.com</p>
+                                        </div>
+                                    </div>
+                                    <div class="row d-flex align-items-center">
+                                        <div class="col-md-3 col-4">
+                                            <h6>Address</h6>
+                                        </div>
+                                        <div class="col-1 titik2">
+                                            <p>:</p>
+                                        </div>
+                                        <div class="col-7">
+                                            <p>Jl Jeruk Kembar blok Q9 no.15</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="headline d-flex justify-content-between">
+                                <div class="col d-flex align-items-center gap-3">
+                                    <img src="/assets/detail.png" alt="">
+                                    <h6>Essay Detail</h6>
+                                </div>
+                            </div>
+                            <div class="row profile-editor px-md-4 py-md-4 px-3 py-4 mb-2"
+                                style="overflow: auto !important">
+                                <div
+                                    class="col-md student-desc d-flex flex-column justify-content-center gap-lg-3 gap-2 ps-lg-3 px-2 border-0">
+                                    <div class="row d-flex align-items-center">
+                                        <div class="col-md-3 col-4">
+                                            <h6>Essay Title</h6>
+                                        </div>
+                                        <div class="col-1 titik2">
+                                            <p>:</p>
+                                        </div>
+                                        <div class="col-7">
+                                            <p>Student Dummy</p>
+                                        </div>
+                                    </div>
+                                    <div class="row d-flex align-items-center">
+                                        <div class="col-md-3 col-4">
+                                            <h6>University Name</h6>
+                                        </div>
+                                        <div class="col-1 titik2">
+                                            <p>:</p>
+                                        </div>
+                                        <div class="col-7">
+                                            <p>student.dummy@gmail.com</p>
+                                        </div>
+                                    </div>
+                                    <div class="row d-flex align-items-center">
+                                        <div class="col-md-3 col-4">
+                                            <h6>Request Editor</h6>
+                                        </div>
+                                        <div class="col-1 titik2">
+                                            <p>:</p>
+                                        </div>
+                                        <div class="col-7">
+                                            <p>Jl Jeruk Kembar blok Q9 no.15</p>
+                                        </div>
+                                    </div>
+                                    <div class="row d-flex align-items-center">
+                                        <div class="col-md-3 col-4">
+                                            <h6>Essay Type</h6>
+                                        </div>
+                                        <div class="col-1 titik2">
+                                            <p>:</p>
+                                        </div>
+                                        <div class="col-7">
+                                            <p>Jl Jeruk Kembar blok Q9 no.15</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
                 {{-- End Content --}}
             </div>
