@@ -59,6 +59,7 @@ return array(
     'App\\Models\\EssayFeedbacks' => $baseDir . '/app/Models/EssayFeedbacks.php',
     'App\\Models\\EssayPrompts' => $baseDir . '/app/Models/EssayPrompts.php',
     'App\\Models\\EssayReject' => $baseDir . '/app/Models/EssayReject.php',
+    'App\\Models\\EssayRevise' => $baseDir . '/app/Models/EssayRevise.php',
     'App\\Models\\EssayStatus' => $baseDir . '/app/Models/EssayStatus.php',
     'App\\Models\\EssayTags' => $baseDir . '/app/Models/EssayTags.php',
     'App\\Models\\Mentor' => $baseDir . '/app/Models/Mentor.php',

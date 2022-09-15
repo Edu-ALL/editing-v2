@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit6f94f14333c7f2fe1f1b3a0731a00d2f
+class ComposerStaticInitab068892d860e1232109130d614702b3
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -320,8 +320,8 @@ class ComposerStaticInit6f94f14333c7f2fe1f1b3a0731a00d2f
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -554,6 +554,7 @@ class ComposerStaticInit6f94f14333c7f2fe1f1b3a0731a00d2f
         'App\\Models\\EssayFeedbacks' => __DIR__ . '/../..' . '/app/Models/EssayFeedbacks.php',
         'App\\Models\\EssayPrompts' => __DIR__ . '/../..' . '/app/Models/EssayPrompts.php',
         'App\\Models\\EssayReject' => __DIR__ . '/../..' . '/app/Models/EssayReject.php',
+        'App\\Models\\EssayRevise' => __DIR__ . '/../..' . '/app/Models/EssayRevise.php',
         'App\\Models\\EssayStatus' => __DIR__ . '/../..' . '/app/Models/EssayStatus.php',
         'App\\Models\\EssayTags' => __DIR__ . '/../..' . '/app/Models/EssayTags.php',
         'App\\Models\\Mentor' => __DIR__ . '/../..' . '/app/Models/Mentor.php',
@@ -5471,10 +5472,10 @@ class ComposerStaticInit6f94f14333c7f2fe1f1b3a0731a00d2f
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit6f94f14333c7f2fe1f1b3a0731a00d2f::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit6f94f14333c7f2fe1f1b3a0731a00d2f::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit6f94f14333c7f2fe1f1b3a0731a00d2f::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit6f94f14333c7f2fe1f1b3a0731a00d2f::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitab068892d860e1232109130d614702b3::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitab068892d860e1232109130d614702b3::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitab068892d860e1232109130d614702b3::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitab068892d860e1232109130d614702b3::$classMap;
 
         }, null, ClassLoader::class);
     }
