@@ -143,27 +143,19 @@
                         <img class="img-word" src="/assets/logo-word.png" alt="">
                       </div>
                       <div class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
-                        <form action="">
-                          <button class="btn btn-download d-flex align-items-center gap-2">
-                            <img src="/assets/download.png" alt="">
-                            <h6>Download</h6>
-                          </button>
-                        </form>
+                        <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/editors/'.$essay->essay_editors->attached_of_editors) }}>
+                          <img src="/assets/download.png" alt="">
+                          <h6>Download</h6>
+                        </a>
                       </div>
                     </div>
                   </div>
                   <div class="col">
-                    <div class="col pb-4" style="border-bottom: 1px solid var(--light-grey)">
-                      <h6 class="pb-2">Tags :</h6>
+                    <div class="col pb-3" style="border-bottom: 1px solid var(--light-grey)">
+                      <h6 class="pb-3">Tags :</h6>
                       <div class="col d-flex flex-wrap gap-1 list-tags pe-2">
                         <div class="tags py-2 px-3">
-                          <h6 style="font-size: 12px; font-weight: 500">The role model</h6>
-                        </div>
-                        <div class="tags py-2 px-3">
-                          <h6 style="font-size: 12px; font-weight: 500">The model</h6>
-                        </div>
-                        <div class="tags py-2 px-3">
-                          <h6 style="font-size: 12px; font-weight: 500">The role</h6>
+                          <h6 style="font-size: 12px; font-weight: 500">#{{ $essay->essay_tags->tags->topic_name }}</h6>
                         </div>
                       </div>
                     </div>

@@ -20,14 +20,16 @@
         <div class="row flex-column gap-4">
           <div class="col p-0">
             <div class="col-md col-12 p-0 userCard">
-              <div class="headline d-flex align-items-center gap-3" style="padding: 18px 24px !important;">
+              <div class="headline d-flex align-items-center px-md-4 px-3 py-3 gap-md-3 gap-1">
                 <div class="col-md col-7 d-flex align-items-center gap-md-3 gap-2">
                   <img src="/assets/ongoing-essay.png" alt="">
                   <h6>List of Ongoing Essay</h6>
                 </div>
-                <div class="col-md-4 col-4 d-flex align-items-center justify-content-end">
+                <div class="col-md-4 col d-flex align-items-center justify-content-end">
                   <div class="input-group">
-                    <input type="email" class="form-control inputField py-2 px-3" placeholder="Search">
+                    <form id="form-ongoing-essay-searching" action="" method="GET" role="search" class="w-100">
+                      <input type="search" class="form-control inputField py-2 px-3" name="keyword-ongoing" placeholder="Search">
+                    </form>
                   </div>
                 </div>
               </div>
@@ -39,7 +41,9 @@
                       <th>Student Name</th>
                       <th>Mentor Name</th>
                       <th>Editor Name</th>
+                      <th>Program Name</th>
                       <th>Essay Title</th>
+                      <th>Upload Date</th>
                       <th>Essay Deadline</th>
                       <th>Status</th>
                     </tr>
@@ -52,7 +56,9 @@
                       <td>{{ $essay->client_by_id->first_name.' '.$essay->client_by_id->last_name }}</td>
                       <td>{{ $essay->client_by_id->mentors->first_name.' '.$essay->client_by_id->mentors->last_name  }}</td>
                       <td>{{ $essay->editor ? $essay->editor->first_name.' '.$essay->editor->last_name : '-' }}</td>
+                      <td>{{ $essay->program->program_name }}</td>
                       <td>{{ $essay->essay_title }}</td>
+                      <td>{{ date('D, d M Y', strtotime($essay->uploaded_at)) }}</td>
                       <td>{{ date('D, d M Y', strtotime($essay->essay_deadline)) }}</td>
                       <td style="color: var(--red)">{{ $essay->status->status_title }}</td>
                     </tr>
@@ -60,7 +66,7 @@
                     
                     @unless (count($ongoing_essay)) 
                     <tr>
-                      <td colspan="7">No data</td>
+                      <td colspan="9">No data</td>
                     </tr>
                     @endunless
                   </tbody>
@@ -74,14 +80,16 @@
           </div>
           <div class="col p-0">
             <div class="col-md col-12 p-0 userCard">
-              <div class="headline d-flex align-items-center gap-3" style="background-color: var(--green); padding: 18px 24px !important">
+              <div class="headline d-flex align-items-center px-md-4 px-3 py-3 gap-md-3 gap-1" style="background-color: var(--green);">
                 <div class="col-md col-7 d-flex align-items-center gap-md-3 gap-2">
                   <img src="/assets/completed-essay.png" alt="">
                   <h6>List of Completed Essay</h6>
                 </div>
-                <div class="col-md-4 col-4 d-flex align-items-center justify-content-end">
+                <div class="col-md-4 col d-flex align-items-center justify-content-end">
                   <div class="input-group">
-                    <input type="email" class="form-control inputField py-2 px-3" placeholder="Search">
+                    <form id="form-ongoing-essay-searching" action="" method="GET" role="search" class="w-100">
+                      <input type="search" class="form-control inputField py-2 px-3" name="keyword-completed" placeholder="Search">
+                    </form>
                   </div>
                 </div>
               </div>
@@ -93,7 +101,9 @@
                       <th>Student Name</th>
                       <th>Mentor Name</th>
                       <th>Editor Name</th>
+                      <th>Program Name</th>
                       <th>Essay Title</th>
+                      <th>Upload Date</th>
                       <th>Essay Deadline</th>
                       <th>Status</th>
                     </tr>
@@ -103,25 +113,20 @@
                     @foreach ($completed_essay as $essay)
                     <tr onclick="window.location='/editors/essay-list/completed/detail/{{ $essay->id_essay_clients }}'">
                       <th scope="row">{{ $i++ }}</th>
-                      {{-- @if ($essay->client_by_id)
-                        <td>{{ $essay->client_by_id->first_name.' '.$essay->client_by_id->last_name }}</td>
-                        <td>{{ $essay->client_by_id->mentors->first_name.' '.$essay->client_by_id->mentors->last_name  }}</td>
-                      @elseif ($essay->client_by_email)
-                        <td>{{ $essay->client_by_email->first_name.' '.$essay->client_by_email->last_name }}</td>
-                        <td>{{ $essay->client_by_email->mentors->first_name.' '.$essay->client_by_email->mentors->last_name }}</td>
-                      @endif --}}
-                      <td>{{ $essay->client_by_id->first_name.' '.$essay->client_by_id->last_name }}</td>
-                      <td>{{ $essay->client_by_id->mentors->first_name.' '.$essay->client_by_id->mentors->last_name  }}</td>
+                      <td>{{ $essay->essay_clients->client_by_id->first_name.' '.$essay->essay_clients->client_by_id->last_name }}</td>
+                      <td>{{ $essay->essay_clients->client_by_id->mentors->first_name.' '.$essay->essay_clients->client_by_id->mentors->last_name  }}</td>
                       <td>{{ $essay->editor ? $essay->editor->first_name.' '.$essay->editor->last_name : '-' }}</td>
-                      <td>{{ $essay->essay_title }}</td>
-                      <td>{{ date('D, d M Y', strtotime($essay->essay_deadline)) }}</td>
+                      <td>{{ $essay->essay_clients->program->program_name }}</td>
+                      <td>{{ $essay->essay_clients->essay_title }}</td>
+                      <td>{{ date('D, d M Y', strtotime($essay->essay_clients->uploaded_at)) }}</td>
+                      <td>{{ date('D, d M Y', strtotime($essay->essay_clients->essay_deadline)) }}</td>
                       <td style="color: var(--green)">{{ $essay->status->status_title }}</td>
                     </tr>
                     @endforeach
                     
                     @unless (count($completed_essay)) 
                     <tr>
-                      <td colspan="7">No data</td>
+                      <td colspan="9">No data</td>
                     </tr>
                     @endunless
                   </tbody>

@@ -45,3 +45,5 @@ Route::post('editor/{id_editors}', [Editors::class, 'update'])->name('update-edi
 
 Route::post('essay-list/ongoing/assign/{id_essay}', [Essays::class, 'assignEditor'])->name('assign-editor');
 Route::post('essay-list/ongoing/cancel/{id_essay}', [Essays::class, 'cancel'])->name('cancel-editor');
+Route::post('essay-list/ongoing/verify/{id_essay}', [Essays::class, 'verifyEssay'])->name('verify-essay');
+Route::post('essay-list/ongoing/revise/{id_essay}', [Essays::class, 'reviseEssay'])->name('revise-essay');

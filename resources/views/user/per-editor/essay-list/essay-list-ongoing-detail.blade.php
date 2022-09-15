@@ -140,13 +140,6 @@
                   <img src="/assets/exit.png" alt="">
                   <h6>Reject</h6>
                 </button>
-                {{-- <form action="{{ route('reject-essay', ['id_essay' => $essay->id_essay_clients]) }}" method="POST" class="p-0">
-                  @csrf
-                  <button class="btn btn-download d-flex align-items-center gap-2" style="background-color: var(--red)">
-                    <img src="/assets/exit.png" alt="">
-                    <h6>Reject</h6>
-                  </button>
-                </form> --}}
               </div>
             </div>
           </div>

@@ -171,6 +171,7 @@
                     <div class="col-12 d-flex mb-3" style="overflow: auto !important">
                       <div class="col">
                         <h6 class="pb-2">Notes :</h6>
+                        
                         <div class="chat-messages p-3">
                           <div class="chat-message-right pb-3">
                             <div>

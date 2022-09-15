@@ -13,14 +13,14 @@
       <div class="container main-content m-0">
         <div class="row">
           <div class="col-md col-12 p-0 userCard">
-            <div class="headline d-flex align-items-center justify-content-center gap-3">
+            <div class="headline d-flex align-items-center justify-content-center py-md-4 py-3 gap-3">
               <img src="/assets/essay-list.png" alt="">
               <h6 style="font-weight: 700; font-size: 16px">YOUR ESSAYS</h6>
             </div>
             <div class="row gap-2 m-3">
               <div class="col-lg d-flex flex-column gap-2 p-0">
                 <a class="col-md col-12 p-0 userCard" href="/editors/essay-list">
-                  <div class="headline d-flex align-items-center gap-3" style="background-color: var(--red)">
+                  <div class="headline d-flex align-items-center px-4 py-md-4 py-3 gap-3" style="background-color: var(--red)">
                     <img src="/assets/warning.png" alt="">
                     <h6>Due Tomorrow</h6>
                   </div>
@@ -35,7 +35,7 @@
                 </a>
                 <div class="row gap-2">
                   <a class="col-md col-12 p-0 userCard" href="/editors/essay-list">
-                    <div class="headline d-flex align-items-center gap-3" style="background-color: var(--yellow)">
+                    <div class="headline d-flex align-items-center px-4 py-md-4 py-3 gap-3" style="background-color: var(--yellow)">
                       <img src="/assets/warning.png" alt="">
                       <h6>Due Within 3 Days</h6>
                     </div>
@@ -49,7 +49,7 @@
                     </div>
                   </a>
                   <a class="col-md col-12 p-0 userCard" href="/editors/essay-list">
-                    <div class="headline d-flex align-items-center gap-3">
+                    <div class="headline d-flex align-items-center px-4 py-md-4 py-3 gap-3">
                       <img src="/assets/warning.png" alt="">
                       <h6>Due Within 5 Days</h6>
                     </div>
@@ -65,7 +65,7 @@
                 </div>
               </div>
               <div class="col-lg col-12 p-0 userCard" href="/admin/essay-list/completed">
-                <div class="headline d-flex align-items-center gap-3">
+                <div class="headline d-flex align-items-center px-4 py-md-4 py-3 gap-3">
                   <img src="/assets/detail.png" alt="">
                   <h6>Essays</h6>
                 </div>
