@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInita90629af38d382be52a001da96d21795
+class ComposerStaticInit6f94f14333c7f2fe1f1b3a0731a00d2f
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -320,8 +320,8 @@ class ComposerStaticInita90629af38d382be52a001da96d21795
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -503,19 +503,31 @@ class ComposerStaticInita90629af38d382be52a001da96d21795
     public static $classMap = array (
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Exports\\EssaysExport' => __DIR__ . '/../..' . '/app/Exports/EssaysExport.php',
         'App\\Http\\Controllers\\Admin\\Authentication' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Authentication.php',
+        'App\\Http\\Controllers\\Admin\\CategoriesTags' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/CategoriesTags.php',
         'App\\Http\\Controllers\\Admin\\Clients' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Clients.php',
         'App\\Http\\Controllers\\Admin\\Editors' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Editors.php',
+        'App\\Http\\Controllers\\Admin\\EssayPrompt' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/EssayPrompt.php',
         'App\\Http\\Controllers\\Admin\\Essays' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Essays.php',
         'App\\Http\\Controllers\\Admin\\Export' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Export.php',
         'App\\Http\\Controllers\\Admin\\Mentors' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Mentors.php',
         'App\\Http\\Controllers\\Admin\\Program' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Program.php',
         'App\\Http\\Controllers\\Admin\\Universities' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Universities.php',
         'App\\Http\\Controllers\\CRM\\Clients' => __DIR__ . '/../..' . '/app/Http/Controllers/CRM/Clients.php',
+        'App\\Http\\Controllers\\CRM\\Mentors' => __DIR__ . '/../..' . '/app/Http/Controllers/CRM/Mentors.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\Editor\\Authentication' => __DIR__ . '/../..' . '/app/Http/Controllers/Editor/Authentication.php',
+        'App\\Http\\Controllers\\Editor\\Dashboard' => __DIR__ . '/../..' . '/app/Http/Controllers/Editor/Dashboard.php',
+        'App\\Http\\Controllers\\Editor\\Essays' => __DIR__ . '/../..' . '/app/Http/Controllers/Editor/Essays.php',
+        'App\\Http\\Controllers\\Editor\\Profile' => __DIR__ . '/../..' . '/app/Http/Controllers/Editor/Profile.php',
+        'App\\Http\\Controllers\\Mentor\\Authentication' => __DIR__ . '/../..' . '/app/Http/Controllers/Mentor/Authentication.php',
+        'App\\Http\\Controllers\\Mentor\\EssaysMenu' => __DIR__ . '/../..' . '/app/Http/Controllers/Mentor/EssaysMenu.php',
+        'App\\Http\\Controllers\\Mentor\\StudentsMenu' => __DIR__ . '/../..' . '/app/Http/Controllers/Mentor/StudentsMenu.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\CheckLogin' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckLogin.php',
+        'App\\Http\\Middleware\\Cors' => __DIR__ . '/../..' . '/app/Http/Middleware/Cors.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
         'App\\Http\\Middleware\\PreventRequestsDuringMaintenance' => __DIR__ . '/../..' . '/app/Http/Middleware/PreventRequestsDuringMaintenance.php',
         'App\\Http\\Middleware\\RedirectIfAuthenticated' => __DIR__ . '/../..' . '/app/Http/Middleware/RedirectIfAuthenticated.php',
@@ -540,10 +552,15 @@ class ComposerStaticInita90629af38d382be52a001da96d21795
         'App\\Models\\EssayClients' => __DIR__ . '/../..' . '/app/Models/EssayClients.php',
         'App\\Models\\EssayEditors' => __DIR__ . '/../..' . '/app/Models/EssayEditors.php',
         'App\\Models\\EssayFeedbacks' => __DIR__ . '/../..' . '/app/Models/EssayFeedbacks.php',
+        'App\\Models\\EssayPrompts' => __DIR__ . '/../..' . '/app/Models/EssayPrompts.php',
+        'App\\Models\\EssayReject' => __DIR__ . '/../..' . '/app/Models/EssayReject.php',
+        'App\\Models\\EssayStatus' => __DIR__ . '/../..' . '/app/Models/EssayStatus.php',
+        'App\\Models\\EssayTags' => __DIR__ . '/../..' . '/app/Models/EssayTags.php',
         'App\\Models\\Mentor' => __DIR__ . '/../..' . '/app/Models/Mentor.php',
         'App\\Models\\PositionEditor' => __DIR__ . '/../..' . '/app/Models/PositionEditor.php',
         'App\\Models\\Programs' => __DIR__ . '/../..' . '/app/Models/Programs.php',
         'App\\Models\\Status' => __DIR__ . '/../..' . '/app/Models/Status.php',
+        'App\\Models\\Tags' => __DIR__ . '/../..' . '/app/Models/Tags.php',
         'App\\Models\\University' => __DIR__ . '/../..' . '/app/Models/University.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
@@ -4617,7 +4634,6 @@ class ComposerStaticInita90629af38d382be52a001da96d21795
         'SebastianBergmann\\Type\\RuntimeException' => __DIR__ . '/..' . '/sebastian/type/src/exception/RuntimeException.php',
         'SebastianBergmann\\Type\\SimpleType' => __DIR__ . '/..' . '/sebastian/type/src/type/SimpleType.php',
         'SebastianBergmann\\Type\\StaticType' => __DIR__ . '/..' . '/sebastian/type/src/type/StaticType.php',
-        'SebastianBergmann\\Type\\TrueType' => __DIR__ . '/..' . '/sebastian/type/src/type/TrueType.php',
         'SebastianBergmann\\Type\\Type' => __DIR__ . '/..' . '/sebastian/type/src/type/Type.php',
         'SebastianBergmann\\Type\\TypeName' => __DIR__ . '/..' . '/sebastian/type/src/TypeName.php',
         'SebastianBergmann\\Type\\UnionType' => __DIR__ . '/..' . '/sebastian/type/src/type/UnionType.php',
@@ -5455,10 +5471,10 @@ class ComposerStaticInita90629af38d382be52a001da96d21795
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInita90629af38d382be52a001da96d21795::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInita90629af38d382be52a001da96d21795::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInita90629af38d382be52a001da96d21795::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInita90629af38d382be52a001da96d21795::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit6f94f14333c7f2fe1f1b3a0731a00d2f::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit6f94f14333c7f2fe1f1b3a0731a00d2f::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit6f94f14333c7f2fe1f1b3a0731a00d2f::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit6f94f14333c7f2fe1f1b3a0731a00d2f::$classMap;
 
         }, null, ClassLoader::class);
     }

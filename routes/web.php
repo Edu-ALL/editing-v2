@@ -1,14 +1,27 @@
 <?php
 
+use App\Models\Client;
+use App\Models\Editor;
+use App\Models\Mentor;
+use App\Http\Controllers\Admin\Tag;
+use App\Http\Controllers\Admin\CategoriesTags;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Essays;
 use App\Http\Controllers\Admin\Export;
 use App\Http\Controllers\Admin\Clients;
 use App\Http\Controllers\Admin\Editors;
+use App\Http\Controllers\Admin\EssayPrompt;
 use App\Http\Controllers\Admin\Mentors;
+use App\Http\Controllers\Admin\Program;
 use App\Http\Controllers\Admin\UserStudent;
 use App\Http\Controllers\Admin\Universities;
-use App\Http\Controllers\Admin\Program;
+use App\Http\Controllers\Editor\Dashboard;
+use App\Http\Controllers\Editor\Essays as EditorEssays;
+use App\Http\Controllers\Editor\Profile;
+use App\Models\Category;
+use App\Models\EssayClients;
+use App\Models\PositionEditor;
+use App\Models\University;
 
 use App\Http\Controllers\Mentor\EssaysMenu;
 use App\Http\Controllers\Mentor\StudentsMenu;
@@ -24,20 +37,20 @@ use App\Http\Controllers\Mentor\StudentsMenu;
 |
 */
 
-    Route::get('/', function () {
-        return view('home.home');
-    });
+Route::get('/', function () {
+    return view('home.home');
+});
 
-    // Login
-    Route::get('/login/mentor', function () {   
-        return view('login.login-mentor');
-    });
-    Route::get('/login/editor', function () {
-        return view('login.login-editor');
-    });
-    Route::get('/login/admin', function () {
-        return view('login.login-admin');
-    })->middleware('check.login')->name('login.admin');
+// Login
+Route::get('/login/mentor', function () {   
+    return view('login.login-mentor');
+});
+Route::get('/login/editor', function () {
+    return view('login.login-editor');
+})->middleware('check.login')->name('login.editor');
+Route::get('/login/admin', function () {
+    return view('login.login-admin');
+})->middleware('check.login')->name('login.admin');
 
 
 Route::get('/forgot/mentor', function () {
@@ -55,10 +68,18 @@ Route::get('/forgot/admin', function () {
 Route::get('/admin/help', function () {
     return view('user.admin.help.help');
 });
-// User
+// Dashboard
 Route::get('/admin/dashboard', function () {
-    return view('user.admin.dashboard');
+    return view('user.admin.dashboard', [
+        'count_student' => Client::count(),
+        'count_mentor' => Mentor::count(),
+        'count_editor' => Editor::count(),
+        'count_ongoing_essay' => EssayClients::where('status_essay_clients', '!=', 7)->count(),
+        'count_completed_essay' => EssayClients::where('status_essay_clients', '=', 7)->count(),
+    ]);
 })->name('admin.dashboard');
+
+// Student
 Route::get('/admin/user/student', [Clients::class, 'index'])->name('list-client');
 Route::get('/admin/user/student/detail/{id}', [Clients::class, 'detail']);
 
@@ -69,37 +90,33 @@ Route::get('/admin/user/mentor', [Mentors::class, 'index'])->name('list-mentor')
 Route::get('/admin/user/editor', [Editors::class, 'index'])->name('list-editor');
 Route::get('/admin/user/editor/detail/{id}', [Editors::class, 'detail']);
 Route::get('/admin/user/editor/add', function () {
-    return view('user.admin.users.user-editor-add');
+    return view('user.admin.users.user-editor-add', [
+        'position' => PositionEditor::get()
+    ]);
 });
 Route::get('/admin/user/editor/invite', function () {
     return view('user.admin.users.user-editor-invite');
 });
-// Route::get('/admin/user/editor/detail', function () {
-//     return view('user.admin.users.user-editor-detail');
-// });
 
 
 // Essay List
 Route::get('/admin/essay-list/ongoing', [Essays::class, 'index'])->name('list-ongoing-essay');
-Route::get('/admin/essay-list/ongoing/detail', function () {
-    return view('user.admin.essay-list.essay-ongoing-detail');
-});
-Route::get('/admin/essay-list/ongoing/assign', function () {
-    return view('user.admin.essay-list.essay-ongoing-assign');
-});
-Route::get('/admin/essay-list/ongoing/submitted', function () {
-    return view('user.admin.essay-list.essay-ongoing-submitted');
-});
-Route::get('/admin/essay-list/ongoing/accepted', function () {
-    return view('user.admin.essay-list.essay-ongoing-accepted');
-});
+Route::get('/admin/essay-list/ongoing/detail/{id_essay}', [Essays::class, 'detailEssayOngoing']);
+// Route::get('/admin/essay-list/ongoing/detail', function () {
+//     return view('user.admin.essay-list.essay-ongoing-detail');
+// });
+// Route::get('/admin/essay-list/ongoing/assign', function () {
+//     return view('user.admin.essay-list.essay-ongoing-assign');
+// });
+// Route::get('/admin/essay-list/ongoing/submitted', function () {
+//     return view('user.admin.essay-list.essay-ongoing-submitted');
+// });
+// Route::get('/admin/essay-list/ongoing/accepted', function () {
+//     return view('user.admin.essay-list.essay-ongoing-accepted');
+// });
 
-Route::get('/admin/essay-list/completed', function () {
-    return view('user.admin.essay-list.essay-completed');
-});
-Route::get('/admin/essay-list/completed/detail', function () {
-    return view('user.admin.essay-list.essay-completed-detail');
-});
+Route::get('/admin/essay-list/completed', [Essays::class, 'essayCompleted'])->name('list-completed-essay');
+Route::get('/admin/essay-list/completed/detail/{id}', [Essays::class, 'detailEssayCompleted']);
 
 
 //**********Role Mentor**********//
@@ -221,47 +238,35 @@ Route::get('/admin/setting/universities/add', function () {
 });
 
 // Essay Prompt
-Route::get('/admin/setting/essay-prompt', function () {
-    return view('user.admin.settings.setting-essay-prompt');
-});
+Route::get('/admin/setting/essay-prompt', [EssayPrompt::class, 'index'])->name('list-essay-prompt');
+Route::get('/admin/setting/essay-prompt/detail/{id}', [EssayPrompt::class, 'detail']);
 Route::get('/admin/setting/essay-prompt/add', function () {
-    return view('user.admin.settings.setting-add-essay-prompt');
-});
-Route::get('/admin/setting/essay-prompt/detail', function () {
-    return view('user.admin.settings.setting-detail-essay-prompt');
+    return view('user.admin.settings.setting-add-essay-prompt', [
+        'univ' => University::get()
+    ]);
 });
 
 // Programs
 Route::get('/admin/setting/programs', [Program::class, 'index'])->name('list-program');
+Route::get('/admin/setting/programs/detail/{id}', [Program::class, 'detail']);
 Route::get('/admin/setting/programs/add', function () {
-    return view('user.admin.settings.setting-add-programs');
-});
-Route::get('/admin/setting/programs/detail', function () {
-    return view('user.admin.settings.setting-detail-programs');
-});
-
-
-Route::get('/admin/setting/categories-tags', function () {
-    return view('user.admin.settings.setting-categories');
-});
-Route::get('/admin/setting/categories-tags/detail', function () {
-    return view('user.admin.settings.setting-detail-categories');
+    return view('user.admin.settings.setting-add-programs', [
+        'category' => Category::get()
+    ]);
 });
 
-// Per Editor
-Route::get('/editors/dashboard', function () {
-    return view('user.per-editor.dashboard');
-});
-Route::get('/editors/profile', function () {
-    return view('user.per-editor.profile.profile');
-});
+// Categories / Tags
+Route::get('/admin/setting/categories-tags', [CategoriesTags::class, 'index'])->name('list-tag');
+Route::get('/admin/setting/categories-tags/detail/{tag_id}', [CategoriesTags::class, 'detail']);
 
-Route::get('/editors/essay-list', function () {
-    return view('user.per-editor.essay-list.essay-list');
-});
-Route::get('/editors/essay-list/completed/detail', function () {
-    return view('user.per-editor.essay-list.essay-list-completed-detail');
-});
+
+// **** Per Editor *****
+Route::get('/editors/dashboard', [Dashboard::class, 'index']);
+Route::get('/editors/profile', [Profile::class, 'index']);
+
+Route::get('/editors/essay-list', [EditorEssays::class, 'index']);
+Route::get('/editors/essay-list/completed/detail/{id_essay}', [EditorEssays::class, 'detailEssay']);
+Route::get('/editors/essay-list/ongoing/detail/{id_essay}', [EditorEssays::class, 'detailEssay']);
 
 Route::get('/editors/essay-list/ongoing/detail', function () {
     return view('user.per-editor.essay-list.essay-list-ongoing-detail');

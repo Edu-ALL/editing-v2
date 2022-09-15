@@ -20,6 +20,8 @@ class CheckLogin
     {
         if (Auth::guard('web-admin')->check()) {
             return redirect('/admin/dashboard');
+        } else if (Auth::guard('web-editor')->check()) {
+            return redirect('/editors/dashboard');
         }
 
         return $next($request);

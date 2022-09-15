@@ -1,6 +1,11 @@
 @extends('user.admin.utama.utama')
 @section('css')
   <link rel="stylesheet" href="/css/admin/user-editor-detail.css">
+  <style>
+    .pagination { margin: 15px 0}
+    .pagination .page-item .page-link { padding: 10px 15px; font-size: 12px; }
+    .alert {font-size: 14px}
+  </style>
 @endsection
 @section('content')
 <div class="container-fluid" style="padding: 0">
@@ -13,6 +18,14 @@
     <div class="col" style="overflow: auto !important">
       @include('user.admin.utama.head')
       <div class="container main-content m-0">
+
+        @if(session()->has('update-editor-successful'))
+        <div class="row alert alert-success fade show d-flex justify-content-between" role="alert">
+          {{ session()->get('update-editor-successful') }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
+
         <div class="row gap-2">
           <div class="col-md col-12 p-0 userCard profile">
             <div class="headline d-flex align-items-center gap-3">
@@ -34,7 +47,7 @@
               <h6>Completed Essay</h6>
             </div>
             <div class="col d-flex flex-column px-3 py-md-5 py-4 gap-2 countEssay text-center justify-content-center" style="color: var(--green)">
-              <h4>1</h4>
+              <h4>{{ $essay_completed->count() }}</h4>
               <h4>Completed Essay</h4>
             </div>
             <div class="headline d-flex align-items-center gap-3" style="background-color: var(--yellow)">
@@ -66,7 +79,8 @@
             </div>
             
             <div class="row profile-editor px-md-3 py-md-4 px-3 py-4" style="overflow: auto !important">
-              <form action="" class="p-0">
+              <form action="{{ route('update-editor', ['id_editors' => $editor->id_editors]) }}" method="POST" class="p-0">
+                @csrf
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6">
                     <h6 class="pb-2">First Name :</h6>
@@ -148,23 +162,36 @@
                   <tr>
                     <th>No</th>
                     <th>Student Name</th>
-                    <th>Proram Name</th>
+                    <th>Program Name</th>
                     <th>Essay Title</th>
                     <th>Essay Deadline</th>
                     <th>Status</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Student Dummy</td>
-                    <td>Essay Editing (50 - 100 Words)</td>
-                    <td>Supplemental Essay</td>
-                    <td>28/07/2022</td>
-                    <td>Submitted</td>
+                  <?php $i = ($essay_ongoing->currentpage()-1)* $essay_ongoing->perpage() + 1;?>
+                  @foreach ($essay_ongoing as $essays_ongoing)
+                  <tr style="cursor: default">
+                    <th scope="row">{{ $i++ }}</th>
+                    <td>{{ $essays_ongoing->client_by_id->first_name.' '.$essays_ongoing->client_by_id->last_name}}</td>
+                    <td>{{ $essays_ongoing->program->program_name }}</td>
+                    <td>{{ $essays_ongoing->essay_title }}</td>
+                    <td>{{ date('D, d M Y', strtotime($essays_ongoing->essay_deadline)) }}</td>
+                    <td style="color: var(--blue)">{{ $essays_ongoing->status->status_title }}</td>
                   </tr>
+                  @endforeach
+                  
+                  @unless (count($essay_ongoing)) 
+                  <tr>
+                    <td colspan="7">No data</td>
+                  </tr>
+                  @endunless
                 </tbody>
               </table>
+              {{-- Pagination --}}
+              <div class="d-flex justify-content-center">
+                {{ $essay_ongoing->links() }}
+              </div>
             </div>
           </div>
         </div>
@@ -187,23 +214,36 @@
                   <tr>
                     <th>No</th>
                     <th>Student Name</th>
-                    <th>Proram Name</th>
+                    <th>Program Name</th>
                     <th>Essay Title</th>
                     <th>Essay Deadline</th>
                     <th>Status</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Student Dummy</td>
-                    <td>Essay Editing (50 - 100 Words)</td>
-                    <td>Supplemental Essay</td>
-                    <td>28/07/2022</td>
-                    <td>4.2/5</td>
+                  <?php $i = ($essay_completed->currentpage()-1)* $essay_completed->perpage() + 1;?>
+                  @foreach ($essay_completed as $essays_completed)
+                  <tr style="cursor: default">
+                    <th scope="row">{{ $i++ }}</th>
+                    <td>{{ $essays_completed->client_by_id->first_name.' '.$essays_completed->client_by_id->last_name}}</td>
+                    <td>{{ $essays_completed->program->program_name }}</td>
+                    <td>{{ $essays_completed->essay_title }}</td>
+                    <td>{{ date('D, d M Y', strtotime($essays_completed->essay_deadline)) }}</td>
+                    <td style="color: var(--green)">{{ $essays_completed->status->status_title }}</td>
                   </tr>
+                  @endforeach
+                  
+                  @unless (count($essay_completed)) 
+                  <tr>
+                    <td colspan="7">No data</td>
+                  </tr>
+                  @endunless
                 </tbody>
               </table>
+              {{-- Pagination --}}
+              <div class="d-flex justify-content-center">
+                {{ $essay_completed->links() }}
+              </div>
             </div>
           </div>
         </div>

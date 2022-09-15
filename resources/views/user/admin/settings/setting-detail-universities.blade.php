@@ -22,12 +22,18 @@
             </div>
             <div class="col d-flex align-items-center justify-content-center py-md-4 py-4">
               <div class="pic-profile d-flex align-items-center justify-content-center">
-                <img class="img-fluid" id="img-profile" src="/assets/editor-bg.png" alt="">
+                <img class="img-fluid" id="img-profile" src=
+                  @if ($university->photo != "default.png" && $university->photo != NULL)
+                    {{ asset('uploaded_files/univ/'.$university->photo) }} }}
+                  @else
+                    {{ "/assets/editor-bg.png" }}
+                  @endif
+                 alt="">
               </div>
             </div>
             <div class="col d-none px-md-4 px-3" id="chooseFile">
               <div class="mb-4">
-                <input class="form-control form-control-sm" id="formFileSm" type="file" onchange="previewImage()">
+                <input class="form-control form-control-sm" id="formFileSm" name="uploaded_file" type="file" form="form-university" onchange="previewImage()">
               </div>
             </div>
           </div>
@@ -43,48 +49,53 @@
                 <button class="btn-edit border-0" onclick="enableEdit()">
                   <img src="/assets/pencil.png" alt="">
                 </button>
-                <button class="btn-delete border-0">
-                  <img src="/assets/delete.png" alt="">
-                </button>
+                <form action="{{ route('delete-university', ['uni_id' => $university->id_univ]) }}" method="POST">
+                  @method('DELETE')
+                  @csrf
+                  <button type="submit" class="btn-delete border-0">
+                    <img src="/assets/delete.png" alt="">
+                  </button>
+                </form>
               </div>
             </div>
             
             <div class="row profile-editor px-md-3 py-md-4 px-3 py-4" style="overflow: auto !important">
-              <form action="" class="p-0">
+              <form action="{{ route('update-university', ['uni_id' => $university->id_univ]) }}" class="p-0" id="form-university" onsubmit="swal.showLoading()" enctype="multipart/form-data" method="POST">
+                @csrf
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6">
                     <h6 class="pb-2">University Name :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" id="university" value="{{ $university->university_name }}" disabled>
+                    <input type="text" name="university_name" class="form-control inputField py-2 px-3" id="university" value="{{ $university->university_name }}" disabled>
                   </div>
                   <div class="col-6">
                     <h6 class="pb-2">Email :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" id="email" value="{{ $university->univ_email }}" disabled>
+                    <input type="email" name="email" class="form-control inputField py-2 px-3" id="email" value="{{ $university->univ_email }}" disabled>
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-3">
                   <div class="col-12">
                     <h6 class="pb-2">Website :</h6>
-                    <input type="email" class="form-control inputField py-2 px-3" id="website" style="width: 96.5%;" value="{{ $university->website }}" disabled>
+                    <input type="url" pattern="https://.*" placeholder="https://" name="website" class="form-control inputField py-2 px-3" id="website" style="width: 96.5%;" value="{{ $university->website }}" disabled>
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6">
                     <h6 class="pb-2">Phone :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" id="phone" value="{{ $university->phone }}" disabled>
+                    <input type="text" name="phone" class="form-control inputField py-2 px-3" id="phone" value="{{ $university->phone }}" disabled>
                   </div>
                   <div class="col-6">
                     <h6 class="pb-2">Country :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" id="country" value="{{ $university->country }}" disabled>
+                    <input type="text" name="country" class="form-control inputField py-2 px-3" id="country" value="{{ $university->country }}" disabled>
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-5" style="overflow: auto !important">
                   <div class="col">
                     <h6 class="pb-2">Address :</h6>
-                    <textarea name="" class="textarea" placeholder="Address">{{ $university->address }}</textarea>
+                    <textarea name="address" class="textarea" placeholder="Address">{{ $university->address }}</textarea>
                   </div>
                 </div>
                 <div class="col-12 d-none d-flex justify-content-center pt-3" id="btnAddUniv" style="border-top: 1px solid var(--light-grey)">
-                  <button class="btn btn-create d-flex align-items-center gap-2">
+                  <button type="submit" class="btn btn-create d-flex align-items-center gap-2">
                     <img src="/assets/update.png" alt="">
                     <h6>Update University</h6>
                   </button>

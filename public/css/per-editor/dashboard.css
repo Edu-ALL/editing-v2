@@ -197,6 +197,12 @@ img.img-word {
 }
 /* End Button */
 
+.input-group-text {
+  font-size: 12px;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
 /* Selectize */
 .selectize-control,
 .selectize-dropdown {
@@ -229,6 +235,9 @@ img.img-word {
     font-size: 10px !important;
   }
   /* End Selectize */
+  .field .inputField {
+    width: 100%;
+  }
 }
 
 @media (max-width: 768px) {

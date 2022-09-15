@@ -74,7 +74,7 @@
                 </div>
               @endif
 
-              <form action="{{ route('add-university') }}" id="form-university" onclick="swal.showLoading()" method="POST" id="add-university" class="p-0" enctype="multipart/form-data">
+              <form action="{{ route('add-university') }}" id="form-university" onsubmit="swal.showLoading()" method="POST" class="p-0" enctype="multipart/form-data">
                 @csrf
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6">
@@ -124,6 +124,3 @@
   </div>
 </div>
 @endsection
-
-@section('js')
-@stop

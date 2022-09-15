@@ -22,7 +22,8 @@
             </div>
             <div class="col d-flex flex-column align-items-center px-3 py-md-5 py-4 gap-3 text-center justify-content-center" style="color: var(--black)">
               <img class="img-status" src="/assets/status-ongoing.png" alt="">
-              <h6>Assigned to editor</h6>
+              <h6>{{ $essay->status->status_title }}</h6>
+              {{-- <h6>Assigned to editor</h6> --}}
             </div>
             <div class="headline d-flex align-items-center gap-3">
               <img src="/assets/file.png" alt="">
@@ -32,12 +33,10 @@
               <img class="img-word" src="/assets/logo-word.png" alt="">
             </div>
             <div class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
-              <form action="">
-                <button class="btn btn-download d-flex align-items-center gap-2">
-                  <img src="/assets/download.png" alt="">
-                  <h6>Download</h6>
-                </button>
-              </form>
+              <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/students/'.$essay->attached_of_clients) }}>
+                <img src="/assets/download.png" alt="">
+                <h6>Download</h6>
+              </a>
             </div>
           </div>
           
@@ -48,7 +47,7 @@
                 <h6>Student Detail</h6>
               </div>
               <div class="col-md-4 col-4 d-flex align-items-center justify-content-end gap-md-3 gap-2">
-                <a href="/admin/essay-list/completed"><img src="/assets/back.png" alt=""></a>
+                <a href="/admin/essay-list/ongoing"><img src="/assets/back.png" alt=""></a>
               </div>
             </div>
             <div class="row profile-editor px-md-4 py-md-4 px-3 py-4 mb-2" style="overflow: auto !important">
@@ -59,7 +58,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>Student Dummy</p>
+                    <p>{{ $essay->client_by_id->first_name.' '.$essay->client_by_id->last_name }}</p>
                   </div>
                 </div>
                 <div class="row d-flex align-items-center">
@@ -68,7 +67,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>student.dummy@gmail.com</p>
+                    <p>{{ $essay->client_by_id->email }}</p>
                   </div>
                 </div>
                 <div class="row d-flex align-items-center">
@@ -77,7 +76,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>Jl Jeruk Kembar blok Q9 no.15</p>
+                    <p>{{ $essay->client_by_id->address }}</p>
                   </div>
                 </div>
                 
@@ -94,30 +93,30 @@
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6">
                     <h6 class="pb-2">University Name :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" disabled value="Arizona State University">
+                    <input type="text" class="form-control inputField py-2 px-3" disabled value="{{ $essay->university->university_name }}">
                   </div>
                   <div class="col-6">
                     <h6 class="pb-2">Essay Title :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" disabled value="Supplemental Essay">
+                    <input type="text" class="form-control inputField py-2 px-3" disabled value="{{ $essay->essay_title }}">
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-4" style="overflow: auto !important">
                   <div class="col">
                     <h6 class="pb-2">Essay Prompt :</h6>
-                    <textarea name="" class="textarea" style="overflow: auto !important"></textarea>
+                    <textarea name="" class="textarea" style="overflow: auto !important">{{ $essay->essay_prompt }}</textarea>
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6">
                     <h6 class="pb-2">Essay Deadline :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" disabled value="Arizona State University">
+                    <input type="text" class="form-control inputField py-2 px-3" disabled value="{{ date('D, d M Y', strtotime($essay->essay_deadline)) }}">
                   </div>
                   <div class="col-6">
                     <h6 class="pb-2">Application Deadline :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" disabled value="Supplemental Essay">
+                    <input type="text" class="form-control inputField py-2 px-3" disabled value="{{ date('D, d M Y', strtotime($essay->application_deadline)) }}">
                   </div>
                 </div>
-                <div class="col-12 d-flex flex-lg-row flex-column mb-3">
+                {{-- <div class="col-12 d-flex flex-lg-row flex-column mb-3">
                   <div class="col">
                     <div class="col mb-3">
                       <h6 class="pb-2">Essay Deadline :</h6>
@@ -172,7 +171,7 @@
                     <img src="/assets/assign-list.png" alt="">
                     <h6>Accept</h6>
                   </button>
-                </div>
+                </div> --}}
               </form>
             </div>
           </div>

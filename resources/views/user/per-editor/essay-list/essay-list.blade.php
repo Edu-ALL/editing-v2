@@ -1,4 +1,10 @@
 @extends('user.per-editor.utama.utama')
+@section('css')
+  <style>
+    .pagination { margin: 15px 0}
+    .pagination .page-item .page-link { padding: 10px 15px; font-size: 12px; }
+  </style>
+@endsection
 
 @section('content')
 <div class="container-fluid">
@@ -39,17 +45,30 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr onclick="window.location='/editors/essay-list/ongoing/detail'">
-                      <th scope="row">1</th>
-                      <td>Student Dummy</td>
-                      <td>Mentor Dummy</td>
-                      <td>Senior Editor Dummy</td>
-                      <td>Supplemental Essay</td>
-                      <td>Thu, 28 Jul 2022</td>
-                      <td style="color: var(--red)">Ongoing</td>
+                    <?php $i = ($ongoing_essay->currentpage()-1)* $ongoing_essay->perpage() + 1;?>
+                    @foreach ($ongoing_essay as $essay)
+                    <tr onclick="window.location='/editors/essay-list/ongoing/detail/{{ $essay->id_essay_clients }}'">
+                      <th scope="row">{{ $i++ }}</th>
+                      <td>{{ $essay->client_by_id->first_name.' '.$essay->client_by_id->last_name }}</td>
+                      <td>{{ $essay->client_by_id->mentors->first_name.' '.$essay->client_by_id->mentors->last_name  }}</td>
+                      <td>{{ $essay->editor ? $essay->editor->first_name.' '.$essay->editor->last_name : '-' }}</td>
+                      <td>{{ $essay->essay_title }}</td>
+                      <td>{{ date('D, d M Y', strtotime($essay->essay_deadline)) }}</td>
+                      <td style="color: var(--red)">{{ $essay->status->status_title }}</td>
                     </tr>
+                    @endforeach
+                    
+                    @unless (count($ongoing_essay)) 
+                    <tr>
+                      <td colspan="7">No data</td>
+                    </tr>
+                    @endunless
                   </tbody>
                 </table>
+                {{-- Pagination --}}
+                <div class="d-flex justify-content-center">
+                  {{ $ongoing_essay->links() }}
+                </div>
               </div>
             </div>
           </div>
@@ -80,17 +99,37 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr onclick="window.location='/editors/essay-list/completed/detail'">
-                      <th scope="row">1</th>
-                      <td>Student Dummy</td>
-                      <td>Mentor Dummy</td>
-                      <td>Senior Editor Dummy</td>
-                      <td>Supplemental Essay</td>
-                      <td>Thu, 28 Jul 2022</td>
-                      <td style="color: var(--green)">Completed</td>
+                    <?php $i = ($completed_essay->currentpage()-1)* $completed_essay->perpage() + 1;?>
+                    @foreach ($completed_essay as $essay)
+                    <tr onclick="window.location='/editors/essay-list/completed/detail/{{ $essay->id_essay_clients }}'">
+                      <th scope="row">{{ $i++ }}</th>
+                      {{-- @if ($essay->client_by_id)
+                        <td>{{ $essay->client_by_id->first_name.' '.$essay->client_by_id->last_name }}</td>
+                        <td>{{ $essay->client_by_id->mentors->first_name.' '.$essay->client_by_id->mentors->last_name  }}</td>
+                      @elseif ($essay->client_by_email)
+                        <td>{{ $essay->client_by_email->first_name.' '.$essay->client_by_email->last_name }}</td>
+                        <td>{{ $essay->client_by_email->mentors->first_name.' '.$essay->client_by_email->mentors->last_name }}</td>
+                      @endif --}}
+                      <td>{{ $essay->client_by_id->first_name.' '.$essay->client_by_id->last_name }}</td>
+                      <td>{{ $essay->client_by_id->mentors->first_name.' '.$essay->client_by_id->mentors->last_name  }}</td>
+                      <td>{{ $essay->editor ? $essay->editor->first_name.' '.$essay->editor->last_name : '-' }}</td>
+                      <td>{{ $essay->essay_title }}</td>
+                      <td>{{ date('D, d M Y', strtotime($essay->essay_deadline)) }}</td>
+                      <td style="color: var(--green)">{{ $essay->status->status_title }}</td>
                     </tr>
+                    @endforeach
+                    
+                    @unless (count($completed_essay)) 
+                    <tr>
+                      <td colspan="7">No data</td>
+                    </tr>
+                    @endunless
                   </tbody>
                 </table>
+                {{-- Pagination --}}
+                <div class="d-flex justify-content-center">
+                  {{ $completed_essay->links() }}
+                </div>
               </div>
             </div>
           </div>

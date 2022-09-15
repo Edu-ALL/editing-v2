@@ -97,8 +97,59 @@
                     {{-- End Table Student --}}
                 </div>
             </div>
-            {{-- End Content --}}
+            <div class="container text-center" style="overflow-x: auto !important">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Student Name</th>
+                            <th>Mentor Name</th>
+                            <th>Editor Name</th>
+                            <th>Essay Title</th>
+                            <th>Essay Deadline</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $i = ($essays->currentpage() - 1) * $essays->perpage() + 1; ?>
+                        @foreach ($essays as $essay)
+                            <tr
+                                onclick="window.location='/admin/essay-list/ongoing/detail/{{ $essay->id_essay_clients }}'">
+                                <th scope="row">{{ $i++ }}</th>
+
+                                @if ($essay->client_by_id)
+                                    <td>{{ $essay->client_by_id->first_name . ' ' . $essay->client_by_id->last_name }}</td>
+                                    <td>{{ $essay->client_by_id->mentors->first_name . ' ' . $essay->client_by_id->mentors->last_name }}
+                                    </td>
+                                @elseif ($essay->client_by_email)
+                                    <td>{{ $essay->client_by_email->first_name . ' ' . $essay->client_by_email->last_name }}
+                                    </td>
+                                    <td>{{ $essay->client_by_email->mentors->first_name . ' ' . $essay->client_by_email->mentors->last_name }}
+                                    </td>
+                                @endif
+
+                                <td>{{ $essay->editor ? $essay->editor->first_name . ' ' . $essay->editor->last_name : '-' }}
+                                </td>
+                                <td>{{ $essay->essay_title }}</td>
+                                <td>{{ date('D, d M Y', strtotime($essay->essay_deadline)) }}</td>
+                                <td style="color: var(--red)">{{ $essay->status->status_title }}</td>
+                            </tr>
+                        @endforeach
+
+                        @unless(count($essays))
+                            <tr>
+                                <td colspan="7">No data</td>
+                            </tr>
+                        @endunless
+                    </tbody>
+                </table>
+                {{-- Pagination --}}
+                <div class="d-flex justify-content-center">
+                    {{ $essays->links() }}
+                </div>
+            </div>
         </div>
+    </div>
     </div>
 @endsection
 

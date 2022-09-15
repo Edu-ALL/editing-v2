@@ -1,4 +1,11 @@
 @extends('user.per-editor.utama.utama')
+@section('css')
+  <style>
+    .selectize-input {padding: 8px 16px; border-radius: 6px}
+    .alert {font-size: 14px; margin: 0 -12px 16px -12px}
+    .alert-danger {font-size: 14px; margin: -12px -12px 16px -12px}
+  </style>
+@endsection
 
 @section('content')
 <div class="container-fluid">
@@ -11,6 +18,14 @@
     <div class="col" style="overflow: auto !important">
       @include('user.per-editor.utama.head')
       <div class="container main-content m-0">
+
+        @if(session()->has('update-profile-successful'))
+        <div class="row alert alert-success fade show d-flex justify-content-between" role="alert">
+          {{ session()->get('update-profile-successful') }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
+
         <div class="row gap-2">
           <div class="col-md col-12 p-0 userCard profile">
             <div class="headline d-flex align-items-center gap-3">
@@ -19,12 +34,12 @@
             </div>
             <div class="col d-flex align-items-center justify-content-center py-md-4 py-4">
               <div class="pic-profile d-flex align-items-center justify-content-center">
-                <img class="img-fluid" id="img-profile" src="/assets/editor-bg.png" alt="">
+                <img class="img-fluid" id="img-profile" src={{ asset('uploaded_files/user/editors/'.$editor->image) }} alt="">
               </div>
             </div>
             <div class="col d-none px-md-4 px-3" id="chooseFile">
               <div class="mb-4">
-                <input class="form-control form-control-sm" id="formFileSm" type="file" onchange="previewImage()">
+                <input class="form-control form-control-sm" id="formFileSm" name="uploaded_file" form="form-profile" type="file" onchange="previewImage()">
               </div>
             </div>
           </div>
@@ -43,57 +58,68 @@
             </div>
             
             <div class="row field px-md-3 py-md-4 px-3 py-4" style="overflow: auto !important">
-              <form action="" class="p-0">
+              @if($errors->any())
+                <div class="error-style">
+                  <div class="alert alert-danger p-3" role="alert">
+                    <ul>
+                      {!! implode('', $errors->all('<li>:message</li>')) !!}
+                    </ul>
+                    
+                  </div>
+                </div>
+              @endif
+              <form action="{{ route('update-profile', ['id_editors' => $editor->id_editors]) }}" class="p-0" id="form-profile" onsubmit="swal.showLoading()" enctype="multipart/form-data" method="POST">
+                @csrf
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6">
                     <h6 class="pb-2">First Name :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" id="first" disabled>
+                    <input type="text" class="form-control inputField py-2 px-3" id="first" name="first_name" disabled value="{{ $editor->first_name }}">
                   </div>
                   <div class="col-6">
                     <h6 class="pb-2">Last Name :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" id="last" disabled>
+                    <input type="text" class="form-control inputField py-2 px-3" id="last" name="last_name" disabled value="{{ $editor->last_name }}">
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6">
                     <h6 class="pb-2">Email :</h6>
-                    <input type="email" class="form-control inputField py-2 px-3" id="email" disabled>
+                    <input type="email" class="form-control inputField py-2 px-3" id="email" name="email" disabled value="{{ $editor->email }}">
                   </div>
                   <div class="col-6">
                     <h6 class="pb-2">Phone :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" id="phone" disabled>
+                    <input type="text" class="form-control inputField py-2 px-3" id="phone" name="phone" disabled value="{{ $editor->phone }}">
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6">
                     <h6 class="pb-2">Graduated From :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" id="graduated" disabled>
+                    <input type="text" class="form-control inputField py-2 px-3" id="graduated" name="graduated_from" disabled value="{{ $editor->graduated_from }}">
                   </div>
                   <div class="col-6">
                     <h6 class="pb-2">Major :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" id="major" disabled>
+                    <input type="text" class="form-control inputField py-2 px-3" id="major" name="major" disabled value="{{ $editor->major }}">
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-3" style="overflow: auto !important">
                   <div class="col">
                     <h6 class="pb-2">Address :</h6>
-                    <textarea name="" class="textarea" placeholder="Address"></textarea>
+                    <textarea name="address" class="textarea" placeholder="Address">{{ $editor->address }}</textarea>
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-3" style="overflow: auto !important">
                   <div class="col">
                     <h6 class="pb-2">About Me :</h6>
-                    <textarea name="" class="textarea" placeholder="About Me"></textarea>
+                    <textarea name="about_me" class="textarea" placeholder="About Me">{{ $editor->about_me }}</textarea>
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6">
                     <h6 class="pb-2">Password :</h6>
-                    <input type="password" class="form-control inputField py-2 px-3" id="pass" disabled>
+                    <input type="password" class="form-control inputField py-2 px-3" id="pass" name="password" disabled>
                   </div>
                   <div class="col-6">
                     <h6 class="pb-2">Password Confirm :</h6>
-                    <input type="password" class="form-control inputField py-2 px-3" id="confirm" disabled>
+                    <input type="password" class="form-control inputField py-2 px-3" id="confirm" name="password_confirmation" disabled>
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-4">

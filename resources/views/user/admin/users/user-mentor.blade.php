@@ -27,9 +27,9 @@
                 <h6>Mentors</h6>
               </div>
               <div class="col-md-4 col-6 d-flex align-items-center justify-content-end gap-md-3 gap-2">
-                <a href="">
-                  <img src="/assets/reload.png" alt="">
-                </a>
+                  <a href="{{ route('do-sync-mentors') }}" id="sync-mentors" title="Sync CRM Mentors">
+                    <img src="/assets/reload.png" alt="">
+                  </a>
                 <div class="input-group">
                   <form id="form-mentor-searching" action="{{ route('list-mentor') }}" method="GET" role="search" class="w-100">
                     <input type="text" class="form-control inputField py-2 px-3" name="keyword" id="search-mentor" placeholder="Search" required>
@@ -51,7 +51,7 @@
                 <tbody>
                   <?php $i = ($mentors->currentpage()-1)* $mentors->perpage() + 1;?>
                   @foreach ($mentors as $mentor)
-                  <tr onclick="window.location='/admin/user/student/detail'">
+                  <tr style="cursor: default">
                     <th scope="row">{{ $i++ }}</th>
                     <td>{{ $mentor->first_name.' '.$mentor->last_name }}</td>
                     <td>{{ $mentor->email }}</td>
@@ -59,6 +59,12 @@
                     <td>{{ strip_tags($mentor->address) }}</td>
                   </tr>
                   @endforeach
+
+                  @unless (count($mentors)) 
+                  <tr>
+                    <td colspan="5">No data</td>
+                  </tr>
+                  @endunless
                 </tbody>
               </table>
               {{-- Pagination --}}
@@ -74,6 +80,7 @@
     {{-- End Content --}}
   </div>
 </div>
+
 @endsection
 
 @section('js')
@@ -85,5 +92,31 @@
         $("#form-mentor-searching").submit();
       }
     });
+
+    $("#sync-mentors").click(function(e) {
+      e.preventDefault();
+      swal.showLoading();
+
+      $.ajax({
+        url: $(this).attr('href'),
+        type: "GET",
+        success: function (response) {
+          msg = JSON.parse(response);
+          if (msg.success == true){ 
+            Swal.fire(
+              'Congratulations !',
+              'Mentors CRM data synchronization<br>has been successful',
+              'success'
+            )
+          } else {
+            Swal.fire(
+              '',
+              msg.message,
+              'info'
+            )
+          }
+        }
+      })
+    })
   </script>
 @stop

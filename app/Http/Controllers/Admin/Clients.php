@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 
 class Clients extends Controller
 {
+
     public function index(Request $request)
     {
         $keyword = $request->get('keyword');
@@ -27,6 +28,6 @@ class Clients extends Controller
     }
 
     public function detail($id){
-        return view('user.admin.users.user-student-detail', ['client' => Client::find($id)]);
+        return view('user.admin.users.user-student-detail', ['client' => Client::find($id), 'clients' => Client::get()]);
     }
 }

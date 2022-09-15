@@ -14,7 +14,6 @@ class Programs extends Model
 
     protected $fillable = [
         'program_name',
-        'id_category',
         'description',
         'price',
         'discount',

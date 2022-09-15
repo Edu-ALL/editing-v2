@@ -1,6 +1,6 @@
 {{-- Sidenav --}}
 <div class="col-md-2 col-2 sidenav py-4 px-md-0 px-2 text-center">
-  <a class="navbar-brand mb-3" href="/">
+  <a class="navbar-brand mb-3" href="/editors/dashboard">
     <img class="img-logo img-fluid" src="/assets/admin-logo.png" alt="">
   </a>
   <hr class="smallLine mx-auto mt-4">
@@ -19,10 +19,10 @@
     {{-- Essay List --}}
     <a class="row w-100" href="/editors/essay-list" style="cursor: pointer">
       <div class="col-md-3 ps-lg-1">
-        <img class="{{ request()->is('editors/essay-list') || request()->is('editors/essay-list/completed/detail') || request()->is('editors/essay-list/ongoing/detail') || request()->is('editors/essay-list/ongoing/eccepted') || request()->is('editors/essay-list/ongoing/submitted') || request()->is('editors/essay-list/ongoing/revise') || request()->is('editors/essay-list/ongoing/revised') ? 'active' : 'non-active' }}" src="/assets/essay-list-blue.png" alt="">
+        <img class="{{ request()->is('editors/essay-list') || request()->is('editors/essay-list/*') ? 'active' : 'non-active' }}" src="/assets/essay-list-blue.png" alt="">
       </div>
       <div class="col-7 pt-1 my-auto d-none d-md-inline">
-        <h6 class="menu {{ request()->is('editors/essay-list') || request()->is('editors/essay-list/completed/detail') || request()->is('editors/essay-list/ongoing/detail') || request()->is('editors/essay-list/ongoing/eccepted') || request()->is('editors/essay-list/ongoing/submitted') || request()->is('editors/essay-list/ongoing/revise') || request()->is('editors/essay-list/ongoing/revised') ? 'active' : '' }}">Essay List</h6>
+        <h6 class="menu {{ request()->is('editors/essay-list') || request()->is('editors/essay-list/*') ? 'active' : '' }}">Essay List</h6>
       </div>
     </a>
   </div>
@@ -58,7 +58,8 @@
         <p>Select "Logout" below if you are ready to end your current session.</p>
       </div>
       <div class="modal-footer d-flex align-items-start justify-content-center border-0 pt-1 pb-4">
-        <form action="/">
+        <form action="{{ route('logout') }}">
+          @csrf
           <button type="submit">Logout</button>
         </form>
       </div>

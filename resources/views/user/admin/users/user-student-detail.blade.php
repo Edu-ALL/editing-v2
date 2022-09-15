@@ -38,10 +38,10 @@
                                         <div class="col-md-3 col-4">
                                             <h6>Full Name</h6>
                                         </div>
-                                        <div class="col-1 titik2">
+                                        <div class="col-1 titik2 p-0">
                                             <p>:</p>
                                         </div>
-                                        <div class="col-7">
+                                        <div class="col ps-1">
                                             <p>{{ $client->first_name . ' ' . $client->last_name }}</p>
                                         </div>
                                     </div>
@@ -49,10 +49,10 @@
                                         <div class="col-md-3 col-4">
                                             <h6>Phone Number</h6>
                                         </div>
-                                        <div class="col-1 titik2">
+                                        <div class="col-1 titik2 p-0">
                                             <p>:</p>
                                         </div>
-                                        <div class="col-7">
+                                        <div class="col ps-1">
                                             <p>{{ $client->phone }}</p>
                                         </div>
                                     </div>
@@ -60,10 +60,10 @@
                                         <div class="col-md-3 col-4">
                                             <h6>Email</h6>
                                         </div>
-                                        <div class="col-1 titik2">
+                                        <div class="col-1 titik2 p-0">
                                             <p>:</p>
                                         </div>
-                                        <div class="col-7">
+                                        <div class="col ps-1">
                                             <p>{{ $client->email }}</p>
                                         </div>
                                     </div>
@@ -71,10 +71,10 @@
                                         <div class="col-md-3 col-4">
                                             <h6>Address</h6>
                                         </div>
-                                        <div class="col-1 titik2">
+                                        <div class="col-1 titik2 p-0">
                                             <p>:</p>
                                         </div>
-                                        <div class="col-7">
+                                        <div class="col ps-1">
                                             <p>{{ $client->address }}</p>
                                         </div>
                                     </div>
@@ -82,14 +82,16 @@
                                         <div class="col-md-3 col-4">
                                             <h6>Mentor Name</h6>
                                         </div>
-                                        <div class="col-1 titik2">
+                                        <div class="col-1 titik2 p-0">
                                             <p>:</p>
                                         </div>
-                                        <div class="col-7">
+                                        <div class="col ps-1">
                                             <select class="select-beast inputField">
-                                                <option value="value 1">Value 1</option>
-                                                <option value="value 2">Value 2</option>
-                                                <option value="value 3">Value 3</option>
+                                                @foreach ($clients as $client)
+                                                    <option value="{{ $client->mentors->id_mentors }}">
+                                                        {{ $client->mentors->first_name . ' ' . $client->mentors->last_name }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -100,45 +102,29 @@
                                 {{-- Text Area --}}
                                 <div class="text-area p-md-1 mb-3">
                                     <h6 class="pb-3">Personal Brand Statement :</h6>
-                                    <textarea name="" class="textarea"></textarea>
+                                    <textarea name="" class="textarea">{{ $client->personal_brand }}</textarea>
                                 </div>
                                 <div class="text-area p-md-1 mb-3">
                                     <h6 class="pb-3">Academic Goals & Interest :</h6>
-                                    <textarea name="" class="textarea"></textarea>
+                                    <textarea name="" class="textarea">{{ $client->interests }}</textarea>
                                 </div>
                                 <div class="text-area p-md-1 mb-3">
                                     <h6 class="pb-3">Life Philosophy (Values) & Personalities :</h6>
-                                    <textarea name="" class="textarea"></textarea>
+                                    <textarea name="" class="textarea">{{ $client->personalities }}</textarea>
                                 </div>
                                 {{-- End Text Area --}}
                                 {{-- Attachment --}}
                                 <div
-                                    class="col-lg-2 col-3 mb-lg-4 mb-3 attachment d-flex align-items-center justify-content-center">
+                                    class="col-lg-2 col-3 mb-lg-4 mb-3 ms-lg-0 ms-2 attachment d-flex align-items-center justify-content-center">
                                     <h6 class="text-center">Attachment</h6>
                                 </div>
-                                <div
-                                    class="row d-flex flex-lg-row flex-column attachment-status gap-lg-0 gap-2 ps-lg-0 ps-2 mb-3">
-                                    <div class="col-lg-4 me-2">
+                                <div class="row d-flex flex-column attachment-status gap-lg-2 gap-2 ps-lg-0 ps-1 mb-3">
+                                    {{-- flex-lg-row --}}
+                                    <div class="col-lg me-2">
                                         <h6>Activities Resume<span class="px-2">:</span><span
-                                                style="color: var(--red)">Not Available</span></h6>
+                                                style="color: var(--red)">{{ $client->resume }}</span></h6>
                                     </div>
-                                    <div class="col-lg">
-                                        <h6>Questionnaire<span class="px-2">:</span><span style="color: var(--red)">Not
-                                                Available</span></h6>
-                                    </div>
-                                    <div class="col-lg">
-                                        <h6>Others<span class="px-2">:</span><span style="color: var(--red)">Not
-                                                Available</span></h6>
-                                    </div>
+                                    {{-- End Content --}}
                                 </div>
-                                {{-- End Attachment --}}
                             </div>
-                            </a>
-                        </div>
-                        {{-- End Detail Student --}}
-                    </div>
-                </div>
-                {{-- End Content --}}
-            </div>
-        </div>
-    @endsection
+                        @endsection
