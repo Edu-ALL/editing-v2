@@ -28,7 +28,7 @@
 
         <div class="row gap-2">
           <div class="col-md col-12 p-0 userCard profile">
-            <div class="headline d-flex align-items-center gap-3">
+            <div class="headline d-flex align-items-center px-4 py-4 gap-3">
               <img src="/assets/pic.png" alt="">
               <h6>Picture Profile</h6>
             </div>
@@ -70,32 +70,32 @@
               @endif
               <form action="{{ route('update-profile', ['id_editors' => $editor->id_editors]) }}" class="p-0" id="form-profile" onsubmit="swal.showLoading()" enctype="multipart/form-data" method="POST">
                 @csrf
-                <div class="col-12 d-flex mb-3">
-                  <div class="col-6">
+                <div class="col-12 d-flex flex-lg-row flex-column mb-3 gap-lg-0 gap-3">
+                  <div class="col">
                     <h6 class="pb-2">First Name :</h6>
                     <input type="text" class="form-control inputField py-2 px-3" id="first" name="first_name" disabled value="{{ $editor->first_name }}">
                   </div>
-                  <div class="col-6">
+                  <div class="col">
                     <h6 class="pb-2">Last Name :</h6>
                     <input type="text" class="form-control inputField py-2 px-3" id="last" name="last_name" disabled value="{{ $editor->last_name }}">
                   </div>
                 </div>
-                <div class="col-12 d-flex mb-3">
-                  <div class="col-6">
+                <div class="col-12 d-flex flex-lg-row flex-column mb-3 gap-lg-0 gap-3">
+                  <div class="col">
                     <h6 class="pb-2">Email :</h6>
                     <input type="email" class="form-control inputField py-2 px-3" id="email" name="email" disabled value="{{ $editor->email }}">
                   </div>
-                  <div class="col-6">
+                  <div class="col">
                     <h6 class="pb-2">Phone :</h6>
                     <input type="text" class="form-control inputField py-2 px-3" id="phone" name="phone" disabled value="{{ $editor->phone }}">
                   </div>
                 </div>
-                <div class="col-12 d-flex mb-3">
-                  <div class="col-6">
+                <div class="col-12 d-flex flex-lg-row flex-column mb-3 gap-lg-0 gap-3">
+                  <div class="col">
                     <h6 class="pb-2">Graduated From :</h6>
                     <input type="text" class="form-control inputField py-2 px-3" id="graduated" name="graduated_from" disabled value="{{ $editor->graduated_from }}">
                   </div>
-                  <div class="col-6">
+                  <div class="col">
                     <h6 class="pb-2">Major :</h6>
                     <input type="text" class="form-control inputField py-2 px-3" id="major" name="major" disabled value="{{ $editor->major }}">
                   </div>
@@ -112,12 +112,12 @@
                     <textarea name="about_me" class="textarea" placeholder="About Me">{{ $editor->about_me }}</textarea>
                   </div>
                 </div>
-                <div class="col-12 d-flex mb-3">
-                  <div class="col-6">
+                <div class="col-12 d-flex flex-lg-row flex-column mb-3 gap-lg-0 gap-3">
+                  <div class="col">
                     <h6 class="pb-2">Password :</h6>
                     <input type="password" class="form-control inputField py-2 px-3" id="pass" name="password" disabled>
                   </div>
-                  <div class="col-6">
+                  <div class="col">
                     <h6 class="pb-2">Password Confirm :</h6>
                     <input type="password" class="form-control inputField py-2 px-3" id="confirm" name="password_confirmation" disabled>
                   </div>

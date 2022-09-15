@@ -276,7 +276,7 @@
               <div class="col-12 d-flex mb-2" style="overflow: auto !important">
                 <div class="col">
                   <h6 class="pb-2">Notes :</h6>
-                  <textarea name="" class="textarea" style="overflow: auto !important"></textarea>
+                  <textarea name="" class="textarea" style="overflow: auto !important">{{ $essay->essay_editors->notes_editors ? $essay->essay_editors->notes_editors : '-' }}</textarea>
                 </div>
               </div>
             </div>

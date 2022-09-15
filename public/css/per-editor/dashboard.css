@@ -251,6 +251,10 @@ img.img-word {
     width: 45%;
     height: auto;
   }
+  .table th,
+  .table td {
+    font-size: 8px;
+  }
   .footer p {
     font-size: 10px;
   }
