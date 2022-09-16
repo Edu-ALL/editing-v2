@@ -21,6 +21,7 @@
               {{ session()->get('invite-editor-successful') }}
             </div>
           @endif
+
           <div class="col-lg-7 col-12 p-0 invite-card">
             <div class="headline d-flex justify-content-between">
               <div class="col-lg col d-flex align-items-center gap-md-3 gap-2">

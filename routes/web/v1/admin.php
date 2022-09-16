@@ -49,4 +49,4 @@ Route::post('essay-list/ongoing/{id_essay}', [Essays::class, 'cancel'])->name('c
 
 Route::post('invite-editor', [Editors::class, 'invite'])->name('invite-editor');
 
-Route::get('joined-editor', [Editors::class, 'joined_editor'])->name('joined-editor');
+Route::get('joined-editor', [Editors::class, 'join_editor'])->name('join-editor');

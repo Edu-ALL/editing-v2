@@ -492,7 +492,7 @@
 
                                                                                                 <div class="text-button"
                                                                                                     style="color:#ffffff; font-family:Arial,sans-serif; font-size:12px; line-height:16px; text-align:center; text-transform:uppercase">
-                                                                                                    <a href="{{ route('joined-editor').'?email='.$email.'&token='.urlencode($token) }}"
+                                                                                                    <a href="{{ route('join-editor').'?email='.$email.'&token='.$token }}"
                                                                                                         target="_blank"
                                                                                                         class="link-white"
                                                                                                         style="color:#ffffff; text-decoration:none"><span
