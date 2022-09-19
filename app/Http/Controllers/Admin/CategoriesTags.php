@@ -95,7 +95,7 @@ class CategoriesTags extends Controller
 
         DB::beginTransaction();
         try {
-             
+            
             $new_tag = new Tags;
             $new_tag->topic_name = $request->title;
             $new_tag->save();

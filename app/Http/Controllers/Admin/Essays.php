@@ -40,9 +40,6 @@ class Essays extends Controller
             $essays->appends(['keyword' => $keyword]);
         return view('user.admin.essay-list.essay-ongoing', ['essays' => $essays]);
     }
-<<<<<<< HEAD
-}
-=======
 
     public function detailEssayOngoing($id_essay, Request $request)
     {
@@ -201,4 +198,3 @@ class Essays extends Controller
         return view('user.admin.essay-list.essay-completed-detail', ['essay' => EssayClients::find($id)]);
     }
 }
->>>>>>> 6ca5597b95c33342e760293dbdc3d0969ba65a20

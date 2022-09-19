@@ -26,9 +26,31 @@ class Editors extends Controller
         return view('user.admin.users.user-editor', ['editors' => $editors]);
     }
 
-    public function detail($id){
-        $essay_ongoing = EssayClients::with('client_by_id', 'program')->where('id_editors', '=', $id)->where('status_essay_clients', '!=', 7)->paginate(5);
-        $essay_completed = EssayClients::with('client_by_id', 'program')->where('id_editors', '=', $id)->where('status_essay_clients', '=', 7)->paginate(5);
+    public function detail($id, Request $request){
+        $keyword1 = $request->get('keyword-ongoing');
+        $keyword2 = $request->get('keyword-completed');
+        $essay_ongoing = EssayClients::with('client_by_id', 'program')->where('id_editors', '=', $id)->where('status_essay_clients', '!=', 7)->when($keyword1, function ($query_) use ($keyword1) {
+            $query_->where(function ($query) use ($keyword1) {
+                $query->orWhereHas('client_by_id', function ($query_client) use ($keyword1) {
+                    $query_client->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword1.'%');
+                })->orWhereHas('program', function ($query_program) use ($keyword1) {
+                    $query_program->where('program_name', 'like', '%'.$keyword1.'%');
+                })->orWhereHas('status', function ($query_status) use ($keyword1) {
+                    $query_status->where('status_title', 'like', '%'.$keyword1.'%');
+                })->orWhere('essay_title', 'like', '%'.$keyword1.'%');
+            });
+        })->paginate(5);
+        $essay_completed = EssayClients::with('client_by_id', 'program')->where('id_editors', '=', $id)->where('status_essay_clients', '=', 7)->when($keyword2, function ($query_) use ($keyword2) {
+            $query_->where(function ($query) use ($keyword2) {
+                $query->orWhereHas('client_by_id', function ($query_client) use ($keyword2) {
+                    $query_client->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword2.'%');
+                })->orWhereHas('program', function ($query_program) use ($keyword2) {
+                    $query_program->where('program_name', 'like', '%'.$keyword2.'%');
+                })->orWhereHas('status', function ($query_status) use ($keyword2) {
+                    $query_status->where('status_title', 'like', '%'.$keyword2.'%');
+                })->orWhere('essay_title', 'like', '%'.$keyword2.'%');
+            });
+        })->paginate(5);
         return view('user.admin.users.user-editor-detail', [
             'editor' => Editor::find($id),
             'essay_ongoing' => $essay_ongoing,
