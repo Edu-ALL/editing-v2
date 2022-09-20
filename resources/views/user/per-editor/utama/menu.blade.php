@@ -58,7 +58,7 @@
         <p>Select "Logout" below if you are ready to end your current session.</p>
       </div>
       <div class="modal-footer d-flex align-items-start justify-content-center border-0 pt-1 pb-4">
-        <form action="{{ route('logout') }}">
+        <form action="{{ route('editor-logout') }}">
           @csrf
           <button type="submit">Logout</button>
         </form>

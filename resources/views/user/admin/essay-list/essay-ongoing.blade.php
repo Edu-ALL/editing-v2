@@ -53,15 +53,10 @@
                   <tr onclick="window.location='/admin/essay-list/ongoing/detail/{{ $essay->id_essay_clients }}'">
                     <th scope="row">{{ $i++ }}</th>
 
-                    @if ($essay->client_by_id)
-                      <td>{{ $essay->client_by_id->first_name.' '.$essay->client_by_id->last_name }}</td>
-                      <td>{{ $essay->client_by_id->mentors->first_name.' '.$essay->client_by_id->mentors->last_name  }}</td>
-                    @elseif ($essay->client_by_email)
-                      <td>{{ $essay->client_by_email->first_name.' '.$essay->client_by_email->last_name }}</td>
-                      <td>{{ $essay->client_by_email->mentors->first_name.' '.$essay->client_by_email->mentors->last_name }}</td>
-                    @endif
-
-                    <td>{{ $essay->editor ? $essay->editor->first_name.' '.$essay->editor->last_name : '-' }}</td>
+                    <td>{{ $essay->client_by_id->first_name.' '.$essay->client_by_id->last_name }}</td>
+                    <td>{{ $essay->client_by_id->mentors->first_name.' '.$essay->client_by_id->mentors->last_name  }}</td>
+                    
+                    <td>{{ $essay->status_essay_clients == 0 ? '-' : $essay->editor->first_name.' '.$essay->editor->last_name }}</td>
                     <td>{{ $essay->essay_title }}</td>
                     <td>{{ date('D, d M Y', strtotime($essay->essay_deadline)) }}</td>
                     <td style="color: var(--red)">{{ $essay->status->status_title }}</td>

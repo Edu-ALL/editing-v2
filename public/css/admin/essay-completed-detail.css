@@ -157,7 +157,9 @@ img.img-word {
   color: var(--yellow);
 }
 .countEssay .tags {
-  background-color: rgba(214, 214, 214, 0.5);
+  /* background-color: rgba(214, 214, 214, 0.5); */
+  color: var(--white);
+  background-color: var(--yellow);
   border-radius: 10px;
 }
 .countEssay .list-tags {

@@ -75,7 +75,7 @@ class EssayClients extends Model
 
     public function feedback()
     {
-        return $this->hasMany(EssayFeedbacks::class, 'id_essay_clients', 'id_essay_clients');
+        return $this->belongsTo(EssayFeedbacks::class, 'id_essay_clients', 'id_essay_clients');
     }
 
     public function essay_tags()

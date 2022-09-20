@@ -38,6 +38,26 @@
                 <h6>Download</h6>
               </a>
             </div>
+            <div class="headline d-flex align-items-center gap-3">
+              <img src="/assets/assign.png" alt="">
+              <h6>Assignment</h6>
+            </div>
+            <div class="col d-flex flex-column px-3 pt-md-4 pt-4 pb-4 text-center justify-content-center" style="color: var(--black)">
+              <h6 style="font-size: 14px; font-weight: 400">{{ $essay->editor->first_name.' '.$essay->editor->last_name }}</h6>
+            </div>
+            <div class="headline d-flex align-items-center gap-3" style="background-color: var(--yellow)">
+              <img src="/assets/file.png" alt="">
+              <h6>Download Editor Essay</h6>
+            </div>
+            <div class="col d-flex align-items-center justify-content-center py-md-4 py-4">
+              <img class="img-word" src="/assets/logo-word.png" alt="">
+            </div>
+            <div class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
+              <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/editors/'.$essay->essay_editors->attached_of_editors) }}>
+                <img src="/assets/download.png" alt="">
+                <h6>Download</h6>
+              </a>
+            </div>
           </div>
           
           <div class="col-md-8 col-12 p-0 userCard">
@@ -117,38 +137,42 @@
               </div>
               <div class="col-12 d-flex flex-lg-row flex-column mb-3">
                 <div class="col">
-                  <div class="col mb-3">
+                  {{-- <div class="col mb-3">
                     <h6 class="pb-2">Assign to Editor :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" disabled value="{{ $essay->editor->first_name.' '.$essay->editor->last_name }}">
-                  </div>
-                  <div class="col mb-3">
-                    <h6 class="pb-2">Editor Essay :</h6>
-                    <div class="col d-flex align-items-center justify-content-center py-md-4 py-4">
-                      <img class="img-word" src="/assets/logo-word.png" alt="">
-                    </div>
-                    <div class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
-                      <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/editors/'.$essay->essay_editors->attached_of_editors) }}>
-                        <img src="/assets/download.png" alt="">
-                        <h6>Download</h6>
-                      </a>
-                    </div>
-                  </div>
-                  <div class="col mb-3">
-                    <h6 class="pb-2">Tags :</h6>
-                    <div class="col d-flex flex-wrap gap-1 list-tags pe-2">
-                      <div class="tags py-2 px-3">
-                        <h6 style="font-size: 12px; font-weight: 500">#{{ $essay->essay_tags->tags->topic_name }}</h6>
+                    <input type="text" class="form-control inputField py-2 px-3" disabled value="{{ $essay->editor->first_name.' '.$essay->editor->last_name }}" style="width: 97%">
+                  </div> --}}
+                  <div class="row flex-md-row flex-column-reverse">
+                    {{-- <div class="col-md-5 col mb-3">
+                      <h6 class="pb-2">Editor Essay :</h6>
+                      <div class="col d-flex align-items-center justify-content-center pb-md-4 pt-md-2 pb-4 pt-2">
+                        <img class="img-word" src="/assets/logo-word.png" alt="">
+                      </div>
+                      <div class="col d-flex align-items-center justify-content-center pb-md-0 pb-3">
+                        <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/editors/'.$essay->essay_editors->attached_of_editors) }}>
+                          <img src="/assets/download.png" alt="">
+                          <h6>Download</h6>
+                        </a>
+                      </div>
+                    </div> --}}
+                    <div class="col p-0 mb-3">
+                      <h6 class="pb-2">Tags :</h6>
+                      <div class="col d-flex flex-wrap gap-1 list-tags pe-2">
+                        @foreach ($tags as $tag)
+                        <div class="tags py-2 px-3">
+                          <h6 style="font-size: 12px; font-weight: 500">#{{ $tag->tags->topic_name }}</h6>
+                        </div>
+                        @endforeach
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-7 col">
+                {{-- <div class="col-lg-7 col">
                   <div class="col">
                     <h6 class="pb-2">Notes :</h6>
-                    <textarea name="notes" class="textarea" form="form-verify" style="overflow: auto !important"></textarea>
+                    <textarea name="notes" class="textarea" form="form-revise" style="overflow: auto !important"></textarea>
                   </div>
                   <div class="col d-flex align-items-center justify-content-center py-3">
-                    <form action="{{ route('revise-essay', ['id_essay' => $essay->id_essay_clients]) }}" method="POST" class="p-0">
+                    <form action="{{ route('revise-essay', ['id_essay' => $essay->id_essay_clients]) }}" method="POST" class="p-0" id="form-revise" onsubmit="swal.showLoading()">
                       @csrf
                       <button class="btn btn-download d-flex align-items-center gap-2" style="background-color: var(--red)">
                         <img src="/assets/danger.png" alt="">
@@ -156,17 +180,17 @@
                       </button>
                     </form>
                   </div>
-                </div>
+                </div> --}}
               </div>
-              <div class="col-12 d-flex justify-content-center pt-3" style="border-top: 1px solid var(--light-grey)">
-                <form action="{{ route('verify-essay', ['id_essay' => $essay->id_essay_clients]) }}" method="POST" class="p-0" id="form-verify">
+              {{-- <div class="col-12 d-flex justify-content-center pt-3" style="border-top: 1px solid var(--light-grey)">
+                <form action="{{ route('verify-essay', ['id_essay' => $essay->id_essay_clients]) }}" method="POST" class="p-0" onsubmit="swal.showLoading()">
                   @csrf
                   <button class="btn btn-create d-flex align-items-center gap-2" style="background-color: var(--green)">
                     <img src="/assets/assign-list.png" alt="">
                     <h6>Accept</h6>
                   </button>
                 </form>
-              </div>
+              </div> --}}
             </div>
           </div>
         </div>
@@ -176,12 +200,4 @@
     {{-- End Content --}}
   </div>
 </div>
-@endsection
-
-@section('js')
-<script>
-  $(document).ready(function(){
-      $("#info").modal('show');
-  });
-</script>
 @endsection

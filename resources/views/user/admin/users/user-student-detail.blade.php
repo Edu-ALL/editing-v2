@@ -71,15 +71,43 @@
                 </div>
                 <div class="row d-flex align-items-center">
                   <div class="col-md-3 col-4">
-                    <h6>Mentor Name</h6>
+                    <h6>Mentor</h6>
                   </div>
                   <div class="col-1 titik2 p-0"><p>:</p></div>
                   <div class="col ps-1">
-                    <select class="select-beast inputField">
-                      @foreach ($clients as $client)
-                      <option value="{{ $client->mentors->id_mentors }}">{{ $client->mentors->first_name.' '.$client->mentors->last_name }}</option>
-                      @endforeach
-                    </select>
+                    <form action="{{ route('update-mentor', ['id_clients' => $client->id_clients]) }}" method="POST" class="p-0" onsubmit="swal.showLoading()">
+                      @csrf
+                      <select class="select-beast inputField" name="id_mentor" id="mentor" onchange="this.form.submit()">
+                        @foreach ($mentors as $mentor)
+                          @if ($client->id_mentor == $mentor->id_mentors)
+                            <option value="{{ $mentor->id_mentors }}" selected>{{ $mentor->first_name.' '.$mentor->last_name }}</option>
+                          @endif
+                          <option value="{{ $mentor->id_mentors }}">{{ $mentor->first_name.' '.$mentor->last_name }}</option>
+                        @endforeach
+                      </select>
+                    </form>
+                  </div>
+                </div>
+                <div class="row d-flex align-items-center">
+                  <div class="col-md-3 col-4">
+                    <h6>Backup Mentor</h6>
+                  </div>
+                  <div class="col-1 titik2 p-0"><p>:</p></div>
+                  <div class="col ps-1">
+                    <form action="{{ route('update-backup-mentor', ['id_clients' => $client->id_clients]) }}" method="POST" class="p-0" onsubmit="swal.showLoading()">
+                      @csrf
+                      <select class="select-beast inputField" name="id_mentor_2" id="mentor_2" onchange="this.form.submit()">
+                        @if ($client->id_mentor_2 == null)
+                          <option value="" selected>-</option>
+                        @endif
+                        @foreach ($mentors as $mentor)
+                          @if ($client->id_mentor_2 == $mentor->id_mentors)
+                            <option value="{{ $mentor->id_mentors }}" selected>{{ $mentor->first_name.' '.$mentor->last_name }}</option>
+                          @endif
+                          <option value="{{ $mentor->id_mentors }}">{{ $mentor->first_name.' '.$mentor->last_name }}</option>
+                        @endforeach
+                      </select>
+                    </form>
                   </div>
                 </div>
               </div>

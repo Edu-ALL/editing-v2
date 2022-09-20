@@ -6,7 +6,7 @@ use App\Http\Controllers\Editor\Profile;
 use App\Http\Controllers\Editor\Essays;
 
 Route::post('authenticate', [Authentication::class, '_loginEditor'])->name('editor-login');
-Route::get('logout', [Authentication::class, 'logout'])->name('logout');
+Route::get('logout', [Authentication::class, 'logout'])->name('editor-logout');
 
 Route::post('profile/{id_editors}', [Profile::class, 'update'])->name('update-profile');
 

@@ -31,6 +31,7 @@
 
   <script src="{{ asset('js/bootstrap.js') }}"></script>
   <script src="/js/admin/admin.js"></script>
+  <script src="https://kit.fontawesome.com/76ac67da65.js" crossorigin="anonymous"></script>
   <script>
     var main = document.getElementById('main');
     let height = window.innerHeight;

@@ -53,17 +53,12 @@
                   <tr onclick="window.location='/admin/essay-list/completed/detail/{{ $essay->id_essay_clients }}'">
                     <th scope="row">{{ $i++ }}</th>
 
-                    @if ($essay->client_by_id)
-                      <td>{{ $essay->client_by_id->first_name.' '.$essay->client_by_id->last_name }}</td>
-                      <td>{{ $essay->client_by_id->mentors->first_name.' '.$essay->client_by_id->mentors->last_name  }}</td>
-                    @elseif ($essay->client_by_email)
-                      <td>{{ $essay->client_by_email->first_name.' '.$essay->client_by_email->last_name }}</td>
-                      <td>{{ $essay->client_by_email->mentors->first_name.' '.$essay->client_by_email->mentors->last_name }}</td>
-                    @endif
+                    <td>{{ $essay->essay_clients->client_by_id->first_name.' '.$essay->essay_clients->client_by_id->last_name }}</td>
+                    <td>{{ $essay->essay_clients->client_by_id->mentors->first_name.' '.$essay->essay_clients->client_by_id->mentors->last_name  }}</td>
 
                     <td>{{ $essay->editor ? $essay->editor->first_name.' '.$essay->editor->last_name : '-' }}</td>
-                    <td>{{ $essay->essay_title }}</td>
-                    <td>{{ date('D, d M Y', strtotime($essay->essay_deadline)) }}</td>
+                    <td>{{ $essay->essay_clients->essay_title }}</td>
+                    <td>{{ date('D, d M Y', strtotime($essay->essay_clients->essay_deadline)) }}</td>
                     <td style="color: var(--green)">{{ $essay->status->status_title }}</td>
                   </tr>
                   @endforeach
@@ -73,15 +68,6 @@
                     <td colspan="7">No data</td>
                   </tr>
                   @endunless
-                  {{-- <tr onclick="window.location='/admin/essay-list/completed/detail'">
-                    <th scope="row">1</th>
-                    <td>Student Dummy</td>
-                    <td>Mentor Dummy</td>
-                    <td>Senior Editor Dummy</td>
-                    <td>Supplemental Essay</td>
-                    <td>Thu, 28 Jul 2022</td>
-                    <td style="color: var(--green)">Completed</td>
-                  </tr> --}}
                 </tbody>
               </table>
               {{-- Pagination --}}

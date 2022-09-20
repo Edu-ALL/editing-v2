@@ -41,7 +41,7 @@
                 <h6>Download</h6>
               </a>
             </div>
-            <div class="headline d-flex align-items-center gap-3">
+            {{-- <div class="headline d-flex align-items-center gap-3">
               <img src="/assets/assign.png" alt="">
               <h6>Assignment</h6>
             </div>
@@ -50,7 +50,7 @@
                 <img src="/assets/assign-list.png" alt="">
                 <h6>Select Editor</h6>
               </button>
-            </div>
+            </div> --}}
           </div>
           
           <div class="col-md-8 col-12 p-0 userCard">

@@ -11,6 +11,7 @@ use App\Models\EssayReject;
 use App\Models\EssayStatus;
 use App\Models\EssayTags;
 use App\Models\Tags;
+use App\Models\WorkDuration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -39,7 +40,7 @@ class Essays extends Controller
                     $query_status->where('status_title', 'like', '%'.$keyword1.'%');
                 });
             });
-        })->paginate(10);
+        })->orderBy('uploaded_at', 'asc')->paginate(10);
         $completed_essay = EssayEditors::where('editors_mail', $editor->email)->where('status_essay_editors', '=', 7)->when($keyword2, function ($query_) use ($keyword2) {
             $query_->where(function ($query) use ($keyword2) {
                 $query->whereHas('essay_clients', function ($query_essay) use ($keyword2) {
@@ -57,7 +58,7 @@ class Essays extends Controller
                     });
                 });
             });
-        })->paginate(10);
+        })->orderBy('read', 'asc')->orderBy('uploaded_at', 'asc')->paginate(10);
         // $ongoing_essay = $essays->where('status_essay_clients', '!=', 7)->where('status_essay_clients', '!=', 0)->where('status_essay_clients', '!=', 5)->paginate(10);
         // $completed_essay = EssayEditors::where('editors_mail', $editor->email)->where('status_essay_editors', '=', 7)->paginate(10);
 
@@ -71,32 +72,43 @@ class Essays extends Controller
     {
         $editors = Editor::paginate(10);
         $essay = EssayClients::find($id_essay);
+        $essay_editor = EssayEditors::where('id_essay_clients', $id_essay)->first();
+
+        if ($essay_editor->read == 0) {
+            DB::beginTransaction();
+            $essay_editor->read = 1;
+            $essay_editor->save();
+            DB::commit();
+        }
+
         if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4) {
             return view('user.per-editor.essay-list.essay-list-ongoing-detail', [
-                'essay' => EssayClients::find($id_essay),
+                'essay' => $essay,
                 'editors' => $editors
             ]);
         } else if ($essay->status_essay_clients == 1) {
             return view('user.per-editor.essay-list.essay-list-ongoing-detail', [
-                'essay' => EssayClients::find($id_essay)
+                'essay' => $essay
             ]);
         } else if ($essay->status_essay_clients == 2) {
             return view('user.per-editor.essay-list.essay-list-ongoing-accepted', [
-                'essay' => EssayClients::find($id_essay),
+                'essay' => $essay,
                 'tags' => Tags::get()
             ]);
         } else if ($essay->status_essay_clients == 3) {
             return view('user.per-editor.essay-list.essay-list-ongoing-submitted', [
-                'essay' => EssayClients::find($id_essay)
+                'essay' => $essay,
+                'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
             ]);
         } else if ($essay->status_essay_clients == 6) {
             return view('user.per-editor.essay-list.essay-list-ongoing-revise', [
-                'essay' => EssayClients::find($id_essay),
-                
+                'essay' => $essay,
+                'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
             ]);
         } else if ($essay->status_essay_clients == 7) {
             return view('user.per-editor.essay-list.essay-list-completed-detail', [
-                'essay' => EssayClients::find($id_essay)
+                'essay' => $essay_editor,
+                'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
             ]);
         }
     }
@@ -198,10 +210,24 @@ class Essays extends Controller
             $essay_status->status = 3;
             $essay_status->save();
             
-            $tag = new EssayTags;
-            $tag->id_essay_clients = $id_essay;
-            $tag->id_topic = $request->tag;
-            $tag->save();
+            $no_tag = 0;
+            foreach ($request->tag as $key) {
+                $tag = new EssayTags;
+                $tag->id_essay_clients = $id_essay;
+                $tag->id_topic = $request->tag[$no_tag];
+                $tag->save();
+                $no_tag++;
+            }
+            // $tag = new EssayTags;
+            // $tag->id_essay_clients = $id_essay;
+            // $tag->id_topic = $request->tag;
+            // $tag->save();
+
+            $work_duration = new WorkDuration;
+            $work_duration->id_essay_editors = $essay_editor->id_essay_editors;
+            $work_duration->status = $essay->status->status_title;
+            $work_duration->duration = $essay_editor->work_duration;
+            $work_duration->save();
 
             DB::commit();
         } catch (Exception $e) {

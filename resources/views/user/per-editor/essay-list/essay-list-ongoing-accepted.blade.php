@@ -136,7 +136,7 @@
             <form action="{{ route('upload-essay', ['id_essay' => $essay->id_essay_clients]) }}" class="p-0" id="form-essay" enctype="multipart/form-data" method="POST">
               @csrf
               <div class="row field px-2 py-md-4 py-4" style="overflow: auto !important">
-                <div class="col-12 d-flex flex-md-row flex-column mb-4 gap-md-0 gap-3">
+                <div class="col-12 d-flex flex-md-row flex-column mb-md-3 mb-2 gap-md-0 gap-3">
                   <div class="col-md-6 col">
                     <h6 class="pb-2">Upload Your File :</h6>
                     <div class="col" id="chooseFile">
@@ -146,18 +146,27 @@
                       <h6 class="pt-2" style="font-size: 10px; color: var(--red)">* Upload your essay with the '.docx' format</h6>
                     </div>
                   </div>
-                  <div class="col-md-6 col">
+                  {{-- <div class="col-md-6 col">
                     <h6 class="pb-2">Tags :</h6>
-                    <select class="select-beast" name="tag">
+                    <select class="select-state" name="tag">
                       <option value=""></option>
                       @foreach ($tags as $tags)
                         <option value="{{ $tags->id_topic }}">{{ $tags->topic_name }}</option>
                       @endforeach
                     </select>
+                  </div> --}}
+                  <div class="col-md-6 col">
+                    <h6 class="pb-2">Work Duration (Time spent on editing essay) :</h6>
+                    <div class="input-group">
+                      <input type="number" name="work_duration" class="form-control py-2 px-3" aria-describedby="basic-addon1">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text py-2 px-2" id="basic-addon1">Minutes</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="col-12 d-flex mb-2">
-                  <div class="col-md-6 col pe-md-4">
+                <div class="col-12 d-flex mb-3">
+                  {{-- <div class="col-md-6 col pe-md-4">
                     <h6 class="pb-2">Work Duration (Time spent on editing essay) :</h6>
                     <div class="input-group mb-3">
                       <input type="number" name="work_duration" class="form-control py-2 px-3" aria-describedby="basic-addon1">
@@ -165,6 +174,15 @@
                         <span class="input-group-text py-2 px-2" id="basic-addon1">Minutes</span>
                       </div>
                     </div>
+                  </div> --}}
+                  <div class="col">
+                    <h6 class="pb-2">Tags :</h6>
+                    <select class="select-state" name="tag[]" id="tag">
+                      <option value=""></option>
+                      @foreach ($tags as $tags)
+                        <option value="{{ $tags->id_topic }}">{{ $tags->topic_name }}</option>
+                      @endforeach
+                    </select>
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-2" style="overflow: auto !important">

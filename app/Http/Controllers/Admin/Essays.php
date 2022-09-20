@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Editor;
 use App\Models\EssayClients;
 use App\Models\EssayEditors;
+use App\Models\EssayFeedbacks;
+use App\Models\EssayRevise;
 use App\Models\EssayStatus;
+use App\Models\EssayTags;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -34,10 +37,11 @@ class Essays extends Controller
                     $query_status->where('status_title', 'like', '%'.$keyword.'%');
                 });
             });
-        })->paginate(10);
+        })->orderBy('uploaded_at', 'desc')->paginate(10);
 
         if ($keyword) 
             $essays->appends(['keyword' => $keyword]);
+
         return view('user.admin.essay-list.essay-ongoing', ['essays' => $essays]);
     }
 
@@ -45,24 +49,47 @@ class Essays extends Controller
     {
         $editors = Editor::paginate(10);
         $essay = EssayClients::find($id_essay);
+
+        if ($essay->status_read_editor == 0) {
+            DB::beginTransaction();
+            $essay->status_read_editor = 1;
+            $essay->save();
+            DB::commit();
+        }
+
         if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4 || $essay->status_essay_clients == 5) {
             return view('user.admin.essay-list.essay-ongoing-detail', [
-                'ongoing' => EssayClients::find($id_essay),
+                'ongoing' => $essay,
                 'editors' => $editors
             ]);
-        } else if ($essay->status_essay_clients == 1) {
+        } else if ($essay->status_essay_clients == 1 || $essay->status_essay_clients == 2) {
             return view('user.admin.essay-list.essay-ongoing-assign', [
-                'essay' => EssayClients::find($id_essay)
-            ]);
-        } else if ($essay->status_essay_clients == 2) {
-            return view('user.admin.essay-list.essay-ongoing-ongoing', [
-                'essay' => EssayClients::find($id_essay)
+                'essay' => $essay
             ]);
         } else if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 6) {
             return view('user.admin.essay-list.essay-ongoing-submitted', [
-                'essay' => EssayClients::find($id_essay)
+                'essay' => $essay,
+                'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
             ]);
         }
+        // if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4 || $essay->status_essay_clients == 5) {
+        //     return view('user.admin.essay-list.essay-ongoing-detail', [
+        //         'ongoing' => EssayClients::find($id_essay),
+        //         'editors' => $editors
+        //     ]);
+        // } else if ($essay->status_essay_clients == 1) {
+        //     return view('user.admin.essay-list.essay-ongoing-assign', [
+        //         'essay' => EssayClients::find($id_essay)
+        //     ]);
+        // } else if ($essay->status_essay_clients == 2) {
+        //     return view('user.admin.essay-list.essay-ongoing-ongoing', [
+        //         'essay' => EssayClients::find($id_essay)
+        //     ]);
+        // } else if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 6) {
+        //     return view('user.admin.essay-list.essay-ongoing-submitted', [
+        //         'essay' => EssayClients::find($id_essay)
+        //     ]);
+        // }
     }
 
     public function assignEditor($id_essay, Request $request){
@@ -130,7 +157,6 @@ class Essays extends Controller
 
             $essay_editor = EssayEditors::where('id_essay_clients', '=', $id_essay)->first();
             $essay_editor->status_essay_editors = 7;
-            $essay_editor->notes_editors = $request->notes;
             $essay_editor->save();
 
             DB::commit();
@@ -155,9 +181,16 @@ class Essays extends Controller
 
             $essay_editor = EssayEditors::where('id_essay_clients', '=', $id_essay)->first();
             $essay_editor->status_essay_editors = 6;
-            // $essay_editor->notes_editors = $request->notes;
-            // dd($essay->status_essay_clients);
+            $essay_editor->notes_editors = $request->notes;
+            // dd($essay_editor->notes_editors);
             $essay_editor->save();
+
+            $essay_revise = new EssayRevise;
+            $essay_revise->id_essay_clients = $id_essay;
+            $essay_revise->editors_mail = $essay_editor->editors_mail;
+            $essay_revise->admin_mail = $essay_editor->editors_mail;
+            dd($essay_revise->editors_mail);
+            $essay_revise->save();
 
             DB::commit();
         } catch (Exception $e) {
@@ -171,23 +204,24 @@ class Essays extends Controller
     public function essayCompleted(Request $request)
     {
         $keyword = $request->get('keyword');
-        $essays = EssayClients::with(['status', 'editor', 'university', 'program', 'program.category', 'client_by_id', 'client_by_email', 'client_by_id.mentors', 'client_by_email.mentors'])->where('status_essay_clients', '=', 7)->when($keyword, function ($query_) use ($keyword) {
+        $essays = EssayEditors::where('status_essay_editors', 7)->when($keyword, function ($query_) use ($keyword) {
             $query_->where(function ($query) use ($keyword) {
-                $query->whereHas('client_by_id', function ($query_by_id) use ($keyword) {
-                    $query_by_id->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%')->orWhereHas('mentors', function ($query_mentor_by_id) use ($keyword) {
-                        $query_mentor_by_id->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%');
+                $query->whereHas('essay_clients', function ($query_essay) use ($keyword) {
+                    $query_essay->whereHas('client_by_id', function ($query_client) use ($keyword) {
+                        $query_client->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%')->orWhereHas('mentors', function ($query_mentor) use ($keyword) {
+                            $query_mentor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%');
+                        });;
+                    })->orWhereHas('editor', function ($query_editor) use ($keyword) {
+                        $query_editor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%');
+                    })->orWhereHas('program', function ($query_program) use ($keyword) {
+                        $query_program->where('program_name', 'like', '%'.$keyword.'%');
+                    })->orWhere('essay_title', 'like', '%'.$keyword.'%')
+                    ->orWhereHas('status', function ($query_status) use ($keyword) {
+                        $query_status->where('status_title', 'like', '%'.$keyword.'%');
                     });
-                })->orWhereHas('client_by_email', function ($query_by_email) use ($keyword) {
-                    $query_by_email->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%')->orWhereHas('mentors', function ($query_mentor_by_email) use ($keyword) {
-                        $query_mentor_by_email->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%');
-                    });
-                })->orWhereHas('editor', function ($query_editor) use ($keyword) {
-                    $query_editor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%');
-                })->orWhere('essay_title', 'like', '%'.$keyword.'%')->orWhereHas('status', function ($query_status) use ($keyword) {
-                    $query_status->where('status_title', 'like', '%'.$keyword.'%');
                 });
             });
-        })->paginate(10);
+        })->orderBy('uploaded_at', 'desc')->paginate(10);
 
         if ($keyword) 
             $essays->appends(['keyword' => $keyword]);
@@ -195,6 +229,11 @@ class Essays extends Controller
         return view('user.admin.essay-list.essay-completed', ['essays' => $essays]);
     }
     public function detailEssayCompleted($id){
-        return view('user.admin.essay-list.essay-completed-detail', ['essay' => EssayClients::find($id)]);
+        $essay = EssayEditors::where('id_essay_clients', $id)->first();
+        return view('user.admin.essay-list.essay-completed-detail', [
+            'essay' => $essay,
+            'tags' => EssayTags::where('id_essay_clients', $id)->get(),
+            'feedback' => EssayFeedbacks::where('id_essay_clients', $id)->first(),
+        ]);
     }
 }

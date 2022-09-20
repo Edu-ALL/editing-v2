@@ -29,7 +29,7 @@
               <img class="img-word" src="/assets/logo-word.png" alt="">
             </div>
             <div class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
-              <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/students/'.$essay->attached_of_clients) }}>
+              <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/students/'.$essay->essay_clients->attached_of_clients) }}>
                 <img src="/assets/download.png" alt="">
                 <h6>Download</h6>
               </a>
@@ -42,7 +42,7 @@
               <img class="img-word" src="/assets/logo-word.png" alt="">
             </div>
             <div class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
-              <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/editors/'.$essay->essay_editors->attached_of_editors) }}>
+              <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/editors/'.$essay->attached_of_editors) }}>
                 <img src="/assets/download.png" alt="">
                 <h6>Download</h6>
               </a>
@@ -52,10 +52,12 @@
               <h6>Tags</h6>
             </div>
             <div class="col d-flex flex-column px-3 py-md-4 py-4 my-md-1 countEssay text-center justify-content-center" style="color: var(--black)">
-              <div class="col list-tags">
-                <div class="tags py-2 px-3">
-                  <h6 style="font-size: 14px; font-weight: 400">{{ $essay->essay_tags->tags->topic_name }}</h6>
+              <div class="col d-flex flex-row flex-wrap gap-2 justify-content-center">
+                @foreach ($tags as $tag)
+                <div class="tags py-2 px-3 list-tags">
+                  <h6 style="font-size: 12px; font-weight: 500">#{{ $tag->tags->topic_name }}</h6>
                 </div>
+                @endforeach
               </div>
             </div>
           </div>
@@ -78,7 +80,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{{ $essay->client_by_id->first_name.' '.$essay->client_by_id->last_name }}</p>
+                    <p>{{ $essay->essay_clients->client_by_id->first_name.' '.$essay->essay_clients->client_by_id->last_name }}</p>
                   </div>
                 </div>
                 <div class="row d-flex align-items-center">
@@ -87,7 +89,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{{ $essay->client_by_id->email }}</p>
+                    <p>{{ $essay->essay_clients->client_by_id->email }}</p>
                   </div>
                 </div>
                 <div class="row d-flex">
@@ -96,7 +98,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{{ $essay->client_by_id->address }}</p>
+                    <p>{{ $essay->essay_clients->client_by_id->address }}</p>
                   </div>
                 </div>
               </div>
@@ -115,7 +117,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{{ $essay->university->university_name }}</p>
+                    <p>{{ $essay->essay_clients->university->university_name }}</p>
                   </div>
                 </div>
                 <div class="row d-flex align-items-center">
@@ -124,7 +126,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{{ $essay->essay_title }}</p>
+                    <p>{{ $essay->essay_clients->essay_title }}</p>
                   </div>
                 </div>
                 <div class="row d-flex align-items-center">
@@ -133,7 +135,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{!! $essay->essay_prompt !!}</p>
+                    <p>{!! $essay->essay_clients->essay_prompt !!}</p>
                   </div>
                 </div>
                 <div class="row d-flex">
@@ -143,8 +145,8 @@
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7 ps-3">
                     <ul class="d-flex flex-column gap-2">
-                      <li><p><b>Essay Deadline</b> : {{ date('D, d M Y', strtotime($essay->essay_deadline)) }}</p></li>
-                      <li><p><b>Application Deadline</b> : {{ date('D, d M Y', strtotime($essay->application_deadline)) }}</p></li>
+                      <li><p><b>Essay Deadline</b> : {{ date('D, d M Y', strtotime($essay->essay_clients->essay_deadline)) }}</p></li>
+                      <li><p><b>Application Deadline</b> : {{ date('D, d M Y', strtotime($essay->essay_clients->application_deadline)) }}</p></li>
                     </ul>
                   </div>
                 </div>
@@ -153,7 +155,7 @@
             <div class="col d-flex flex-row alert-complete py-3 px-4" id="alertComplete">
               <div class="col d-flex align-items-center gap-2">
                 <img src="/assets/thumbsup.png" alt="">
-                <h6><b>Congratulations</b>, {{ $essay->status->status_desc }}</h6>
+                <h6><b>Congratulations</b>, {{ $essay->essay_clients->status->status_desc }}</h6>
               </div>
               <img src="/assets/exit.png" alt="" onclick="closeAlert()" style="cursor: pointer">
             </div>
