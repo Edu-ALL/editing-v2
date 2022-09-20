@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Editor;
 use App\Models\EssayClients;
 use App\Http\Controllers\Controller;
+use App\Models\EssayEditors;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
@@ -52,17 +53,23 @@ class Editors extends Controller
             });
         })->paginate(5);
 
-        $count_essay = EssayClients::where('id_editors', $id)->where('status_essay_clients', 7)->get();
+        $editor = Editor::find($id);
+        $count_essay = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', '=', 'tbl_essay_editors.id_essay_clients')->where('editors_mail', $editor->email)->where('essay_rating', '!=', 0)->get();
+
         $rating = 0;
         $i = 0;
         foreach ($count_essay as $essay) {
             $rating += $count_essay[$i]->essay_rating;
             $i++;
         }
-        $average_rating = $rating / count($count_essay);
+
+        $average_rating = 0;
+        if ($rating != 0) {
+            $average_rating = $rating / count($count_essay);
+        }
 
         return view('user.admin.users.user-editor-detail', [
-            'editor' => Editor::find($id),
+            'editor' => $editor,
             'essay_ongoing' => $essay_ongoing,
             'essay_completed' => $essay_completed,
             'average_rating' => number_format($average_rating, 1, ".", ",")
