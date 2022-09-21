@@ -1,6 +1,6 @@
 @extends('user.mentor.utama.utama')
 @section('css')
-    <link rel="stylesheet" href="/css/admin/dashboard.css">
+    <link rel="stylesheet" href="/css/mentor/dashboard.css">
 @endsection
 @section('content')
     <div class="container-fluid p-0">

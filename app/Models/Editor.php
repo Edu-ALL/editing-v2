@@ -15,6 +15,7 @@ class Editor extends Authenticatable
     public $incrementing = false;
 
     protected $fillable = [
+        'id_editors',
         'first_name',
         'last_name',
         'phone',

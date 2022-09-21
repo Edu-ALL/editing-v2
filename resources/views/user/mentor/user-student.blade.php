@@ -1,6 +1,6 @@
 @extends('user.mentor.utama.utama')
 @section('css')
-    <link rel="stylesheet" href="/css/admin/user-student.css">
+    <link rel="stylesheet" href="/css/mentor/user-student.css">
     <style>
         .pagination {
             margin: 15px 0

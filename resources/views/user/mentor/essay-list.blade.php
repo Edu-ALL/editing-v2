@@ -1,4 +1,7 @@
 @extends('user.mentor.utama.utama')
+@section('css')
+    <link rel="stylesheet" href="/css/mentor/user-mentor.css">
+@endsection
 @section('content')
     <div class="container-fluid">
         <div class="row flex-nowrap main">

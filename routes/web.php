@@ -24,6 +24,7 @@ use App\Models\PositionEditor;
 use App\Models\University;
 
 use App\Http\Controllers\Mentor\EssaysMenu;
+use App\Http\Controllers\Mentor\NewRequestMenu;
 use App\Http\Controllers\Mentor\StudentsMenu;
 
 /*
@@ -143,12 +144,12 @@ Route::get('/mentor/user/student/detail', function () {
 // Route::get('/mentor/essay/list/detail', function () {
 //     return view('user.mentor.essay-list-detail');
 // });
-Route::get('/mentor/new-request', function () {
-    return view('user.mentor.new-request');
-});
-Route::get('/mentor/new-request', function () {
-    return view('user.mentor.new-request');
-});
+Route::get('/mentor/new-request', [NewRequestMenu::class, 'index'])->name('new-request');
+Route::get('/mentor/new-request/save', [NewRequestMenu::class, 'store'])->name('save-new-request');
+// Route::get('/mentor/new-request', function () {
+//     return view('user.mentor.new-request');
+// });
+
 
 
 

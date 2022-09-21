@@ -10,11 +10,17 @@
     <link rel="shortcut icon" href="/assets/favicon.png" type="image/x-icon">
     <title>Essay Editing Portal</title>
     <link rel="stylesheet" href={{ asset('css/bootstrap.css') }}>
-    <link rel="stylesheet" href="/css/admin/dashboard.css">
-    <link rel="stylesheet" href="/css/admin/user-mentor.css">
-    <link rel="stylesheet" href="/css/admin/user-editor-detail.css">
+    {{-- <link rel="stylesheet" href="/css/mentor/dashboard.css"> --}}
+
+    {{-- <link rel="stylesheet" href="/css/admin/user-editor-detail.css"> --}}
     {{-- <link rel="stylesheet" href="/css/admin/essay-ongoing-detail.css"> --}}
     @yield('css')
+    {{-- Selectize --}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.6/css/selectize.bootstrap5.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.6/js/standalone/selectize.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>

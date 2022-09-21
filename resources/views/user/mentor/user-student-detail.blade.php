@@ -1,6 +1,6 @@
 @extends('user.mentor.utama.utama')
 @section('css')
-    <link rel="stylesheet" href="/css/admin/user-student-detail.css">
+    <link rel="stylesheet" href="/css/mentor/user-student-detail.css">
 @endsection
 @section('content')
     <div class="container-fluid" style="padding: 0">

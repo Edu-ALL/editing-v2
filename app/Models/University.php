@@ -13,6 +13,7 @@ class University extends Model
     protected $primaryKey = 'id_univ';
 
     protected $fillable = [
+        'id_univ',
         'university_name',
         'website',
         'univ_email',

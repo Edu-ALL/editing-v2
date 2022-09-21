@@ -1,6 +1,6 @@
 @extends('user.mantor.utama.utama')
 @section('css')
-    <link rel="stylesheet" href="/css/admin/essay-completed.css">
+    <link rel="stylesheet" href="/css/mentor/essay-completed.css">
 @endsection
 
 @section('content')
