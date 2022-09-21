@@ -103,50 +103,13 @@ Route::middleware('is_admin')->group(function(){
         return view('user.admin.users.user-editor-invite');
     });
     
-    
     // Essay List
     Route::get('/admin/essay-list/ongoing', [Essays::class, 'index'])->name('list-ongoing-essay');
     Route::get('/admin/essay-list/ongoing/detail/{id_essay}', [Essays::class, 'detailEssayOngoing']);
-    // Route::get('/admin/essay-list/ongoing/detail', function () {
-    //     return view('user.admin.essay-list.essay-ongoing-detail');
-    // });
-    Route::get('/admin/essay-list/ongoing/assign', function () {
-        return view('user.admin.essay-list.essay-ongoing-assign');
-    });
-    Route::get('/admin/essay-list/ongoing/submitted', function () {
-        return view('user.admin.essay-list.essay-ongoing-submitted');
-    });
-    Route::get('/admin/essay-list/ongoing/accepted', function () {
-        return view('user.admin.essay-list.essay-ongoing-accepted');
-    });
     
     Route::get('/admin/essay-list/completed', [Essays::class, 'essayCompleted'])->name('list-completed-essay');
     Route::get('/admin/essay-list/completed/detail/{id}', [Essays::class, 'detailEssayCompleted']);
 });
-// Route::get('/admin/user/editor/invite', function () {
-//     return view('user.admin.users.user-editor-invite');
-// });
-
-
-// Essay List
-// Route::get('/admin/essay-list/ongoing', [Essays::class, 'index'])->name('list-ongoing-essay');
-// Route::get('/admin/essay-list/ongoing/detail/{id_essay}', [Essays::class, 'detailEssayOngoing']);
-// Route::get('/admin/essay-list/ongoing/detail', function () {
-//     return view('user.admin.essay-list.essay-ongoing-detail');
-// });
-// Route::get('/admin/essay-list/ongoing/assign', function () {
-//     return view('user.admin.essay-list.essay-ongoing-assign');
-// });
-// Route::get('/admin/essay-list/ongoing/submitted', function () {
-//     return view('user.admin.essay-list.essay-ongoing-submitted');
-// });
-// Route::get('/admin/essay-list/ongoing/accepted', function () {
-//     return view('user.admin.essay-list.essay-ongoing-accepted');
-// });
-
-// Route::get('/admin/essay-list/completed', [Essays::class, 'essayCompleted'])->name('list-completed-essay');
-// Route::get('/admin/essay-list/completed/detail/{id}', [Essays::class, 'detailEssayCompleted']);
-
 
 //**********Role Mentor**********//
 Route::get('/mentor/dashboard', function () {
@@ -289,18 +252,18 @@ Route::get('/editors/essay-list', [EditorEssays::class, 'index'])->name('list-es
 Route::get('/editors/essay-list/completed/detail/{id_essay}', [EditorEssays::class, 'detailEssay']);
 Route::get('/editors/essay-list/ongoing/detail/{id_essay}', [EditorEssays::class, 'detailEssay']);
 
-Route::get('/editors/essay-list/ongoing/detail', function () {
-    return view('user.per-editor.essay-list.essay-list-ongoing-detail');
-});
-Route::get('/editors/essay-list/ongoing/accepted', function () {
-    return view('user.per-editor.essay-list.essay-list-ongoing-accepted');
-});
-Route::get('/editors/essay-list/ongoing/submitted', function () {
-    return view('user.per-editor.essay-list.essay-list-ongoing-submitted');
-});
-Route::get('/editors/essay-list/ongoing/revise', function () {
-    return view('user.per-editor.essay-list.essay-list-ongoing-revise');
-});
-Route::get('/editors/essay-list/ongoing/revised', function () {
-    return view('user.per-editor.essay-list.essay-list-ongoing-revised');
-});
+// Route::get('/editors/essay-list/ongoing/detail', function () {
+//     return view('user.per-editor.essay-list.essay-list-ongoing-detail');
+// });
+// Route::get('/editors/essay-list/ongoing/accepted', function () {
+//     return view('user.per-editor.essay-list.essay-list-ongoing-accepted');
+// });
+// Route::get('/editors/essay-list/ongoing/submitted', function () {
+//     return view('user.per-editor.essay-list.essay-list-ongoing-submitted');
+// });
+// Route::get('/editors/essay-list/ongoing/revise', function () {
+//     return view('user.per-editor.essay-list.essay-list-ongoing-revise');
+// });
+// Route::get('/editors/essay-list/ongoing/revised', function () {
+//     return view('user.per-editor.essay-list.essay-list-ongoing-revised');
+// });

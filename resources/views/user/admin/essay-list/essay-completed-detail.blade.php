@@ -159,7 +159,7 @@
                     </div>
                     <div class="col-6">
                       <h6 class="pb-2">Status Essay :</h6>
-                      <input type="text" class="form-control inputField py-2 px-3" disabled value="-">
+                      <input type="text" class="form-control inputField py-2 px-3" disabled value="{{ $status_essay }}">
                     </div>
                   </div>
                 </div>

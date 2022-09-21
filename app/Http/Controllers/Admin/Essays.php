@@ -66,7 +66,7 @@ class Essays extends Controller
             return view('user.admin.essay-list.essay-ongoing-assign', [
                 'essay' => $essay
             ]);
-        } else if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 6) {
+        } else if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 6 || $essay->status_essay_clients == 8) {
             return view('user.admin.essay-list.essay-ongoing-submitted', [
                 'essay' => $essay,
                 'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
@@ -230,10 +230,18 @@ class Essays extends Controller
     }
     public function detailEssayCompleted($id){
         $essay = EssayEditors::where('id_essay_clients', $id)->first();
+        $essay_client = EssayClients::where('id_essay_clients', $id)->first();
+        if ($essay_client->essay_deadline > $essay->uploaded_at) {
+            $status_essay = 'On Time';
+        } else {
+            $status_essay = 'Late';
+        }
+
         return view('user.admin.essay-list.essay-completed-detail', [
             'essay' => $essay,
             'tags' => EssayTags::where('id_essay_clients', $id)->get(),
             'feedback' => EssayFeedbacks::where('id_essay_clients', $id)->first(),
+            'status_essay' => $status_essay
         ]);
     }
 }

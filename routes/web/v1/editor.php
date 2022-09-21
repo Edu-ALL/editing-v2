@@ -13,3 +13,5 @@ Route::post('profile/{id_editors}', [Profile::class, 'update'])->name('update-pr
 Route::post('ongoing/accept/{id_essay}', [Essays::class, 'accept'])->name('accept-essay');
 Route::post('ongoing/reject/{id_essay}', [Essays::class, 'reject'])->name('reject-essay');
 Route::post('ongoing/upload/{id_essay}', [Essays::class, 'uploadEssay'])->name('upload-essay');
+Route::post('ongoing/addcomment/{id_essay}', [Essays::class, 'addComment'])->name('add-comment');
+Route::post('ongoing/uploadrevise/{id_essay}', [Essays::class, 'uploadRevise'])->name('upload-revise');
