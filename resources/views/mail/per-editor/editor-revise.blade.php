@@ -373,7 +373,7 @@
                                                     <tr>
                                                         <td class="img"
                                                             style="font-size:0pt; line-height:0pt; text-align:left"
-                                                            width="10" bgcolor="#00b6ff"></td>
+                                                            width="10" bgcolor="#0adb1f"></td>
                                                         <td class="img"
                                                             style="font-size:0pt; line-height:0pt; text-align:left"
                                                             width="22"></td>
@@ -402,8 +402,8 @@
                                                                                     </table>
 
                                                                                     <div class="h5-2"
-                                                                                        style="color:#555555; font-family:Arial,sans-serif; font-size:14px; line-height:20px; text-align:left; text-transform:uppercase">
-                                                                                        <b>Hi {{ $mentor->first_name.' '.$mentor->last_name }},</b>
+                                                                                        style="color:#555555; font-family:Arial,sans-serif; font-size:14px; line-height:20px; text-align:left; text-transform:capitalize">
+                                                                                        <p>Hi Managing Editor,</p>
                                                                                     </div>
                                                                                     <table width="100%" border="0"
                                                                                         cellspacing="0" cellpadding="0"
@@ -420,9 +420,37 @@
                                                                                     <div class="text2"
                                                                                         style="color:#777777; font-family:Arial,sans-serif; font-size:12px; line-height:20px; text-align:left">
                                                                                         <br>
-                                                                                        {{ $client->first_name.' '.$client->last_name }}' essay, {{ $essay->essay_title }} has been received and is currently being reviewed by our essay editor,
-                                                                                        {{ $editor->first_name.' '.$editor->last_name }}.<br><br>
-                                                                                        <p>Thanks! Please feel free to contact us if you have any questions.</p>
+                                                                                        <p>{{ $editor->first_name.' '.$editor->last_name }}
+                                                                                            has submitted the essay you asked them to revise: </p>
+                                                                                        <br>
+                                                                                        <b>Mentor:</b>
+                                                                                        {{ $mentor->first_name.' '.$mentor->last_name }}
+                                                                                        <br>
+                                                                                        <b>Client:</b>
+                                                                                        {{ $client->first_name.' '.$client->last_name }}
+                                                                                        <br>
+                                                                                        <b>Essay Title:</b>
+                                                                                        {{ $essay->essay_title }}
+                                                                                        <br>
+                                                                                        <b>Essay Deadline:</b>
+                                                                                        {{ date('D, d M Y', strtotime($essay->essay_deadline)) }}
+                                                                                        <br>
+                                                                                        <b>Application Due Date:</b>
+                                                                                        {{ date('D, d M Y', strtotime($essay->application_deadline)) }}
+                                                                                        <br>
+                                                                                        <b>Target University:</b>
+                                                                                        {{ $essay->university->university_name }}
+                                                                                        <br>
+                                                                                        <b>Essay Prompt:</b>
+                                                                                        <i>{!! $essay->essay_prompt !!}</i>
+                                                                                        <br>
+
+                                                                                        <p>Please review this essay and
+                                                                                            return it to the mentor or
+                                                                                            ask
+                                                                                            the editor for another round
+                                                                                            of
+                                                                                            revision.</p>
                                                                                         <br>
                                                                                     </div>
                                                                                 </td>

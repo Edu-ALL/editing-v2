@@ -66,8 +66,6 @@ class Essays extends Controller
                 });
             });
         })->orderBy('read', 'asc')->orderBy('uploaded_at', 'asc')->paginate(10);
-        // $ongoing_essay = $essays->where('status_essay_clients', '!=', 7)->where('status_essay_clients', '!=', 0)->where('status_essay_clients', '!=', 5)->paginate(10);
-        // $completed_essay = EssayEditors::where('editors_mail', $editor->email)->where('status_essay_editors', '=', 7)->paginate(10);
 
         return view('user.per-editor.essay-list.essay-list', [
             'ongoing_essay' => $ongoing_essay,
@@ -144,6 +142,20 @@ class Essays extends Controller
             DB::rollBack();
             return Redirect::back()->withErrors($e->getMessage());
         }
+
+        $editor = Auth::guard('web-editor')->user();
+        $client = Client::where('id_clients', $essay->id_clients)->first();
+        $mentor = Mentor::where('id_mentors', $client->id_mentor)->first();
+        
+        $data = [
+            'client' => $client,
+            'mentor' => $mentor,
+            'essay' => $essay,
+            'editor' => $editor,
+        ];
+
+        $this->sendEmail('accept', $data);
+
         return redirect('editors/essay-list/ongoing/detail/'.$id_essay);
     }
 
@@ -227,6 +239,36 @@ class Essays extends Controller
                 $mail->cc('essay@all-inedu.com');
                 $mail->subject($editor.' has rejected an essay assignment');
             });
+        } else if ($type == 'accept') {
+            Mail::send('mail.per-editor.accept-assign', $data, function($mail) use ($email) {
+                $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+                $mail->to($email);
+                $mail->cc('essay@all-inedu.com');
+                $mail->subject('Assignment Accepted');
+            });
+        } else if ($type == 'uploadEssay') {
+            $editor = $data['editor']->first_name.' '.$data['editor']->last_name;
+            Mail::send('mail.per-editor.editor-upload', $data, function($mail) use ($email, $editor) {
+                $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+                $mail->to($email);
+                $mail->cc('essay@all-inedu.com');
+                $mail->subject($editor.' has submitted an essay!');
+            });
+        } else if ($type == 'uploadRevise') {
+            $editor = $data['editor']->first_name.' '.$data['editor']->last_name;
+            Mail::send('mail.per-editor.editor-revise', $data, function($mail) use ($email, $editor) {
+                $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+                $mail->to($email);
+                $mail->cc('essay@all-inedu.com');
+                $mail->subject($editor.' has submitted an essay revision!');
+            });
+        } else if ($type == 'comment') {
+            Mail::send('mail.per-editor.editor-comment', $data, function($mail) use ($email) {
+                $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+                $mail->to($email);
+                $mail->cc('essay@all-inedu.com');
+                $mail->subject('Editor Comments');
+            });
         }
 
         if (Mail::failures()) {
@@ -295,6 +337,20 @@ class Essays extends Controller
             DB::rollBack();
             return Redirect::back()->withErrors($e->getMessage());
         }
+
+        $editor = Auth::guard('web-editor')->user();
+        $client = Client::where('id_clients', $essay->id_clients)->first();
+        $mentor = Mentor::where('id_mentors', $client->id_mentor)->first();
+        
+        $data = [
+            'client' => $client,
+            'mentor' => $mentor,
+            'essay' => $essay,
+            'editor' => $editor,
+        ];
+
+        $this->sendEmail('uploadEssay', $data);
+
         return redirect('editors/essay-list/ongoing/detail/'.$id_essay);
     }
 
@@ -315,6 +371,14 @@ class Essays extends Controller
             DB::rollBack();
             return Redirect::back()->withErrors($e->getMessage());
         }
+
+        
+        $data = [
+            'comment' => $request->comment,
+        ];
+
+        $this->sendEmail('comment', $data);
+
         return redirect('editors/essay-list/ongoing/detail/'.$id_essay);
     }
 
@@ -381,6 +445,20 @@ class Essays extends Controller
             DB::rollBack();
             return Redirect::back()->withErrors($e->getMessage());
         }
+
+        $editor = Auth::guard('web-editor')->user();
+        $client = Client::where('id_clients', $essay->id_clients)->first();
+        $mentor = Mentor::where('id_mentors', $client->id_mentor)->first();
+        
+        $data = [
+            'client' => $client,
+            'mentor' => $mentor,
+            'essay' => $essay,
+            'editor' => $editor,
+        ];
+
+        $this->sendEmail('uploadRevise', $data);
+
         return redirect('editors/essay-list/ongoing/detail/'.$id_essay);
     }
 }

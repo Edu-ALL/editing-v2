@@ -373,7 +373,7 @@
                                                     <tr>
                                                         <td class="img"
                                                             style="font-size:0pt; line-height:0pt; text-align:left"
-                                                            width="10" bgcolor="#00b6ff"></td>
+                                                            width="10" bgcolor="#ffa114"></td>
                                                         <td class="img"
                                                             style="font-size:0pt; line-height:0pt; text-align:left"
                                                             width="22"></td>
@@ -403,7 +403,7 @@
 
                                                                                     <div class="h5-2"
                                                                                         style="color:#555555; font-family:Arial,sans-serif; font-size:14px; line-height:20px; text-align:left; text-transform:uppercase">
-                                                                                        <b>Hi {{ $mentor->first_name.' '.$mentor->last_name }},</b>
+                                                                                        <b>Dear Managing Editor,</b>
                                                                                     </div>
                                                                                     <table width="100%" border="0"
                                                                                         cellspacing="0" cellpadding="0"
@@ -419,16 +419,76 @@
 
                                                                                     <div class="text2"
                                                                                         style="color:#777777; font-family:Arial,sans-serif; font-size:12px; line-height:20px; text-align:left">
-                                                                                        <br>
-                                                                                        {{ $client->first_name.' '.$client->last_name }}' essay, {{ $essay->essay_title }} has been received and is currently being reviewed by our essay editor,
-                                                                                        {{ $editor->first_name.' '.$editor->last_name }}.<br><br>
-                                                                                        <p>Thanks! Please feel free to contact us if you have any questions.</p>
-                                                                                        <br>
+                                                                                        Editors comments :<br>
+                                                                                        <blockquote>
+                                                                                            <i>
+                                                                                                {!! $comment !!}
+                                                                                            </i>
+                                                                                            <hr>
+                                                                                        </blockquote>
+                                                                                        Regards
                                                                                     </div>
+                                                                                    <table width="100%" border="0"
+                                                                                        cellspacing="0" cellpadding="0"
+                                                                                        class="spacer"
+                                                                                        style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+                                                                                        <tr>
+                                                                                            <td height="15"
+                                                                                                class="spacer"
+                                                                                                style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+                                                                                                &nbsp;</td>
+                                                                                        </tr>
+                                                                                    </table>
+
                                                                                 </td>
                                                                             </tr>
                                                                         </table>
                                                                     </th>
+                                                                    <!-- END Column -->
+                                                                    <th class="m-td"
+                                                                        style="font-size:0pt; line-height:0pt; text-align:left"
+                                                                        width="18"></th>
+                                                                    <!-- END Column -->
+                                                                    <!-- Column -->
+                                                                    <th class="column"
+                                                                        style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; Margin:0">
+                                                                        <table width="100%" border="0" cellspacing="0"
+                                                                            cellpadding="0">
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <div class="hide-for-mobile">
+                                                                                        <table width="100%" border="0"
+                                                                                            cellspacing="0"
+                                                                                            cellpadding="0"
+                                                                                            class="spacer"
+                                                                                            style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+                                                                                            <tr>
+                                                                                                <td height="10"
+                                                                                                    class="spacer"
+                                                                                                    style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+                                                                                                    &nbsp;</td>
+                                                                                            </tr>
+                                                                                        </table>
+
+                                                                                    </div>
+
+                                                                                    <table width="100%" border="0"
+                                                                                        cellspacing="0" cellpadding="0"
+                                                                                        class="spacer"
+                                                                                        style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+                                                                                        <tr>
+                                                                                            <td height="10"
+                                                                                                class="spacer"
+                                                                                                style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+                                                                                                &nbsp;</td>
+                                                                                        </tr>
+                                                                                    </table>
+
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </th>
+                                                                    <!-- END Column -->
                                                                 </tr>
                                                             </table>
                                                         </td>
