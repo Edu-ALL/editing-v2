@@ -52,8 +52,9 @@
                                         <div class="col-12 d-flex mb-3">
                                             <div class="col-12">
                                                 <h6 class="pb-2">Essay Title :</h6>
-                                                <input type="text" class="form-control inputField py-2 px-3"
-                                                    name="essay_title">
+                                                <input type="text" value="Essay Editing"
+                                                    class="form-control inputField py-2 px-3" name="essay_title" disabled
+                                                    readonly>
                                             </div>
                                         </div>
 
@@ -108,54 +109,36 @@
                                             </div>
                                         </div>
                                         <div class="text-area p-md-1 mb-3">
-                                            <h6 class="pb-3">Number Of Words :</h6>
                                             <div class="col-12">
-                                                <div class="dropdown">
-                                                    <button class="btn dropdown-toggle w-100 text-start" type="button"
-                                                        id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                                        aria-expanded="false">
-                                                        <p class="d-inline-block">Mentor</p>
-                                                    </button>
-                                                    <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1">
-                                                        <li class="mt-1 mb-2">
-                                                            <input type="email" class="form-control inputField py-1 px-2"
-                                                                placeholder="Search">
-                                                        </li>
-                                                        <li><a class="dropdown-item ps-2 my-1" href="">Action</a>
-                                                        </li>
-                                                        <li><a class="dropdown-item ps-2 my-1" href="">Another
-                                                                action</a></li>
-                                                        <li><a class="dropdown-item ps-2 my-1" href="">Something
-                                                                else
-                                                                here</a></li>
-                                                    </ul>
-                                                </div>
+                                                <h6 class="pb-2">Number of Words :</h6>
+                                                <select class="form-control select2" style="width: 96.5%;"
+                                                    name="number_of_words">
+                                                    <option value=""></option>
+                                                    @foreach ($program as $word)
+                                                        @if ($word->id_program != '')
+                                                            <option value="{{ $word->id_program }}">
+                                                                {{ $word->minimum_word . ' - ' . $word->maximum_word }}
+                                                                Words
+                                                            </option>
+                                                        @endif
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="text-area p-md-1 mb-3">
-                                            <h6 class="pb-3">Essay Type :</h6>
-                                            <div class="col-7">
-                                                <div class="dropdown">
-                                                    <button class="btn dropdown-toggle w-100 text-start" type="button"
-                                                        id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                                        aria-expanded="false">
-                                                        <p class="d-inline-block">Mentor</p>
-                                                    </button>
-                                                    <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1">
-                                                        <li class="mt-1 mb-2">
-                                                            <input type="email"
-                                                                class="form-control inputField py-1 px-2"
-                                                                placeholder="Search">
-                                                        </li>
-                                                        <li><a class="dropdown-item ps-2 my-1" href="">Action</a>
-                                                        </li>
-                                                        <li><a class="dropdown-item ps-2 my-1" href="">Another
-                                                                action</a></li>
-                                                        <li><a class="dropdown-item ps-2 my-1" href="">Something
-                                                                else
-                                                                here</a></li>
-                                                    </ul>
-                                                </div>
+                                            <div class="col-12">
+                                                <h6 class="pb-2">Essay Type :</h6>
+                                                <select class="form-control select2" style="width: 96.5%;"
+                                                    name="essay_title">
+                                                    <option value=""></option>
+                                                    <option value="Common App">Common App</option>
+                                                    <option value="Coalition App">Coalition App</option>
+                                                    <option value="UCAS">UCAS</option>
+                                                    <option value="Personal Statement">Personal Statement</option>
+                                                    <option value="Suplemental Essay">Suplemental Essay</option>
+                                                    <option value="Digital Team Blog Post">Digital Team Blog Post</option>
+                                                    <option value="Common App">Other</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>

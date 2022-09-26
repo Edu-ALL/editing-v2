@@ -201,6 +201,17 @@ body {
 .countEssay .checked {
   color: var(--yellow);
 }
+
+img.rating {
+  width: 24px;
+  height: 24px;
+}
+img.rating.rating-fill {
+  color: var(--yellow);
+}
+
+
+
 .essayList {
   color: var(--blue);
   /* min-height: 450px; */

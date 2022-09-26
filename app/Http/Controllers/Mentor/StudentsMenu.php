@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Mentor;
 
 use App\Http\Controllers\Controller;
 use App\Models\Client;
+use App\Models\CRM\Client as CRMClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -25,7 +26,9 @@ class StudentsMenu extends Controller
         return view('user.mentor.user-student', ['clients' => $clients]);
     }
 
-    public function detail($id){
-        return view('user.mentor.user-student-detail', ['client' => Client::find($id)]);
+    public function detail($id)
+    {
+        $client = Client::with('mentors')->find($id);
+        return view('user.mentor.user-student-detail',compact('client'));
     }
 }

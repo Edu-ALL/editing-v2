@@ -6,7 +6,7 @@
     </a>
     <hr class="smallLine mx-auto mt-4">
     {{-- Menu --}}
-    <div
+    <div style="cursor: pointer"
         class="container ps-lg-5 ps-md-4 menuList d-flex flex-column text-md-start align-items-md-start align-items-center mt-5 mb-5 gap-5">
         <div class="row w-100 pointer" onclick="location.href='/mentor/dashboard'">
             <div class="col-md-3">
@@ -54,7 +54,7 @@
             {{-- End Popup --}}
         </div>
 
-        <div class="row w-100 pointer" onclick="location.href='/mentor/user/student'">
+        <div class="row w-100" style="cursor: pointer" onclick="location.href='/mentor/user/student'">
             <div class="col-md-3 ps-lg-1">
                 <img class="active user-icon"
                     src="{{ request()->is('mentor/user/student') || request()->is('mentor/user/student/detail/*') ? '/assets/student-blue.png' : '/assets/student.png' }}"
@@ -66,7 +66,7 @@
                     Students</h6>
             </div>
         </div>
-        <div class="row w-100 align-items-center pointer" onclick="location.href='/mentor/new-request'">
+        <div class="row w-100 align-items-center" style="cursor: pointer" onclick="location.href='/mentor/new-request'">
             <div class="col-md-3 ps-lg-1">
                 <img class="active"
                     src="{{ request()->is('mentor/new-request') ? '/assets/new-request-blue.png' : '/assets/new-request.png' }}"
@@ -86,7 +86,7 @@
         </div> --}}
     </div>
     <hr class="smallLine mx-auto mt-4">
-    <div
+    <div style="cursor: pointer"
         class="container ps-lg-5 ps-md-4 menuList d-flex flex-column text-md-start align-items-md-start align-items-center mt-5 mb-5 gap-4">
         <div type="button" class="row w-100" data-bs-toggle="modal" data-bs-target="#logout">
             <div class="col-md-3 ps-lg-1">

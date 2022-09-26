@@ -154,9 +154,14 @@
                     <div class="col pb-3" style="border-bottom: 1px solid var(--light-grey)">
                       <h6 class="pb-3">Tags :</h6>
                       <div class="col d-flex flex-wrap gap-1 list-tags pe-2">
+                        @foreach ($tags as $tag)
                         <div class="tags py-2 px-3">
-                          <h6 style="font-size: 12px; font-weight: 500">#{{ $essay->essay_tags->tags->topic_name }}</h6>
+                          <h6 style="font-size: 12px; font-weight: 500">#{{ $tag->tags->topic_name }}</h6>
                         </div>
+                        @endforeach
+                        {{-- <div class="tags py-2 px-3">
+                          <h6 style="font-size: 12px; font-weight: 500">#{{ $essay->essay_tags->tags->topic_name }}</h6>
+                        </div> --}}
                       </div>
                     </div>
                     <div class="col d-flex flex-row alert-complete py-3 px-4 mt-3" id="alertComplete" style="border-radius: 10px; background-color: var(--yellow)">

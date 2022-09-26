@@ -51,10 +51,21 @@ class Editors extends Controller
                 })->orWhere('essay_title', 'like', '%'.$keyword2.'%');
             });
         })->paginate(5);
+
+        $count_essay = EssayClients::where('id_editors', $id)->where('status_essay_clients', 7)->get();
+        $rating = 0;
+        $i = 0;
+        foreach ($count_essay as $essay) {
+            $rating += $count_essay[$i]->essay_rating;
+            $i++;
+        }
+        $average_rating = $rating / count($count_essay);
+
         return view('user.admin.users.user-editor-detail', [
             'editor' => Editor::find($id),
             'essay_ongoing' => $essay_ongoing,
             'essay_completed' => $essay_completed,
+            'average_rating' => number_format($average_rating, 1, ".", ",")
         ]);
     }
 
@@ -127,5 +138,35 @@ class Editors extends Controller
         }
 
         return redirect('admin/user/editor/detail/'.$id_editors)->with('update-editor-successful', 'The Editor has been updated');
+    }
+
+    public function deactivate($id_editors){
+        DB::beginTransaction();
+        try {
+            $editor = Editor::find($id_editors);
+            $editor->status = 2;
+            $editor->save();
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return Redirect::back()->withErrors($e->getMessage());
+        }
+        return redirect('admin/user/editor');
+    }
+
+    public function activate($id_editors){
+        DB::beginTransaction();
+        try {
+            $editor = Editor::find($id_editors);
+            $editor->status = 1;
+            $editor->save();
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return Redirect::back()->withErrors($e->getMessage());
+        }
+        return redirect('admin/user/editor');
     }
 }

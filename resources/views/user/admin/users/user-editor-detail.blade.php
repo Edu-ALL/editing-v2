@@ -38,9 +38,13 @@
               </div>
             </div>
             <div class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
-              <button class="btn btn-deactivated d-flex align-items-center gap-2">
-                <h6>Deactivated</h6>
-              </button>
+              <form action="{{ route( $editor->status == 1 ? 'deactivate-editor' : 'activate-editor', ['id_editors' => $editor->id_editors]) }}" method="POST" class="p-0">
+                @csrf
+                <button class="btn btn-deactivated d-flex align-items-center gap-2">
+                  <h6>{{ $editor->status == 1 ? 'Deactivated' : 'Activated' }}</h6>
+                </button>
+              </form>
+              
             </div>
             <div class="headline d-flex align-items-center gap-3" style="background-color: var(--green)">
               <img src="/assets/completed-essay.png" alt="">
@@ -54,16 +58,107 @@
               <img src="/assets/star.png" alt="">
               <h6>Rating</h6>
             </div>
-            <div class="col d-flex flex-column px-3 py-md-5 py-4 gap-2 countEssay text-center justify-content-center">
-              <h4 style="color: var(--yellow)">4.2 / 5</h4>
-              <h4>
+            <div class="col d-flex flex-column px-3 py-md-5 py-4 gap-2 countEssay text-center aling-items-center justify-content-center gap-3">
+              <h4 style="color: var(--yellow)">{{ $average_rating }} / 5</h4>
+              <div class="col d-flex flex-row justify-content-center">
+                @if ($average_rating == 0)
+                <img class="rating" src="/assets/rating.png" alt="">
+                <img class="rating" src="/assets/rating.png" alt="">
+                <img class="rating" src="/assets/rating.png" alt="">
+                <img class="rating" src="/assets/rating.png" alt="">
+                <img class="rating" src="/assets/rating.png" alt="">
+                @elseif ($average_rating > 0 && $average_rating <= 0.5)
+                <img class="rating" src="/assets/rating-half.png" alt="">
+                <img class="rating" src="/assets/rating.png" alt="">
+                <img class="rating" src="/assets/rating.png" alt="">
+                <img class="rating" src="/assets/rating.png" alt="">
+                <img class="rating" src="/assets/rating.png" alt="">
+                @elseif ($average_rating > 0.5 && $average_rating <= 1)
+                <img class="rating" src="/assets/rating-fill.png" alt="">
+                <img class="rating" src="/assets/rating.png" alt="">
+                <img class="rating" src="/assets/rating.png" alt="">
+                <img class="rating" src="/assets/rating.png" alt="">
+                <img class="rating" src="/assets/rating.png" alt="">
+                @elseif ($average_rating > 1 && $average_rating <= 1.5)
+                <img class="rating" src="/assets/rating-fill.png" alt="">
+                <img class="rating" src="/assets/rating-half.png" alt="">
+                <img class="rating" src="/assets/rating.png" alt="">
+                <img class="rating" src="/assets/rating.png" alt="">
+                <img class="rating" src="/assets/rating.png" alt="">
+                @elseif ($average_rating > 1.5 && $average_rating <= 2)
+                <img class="rating" src="/assets/rating-fill.png" alt="">
+                <img class="rating" src="/assets/rating-fill.png" alt="">
+                <img class="rating" src="/assets/rating.png" alt="">
+                <img class="rating" src="/assets/rating.png" alt="">
+                <img class="rating" src="/assets/rating.png" alt="">
+                @elseif ($average_rating > 2 && $average_rating <= 2.5)
+                <img class="rating" src="/assets/rating-fill.png" alt="">
+                <img class="rating" src="/assets/rating-fill.png" alt="">
+                <img class="rating" src="/assets/rating-half.png" alt="">
+                <img class="rating" src="/assets/rating.png" alt="">
+                <img class="rating" src="/assets/rating.png" alt="">
+                @elseif ($average_rating > 2.5 && $average_rating <= 3)
+                <img class="rating" src="/assets/rating-fill.png" alt="">
+                <img class="rating" src="/assets/rating-fill.png" alt="">
+                <img class="rating" src="/assets/rating-fill.png" alt="">
+                <img class="rating" src="/assets/rating.png" alt="">
+                <img class="rating" src="/assets/rating.png" alt="">
+                @elseif ($average_rating > 3 && $average_rating <= 3.5)
+                <img class="rating" src="/assets/rating-fill.png" alt="">
+                <img class="rating" src="/assets/rating-fill.png" alt="">
+                <img class="rating" src="/assets/rating-fill.png" alt="">
+                <img class="rating" src="/assets/rating-half.png" alt="">
+                <img class="rating" src="/assets/rating.png" alt="">
+                @elseif ($average_rating > 3.5 && $average_rating <= 4)
+                <img class="rating" src="/assets/rating-fill.png" alt="">
+                <img class="rating" src="/assets/rating-fill.png" alt="">
+                <img class="rating" src="/assets/rating-fill.png" alt="">
+                <img class="rating" src="/assets/rating-fill.png" alt="">
+                <img class="rating" src="/assets/rating.png" alt="">
+                @elseif ($average_rating > 4 && $average_rating <= 4.5)
+                <img class="rating" src="/assets/rating-fill.png" alt="">
+                <img class="rating" src="/assets/rating-fill.png" alt="">
+                <img class="rating" src="/assets/rating-fill.png" alt="">
+                <img class="rating" src="/assets/rating-fill.png" alt="">
+                <img class="rating" src="/assets/rating-half.png" alt="">
+                @elseif ($average_rating > 4.5 && $average_rating <= 5)
+                <img class="rating" src="/assets/rating-fill.png" alt="">
+                <img class="rating" src="/assets/rating-fill.png" alt="">
+                <img class="rating" src="/assets/rating-fill.png" alt="">
+                <img class="rating" src="/assets/rating-fill.png" alt="">
+                <img class="rating" src="/assets/rating-fill.png" alt="">
+                @endif
+              </div>
+              {{-- <h4>
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star half"></span>
                 <span class="fa fa-star"></span>
-              </h4>
-              <h4 class="d-block" style="color: var(--yellow)">Very Good</h4>
+              </h4> --}}
+              @if ($average_rating == 0)
+                <h4 class="d-block" style="color: var(--yellow)">-</h4>
+              @elseif ($average_rating >= 0.5 && $average_rating <= 0.9)
+                <h4 class="d-block" style="color: var(--yellow)">Horrific</h4>
+              @elseif ($average_rating >= 1 && $average_rating <= 1.4)
+                <h4 class="d-block" style="color: var(--yellow)">Awful</h4>
+              @elseif ($average_rating >= 1.5 && $average_rating <= 1.9)
+                <h4 class="d-block" style="color: var(--yellow)">Very Bad</h4>
+              @elseif ($average_rating >= 2 && $average_rating <= 2.4)
+                <h4 class="d-block" style="color: var(--yellow)">Bad</h4>
+              @elseif ($average_rating >= 2.5 && $average_rating <= 2.9)
+                <h4 class="d-block" style="color: var(--yellow)">Unsatisfactory</h4>
+              @elseif ($average_rating >= 3 && $average_rating <= 3.4)
+                <h4 class="d-block" style="color: var(--yellow)">Satisfactory</h4>
+              @elseif ($average_rating >= 3.5 && $average_rating <= 3.9)
+                <h4 class="d-block" style="color: var(--yellow)">Good</h4>
+              @elseif ($average_rating >= 4 && $average_rating <= 4.4)
+                <h4 class="d-block" style="color: var(--yellow)">Very Good</h4>
+              @elseif ($average_rating >= 4.5 && $average_rating <= 4.9)
+                <h4 class="d-block" style="color: var(--yellow)">Excellent</h4>
+              @elseif ($average_rating == 5)
+                <h4 class="d-block" style="color: var(--yellow)">Awesome</h4>
+              @endif
             </div>
           </div>
           
@@ -184,7 +279,7 @@
                   @endforeach
                   
                   @unless (count($essay_ongoing)) 
-                  <tr>
+                  <tr style="cursor: default">
                     <td colspan="7">No data</td>
                   </tr>
                   @endunless
@@ -238,7 +333,7 @@
                   @endforeach
                   
                   @unless (count($essay_completed)) 
-                  <tr>
+                  <tr style="cursor: default">
                     <td colspan="7">No data</td>
                   </tr>
                   @endunless

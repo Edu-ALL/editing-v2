@@ -3,6 +3,7 @@
   <style>
     .pagination { margin: 15px 0}
     .pagination .page-item .page-link { padding: 10px 15px; font-size: 12px; }
+    .unread {font-weight: 600}
   </style>
 @endsection
 
@@ -52,15 +53,15 @@
                     <?php $i = ($ongoing_essay->currentpage()-1)* $ongoing_essay->perpage() + 1;?>
                     @foreach ($ongoing_essay as $essay)
                     <tr onclick="window.location='/editors/essay-list/ongoing/detail/{{ $essay->id_essay_clients }}'">
-                      <th scope="row">{{ $i++ }}</th>
-                      <td>{{ $essay->client_by_id->first_name.' '.$essay->client_by_id->last_name }}</td>
-                      <td>{{ $essay->client_by_id->mentors->first_name.' '.$essay->client_by_id->mentors->last_name  }}</td>
-                      <td>{{ $essay->editor ? $essay->editor->first_name.' '.$essay->editor->last_name : '-' }}</td>
-                      <td>{{ $essay->program->program_name }}</td>
-                      <td>{{ $essay->essay_title }}</td>
-                      <td>{{ date('D, d M Y', strtotime($essay->uploaded_at)) }}</td>
-                      <td>{{ date('D, d M Y', strtotime($essay->essay_deadline)) }}</td>
-                      <td style="color: var(--red)">{{ $essay->status->status_title }}</td>
+                      <th scope="row" class="{{ $essay->essay_editors->read == 0 ? 'unread' : '' }}">{{ $i++ }}</th>
+                      <td class="{{ $essay->essay_editors->read == 0 ? 'unread' : '' }}">{{ $essay->client_by_id->first_name.' '.$essay->client_by_id->last_name }}</td>
+                      <td class="{{ $essay->essay_editors->read == 0 ? 'unread' : '' }}">{{ $essay->client_by_id->mentors->first_name.' '.$essay->client_by_id->mentors->last_name  }}</td>
+                      <td class="{{ $essay->essay_editors->read == 0 ? 'unread' : '' }}">{{ $essay->editor ? $essay->editor->first_name.' '.$essay->editor->last_name : '-' }}</td>
+                      <td class="{{ $essay->essay_editors->read == 0 ? 'unread' : '' }}">{{ $essay->program->program_name }}</td>
+                      <td class="{{ $essay->essay_editors->read == 0 ? 'unread' : '' }}">{{ $essay->essay_title }}</td>
+                      <td class="{{ $essay->essay_editors->read == 0 ? 'unread' : '' }}">{{ date('D, d M Y', strtotime($essay->uploaded_at)) }}</td>
+                      <td class="{{ $essay->essay_editors->read == 0 ? 'unread' : '' }}">{{ date('D, d M Y', strtotime($essay->essay_deadline)) }}</td>
+                      <td class="{{ $essay->essay_editors->read == 0 ? 'unread' : '' }}" style="color: var(--red)">{{ $essay->status->status_title }}</td>
                     </tr>
                     @endforeach
                     
@@ -112,15 +113,15 @@
                     <?php $i = ($completed_essay->currentpage()-1)* $completed_essay->perpage() + 1;?>
                     @foreach ($completed_essay as $essay)
                     <tr onclick="window.location='/editors/essay-list/completed/detail/{{ $essay->id_essay_clients }}'">
-                      <th scope="row">{{ $i++ }}</th>
-                      <td>{{ $essay->essay_clients->client_by_id->first_name.' '.$essay->essay_clients->client_by_id->last_name }}</td>
-                      <td>{{ $essay->essay_clients->client_by_id->mentors->first_name.' '.$essay->essay_clients->client_by_id->mentors->last_name  }}</td>
-                      <td>{{ $essay->editor ? $essay->editor->first_name.' '.$essay->editor->last_name : '-' }}</td>
-                      <td>{{ $essay->essay_clients->program->program_name }}</td>
-                      <td>{{ $essay->essay_clients->essay_title }}</td>
-                      <td>{{ date('D, d M Y', strtotime($essay->essay_clients->uploaded_at)) }}</td>
-                      <td>{{ date('D, d M Y', strtotime($essay->essay_clients->essay_deadline)) }}</td>
-                      <td style="color: var(--green)">{{ $essay->status->status_title }}</td>
+                      <th scope="row" class="{{ $essay->read == 0 ? 'unread' : '' }}">{{ $i++ }}</th>
+                      <td class="{{ $essay->read == 0 ? 'unread' : '' }}">{{ $essay->essay_clients->client_by_id->first_name.' '.$essay->essay_clients->client_by_id->last_name }}</td>
+                      <td class="{{ $essay->read == 0 ? 'unread' : '' }}">{{ $essay->essay_clients->client_by_id->mentors->first_name.' '.$essay->essay_clients->client_by_id->mentors->last_name  }}</td>
+                      <td class="{{ $essay->read == 0 ? 'unread' : '' }}">{{ $essay->editor ? $essay->editor->first_name.' '.$essay->editor->last_name : '-' }}</td>
+                      <td class="{{ $essay->read == 0 ? 'unread' : '' }}">{{ $essay->essay_clients->program->program_name }}</td>
+                      <td class="{{ $essay->read == 0 ? 'unread' : '' }}">{{ $essay->essay_clients->essay_title }}</td>
+                      <td class="{{ $essay->read == 0 ? 'unread' : '' }}">{{ date('D, d M Y', strtotime($essay->essay_clients->uploaded_at)) }}</td>
+                      <td class="{{ $essay->read == 0 ? 'unread' : '' }}">{{ date('D, d M Y', strtotime($essay->essay_clients->essay_deadline)) }}</td>
+                      <td class="{{ $essay->read == 0 ? 'unread' : '' }}" style="color: var(--green)">{{ $essay->status->status_title }}</td>
                     </tr>
                     @endforeach
                     

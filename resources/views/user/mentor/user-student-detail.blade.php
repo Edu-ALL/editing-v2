@@ -97,11 +97,7 @@
                                             <p>:</p>
                                         </div>
                                         <div class="col-7">
-                                            <select class="select-beast inputField">
-                                                <option value="value 1">Value 1</option>
-                                                <option value="value 2">Value 2</option>
-                                                <option value="value 3">Value 3</option>
-                                            </select>
+                                            <p>{{ $client->mentors->first_name . ' ' . $client->mentors->last_name }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -111,15 +107,15 @@
                                 {{-- Text Area --}}
                                 <div class="text-area p-md-1 mb-3">
                                     <h6 class="pb-3">Personal Brand Statement :</h6>
-                                    <textarea name="" id=""></textarea>
+                                    <textarea name="personal_brand" class="textarea" placeholder="Presonal Brand Statement"> {{ $client->personal_brand }}</textarea>
                                 </div>
                                 <div class="text-area p-md-1 mb-3">
                                     <h6 class="pb-3">Academic Goals & Interest :</h6>
-                                    <textarea name="" id=""></textarea>
+                                    <textarea name="interests" class="textarea" placeholder="Academic Goals & Interest"> {{ $client->interests }}</textarea>
                                 </div>
                                 <div class="text-area p-md-1 mb-3">
                                     <h6 class="pb-3">Life Philosophy (Values) & Personalities :</h6>
-                                    <textarea name="" id=""></textarea>
+                                    <textarea name="personalities" class="textarea" placeholder="Life Philosophy (Values) & Personalities"> {{ $client->Personalities }}</textarea>
                                 </div>
                                 {{-- End Text Area --}}
                                 {{-- Attachment --}}
@@ -152,4 +148,23 @@
                 {{-- End Content --}}
             </div>
         </div>
+    @endsection
+    @section('js')
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="https://cdn.tiny.cloud/1/h7t62ozvqkx2ifkeh051fsy3k9irz7axx1g2zitzpbaqfo8m/tinymce/5/tinymce.min.js"
+            referrerpolicy="origin"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script>
+            tinymce.init({
+                selector: '.textarea',
+                width: 'auto',
+                height: '300'
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                $('.select2').select2();
+            });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
     @endsection

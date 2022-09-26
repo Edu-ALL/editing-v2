@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Mentor;
 
+use App\Http\Controllers\Admin\Program;
 use App\Http\Controllers\Controller;
+use App\Models\Client;
 use App\Models\Editor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 // use App\Models\Editor;
 use App\Models\EssayClients;
+use App\Models\Programs;
 use App\Models\University;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
@@ -24,17 +27,18 @@ class NewRequestMenu extends Controller
      */
     public function index()
     {
-        $user = Auth::id_mentors();
+        // $user = Auth::id_mentors();
         // $id = $user->id_mentors;
         // $name = $user->name;
-        dd($user);
-        $client = EssayClients::where('editor' )->first();
+        $id = Auth::id();
+        $client = Client::where('id_mentor' || 'id_mentor_2', '=', $id);
+        // dd($client);
         $request_editor = Editor::get();
         $university = University::get();
+        $program = Programs::where('program_name', '=', 'Essay Editing')->orderBy('program_name', 'asc')->get();
+        // dd($program);
         
-        // dd($request_editor);
-        
-        return view('user.mentor.new-request',compact('client','request_editor','university'));
+        return view('user.mentor.new-request',compact('client','request_editor','university','program'));
     }
 
     /**
@@ -55,13 +59,16 @@ class NewRequestMenu extends Controller
      */
     public function store(Request $request){
         $rules = [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'phone' => 'nullable',
-            'email' => 'nullable|email',
-            'graduated_from' => 'nullable',
-            'major' => 'nullable',
-            'address' => 'nullable',
+            'essay_title' => 'required',
+            'id_editors' => 'required',
+            'id_univ' => 'required',
+            'id_clients' => 'required',
+            'number_of_words' => 'required',
+            'essay_title' => 'required',
+            'essays_prompt' => 'required',
+            'essay_deadline' => 'required',
+            'application_deadline' => 'required',
+            'essay_title' => 'required'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -71,19 +78,19 @@ class NewRequestMenu extends Controller
 
         DB::beginTransaction();
         try {
-            $new_editor = new EssayClients();
-            $new_editor->first_name = $request->first_name;
-            $new_editor->last_name = $request->last_name;
-            $new_editor->phone = $request->phone;
-            $new_editor->email = $request->email;
-            $new_editor->graduated_from = $request->graduated_from;
-            $new_editor->major = $request->major;
-            $new_editor->address = $request->address;
-            $new_editor->client_by_id = $request->client_by_id;
-            $new_editor->image = "default.png";
-            $new_editor->password = Hash::make(12345678);
-            $new_editor->status = 1;
-            $new_editor->save();
+            $new_request = new EssayClients();
+            $new_request->first_name = $request->first_name;
+            $new_request->last_name = $request->last_name;
+            $new_request->phone = $request->phone;
+            $new_request->email = $request->email;
+            $new_request->graduated_from = $request->graduated_from;
+            $new_request->major = $request->major;
+            $new_request->address = $request->address;
+            $new_request->client_by_id = $request->client_by_id;
+            $new_request->image = "default.png";
+            $new_request->password = Hash::make(12345678);
+            $new_request->status = 1;
+            $new_request->save();
             DB::commit();
 
         } catch (Exception $e) {

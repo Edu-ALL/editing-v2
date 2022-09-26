@@ -10,6 +10,10 @@ $(".select-beast").selectize({
   create: false,
   sortField: "text",
 });
+$(".select-state").selectize({
+  maxItems: null,
+  sortField: "text"
+});
 
 // Close Alert Completed
 function closeAlert(){

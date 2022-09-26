@@ -12,6 +12,7 @@ class Client extends Model
     protected $table = "tbl_clients";
     protected $primaryKey = 'id_clients';
     public $incrementing = false;
+    public $timestamps = false;
 
     protected $fillable = [
         'id_clients',
@@ -25,6 +26,8 @@ class Client extends Model
         'city',
         'postal_code',
         'address',
+        'id_mentor',
+        'id_mentor_2',
         'current_school',
         'school_name',
         'curriculum',

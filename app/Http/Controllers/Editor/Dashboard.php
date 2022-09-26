@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Editor;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\EssayClients;
+use App\Models\EssayEditors;
 use Illuminate\Http\Request;
 
 class Dashboard extends Controller
@@ -12,8 +13,8 @@ class Dashboard extends Controller
     public function index(){
         $editor = Auth::guard('web-editor')->user();
 
-        $ongoing_essay = EssayClients::where('id_editors', '=', $editor->id_editors)->where('status_essay_clients', '!=', 7);
-        $completed_essay = EssayClients::where('id_editors', '=', $editor->id_editors)->where('status_essay_clients', '=', 7);
+        $ongoing_essay = EssayClients::where('id_editors', $editor->id_editors)->where('status_essay_clients', '!=', 7);
+        $completed_essay = EssayEditors::where('editors_mail', $editor->email)->where('status_essay_editors', '=', 7);
 
         $duetomorrow = $this->essayDeadline('0', '1');
         $duethree = $this->essayDeadline('1', '3');
