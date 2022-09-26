@@ -251,19 +251,3 @@ Route::get('/editors/profile', [Profile::class, 'index']);
 Route::get('/editors/essay-list', [EditorEssays::class, 'index'])->name('list-essay');
 Route::get('/editors/essay-list/completed/detail/{id_essay}', [EditorEssays::class, 'detailEssay']);
 Route::get('/editors/essay-list/ongoing/detail/{id_essay}', [EditorEssays::class, 'detailEssay']);
-
-// Route::get('/editors/essay-list/ongoing/detail', function () {
-//     return view('user.per-editor.essay-list.essay-list-ongoing-detail');
-// });
-// Route::get('/editors/essay-list/ongoing/accepted', function () {
-//     return view('user.per-editor.essay-list.essay-list-ongoing-accepted');
-// });
-// Route::get('/editors/essay-list/ongoing/submitted', function () {
-//     return view('user.per-editor.essay-list.essay-list-ongoing-submitted');
-// });
-// Route::get('/editors/essay-list/ongoing/revise', function () {
-//     return view('user.per-editor.essay-list.essay-list-ongoing-revise');
-// });
-// Route::get('/editors/essay-list/ongoing/revised', function () {
-//     return view('user.per-editor.essay-list.essay-list-ongoing-revised');
-// });
