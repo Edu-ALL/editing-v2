@@ -28,4 +28,12 @@ class EssayRevise extends Model
     {
         return $this->belongsTo(EssayClients::class, 'id_essay_clients', 'id_essay_clients');
     }
+    public function managing_editor()
+    {
+        return $this->belongsTo(Editor::class, 'admin_mail', 'email');
+    }
+    public function editor()
+    {
+        return $this->belongsTo(Editor::class, 'editors_mail', 'email');
+    }
 }

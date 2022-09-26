@@ -66,7 +66,7 @@
                     @endforeach
                     
                     @unless (count($ongoing_essay)) 
-                    <tr>
+                    <tr style="cursor: default">
                       <td colspan="9">No data</td>
                     </tr>
                     @endunless
@@ -126,7 +126,7 @@
                     @endforeach
                     
                     @unless (count($completed_essay)) 
-                    <tr>
+                    <tr style="cursor: default">
                       <td colspan="9">No data</td>
                     </tr>
                     @endunless

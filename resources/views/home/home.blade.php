@@ -9,7 +9,21 @@
   <link rel="stylesheet" href={{ asset('css/bootstrap.css') }}>
   <link rel="stylesheet" href="/css/home/home.css">
 </head>
-<body>
+<body> 
+
+  @if (session()->has('accept-editor-invitation-error'))
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="liveToast" class="toast show bg-danger text-white" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body">
+          {{ session()->get('accept-editor-invitation-error') }}
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+  @endif
+
   <nav class="navbar" style="background-color: var(--bs-white)">
     <div class="container py-2 px-4">
       <a class="navbar-brand" href="/login/admin">
