@@ -13,6 +13,7 @@ class Programs extends Model
     protected $primaryKey = 'id_program';
 
     protected $fillable = [
+        'id_program',
         'program_name',
         'description',
         'price',

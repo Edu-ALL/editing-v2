@@ -1,4 +1,17 @@
 @extends('user.mentor.utama.utama')
+@section('css')
+    <link rel="stylesheet" href="/css/mentor/user-student.css">
+    <style>
+        .pagination {
+            margin: 15px 0
+        }
+
+        .pagination .page-item .page-link {
+            padding: 10px 15px;
+            font-size: 12px;
+        }
+    </style>
+@endsection
 @section('content')
     <div class="container-fluid">
         <div class="row flex-nowrap main">
@@ -34,8 +47,11 @@
                                 <div class="col-md-4 col-6 d-flex align-items-center justify-content-end gap-md-3 gap-2">
                                     <img src="/assets/reload.png" alt="">
                                     <div class="input-group">
-                                        <input type="email" class="form-control inputField py-2 px-3"
-                                            placeholder="Search">
+                                        <form id="form-client-searching" action="{{ route('list-student') }}" method="GET"
+                                            role="search" class="w-100">
+                                            <input type="text" class="form-control inputField py-2 px-3" name="keyword"
+                                                id="search-client" placeholder="Search" required>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -52,16 +68,31 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr onclick="location.href='/mentor/user/student/detail'">
-                                            <th scope="row">1</th>
-                                            <td>Student Dummy</td>
-                                            <td>Mentor Dummy</td>
-                                            <td>studentdummy@example.com</td>
-                                            <td>12345678</td>
-                                            <td>Jl Jeruk kembar blok Q9 no. 15</td>
-                                        </tr>
+                                        <?php $i = ($clients->currentpage() - 1) * $clients->perpage() + 1; ?>
+                                        @foreach ($clients as $client)
+                                            <tr
+                                                onclick="window.location='/mentor/user/student/detail/{{ $client->id_clients }}'">
+                                                <th scope="row">{{ $i++ }}</th>
+                                                <td>{{ $client->first_name . ' ' . $client->last_name }}</td>
+                                                <td>{{ $client->mentors->first_name . ' ' . $client->mentors->last_name }}
+                                                </td>
+                                                <td>{{ $client->email }}</td>
+                                                <td>{{ $client->phone }}</td>
+                                                <td>{{ strip_tags($client->address) }}</td>
+                                            </tr>
+                                        @endforeach
+
+                                        @unless(count($clients))
+                                            <tr>
+                                                <td colspan="7">No data</td>
+                                            </tr>
+                                        @endunless
                                     </tbody>
                                 </table>
+                                {{-- Pagination --}}
+                                <div class="d-flex justify-content-center">
+                                    {{ $clients->links() }}
+                                </div>
                             </div>
                             </a>
                         </div>

@@ -55,7 +55,7 @@ class EssayClients extends Model
 
     public function client_by_id()
     {
-        return $this->belongsTo(Client::class, 'id_clients', 'id_clients');
+        return $this->belongsTo(Client::class, 'id_clients');
     }
 
     public function client_by_email()

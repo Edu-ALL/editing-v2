@@ -23,6 +23,8 @@ class CheckLogin
             return redirect('/admin/dashboard');
         } else if (Auth::guard('web-editor')->check()) {
             return redirect('/editors/dashboard');
+        } else if (Auth::guard('web-mentor')->check()) {
+            return redirect('/mentor/dashboard');
         }
         
 

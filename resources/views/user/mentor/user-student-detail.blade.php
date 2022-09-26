@@ -1,4 +1,7 @@
 @extends('user.mentor.utama.utama')
+@section('css')
+    <link rel="stylesheet" href="/css/mentor/user-student-detail.css">
+@endsection
 @section('content')
     <div class="container-fluid" style="padding: 0">
         <div class="row flex-nowrap main">
@@ -50,7 +53,7 @@
                                             <p>:</p>
                                         </div>
                                         <div class="col-7">
-                                            <p>Student Dummy</p>
+                                            <p>{{ $client->first_name . ' ' . $client->last_name }}</p>
                                         </div>
                                     </div>
                                     <div class="row d-flex align-items-center">
@@ -61,7 +64,7 @@
                                             <p>:</p>
                                         </div>
                                         <div class="col-7">
-                                            <p>12345678</p>
+                                            <p>{{ $client->phone }}</p>
                                         </div>
                                     </div>
                                     <div class="row d-flex align-items-center">
@@ -72,7 +75,7 @@
                                             <p>:</p>
                                         </div>
                                         <div class="col-7">
-                                            <p>student.dummy@gmail.com</p>
+                                            <p>{{ $client->email }}</p>
                                         </div>
                                     </div>
                                     <div class="row d-flex align-items-center">
@@ -83,7 +86,7 @@
                                             <p>:</p>
                                         </div>
                                         <div class="col-7">
-                                            <p>Jl Jeruk Kembar blok Q9 no.15</p>
+                                            <p>{{ $client->address }}</p>
                                         </div>
                                     </div>
                                     <div class="row d-flex align-items-center">
@@ -94,24 +97,7 @@
                                             <p>:</p>
                                         </div>
                                         <div class="col-7">
-                                            <div class="dropdown">
-                                                <button class="btn dropdown-toggle w-100 text-start" type="button"
-                                                    id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                                    aria-expanded="false">
-                                                    <p class="d-inline-block">Mentor</p>
-                                                </button>
-                                                <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1">
-                                                    <li class="mt-1 mb-2">
-                                                        <input type="email" class="form-control inputField py-1 px-2"
-                                                            placeholder="Search">
-                                                    </li>
-                                                    <li><a class="dropdown-item ps-2 my-1" href="">Action</a></li>
-                                                    <li><a class="dropdown-item ps-2 my-1" href="">Another
-                                                            action</a></li>
-                                                    <li><a class="dropdown-item ps-2 my-1" href="">Something else
-                                                            here</a></li>
-                                                </ul>
-                                            </div>
+                                            <p>{{ $client->mentors->first_name . ' ' . $client->mentors->last_name }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -121,15 +107,15 @@
                                 {{-- Text Area --}}
                                 <div class="text-area p-md-1 mb-3">
                                     <h6 class="pb-3">Personal Brand Statement :</h6>
-                                    <textarea name="" id=""></textarea>
+                                    <textarea name="personal_brand" class="textarea" placeholder="Presonal Brand Statement"> {{ $client->personal_brand }}</textarea>
                                 </div>
                                 <div class="text-area p-md-1 mb-3">
                                     <h6 class="pb-3">Academic Goals & Interest :</h6>
-                                    <textarea name="" id=""></textarea>
+                                    <textarea name="interests" class="textarea" placeholder="Academic Goals & Interest"> {{ $client->interests }}</textarea>
                                 </div>
                                 <div class="text-area p-md-1 mb-3">
                                     <h6 class="pb-3">Life Philosophy (Values) & Personalities :</h6>
-                                    <textarea name="" id=""></textarea>
+                                    <textarea name="personalities" class="textarea" placeholder="Life Philosophy (Values) & Personalities"> {{ $client->Personalities }}</textarea>
                                 </div>
                                 {{-- End Text Area --}}
                                 {{-- Attachment --}}
@@ -162,4 +148,23 @@
                 {{-- End Content --}}
             </div>
         </div>
+    @endsection
+    @section('js')
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="https://cdn.tiny.cloud/1/h7t62ozvqkx2ifkeh051fsy3k9irz7axx1g2zitzpbaqfo8m/tinymce/5/tinymce.min.js"
+            referrerpolicy="origin"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script>
+            tinymce.init({
+                selector: '.textarea',
+                width: 'auto',
+                height: '300'
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                $('.select2').select2();
+            });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
     @endsection

@@ -18,11 +18,16 @@ use App\Http\Controllers\Admin\Universities;
 use App\Http\Controllers\Editor\Dashboard;
 use App\Http\Controllers\Editor\Essays as EditorEssays;
 use App\Http\Controllers\Editor\Profile;
+use App\Http\Controllers\ManagingEditor\AllEditorMenu;
 use App\Models\Category;
 use App\Models\EssayClients;
 use App\Models\PositionEditor;
 use App\Models\University;
 use Illuminate\Support\Facades\Auth;
+
+use App\Http\Controllers\Mentor\EssaysMenu;
+use App\Http\Controllers\Mentor\NewRequestMenu;
+use App\Http\Controllers\Mentor\StudentsMenu;
 
 /*
 |--------------------------------------------------------------------------
@@ -149,27 +154,35 @@ Route::middleware('is_admin')->group(function(){
 });
 
 //**********Role Mentor**********//
+Route::get('/mentor/essay-list', [EssaysMenu::class, 'index'])->name('list-essay');
+Route::get('/admin/essay-list/detail', function () {
+    return view('user.admin.essay-list.essay-ongoing-detail');
+});
+Route::get('/mentor/essay-list/completed', [EssaysMenu::class, 'index'])->name('list-essay-completed');
+
 Route::get('/mentor/dashboard', function () {
     return view('user.mentor.dashboard');
 });
-Route::get('/mentor/user/student', function () {
-    return view('user.mentor.user-student');
-});
+Route::get('/mentor/user/student', [StudentsMenu::class, 'index'])->name('list-student');
+Route::get('/mentor/user/student/detail/{id}', [StudentsMenu::class, 'detail']);
+// Route::get('/mentor/user/student', function () {
+//     return view('user.mentor.user-student');
+// });
 Route::get('/mentor/user/student/detail', function () {
     return view('user.mentor.user-student-detail');
 });
-Route::get('/mentor/essay/list', function () {
-    return view('user.mentor.essay-list');
-});
-Route::get('/mentor/essay/list/detail', function () {
-    return view('user.mentor.essay-list-detail');
-});
-Route::get('/mentor/new-request', function () {
-    return view('user.mentor.new-request');
-});
-Route::get('/mentor/new-request', function () {
-    return view('user.mentor.new-request');
-});
+// Route::get('/mentor/essay/list', function () {
+//     return view('user.mentor.essay-list');
+// });
+// Route::get('/mentor/essay/list/detail', function () {
+//     return view('user.mentor.essay-list-detail');
+// });
+Route::get('/mentor/new-request', [NewRequestMenu::class, 'index'])->name('new-request');
+Route::get('/mentor/new-request/save', [NewRequestMenu::class, 'store'])->name('save-new-request');
+// Route::get('/mentor/new-request', function () {
+//     return view('user.mentor.new-request');
+// });
+
 
 
 
@@ -178,9 +191,10 @@ Route::get('/editor/dashboard', function () {
     return view('user.editor.dashboard');
 });
 //Editor List Menu
-Route::get('/editor/list', function () {
-    return view('user.editor.editor-list.editor-list');
-});
+Route::get('/editor/list', [AllEditorMenu::class, 'index'])->name('list-editor');
+// Route::get('/editor/list', function () {
+//     return view('user.editor.editor-list.editor-list');
+// });
 Route::get('/editor/list/detail', function () {
     return view('user.editor.editor-list.editor-list-detail');
 });

@@ -49,6 +49,8 @@ class RouteServiceProvider extends ServiceProvider
 
             $this->mapAdminRoutes();
             $this->mapEditorRoutes();
+            $this->mapMentorRoutes();
+            $this->mapManagingEditorRoutes();
         });
     }
 
@@ -65,6 +67,21 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware('web')
             ->namespace($this->namespace)
             ->group(base_path('routes/web/v1/editor.php'));
+    }
+    protected function mapMentorRoutes()
+    {
+        Route::prefix('v1/mentor')
+            ->middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web/v1/mentor.php'));
+    }
+
+    protected function mapManagingEditorRoutes()
+    {
+        Route::prefix('v1/managingeditor')
+            ->middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web/v1/managingeditor.php'));
     }
 
     /**
