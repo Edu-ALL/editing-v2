@@ -61,59 +61,18 @@
                                                     onclick="window.location='/admin/essay-list/ongoing/detail/{{ $essay->id_essay_clients }}'">
                                                     <th scope="row">{{ $i++ }}</th>
 
-<<<<<<< HEAD
-                                                    @if ($essay->client_by_id)
-                                                        <td>{{ $essay->client_by_id->first_name . ' ' . $essay->client_by_id->last_name }}
-                                                        </td>
-                                                        <td>{{ $essay->client_by_id->mentors->first_name . ' ' . $essay->client_by_id->mentors->last_name }}
-                                                        </td>
-                                                    @elseif ($essay->client_by_email)
-                                                        <td>{{ $essay->client_by_email->first_name . ' ' . $essay->client_by_email->last_name }}
-                                                        </td>
-                                                        <td>{{ $essay->client_by_email->mentors->first_name . ' ' . $essay->client_by_email->mentors->last_name }}
-                                                        </td>
-                                                    @endif
+                                                    <td>{{ $essay->client_by_id->first_name . ' ' . $essay->client_by_id->last_name }}
+                                                    </td>
+                                                    <td>{{ $essay->client_by_id->mentors->first_name . ' ' . $essay->client_by_id->mentors->last_name }}
+                                                    </td>
 
-                                                    <td>{{ $essay->editor ? $essay->editor->first_name . ' ' . $essay->editor->last_name : '-' }}
+                                                    <td>{{ $essay->status_essay_clients == 0 ? '-' : $essay->editor->first_name . ' ' . $essay->editor->last_name }}
                                                     </td>
                                                     <td>{{ $essay->essay_title }}</td>
                                                     <td>{{ date('D, d M Y', strtotime($essay->essay_deadline)) }}</td>
                                                     <td style="color: var(--red)">{{ $essay->status->status_title }}</td>
                                                 </tr>
                                             @endforeach
-=======
-                    <td>{{ $essay->client_by_id->first_name.' '.$essay->client_by_id->last_name }}</td>
-                    <td>{{ $essay->client_by_id->mentors->first_name.' '.$essay->client_by_id->mentors->last_name  }}</td>
-                    
-                    <td>{{ $essay->status_essay_clients == 0 ? '-' : $essay->editor->first_name.' '.$essay->editor->last_name }}</td>
-                    <td>{{ $essay->essay_title }}</td>
-                    <td>{{ date('D, d M Y', strtotime($essay->essay_deadline)) }}</td>
-                    <td style="color: var(--red)">{{ $essay->status->status_title }}</td>
-                  </tr>
-                  @endforeach
-                  
-                  @unless (count($essays)) 
-                  <tr>
-                    <td colspan="7">No data</td>
-                  </tr>
-                  @endunless
-                </tbody>
-              </table>
-              {{-- Pagination --}}
-              <div class="d-flex justify-content-center">
-              {{ $essays->links() }}
-              </div>
-            </div>
-          </div>
-        </div>
-        {{-- End Table Student --}}
-      </div>
-    </div>
-    {{-- End Content --}}
-  </div>
-</div>
-@endsection
->>>>>>> 6a34260ff4b265793056de926d29aa2fe9280335
 
                                             @unless(count($essays))
                                                 <tr>
@@ -129,17 +88,39 @@
                                 </div>
                             </div>
                         </div>
+                        {{-- End Table Student --}}
                     </div>
-                @endsection
+                </div>
+                {{-- End Content --}}
+            </div>
+        </div>
+    @endsection
 
-                @section('js')
-                    <script type="text/javascript">
-                        $("#form-ongoing-essay-searching").keypress(function(e) {
-                            if (e.keyCode === 13) {
-                                swal.showLoading();
-                                e.preventDefault();
-                                $("#form-ongoing-essay-searching").submit();
-                            }
-                        });
-                    </script>
-                @stop
+    @unless(count($essays))
+        <tr>
+            <td colspan="7">No data</td>
+        </tr>
+    @endunless
+    </tbody>
+    </table>
+    {{-- Pagination --}}
+    <div class="d-flex justify-content-center">
+        {{ $essays->links() }}
+    </div>
+</div>
+</div>
+</div>
+</div>
+@endsection
+
+@section('js')
+<script type="text/javascript">
+    $("#form-ongoing-essay-searching").keypress(function(e) {
+        if (e.keyCode === 13) {
+            swal.showLoading();
+            e.preventDefault();
+            $("#form-ongoing-essay-searching").submit();
+        }
+    });
+</script>
+@stop

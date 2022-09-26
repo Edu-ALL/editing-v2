@@ -54,31 +54,55 @@
                                             {{-- <th>View</th> --}}
                                         </tr>
                                     </thead>
+                                    {{-- onclick="window.location='/mentor/user/student/detail/{{ $editor->id_editors }}'" --}}
                                     <tbody>
-                                        <tr onclick="location.href='/editor/list/detail'">
-                                            <th scope="row">1</th>
-                                            <td>Editor Name Dummy</td>
-                                            <td>editordummy@example.com</td>
-                                            <td>0 Essay</td>
-                                            <td>0 Essay</td>
-                                            <td>0 Essay</td>
-                                            <td>Managing Editor</td>
-                                            <td><span class="badge badge-success">Success</span>
-                                            </td>
-                                            {{-- <td><button class="container-fluid btn btn-warning btnLogin"> <img
-                                                        src="" style="weight: 1%" alt=""></button>
-                                            </td> --}}
-                                        </tr>
+                                        <?php $i = ($editors->currentpage() - 1) * $editors->perpage() + 1; ?>
+                                        @foreach ($editors as $editor)
+                                            <tr
+                                                onclick="window.location='/admin/user/editor/detail/{{ $editor->id_editors }}'">
+                                                <th scope="row">{{ $i++ }}</th>
+                                                <td>{{ $editor->first_name . ' ' . $editor->last_name }}</td>
+                                                <td>{{ $editor->email }}</td>
+                                                <td>{{ $editor->phone }}</td>
+                                                <td>{{ strip_tags($editor->address) }}</td>
+                                                @if ($editor->position == 1)
+                                                    <td>Associate</td>
+                                                @elseif ($editor->position == 2)
+                                                    <td>Senior</td>
+                                                @elseif ($editor->position == 3)
+                                                    <td>Managing</td>
+                                                @endif
+                                                @if ($editor->status == 1)
+                                                    <td>
+                                                        <div class="status-editor">
+                                                            Active
+                                                        </div>
+                                                    </td>
+                                                @else
+                                                    <td>
+                                                        <div class="status-editor" style="background-color: var(--red)">
+                                                            Deleted
+                                                        </div>
+                                                    </td>
+                                                @endif
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
+                                {{-- Pagination --}}
+                                <div class="d-flex justify-content-center">
+                                    {{ $editors->links() }}
+                                </div>
                             </div>
-                            </a>
+                            </table>
                         </div>
-                        {{-- End Table Student --}}
+                        </a>
                     </div>
+                    {{-- End Table Student --}}
                 </div>
-
-                {{-- End Content --}}
             </div>
+
+            {{-- End Content --}}
         </div>
-    @endsection
+    </div>
+@endsection

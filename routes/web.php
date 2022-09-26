@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\Universities;
 use App\Http\Controllers\Editor\Dashboard;
 use App\Http\Controllers\Editor\Essays as EditorEssays;
 use App\Http\Controllers\Editor\Profile;
+use App\Http\Controllers\ManagingEditor\AllEditorMenu;
 use App\Models\Category;
 use App\Models\EssayClients;
 use App\Models\PositionEditor;
@@ -153,9 +154,10 @@ Route::get('/editor/dashboard', function () {
     return view('user.editor.dashboard');
 });
 //Editor List Menu
-Route::get('/editor/list', function () {
-    return view('user.editor.editor-list.editor-list');
-});
+Route::get('/editor/list', [AllEditorMenu::class, 'index'])->name('list-editor');
+// Route::get('/editor/list', function () {
+//     return view('user.editor.editor-list.editor-list');
+// });
 Route::get('/editor/list/detail', function () {
     return view('user.editor.editor-list.editor-list-detail');
 });
