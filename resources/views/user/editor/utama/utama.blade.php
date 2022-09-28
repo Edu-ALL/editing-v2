@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/css/admin/user-student-detail.css">
     <link rel="stylesheet" href="/css/admin/user-editor-detail.css">
 
+    @yield('css')
 </head>
 
 <body>
@@ -26,6 +27,10 @@
         </div>
     </footer>
     {{-- End Footer --}}
+
+    <script src={{ asset('js/bootstrap.js') }}></script>
+    
+    @yield('js')
 </body>
 
 </html>
