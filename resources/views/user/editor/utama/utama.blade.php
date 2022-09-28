@@ -26,11 +26,7 @@
         </div>
     </footer>
     {{-- End Footer --}}
-
-<<<<<<< HEAD
-    <script src={{ asset('js/bootstrap.js') }}></script>
     
-=======
     <script src="{{ asset('js/bootstrap.js') }}"></script>
     <script src="/js/editor/editor.js"></script>
     <script>
@@ -38,7 +34,6 @@
         let height = window.innerHeight;
         main.style.minHeight = height + "px";
     </script>
->>>>>>> 4645379d21883e138f4290db3354e28a81c24e17
     @yield('js')
 </body>
 
