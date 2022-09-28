@@ -219,6 +219,29 @@ Route::get('/editor/essay-list-due-within-five', function () {
     return view('user.editor.essay-list.editor-list-due-within-five');
 });
 
+//Setting Menu
+Route::get('/editor/setting/universities', function () {
+    return view('user.editor.settings.setting-universities');
+});
+
+Route::get('/editor/setting/universities/detail', function () {
+    return view('user.editor.settings.setting-detail-universities');
+});
+
+Route::get('/editor/setting/universities/add', function () {
+    return view('user.editor.settings.setting-add-universities');
+});
+
+Route::get('/editor/setting/categories-tags', function () {
+    return view('user.editor.settings.setting-categories');
+});
+
+Route::get('/editor/setting/categories-tags/detail', function () {
+    return view('user.editor.settings.setting-detail-categories');
+});
+
+
+
 
 // Export to Excel
 Route::get('/admin/export-excel/student', function () {

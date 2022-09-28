@@ -10,11 +10,11 @@
     <link rel="shortcut icon" href="/assets/favicon.png" type="image/x-icon">
     <title>Essay Editing Portal</title>
     <link rel="stylesheet" href={{ asset('css/bootstrap.css') }}>
-    <link rel="stylesheet" href="/css/admin/dashboard.css">
-    <link rel="stylesheet" href="/css/admin/user-mentor.css">
-    <link rel="stylesheet" href="/css/admin/user-student-detail.css">
-    <link rel="stylesheet" href="/css/admin/user-editor-detail.css">
-
+    <link rel="stylesheet" href="/css/editor/dashboard.css">
+    <link rel="stylesheet" href="/css/editor/user-mentor.css">
+    <link rel="stylesheet" href="/css/editor/user-student-detail.css">
+    <link rel="stylesheet" href="/css/editor/user-editor-detail.css">
+    @yield('css')
 </head>
 
 <body>
@@ -26,6 +26,15 @@
         </div>
     </footer>
     {{-- End Footer --}}
+
+    <script src="{{ asset('js/bootstrap.js') }}"></script>
+    <script src="/js/editor/editor.js"></script>
+    <script>
+        var main = document.getElementById('main');
+        let height = window.innerHeight;
+        main.style.minHeight = height + "px";
+    </script>
+    @yield('js')
 </body>
 
 </html>
