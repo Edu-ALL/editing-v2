@@ -240,7 +240,13 @@ Route::get('/editor/setting/categories-tags/detail', function () {
     return view('user.editor.settings.setting-detail-categories');
 });
 
-
+//Report List Menu
+Route::get('/editor/report/ongoing', function () {
+    return view('user.editor.report-list.report-list-ongoing');
+});
+Route::get('/editor/report/completed', function () {
+    return view('user.editor.report-list.report-list-completed');
+});
 
 
 // Export to Excel
