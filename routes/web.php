@@ -19,6 +19,8 @@ use App\Http\Controllers\Editor\Dashboard;
 use App\Http\Controllers\Editor\Essays as EditorEssays;
 use App\Http\Controllers\Editor\Profile;
 use App\Http\Controllers\ManagingEditor\AllEditorMenu;
+use App\Http\Controllers\ManagingEditor\CategoriesTags as ManagingEditorCategoriesTags;
+use App\Http\Controllers\ManagingEditor\Universities as ManagingEditorUniversities;
 use App\Models\Category;
 use App\Models\EssayClients;
 use App\Models\PositionEditor;
@@ -257,65 +259,14 @@ Route::get('/editor/essay-list-due-within-five', function () {
 });
 
 //Setting Menu
-Route::get('/editor/setting/universities', function () {
-    return view('user.editor.settings.setting-universities');
-});
-
-Route::get('/editor/setting/universities/detail', function () {
-    return view('user.editor.settings.setting-detail-universities');
-});
-
+Route::get('/editor/setting/universities', [ManagingEditorUniversities::class, 'index'])->name('list-university');
+Route::get('/editor/setting/universities/detail/{id}', [ManagingEditorUniversities::class, 'detail']);
 Route::get('/editor/setting/universities/add', function () {
     return view('user.editor.settings.setting-add-universities');
 });
 
-Route::get('/editor/setting/categories-tags', function () {
-    return view('user.editor.settings.setting-categories');
-});
-
-Route::get('/editor/setting/categories-tags/detail', function () {
-    return view('user.editor.settings.setting-detail-categories');
-});
-
-
-
-
-// Export to Excel
-Route::get('/admin/export-excel/student', function () {
-    return view('user.admin.export-excel.export-student-essay');
-});
-Route::get('/admin/export-excel/editor', [Export::class, 'index'])->name('export-excel');
-
-// Setting
-// University
-Route::get('/admin/setting/universities', [Universities::class, 'index'])->name('list-university');
-Route::get('/admin/setting/universities/detail/{id}', [Universities::class, 'detail']);
-
-Route::get('/admin/setting/universities/add', function () {
-    return view('user.admin.settings.setting-add-universities');
-});
-
-// Essay Prompt
-Route::get('/admin/setting/essay-prompt', [EssayPrompt::class, 'index'])->name('list-essay-prompt');
-Route::get('/admin/setting/essay-prompt/detail/{id}', [EssayPrompt::class, 'detail']);
-Route::get('/admin/setting/essay-prompt/add', function () {
-    return view('user.admin.settings.setting-add-essay-prompt', [
-        'univ' => University::get()
-    ]);
-});
-
-// Programs
-Route::get('/admin/setting/programs', [Program::class, 'index'])->name('list-program');
-Route::get('/admin/setting/programs/detail/{id}', [Program::class, 'detail']);
-Route::get('/admin/setting/programs/add', function () {
-    return view('user.admin.settings.setting-add-programs', [
-        'category' => Category::get()
-    ]);
-});
-
-// Categories / Tags
-Route::get('/admin/setting/categories-tags', [CategoriesTags::class, 'index'])->name('list-tag');
-Route::get('/admin/setting/categories-tags/detail/{tag_id}', [CategoriesTags::class, 'detail']);
+Route::get('/editor/setting/categories-tags', [ManagingEditorCategoriesTags::class, 'index'])->name('list-tag');
+Route::get('/editor/setting/categories-tags/detail/{tag_id}', [ManagingEditorCategoriesTags::class, 'detail']);
 
 
 // **** Per Editor *****

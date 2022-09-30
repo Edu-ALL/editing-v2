@@ -162,7 +162,7 @@
                   
                   @unless (count($results)) 
                   <tr>
-                    <td colspan="11">No data</td>
+                    <td colspan="13">No data</td>
                   </tr>
                   @endunless
                   @endif

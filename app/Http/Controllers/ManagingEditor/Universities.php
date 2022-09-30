@@ -28,11 +28,11 @@ class Universities extends Controller
         if ($keyword)
             $universities->appends(['keyword' => $keyword]);
 
-        return view('', ['universities' => $universities]);
+        return view('user.editor.settings.setting-universities', ['universities' => $universities]);
     }
 
     public function detail($id){
-        return view('', ['university' => University::find($id)]);
+        return view('user.editor.settings.setting-detail-universities', ['university' => University::find($id)]);
     }
 
     public function store(Request $request)
@@ -82,7 +82,7 @@ class Universities extends Controller
             return Redirect::back()->withErrors(['msg' => 'Something went wrong when processing the data.']);
         }
 
-        return redirect('')->with('input-successful', 'New university has been added');
+        return redirect('editor/setting/universities')->with('input-successful', 'New university has been added');
     }
 
     public function update($id_univ, Request $request)
@@ -114,7 +114,7 @@ class Universities extends Controller
         }
         $university->save();
 
-        return redirect(''.$id_univ)->with('update-successful', 'The university has been updated');
+        return redirect('editor/setting/universities/detail/'.$id_univ)->with('update-successful', 'The university has been updated');
     }
 
     public function delete($id_univ, Request $request)

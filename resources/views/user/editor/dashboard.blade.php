@@ -1,4 +1,7 @@
 @extends('user.editor.utama.utama')
+@section('css')
+    <link rel="stylesheet" href="/css/editor/dashboard.css">
+@endsection
 @section('content')
     <div class="container-fluid p-0">
         <div class="row flex-nowrap main">

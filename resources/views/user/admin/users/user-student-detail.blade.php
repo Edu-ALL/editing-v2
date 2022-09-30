@@ -1,104 +1,15 @@
 @extends('user.admin.utama.utama')
 @section('css')
-    <link rel="stylesheet" href="/css/admin/user-student-detail.css">
+  <link rel="stylesheet" href="/css/admin/user-student-detail.css">
 @endsection
 
 @section('content')
-    <div class="container-fluid" style="padding: 0">
-        <div class="row flex-nowrap main" id="main">
+<div class="container-fluid" style="padding: 0">
+  <div class="row flex-nowrap main" id="main">
 
-            {{-- Sidenav --}}
-            @include('user.admin.utama.menu')
+    {{-- Sidenav --}}
+    @include('user.admin.utama.menu')
 
-<<<<<<< HEAD
-            {{-- Content --}}
-            <div class="col" style="overflow: auto !important">
-                @include('user.admin.utama.head')
-                <div class="container main-content m-0">
-                    {{-- Detail Student --}}
-                    <div class="row">
-                        <div class="col-md col-12 p-0 studentList">
-                            <div class="headline d-flex justify-content-between">
-                                <div class="col-md-6 col-5 d-flex align-items-center gap-md-3 gap-2">
-                                    <img src="/assets/student.png" alt="">
-                                    <h6>Students</h6>
-                                </div>
-                                <div class="col-md-4 col-6 d-flex align-items-center justify-content-end gap-md-3 gap-2">
-                                    <a href="/admin/user/student"><img src="/assets/back.png" alt=""></a>
-                                </div>
-                            </div>
-                            <div class="row student-info pb-md-0 pb-4">
-                                <div class="col-md-4 d-flex align-items-center justify-content-center py-md-0 py-4">
-                                    <div class="pic-profile">
-                                        <img class="img-fluid" src="/assets/student-bg.png" alt="">
-                                    </div>
-                                </div>
-                                <div
-                                    class="col-md-8 student-desc d-flex flex-column justify-content-center gap-lg-3 gap-2 ps-md-5 px-4">
-                                    <div class="row d-flex align-items-center">
-                                        <div class="col-md-3 col-4">
-                                            <h6>Full Name</h6>
-                                        </div>
-                                        <div class="col-1 titik2 p-0">
-                                            <p>:</p>
-                                        </div>
-                                        <div class="col ps-1">
-                                            <p>{{ $client->first_name . ' ' . $client->last_name }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="row d-flex align-items-center">
-                                        <div class="col-md-3 col-4">
-                                            <h6>Phone Number</h6>
-                                        </div>
-                                        <div class="col-1 titik2 p-0">
-                                            <p>:</p>
-                                        </div>
-                                        <div class="col ps-1">
-                                            <p>{{ $client->phone }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="row d-flex align-items-center">
-                                        <div class="col-md-3 col-4">
-                                            <h6>Email</h6>
-                                        </div>
-                                        <div class="col-1 titik2 p-0">
-                                            <p>:</p>
-                                        </div>
-                                        <div class="col ps-1">
-                                            <p>{{ $client->email }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="row d-flex align-items-center">
-                                        <div class="col-md-3 col-4">
-                                            <h6>Address</h6>
-                                        </div>
-                                        <div class="col-1 titik2 p-0">
-                                            <p>:</p>
-                                        </div>
-                                        <div class="col ps-1">
-                                            <p>{{ $client->address }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="row d-flex align-items-center">
-                                        <div class="col-md-3 col-4">
-                                            <h6>Mentor Name</h6>
-                                        </div>
-                                        <div class="col-1 titik2 p-0">
-                                            <p>:</p>
-                                        </div>
-                                        <div class="col ps-1">
-                                            <select class="select-beast inputField">
-                                                @foreach ($clients as $client)
-                                                    <option value="{{ $client->mentors->id_mentors }}">
-                                                        {{ $client->mentors->first_name . ' ' . $client->mentors->last_name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-=======
     {{-- Content --}}
     <div class="col" style="overflow: auto !important">
       @include('user.admin.utama.head')
@@ -201,35 +112,46 @@
                 </div>
               </div>
             </div>
->>>>>>> 6a34260ff4b265793056de926d29aa2fe9280335
 
-                            <div class="row student-addition p-md-5 p-3">
-                                {{-- Text Area --}}
-                                <div class="text-area p-md-1 mb-3">
-                                    <h6 class="pb-3">Personal Brand Statement :</h6>
-                                    <textarea name="" class="textarea">{{ $client->personal_brand }}</textarea>
-                                </div>
-                                <div class="text-area p-md-1 mb-3">
-                                    <h6 class="pb-3">Academic Goals & Interest :</h6>
-                                    <textarea name="" class="textarea">{{ $client->interests }}</textarea>
-                                </div>
-                                <div class="text-area p-md-1 mb-3">
-                                    <h6 class="pb-3">Life Philosophy (Values) & Personalities :</h6>
-                                    <textarea name="" class="textarea">{{ $client->personalities }}</textarea>
-                                </div>
-                                {{-- End Text Area --}}
-                                {{-- Attachment --}}
-                                <div
-                                    class="col-lg-2 col-3 mb-lg-4 mb-3 ms-lg-0 ms-2 attachment d-flex align-items-center justify-content-center">
-                                    <h6 class="text-center">Attachment</h6>
-                                </div>
-                                <div class="row d-flex flex-column attachment-status gap-lg-2 gap-2 ps-lg-0 ps-1 mb-3">
-                                    {{-- flex-lg-row --}}
-                                    <div class="col-lg me-2">
-                                        <h6>Activities Resume<span class="px-2">:</span><span
-                                                style="color: var(--red)">{{ $client->resume }}</span></h6>
-                                    </div>
-                                    {{-- End Content --}}
-                                </div>
-                            </div>
-                        @endsection
+            <div class="row student-addition p-md-5 p-3">
+              {{-- Text Area --}}
+              <div class="text-area p-md-1 mb-3">
+                <h6 class="pb-3">Personal Brand Statement :</h6>
+                <textarea name="" class="textarea">{{ $client->personal_brand }}</textarea>
+              </div>
+              <div class="text-area p-md-1 mb-3">
+                <h6 class="pb-3">Academic Goals & Interest :</h6>
+                <textarea name="" class="textarea">{{ $client->interests }}</textarea>
+              </div>
+              <div class="text-area p-md-1 mb-3">
+                <h6 class="pb-3">Life Philosophy (Values) & Personalities :</h6>
+                <textarea name="" class="textarea">{{ $client->personalities }}</textarea>
+              </div>
+              {{-- End Text Area --}}
+              {{-- Attachment --}}
+              <div class="col-lg-2 col-3 mb-lg-4 mb-3 ms-lg-0 ms-2 attachment d-flex align-items-center justify-content-center">
+                <h6 class="text-center">Attachment</h6>
+              </div>
+              <div class="row d-flex flex-column attachment-status gap-lg-2 gap-2 ps-lg-0 ps-1 mb-3">
+                {{-- flex-lg-row  --}}
+                <div class="col-lg me-2">
+                  <h6>Activities Resume<span class="px-2">:</span><span style="color: var(--red)">{{ $client->resume }}</span></h6>
+                </div>
+                <div class="col-lg">
+                  <h6>Questionnaire<span class="px-2">:</span><span style="color: var(--red)">Not Available</span></h6>
+                </div>
+                <div class="col-lg">
+                  <h6>Others<span class="px-2">:</span><span style="color: var(--red)">Not Available</span></h6>
+                </div>
+              </div>
+              {{-- End Attachment --}}
+            </div>
+          </a>
+        </div>
+        {{-- End Detail Student --}}
+      </div>
+    </div>
+    {{-- End Content --}}
+  </div>
+</div>
+@endsection

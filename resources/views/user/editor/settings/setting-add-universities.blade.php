@@ -73,7 +73,7 @@
                                     <h6>New University</h6>
                                 </div>
                                 <div class="col-md-4 col-4 d-flex align-items-center justify-content-end gap-md-3 gap-2">
-                                    <a href="/admin/setting/universities"><img src="/assets/back.png" alt=""></a>
+                                    <a href="/editor/setting/universities"><img src="/assets/back.png" alt=""></a>
                                 </div>
                             </div>
                             <div class="row profile-editor px-md-3 py-md-4 px-3 py-4" style="overflow: auto !important">
@@ -89,7 +89,7 @@
                                     </div>
                                 @endif
 
-                                <form action="{{ route('add-university') }}" id="form-university"
+                                <form action="{{ route('add-universities') }}" id="form-university"
                                     onsubmit="swal.showLoading()" method="POST" class="p-0"
                                     enctype="multipart/form-data">
                                     @csrf

@@ -76,11 +76,11 @@
         <div class="row w-100" id="setting" style="cursor: pointer">
             <div class="col-md-3 ps-lg-1">
                 <img class="active"
-                    src="{{ request()->is('mentor/new-request') ? '/assets/setting-blue.png' : '/assets/setting.png' }}"
+                    src="{{ request()->is('editor/setting/*') ? '/assets/setting-blue.png' : '/assets/setting.png' }}"
                     alt="">
             </div>
             <div class="col-7 pt-1 my-auto d-none d-md-inline">
-                <h6 class="menu {{ request()->is('mentor/setting/*') ? 'active' : '' }}">Settings</h6>
+                <h6 class="menu {{ request()->is('editor/setting/*') ? 'active' : '' }}">Settings</h6>
             </div>
             {{-- Popup --}}
             <div class="col-auto d-none d-flex flex-column gap-4 popup-menu ps-4 pe-5 py-3" id="menu-setting">

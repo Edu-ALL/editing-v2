@@ -1,6 +1,9 @@
 @extends('user.editor.utama.utama')
 @section('css')
     <link rel="stylesheet" href="/css/editor/setting-detail-universities.css">
+    <style>
+        .alert {font-size: 14px; margin: 0 -12px 16px -12px}
+    </style>
 @endsection
 
 @section('content')
@@ -27,8 +30,16 @@
                     </div>
                 </div>
                 <div class="container main-content m-0">
+
+                    @if(session()->has('update-successful'))
+                    <div class="row alert alert-success fade show d-flex justify-content-between" role="alert">
+                        {{ session()->get('update-successful') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    @endif
+                    
                     <div class="row gap-2">
-                        <div class="col-md col-12 p-0 userCard profile">
+                        <div class="col-md col-12 p-0 userCard profile" style="cursor: default">
                             <div class="headline d-flex align-items-center gap-3">
                                 <img src="/assets/pic.png" alt="">
                                 <h6>Profile Picture</h6>
@@ -36,10 +47,12 @@
                             <div class="col d-flex align-items-center justify-content-center py-md-4 py-4">
                                 <div class="pic-profile d-flex align-items-center justify-content-center">
                                     <img class="img-fluid" id="img-profile"
-                                        src=@if ($university->photo != 'default.png' && $university->photo != null) {{ asset('uploaded_files/univ/' . $university->photo) }} }}
-                  @else
-                    {{ '/assets/editor-bg.png' }} @endif
-                                        alt="">
+                                        src=
+                                        @if ($university->photo != 'default.png' && $university->photo != null)
+                                            {{ asset('uploaded_files/univ/' . $university->photo) }}
+                                        @else
+                                            {{ '/assets/editor-bg.png' }} 
+                                        @endif lt="">
                                 </div>
                             </div>
                             <div class="col d-none px-md-4 px-3" id="chooseFile">
@@ -50,20 +63,19 @@
                             </div>
                         </div>
 
-                        <div class="col-md-8 col-12 p-0 userCard">
+                        <div class="col-md-8 col-12 p-0 userCard" style="cursor: default">
                             <div class="headline d-flex justify-content-between" style="padding: 21px 24px !important;">
                                 <div class="col-md-6 col-8 d-flex align-items-center gap-md-3 gap-2">
                                     <img src="/assets/university.png" alt="">
                                     <h6>University</h6>
                                 </div>
                                 <div class="col-md-4 col-4 d-flex align-items-center justify-content-end gap-md-3 gap-2">
-                                    <a href="/admin/setting/universities"><img src="/assets/back.png" alt=""
+                                    <a href="/editor/setting/universities"><img src="/assets/back.png" alt=""
                                             style="width: auto; height: 32px"></a>
                                     <button class="btn-edit border-0" onclick="enableEdit()">
                                         <img src="/assets/pencil.png" alt="">
                                     </button>
-                                    <form action="{{ route('delete-university', ['uni_id' => $university->id_univ]) }}"
-                                        method="POST">
+                                    <form action="{{ route('delete-universities', ['uni_id' => $university->id_univ]) }}" method="POST">
                                         @method('DELETE')
                                         @csrf
                                         <button type="submit" class="btn-delete border-0">
@@ -74,7 +86,7 @@
                             </div>
 
                             <div class="row profile-editor px-md-3 py-md-4 px-3 py-4" style="overflow: auto !important">
-                                <form action="{{ route('update-university', ['uni_id' => $university->id_univ]) }}"
+                                <form action="{{ route('update-universities', ['uni_id' => $university->id_univ]) }}"
                                     class="p-0" id="form-university" onsubmit="swal.showLoading()"
                                     enctype="multipart/form-data" method="POST">
                                     @csrf

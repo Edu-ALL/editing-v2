@@ -22,13 +22,13 @@ class CategoriesTags extends Controller
         if ($keyword)
             $tags->appends(['keyword' => $keyword]);
 
-        return view('', ['tags' => $tags]);
+        return view('user.editor.settings.setting-categories', ['tags' => $tags]);
     }
 
     public function detail($tag_id, Request $request)
     {
         if (!$tag = Tags::find($tag_id)) {
-            return redirect('')->withErrors('Couldn\'t find the tag');
+            return redirect('editor/setting/categories-tags')->withErrors('Couldn\'t find the tag');
         }
 
         $keyword = $request->get('keyword');
@@ -39,7 +39,7 @@ class CategoriesTags extends Controller
         if ($keyword)
             $tags->appends(['keyword' => $keyword]);
 
-        return view('', ['tag' => $tag, 'tags' => $tags]);
+        return view('user.editor.settings.setting-detail-categories', ['tag' => $tag, 'tags' => $tags]);
     }
 
     public function store(Request $request)
@@ -54,7 +54,7 @@ class CategoriesTags extends Controller
             DB::rollBack();
             return Redirect::back()->withErrors($e->getMessage());
         }
-        return redirect('')->with('add-tag-successful', 'The new tag has been saved');
+        return redirect('editor/setting/categories-tags')->with('add-tag-successful', 'The new tag has been saved');
     }
 
     public function delete($tag_id)
@@ -71,7 +71,7 @@ class CategoriesTags extends Controller
             DB::rollBack();
             return Redirect::back()->withErrors($e->getMessage());
         }
-        return redirect('')->with('delete-tag-successful', 'The tag has been deleted');
+        return redirect('editor/setting/categories-tags')->with('delete-tag-successful', 'The tag has been deleted');
     }
 
     public function update($tag_id, Request $request)
@@ -101,6 +101,6 @@ class CategoriesTags extends Controller
 
         }
 
-        return redirect('')->with('update-tag-successful', 'The tag has been updated');
+        return redirect('editor/setting/categories-tags')->with('update-tag-successful', 'The tag has been updated');
     }
 }
