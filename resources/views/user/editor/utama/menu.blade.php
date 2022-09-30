@@ -65,7 +65,7 @@
         </div>
 
 
-        <div class="row w-100" id="report" style="cursor: pointer">
+        <a class="row w-100" style="cursor: pointer" href="/editor/report/completed">
             <div class="col-md-3 ps-lg-1">
                 <img class="active"
                     src="{{ request()->is('mentor/new-request') ? '/assets/report-list-blue.png' : '/assets/report-list.png' }}"
@@ -74,19 +74,7 @@
             <div class="col-7 pt-1 my-auto d-none d-md-inline">
                 <h6 class="menu {{ request()->is('mentor/report/*') ? 'active' : '' }}">Report List</h6>
             </div>
-            {{-- Popup --}}
-            <div class="col-auto d-none d-flex flex-column gap-4 popup-menu ps-4 pe-5 py-3" id="menu-report">
-                <a class="col d-flex gap-3 align-items-center" href="/editor/report/ongoing">
-                    <img class="active" src="/assets/university.png" alt="">
-                    <h6 class="menu">Ongoing</h6>
-                </a>
-                <a class="col d-flex gap-3 align-items-center" href="/editor/report/completed">
-                    <img class="active" src="/assets/tags.png" alt="">
-                    <h6 class="menu">Completed</h6>
-                </a>
-            </div>
-            {{-- End Popup --}}
-        </div>
+        </a>
 
 
 
