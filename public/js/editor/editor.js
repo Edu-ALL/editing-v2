@@ -86,6 +86,28 @@ document.addEventListener("click", (evt) => {
 });
 // End Menu Setting
 
+// Menu Report
+var checkSetting = false;
+document.addEventListener("click", (evt) => {
+  var setting = document.getElementById("report");
+  var menuSetting = document.getElementById('menu-report');
+  let targetEl = evt.target;     
+  do {
+    if (targetEl == setting) {
+      menuSetting.classList.remove('d-none');
+      checkSetting = true;
+      return;
+    } else if (checkSetting == true){
+      menuSetting.classList.add('d-none');
+      checkSetting = false;
+      return;
+    }
+    targetEl = targetEl.parentNode;
+  } while (targetEl);      
+  menuSetting.classList.add('d-none');
+});
+// End Menu Report
+
 // TinyMCE
 tinymce.init({
   selector: '.textarea',
