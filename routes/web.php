@@ -265,16 +265,13 @@ Route::get('/editor/setting/universities/add', function () {
     return view('user.editor.settings.setting-add-universities');
 });
 
-// now
 Route::get('/editor/setting/categories-tags', [ManagingEditorCategoriesTags::class, 'index'])->name('list-tag');
 Route::get('/editor/setting/categories-tags/detail/{tag_id}', [ManagingEditorCategoriesTags::class, 'detail']);
 
 //Report List Menu
-Route::get('/editor/report/ongoing', function () {
-    return view('user.editor.report-list.report-list-ongoing');
-});
-Route::get('/editor/report/completed', function () {
-    return view('user.editor.report-list.report-list-completed');
+// Route::get('/editor/report-list', [Reportlist::class, 'index'])->name('list-tag');
+Route::get('/editor/report-list', function () {
+    return view('user.editor.report-list.report-list');
 });
 
 

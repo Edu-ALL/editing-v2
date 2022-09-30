@@ -62,7 +62,7 @@ class Export extends Controller
             return $this->create_excel($essay_editors, $f_month, $f_year);
         }
 
-        return view('user.admin.export-excel.export-editor-essay', $response);
+        return view('user.editor.report-list.report-list', $response);
     }
 
     public function create_excel($essay_editors, $f_month, $f_year)
