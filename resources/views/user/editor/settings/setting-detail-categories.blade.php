@@ -43,46 +43,34 @@
                             {!! implode('', $errors->all('<div class="alert alert-danger" role="alert">:message</div>')) !!}
                         @endif
 
-                        @if (session()->has('add-tag-successful'))
-                            <div class="alert alert-success fade show" role="alert">
-                                {{ session()->get('add-tag-successful') }}
-                            </div>
-                        @endif
-
                         <div class="col-lg col-12 p-0 userCard profile">
                             <div class="headline d-flex align-items-center gap-3">
                                 <img src="/assets/add.png" alt="">
                                 <h6>Add Categories / Tags</h6>
                             </div>
-                            <form action="" method="POST" id="update-delete-form">
-                                <input type="hidden" name="_method" value="">
-                                @csrf
-                                <div
-                                    class="col d-flex profile-editor align-items-center justify-content-center py-md-4 py-4">
-                                    <div class="col-10">
-                                        <h6 class="pb-2">Title :</h6>
-                                        <input type="text" name="title" class="form-control w-100 inputField py-2 px-3"
-                                            value="{{ $tag->topic_name }}">
-                                    </div>
+                            <div class="col d-flex profile-editor align-items-center justify-content-center py-md-4 py-4">
+                                <div class="col-10">
+                                    <h6 class="pb-2">Title :</h6>
+                                    <input type="text" name="title" form="form-update" class="form-control w-100 inputField py-2 px-3" value="{{ $tag->topic_name }}">
                                 </div>
-                                <div
-                                    class="col d-flex flex-row align-items-center justify-content-center pb-md-3 pb-3 gap-2">
-                                    <button type="button" id="update-tag" data-method="PUT"
-                                        data-link="{{ route('update-tag', ['tag_id' => $tag->id_topic]) }}"
-                                        class="btn btn-create d-flex align-items-center gap-2"
-                                        style="background-color: var(--yellow)">
+                            </div>
+                            <div class="col d-flex flex-row align-items-center justify-content-center pb-md-3 pb-3 gap-2">
+                                <form action="{{ route('update-tags', ['tag_id' => $tag->id_topic]) }}" method="POST" id="form-update" onsubmit="swal.showLoading()">
+                                    @csrf
+                                    <button class="btn btn-create d-flex align-items-center gap-2"  style="background-color: var(--yellow)">
                                         <img src="/assets/update.png" alt="">
                                         <h6>Update</h6>
                                     </button>
-                                    <button type="button" id="delete-tag" data-method="DELETE"
-                                        data-link="{{ route('delete-tag', ['tag_id' => $tag->id_topic]) }}"
-                                        class="btn btn-create d-flex align-items-center gap-2"
-                                        style="background-color: var(--red)">
+                                </form>
+                                <form action="{{ route('delete-tags', ['tag_id' => $tag->id_topic]) }}" method="POST" onsubmit="swal.showLoading()">
+                                    @method('DELETE')
+                                    @csrf
+                                    <button class="btn btn-create d-flex align-items-center gap-2" style="background-color: var(--red)">
                                         <img src="/assets/delete.png" alt="">
                                         <h6>Delete</h6>
                                     </button>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
 
                         <div class="col-md-8 col-12 p-0 userCard">
@@ -113,7 +101,7 @@
                                         <?php $i = ($tags->currentpage() - 1) * $tags->perpage() + 1; ?>
                                         @foreach ($tags as $tag)
                                             <tr
-                                                onclick="window.location='/admin/setting/categories-tags/detail/{{ $tag->id_topic }}'">
+                                                onclick="window.location='/editor/setting/categories-tags/detail/{{ $tag->id_topic }}'">
                                                 <th scope="row">{{ $i++ }}</th>
                                                 <td>{{ $tag->topic_name }}</td>
                                             </tr>
@@ -140,7 +128,7 @@
     </div>
 @endsection
 
-@section('js')
+{{-- @section('js')
     <script>
         $("#update-tag, #delete-tag").click(function() {
             var link = $(this).data('link');
@@ -166,4 +154,4 @@
 
         })
     </script>
-@stop
+@stop --}}

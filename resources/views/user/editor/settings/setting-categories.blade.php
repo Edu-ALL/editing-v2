@@ -10,6 +10,7 @@
             padding: 10px 15px;
             font-size: 12px;
         }
+        .alert {font-size: 14px; margin: 0 -12px 6px 0px}
     </style>
 @endsection
 
@@ -44,16 +45,19 @@
                         @endif
 
                         @if (session()->has('add-tag-successful'))
-                            <div class="alert alert-success fade show" role="alert">
+                            <div class="row alert alert-success fade show d-flex justify-content-between" role="alert">
                                 {{ session()->get('add-tag-successful') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         @elseif (session()->has('update-tag-successful'))
-                            <div class="alert alert-success fade show" role="alert">
+                            <div class="row alert alert-success fade show d-flex justify-content-between" role="alert">
                                 {{ session()->get('update-tag-successful') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         @elseif (session()->has('delete-tag-successful'))
-                            <div class="alert alert-success fade show" role="alert">
+                            <div class="row alert alert-success fade show d-flex justify-content-between" role="alert">
                                 {{ session()->get('delete-tag-successful') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         @endif
 
@@ -62,7 +66,7 @@
                                 <img src="/assets/add.png" alt="">
                                 <h6>Add Categories / Tags</h6>
                             </div>
-                            <form action="{{ route('add-tag') }}" method="POST">
+                            <form action="{{ route('add-tags') }}" method="POST">
                                 @csrf
                                 <div
                                     class="col d-flex profile-editor align-items-center justify-content-center py-md-4 py-4">
@@ -83,10 +87,6 @@
 
                         <div class="col-md-8 col-12 p-0 userCard">
                             <div class="headline d-flex justify-content-between" style="padding: 20px 24px !important">
-                                {{-- <div class="col d-flex align-items-center gap-md-3 gap-2">
-                <img src="/assets/tags.png" alt="">
-                <h6>Categories / Tags</h6>
-              </div> --}}
                                 <div class="col-md-6 col-5 d-flex align-items-center gap-md-3 gap-2">
                                     <img src="/assets/tags.png" alt="">
                                     <h6>Categories / Tags</h6>
@@ -110,7 +110,19 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php $i = ($tags->currentpage()-1)* $tags->perpage() + 1;?>
+                                        @foreach ($tags as $tag)
+                                        <tr onclick="window.location='/editor/setting/categories-tags/detail/{{ $tag->id_topic }}'">
+                                            <th scope="row">{{ $i++ }}</th>
+                                            <td>{{ $tag->topic_name }}</td>
+                                        </tr>
+                                        @endforeach
 
+                                        @unless (count($tags)) 
+                                        <tr>
+                                            <td class="text-center" colspan="2">No data</td>
+                                        </tr>
+                                        @endunless
                                     </tbody>
                                 </table>
                                 {{-- Pagination --}}

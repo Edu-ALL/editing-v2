@@ -19,6 +19,8 @@ use App\Http\Controllers\Editor\Dashboard;
 use App\Http\Controllers\Editor\Essays as EditorEssays;
 use App\Http\Controllers\Editor\Profile;
 use App\Http\Controllers\ManagingEditor\AllEditorMenu;
+use App\Http\Controllers\ManagingEditor\CategoriesTags as ManagingEditorCategoriesTags;
+use App\Http\Controllers\ManagingEditor\Universities as ManagingEditorUniversities;
 use App\Models\Category;
 use App\Models\EssayClients;
 use App\Models\PositionEditor;
@@ -255,6 +257,17 @@ Route::get('/editor/essay-list-due-within-three', function () {
 Route::get('/editor/essay-list-due-within-five', function () {
     return view('user.editor.essay-list.editor-list-due-within-five');
 });
+
+//Setting Menu
+Route::get('/editor/setting/universities', [ManagingEditorUniversities::class, 'index'])->name('list-university');
+Route::get('/editor/setting/universities/detail/{id}', [ManagingEditorUniversities::class, 'detail']);
+Route::get('/editor/setting/universities/add', function () {
+    return view('user.editor.settings.setting-add-universities');
+});
+
+Route::get('/editor/setting/categories-tags', [ManagingEditorCategoriesTags::class, 'index'])->name('list-tag');
+Route::get('/editor/setting/categories-tags/detail/{tag_id}', [ManagingEditorCategoriesTags::class, 'detail']);
+
 
 // **** Per Editor *****
 Route::middleware('is_editor')->group(function(){

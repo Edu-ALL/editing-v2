@@ -65,7 +65,7 @@ class Essays extends Controller
                     });
                 });
             });
-        })->orderBy('read', 'asc')->orderBy('uploaded_at', 'asc')->paginate(10);
+        })->orderBy('read', 'asc')->orderBy('uploaded_at', 'desc')->paginate(10);
 
         return view('user.per-editor.essay-list.essay-list', [
             'ongoing_essay' => $ongoing_essay,
