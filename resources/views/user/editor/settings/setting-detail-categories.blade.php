@@ -43,7 +43,7 @@
                             {!! implode('', $errors->all('<div class="alert alert-danger" role="alert">:message</div>')) !!}
                         @endif
 
-                        <div class="col-lg col-12 p-0 userCard profile">
+                        <div class="col-lg col-12 p-0 userCard profile" style="cursor: default">
                             <div class="headline d-flex align-items-center gap-3">
                                 <img src="/assets/add.png" alt="">
                                 <h6>Add Categories / Tags</h6>
@@ -73,8 +73,8 @@
                             </div>
                         </div>
 
-                        <div class="col-md-8 col-12 p-0 userCard">
-                            <div class="headline d-flex justify-content-between">
+                        <div class="col-md-8 col-12 p-0 userCard" style="cursor: default">
+                            <div class="headline d-flex justify-content-between" style="padding: 20px 24px !important">
                                 <div class="col d-flex align-items-center gap-md-3 gap-2">
                                     <img src="/assets/tags.png" alt="">
                                     <h6>Categories / Tags</h6>

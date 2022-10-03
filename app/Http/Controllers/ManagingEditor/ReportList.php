@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\ManagingEditor;
 
-use App\Exports\EssaysExport;
 use App\Http\Controllers\Controller;
 use App\Models\Editor;
 use Illuminate\Http\Request;
@@ -13,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 
-class Export extends Controller
+class ReportList extends Controller
 {
     public function index(Request $request)
     {       
@@ -28,7 +27,7 @@ class Export extends Controller
             $f_editor = $request->get('f-editor-name');
             $f_essay_type = $request->get('f-essay-type');
             $f_status = $request->get('f-status');
-            $essay_editors = EssayEditors::with(['essay_clients.client_by_id', 'essay_clients.client_by_email', 'essay_clients.university', 'essay_clients.program', 'status', 'editor'])->where('status_essay_editors', 7)->whereMonth('uploaded_at', $f_month)->whereYear('uploaded_at', $f_year)
+            $essay_editors = EssayEditors::with(['essay_clients.client_by_id', 'essay_clients.client_by_email', 'essay_clients.university', 'essay_clients.program', 'status', 'editor'])->whereMonth('uploaded_at', $f_month)->whereYear('uploaded_at', $f_year)
                 ->when($f_status != "all", function($query) use ($f_status) {
                     $query->where('status_essay_editors', $f_status);
                 })->when($f_editor != "all", function($query) use ($f_editor) {
@@ -56,46 +55,7 @@ class Export extends Controller
             'results' => $essay_editors != NULL ? $essay_editors : NULL,
         ];
 
-        // download excel
-        // when download = 1
-        if ($request->get('f-download') == 1) {
-            return $this->create_excel($essay_editors, $f_month, $f_year);
-        }
-
         return view('user.editor.report-list.report-list', $response);
-    }
-
-    public function create_excel($essay_editors, $f_month, $f_year)
-    {
-        foreach ($essay_editors as $essay_editor) {
-            if ($essay_editor->essay_clients->client_by_id == NULL) {
-                $student_name = $essay_editor->essay_clients->client_by_email->first_name.' '.$essay_editor->essay_clients->client_by_email->last_name;
-            } else {
-                $student_name = $essay_editor->essay_clients->client_by_id->first_name.' '.$essay_editor->essay_clients->client_by_id->last_name;
-            }
-
-            $body_excel[] = [
-                $student_name,
-                $essay_editor->editor->first_name.' '.$essay_editor->editor->last_name,
-                $essay_editor->essay_clients->program->program_name,
-                $essay_editor->essay_clients->university->university_name,
-                $essay_editor->essay_clients->essay_title,
-                public_path('uploaded_files/program/essay/editors/').$essay_editor->attached_of_editors,
-                public_path('uploaded_files/program/essay/students/').$essay_editor->essay_clients->attached_of_clients,
-                $essay_editor->status->status_title,
-                $essay_editor->essay_clients->essay_rating,
-                $essay_editor->work_duration,
-                $essay_editor->essay_clients->application_deadline,
-                $essay_editor->essay_clients->completed_at
-            ];
-        }
-
-        $export = new EssaysExport([
-            ['Students Name', 'Editors Name', 'Program Name', 'University', 'Essay Title', 'Editors File', 'Students File', 'Status', 'Essay Rating', 'Work Duration (Minutes)', 'Application Date', 'Completed Date'],
-            $body_excel
-        ]);
-
-        return Excel::download($export, 'Essay Report '.$f_month.'-'.$f_year.'.xlsx');
     }
 
     public function search(Request $request)

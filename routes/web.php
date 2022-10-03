@@ -20,6 +20,7 @@ use App\Http\Controllers\Editor\Essays as EditorEssays;
 use App\Http\Controllers\Editor\Profile;
 use App\Http\Controllers\ManagingEditor\AllEditorMenu;
 use App\Http\Controllers\ManagingEditor\CategoriesTags as ManagingEditorCategoriesTags;
+use App\Http\Controllers\ManagingEditor\ReportList;
 use App\Http\Controllers\ManagingEditor\Universities as ManagingEditorUniversities;
 use App\Models\Category;
 use App\Models\EssayClients;
@@ -268,11 +269,7 @@ Route::get('/editor/setting/universities/add', function () {
 Route::get('/editor/setting/categories-tags', [ManagingEditorCategoriesTags::class, 'index'])->name('list-tag');
 Route::get('/editor/setting/categories-tags/detail/{tag_id}', [ManagingEditorCategoriesTags::class, 'detail']);
 
-//Report List Menu
-// Route::get('/editor/report-list', [Reportlist::class, 'index'])->name('list-tag');
-Route::get('/editor/report-list', function () {
-    return view('user.editor.report-list.report-list');
-});
+Route::get('/editor/report-list', [ReportList::class, 'index'])->name('report-list');
 
 
 // **** Per Editor *****

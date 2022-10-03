@@ -68,22 +68,12 @@
         <div class="row w-100 pointer" onclick="location.href='/editor/report-list'">
             <div class="col-md-3 ps-lg-1">
                 <img class="active"
-                    src="{{ request()->is('editor/report/*') ? '/assets/report-list-blue.png' : '/assets/report-list.png' }}" alt="">
+                    src="{{ request()->is('editor/report-list*') ? '/assets/report-blue.png' : '/assets/report.png' }}" alt="">
             </div>
             <div class="col-7 pt-1 my-auto d-none d-md-inline">
-                <h6 class="menu {{ request()->is('editor/report/*') ? 'active' : '' }}">Report List</h6>
+                <h6 class="menu {{ request()->is('editor/report-list*') ? 'active' : '' }}">Report List</h6>
             </div>
         </div>
-        {{-- <a class="row w-100" style="cursor: pointer" href="/editor/report/completed">
-            <div class="col-md-3 ps-lg-1">
-                <img class="active"
-                    src="{{ request()->is('editor/report/*') ? '/assets/report-list-blue.png' : '/assets/report-list.png' }}"
-                    alt="">
-            </div>
-            <div class="col-7 pt-1 my-auto d-none d-md-inline">
-                <h6 class="menu {{ request()->is('editor/report/*') ? 'active' : '' }}">Report List</h6>
-            </div>
-        </a> --}}
 
         <div class="row w-100" id="setting" style="cursor: pointer">
             <div class="col-md-3 ps-lg-1">
