@@ -1,6 +1,6 @@
 @extends('user.editor.utama.utama')
 @section('css')
-    <link rel="stylesheet" href="/css/editor/dashboard.css">
+    <link rel="stylesheet" href="/css/admin/dashboard.css">
 @endsection
 @section('content')
     <div class="container-fluid p-0">

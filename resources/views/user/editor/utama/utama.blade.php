@@ -16,14 +16,16 @@
     <link rel="stylesheet" href="/css/editor/user-editor-detail.css">
 
     {{-- TinyMCE --}}
-    <script src="https://cdn.tiny.cloud/1/h7t62ozvqkx2ifkeh051fsy3k9irz7axx1g2zitzpbaqfo8m/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/h7t62ozvqkx2ifkeh051fsy3k9irz7axx1g2zitzpbaqfo8m/tinymce/5/tinymce.min.js"
+        referrerpolicy="origin"></script>
 
     {{-- Selectize --}}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.6/css/selectize.bootstrap5.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.6/css/selectize.bootstrap5.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.6/js/standalone/selectize.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
     @yield('css')
 </head>
 
@@ -36,7 +38,7 @@
         </div>
     </footer>
     {{-- End Footer --}}
-    
+
     <script src="{{ asset('js/bootstrap.js') }}"></script>
     <script src="/js/editor/editor.js"></script>
     <script>
