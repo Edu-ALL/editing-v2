@@ -20,6 +20,7 @@ use App\Http\Controllers\Editor\Essays as EditorEssays;
 use App\Http\Controllers\Editor\Profile;
 use App\Http\Controllers\ManagingEditor\AllEditorMenu;
 use App\Http\Controllers\ManagingEditor\CategoriesTags as ManagingEditorCategoriesTags;
+use App\Http\Controllers\ManagingEditor\EssayListMenu;
 use App\Http\Controllers\ManagingEditor\Universities as ManagingEditorUniversities;
 use App\Models\Category;
 use App\Models\EssayClients;
@@ -242,9 +243,10 @@ Route::get('/editor/all-essays/completed-essay-list-detail', function () {
     return view('user.editor.all-essays.editor-completed-essays-list-detail');
 });
 //Essay List Menu
-Route::get('/editor/essay-list', function () {
-    return view('user.editor.essay-list.editor-essay-list');
-});
+Route::get('/editor/essay-list', [EssayListMenu::class, 'index'])->name('list-essay');
+// Route::get('/editor/essay-list', function () {
+//     return view('user.editor.essay-list.editor-essay-list');
+// });
 Route::get('/editor/essay-list-detail', function () {
     return view('user.editor.essay-list.editor-list-detail');
 });

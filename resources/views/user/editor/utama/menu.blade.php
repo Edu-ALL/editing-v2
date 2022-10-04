@@ -51,7 +51,7 @@
                     All Essays</h6>
             </div>
         </div>
-        <div class="row w-100 align-items-center pointer" onclick="location.href='/editor/essay-list'">
+        <a class="row w-100 align-items-center pointer" href='/editor/essay-list'>
             <div class="col-md-3 ps-lg-1">
                 <img class="active"
                     src="{{ request()->is('editor/essay-list') || request()->is('editor/essay-list-detail') || request()->is('editor/essay-list-due-tommorow') || request()->is('editor/essay-list-due-within-three') || request()->is('editor/essay-list-due-within-five') ? '/assets/essay-list-blue.png' : '/assets/essay-list.png' }}"
@@ -62,7 +62,7 @@
                     class="menu {{ request()->is('editor/essay-list') || request()->is('editor/essay-list-detail') || request()->is('editor/essay-list-due-tommorow') || request()->is('editor/essay-list-due-within-three') || request()->is('editor/essay-list-due-within-five') ? 'active' : '' }}">
                     Essay List</h6>
             </div>
-        </div>
+        </a>
         <div class="row w-100 align-items-center pointer" onclick="location.href='/mentor/new-request'">
             <div class="col-md-3 ps-lg-1">
                 <img class="active"
