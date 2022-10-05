@@ -47,32 +47,35 @@
             </div>
             <div class="col-7 pt-1 my-auto d-none d-md-inline">
                 <h6
-                    class="menu {{ request()->is('editor/all-essays') || request()->is('mentor/user/student/detail') ? 'active' : '' }} ">
+                    class="menu {{ request()->is('editor/all-essays*') || request()->is('mentor/user/student/detail') ? 'active' : '' }} ">
                     All Essays</h6>
             </div>
         </div>
-        <a class="row w-100 align-items-center pointer" href='/editor/essay-list'>
+        <div class="row w-100 align-items-center pointer" onclick="location.href='/editor/essay-list'">
             <div class="col-md-3 ps-lg-1">
                 <img class="active"
-                    src="{{ request()->is('editor/essay-list') || request()->is('editor/essay-list-detail') || request()->is('editor/essay-list-due-tommorow') || request()->is('editor/essay-list-due-within-three') || request()->is('editor/essay-list-due-within-five') ? '/assets/essay-list-blue.png' : '/assets/essay-list.png' }}"
+                    src="{{ request()->is('editor/essay-list*') || request()->is('editor/essay-list-detail') || request()->is('editor/essay-list-due-tommorow') || request()->is('editor/essay-list-due-within-three') || request()->is('editor/essay-list-due-within-five') ? '/assets/essay-list-blue.png' : '/assets/essay-list.png' }}"
                     alt="">
             </div>
             <div class="col-7 pt-1 my-auto d-none d-md-inline">
                 <h6
-                    class="menu {{ request()->is('editor/essay-list') || request()->is('editor/essay-list-detail') || request()->is('editor/essay-list-due-tommorow') || request()->is('editor/essay-list-due-within-three') || request()->is('editor/essay-list-due-within-five') ? 'active' : '' }}">
+                    class="menu {{ request()->is('editor/essay-list*') || request()->is('editor/essay-list-detail') || request()->is('editor/essay-list-due-tommorow') || request()->is('editor/essay-list-due-within-three') || request()->is('editor/essay-list-due-within-five') ? 'active' : '' }}">
                     Essay List</h6>
             </div>
-        </a>
-        <div class="row w-100 align-items-center pointer" onclick="location.href='/mentor/new-request'">
+        </div>
+
+
+        <div class="row w-100 pointer" onclick="location.href='/editor/report-list'">
             <div class="col-md-3 ps-lg-1">
                 <img class="active"
-                    src="{{ request()->is('mentor/new-request') ? '/assets/report-list-blue.png' : '/assets/report-list.png' }}"
+                    src="{{ request()->is('editor/report-list*') ? '/assets/report-blue.png' : '/assets/report.png' }}"
                     alt="">
             </div>
             <div class="col-7 pt-1 my-auto d-none d-md-inline">
-                <h6 class="menu {{ request()->is('mentor/new-request') ? 'active' : '' }}">Report List</h6>
+                <h6 class="menu {{ request()->is('editor/report-list*') ? 'active' : '' }}">Report List</h6>
             </div>
         </div>
+
         <div class="row w-100" id="setting" style="cursor: pointer">
             <div class="col-md-3 ps-lg-1">
                 <img class="active"
@@ -96,14 +99,6 @@
             {{-- End Popup --}}
         </div>
 
-        {{-- <div class="row w-100 pointer">
-            <div class="col-md-3 ps-lg-1">
-                <img class="active" src="/assets/setting.png" alt="">
-            </div>
-            <div class="col-7 pt-1 my-auto d-none d-md-inline">
-                <h6 class="menu">Settings</h6>
-            </div>
-        </div> --}}
     </div>
     <hr class="smallLine mx-auto mt-4">
     <div

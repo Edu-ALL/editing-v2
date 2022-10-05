@@ -37,7 +37,7 @@
                             </div>
                             <div class="row p-4 countUser align-items-center text-center">
                                 <div class="col">
-                                    <h4>1</h4>
+                                    <h4>{{ $allduetomorrow->count() }}</h4>
                                     <h4>Essay</h4>
                                 </div>
                             </div>
@@ -56,7 +56,7 @@
                                 </div>
                                 <div class="row p-4 countUser align-items-center text-center">
                                     <div class="col">
-                                        <h4>1</h4>
+                                        <h4>{{ $allduethree->count() }}</h4>
                                         <h4>Essay</h4>
                                     </div>
                                 </div>
@@ -73,7 +73,7 @@
                                 </div>
                                 <div class="row p-4 countUser align-items-center text-center">
                                     <div class="col">
-                                        <h4>1</h4>
+                                        <h4>{{ $allduefive->count() }}</h4>
                                         <h4>Essay</h4>
                                     </div>
                                 </div>
@@ -96,7 +96,7 @@
                             </div>
                             <div class="row p-4 countUser align-items-center text-center">
                                 <div class="col">
-                                    <h4>1</h4>
+                                    <h4>{{ $duetomorrow->count() }}</h4>
                                     <h4>Essay</h4>
                                 </div>
                             </div>
@@ -113,7 +113,7 @@
                                 </div>
                                 <div class="row p-4 countUser align-items-center text-center">
                                     <div class="col">
-                                        <h4>1</h4>
+                                        <h4>{{ $duethree->count() }}</h4>
                                         <h4>Essay</h4>
                                     </div>
                                 </div>
@@ -130,7 +130,7 @@
                                 </div>
                                 <div class="row p-4 countUser align-items-center text-center">
                                     <div class="col">
-                                        <h4>1</h4>
+                                        <h4>{{ $duefive->count() }}</h4>
                                         <h4>Essay</h4>
                                     </div>
                                 </div>

@@ -1,4 +1,22 @@
 @extends('user.editor.utama.utama')
+@section('css')
+    <link rel="stylesheet" href="/css/admin/user-editor.css">
+    <style>
+        .pagination {
+            margin: 15px 0
+        }
+
+        .pagination .page-item .page-link {
+            padding: 10px 15px;
+            font-size: 12px;
+        }
+
+        .alert {
+            font-size: 14px;
+            margin: 0 -12px 16px -12px
+        }
+    </style>
+@endsection
 @section('content')
     <div class="container-fluid">
         <div class="row flex-nowrap main">

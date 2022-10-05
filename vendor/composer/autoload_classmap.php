@@ -30,7 +30,7 @@ return array(
     'App\\Http\\Controllers\\ManagingEditor\\AllEssaysMenu' => $baseDir . '/app/Http/Controllers/ManagingEditor/AllEssaysMenu.php',
     'App\\Http\\Controllers\\ManagingEditor\\CategoriesTags' => $baseDir . '/app/Http/Controllers/ManagingEditor/CategoriesTags.php',
     'App\\Http\\Controllers\\ManagingEditor\\EssayListMenu' => $baseDir . '/app/Http/Controllers/ManagingEditor/EssayListMenu.php',
-    'App\\Http\\Controllers\\ManagingEditor\\ReportListMenu' => $baseDir . '/app/Http/Controllers/ManagingEditor/ReportListMenu.php',
+    'App\\Http\\Controllers\\ManagingEditor\\ReportList' => $baseDir . '/app/Http/Controllers/ManagingEditor/ReportList.php',
     'App\\Http\\Controllers\\ManagingEditor\\Universities' => $baseDir . '/app/Http/Controllers/ManagingEditor/Universities.php',
     'App\\Http\\Controllers\\Mentor\\Authentication' => $baseDir . '/app/Http/Controllers/Mentor/Authentication.php',
     'App\\Http\\Controllers\\Mentor\\EssaysMenu' => $baseDir . '/app/Http/Controllers/Mentor/EssaysMenu.php',

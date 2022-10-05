@@ -42,15 +42,15 @@
                     {{-- Table Student --}}
                     <div class="row">
                         <div class="col-md col-12 p-0 studentList">
-                            <div class="headline d-flex justify-content-between">
+                            <div class="headline d-flex justify-content-between" style="padding: 24px !important">
                                 <div class="col d-flex align-items-center gap-md-3 gap-2">
-                                    <img src="/assets/completed-essay.png" alt="">
-                                    <h6>Export - Editor Essay</h6>
+                                    <img src="/assets/report.png" alt="">
+                                    <h6>Report List</h6>
                                 </div>
                             </div>
                             <div class="col-12 search-essay">
-                                <form action="{{ route('export-excel') }}" id="export-submit" method="GET"
-                                    class="col d-flex flex-column align-items-center justify-content-center p-0 my-2">
+                                <form action="{{ route('report-list') }}" id="export-submit" method="GET"
+                                    class="col d-flex flex-column align-items-center justify-content-center p-0 mt-3 mb-2">
                                     @csrf
                                     <div class="col-md-8 col-10 d-flex py-md-3 py-2">
                                         <div class="col">
@@ -122,18 +122,11 @@
                             </div>
                             <section id="search-result" @if (!$results) class="d-none" @endif>
 
-                                <div class="headline d-flex align-items-center justify-content-between">
+                                <div class="headline d-flex align-items-center justify-content-between" style="padding: 28px !important">
                                     <div class="col-md-5 col-6">
                                         <h6>Results</h6>
                                     </div>
-                                    <div
-                                        class="col-md-5 col-6 d-flex align-items-center justify-content-end gap-md-2 gap-2">
-                                        <a class="btn-export col-auto d-flex gap-2 align-items-center justify-content-center"
-                                            href="{{ url()->full() }}&f-download=1">
-                                            <img src="/assets/excel.png" alt="">
-                                            <h6>Export to Excel</h6>
-                                        </a>
-                                    </div>
+                                    
                                 </div>
                                 <div class="container text-center p-0" style="overflow-x: auto !important">
                                     <table class="table table-bordered" id="table-result">
@@ -158,8 +151,7 @@
                                             @if ($results)
                                                 <?php $i = ($results->currentpage() - 1) * $results->perpage() + 1; ?>
                                                 @foreach ($results as $result)
-                                                    {{-- <tr onclick="window.location='/admin/user/student/detail'"> --}}
-                                                    <tr>
+                                                    <tr style="cursor: default">
                                                         <td>{{ $i++ }}</td>
                                                         <td>
                                                             @if ($result->essay_clients->client_by_id == null)
@@ -173,15 +165,24 @@
                                                         <td>{{ $result->essay_clients->program->program_name }}</td>
                                                         <td>{{ $result->essay_clients->university->university_name }}</td>
                                                         <td>{{ $result->essay_clients->essay_title }}</td>
-                                                        <td><a href="{{ public_path('uploaded_files/program/essay/editors/') . $result->attached_of_editors }}"
-                                                                rel="noopener" target="_blank"
-                                                                title="{{ $result->attached_of_editors }}">Download</a>
+
+                                                        @if ($result->status->id == 8)
+                                                        <td><a href="{{ asset('uploaded_files/program/essay/revised/'.$result->attached_of_editors) }}" rel="noopener" target="_blank" title="{{ $result->attached_of_editors }}">Download</a>
                                                         </td>
-                                                        <td><a href="{{ public_path('uploaded_files/program/essay/students/') . $result->essay_clients->attached_of_clients }}"
-                                                                rel="noopener" target="_blank"
-                                                                title="{{ $result->essay_clients->attached_of_clients }}">Download</a>
+                                                        @else
+                                                        <td><a href="{{ asset('uploaded_files/program/essay/editors/'.$result->attached_of_editors) }}" rel="noopener" target="_blank" title="{{ $result->attached_of_editors }}">Download</a>
                                                         </td>
-                                                        <td>{{ $result->status->status_title }}</td>
+                                                        @endif
+
+                                                        <td><a href="{{ asset('uploaded_files/program/essay/students/'.$result->essay_clients->attached_of_clients) }}" rel="noopener" target="_blank" title="{{ $result->essay_clients->attached_of_clients }}">Download</a>
+                                                        </td>
+
+                                                        @if ($result->status->id == 7)
+                                                        <td style="color: var(--green)">{{ $result->status->status_title }}</td>
+                                                        @else
+                                                        <td style="color: var(--red)">{{ $result->status->status_title }}</td>
+                                                        @endif
+
                                                         <td>{{ $result->essay_clients->essay_rating }}</td>
                                                         <td>{{ $result->work_duration }}</td>
                                                         <td>{{ $result->essay_clients->application_deadline }}</td>
@@ -191,7 +192,7 @@
 
                                                 @unless(count($results))
                                                     <tr>
-                                                        <td colspan="11">No data</td>
+                                                        <td colspan="13">No data</td>
                                                     </tr>
                                                 @endunless
                                             @endif
