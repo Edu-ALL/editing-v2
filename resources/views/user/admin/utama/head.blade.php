@@ -8,7 +8,7 @@
         <img class="img-fluid" src="/assets/help-grey.png" alt="">
         <h6 class="d-none d-md-inline">Help</h6>
       </a>
-      <h6 class="pt-1 d-none d-md-inline">Admin Name</h6>
+      <h6 class="d-none d-md-inline">{{ Auth::guard('web-admin')->user()->full_name }}</h6>
     </div>
   </div>
 </div>

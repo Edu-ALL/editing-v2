@@ -79,10 +79,12 @@
                       @csrf
                       <select class="select-beast inputField" name="id_mentor" id="mentor" onchange="this.form.submit()">
                         @foreach ($mentors as $mentor)
-                          @if ($client->id_mentor == $mentor->id_mentors)
-                            <option value="{{ $mentor->id_mentors }}" selected>{{ $mentor->first_name.' '.$mentor->last_name }}</option>
+                          @if ($client->id_mentor_2 != $mentor->id_mentors)
+                            @if ($client->id_mentor == $mentor->id_mentors)
+                              <option value="{{ $mentor->id_mentors }}" selected>{{ $mentor->first_name.' '.$mentor->last_name }}</option>
+                            @endif
+                            <option value="{{ $mentor->id_mentors }}">{{ $mentor->first_name.' '.$mentor->last_name }}</option>
                           @endif
-                          <option value="{{ $mentor->id_mentors }}">{{ $mentor->first_name.' '.$mentor->last_name }}</option>
                         @endforeach
                       </select>
                     </form>
@@ -101,10 +103,12 @@
                           <option value="" selected>-</option>
                         @endif
                         @foreach ($mentors as $mentor)
-                          @if ($client->id_mentor_2 == $mentor->id_mentors)
-                            <option value="{{ $mentor->id_mentors }}" selected>{{ $mentor->first_name.' '.$mentor->last_name }}</option>
+                          @if ($client->id_mentor != $mentor->id_mentors)
+                            @if ($client->id_mentor_2 == $mentor->id_mentors)
+                              <option value="{{ $mentor->id_mentors }}" selected>{{ $mentor->first_name.' '.$mentor->last_name }}</option>
+                            @endif
+                            <option value="{{ $mentor->id_mentors }}">{{ $mentor->first_name.' '.$mentor->last_name }}</option>
                           @endif
-                          <option value="{{ $mentor->id_mentors }}">{{ $mentor->first_name.' '.$mentor->last_name }}</option>
                         @endforeach
                       </select>
                     </form>
