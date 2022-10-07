@@ -8,11 +8,10 @@
         <div class="row flex-nowrap main" id="main">
 
             {{-- Sidenav --}}
-            @include('user.mantor.utama.menu')
-
+            @include('user.mentor.utama.menu')
             {{-- Content --}}
             <div class="col" style="overflow: auto !important">
-                @include('user.mantor.utama.head')
+                @include('user.mentor.utama.head')
                 <div class="container main-content m-0">
                     {{-- Table Student --}}
                     <div class="row">

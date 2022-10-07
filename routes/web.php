@@ -160,8 +160,22 @@ Route::get('/admin/essay-list/detail', function () {
 });
 Route::get('/mentor/essay-list/completed', [EssaysMenu::class, 'index'])->name('list-essay-completed');
 
+Route::get('/editor/all-essays', function () {
+    return view('user.editor.all-essays.editor-all-essays', [
+        'count_not_assign_essay' => EssayClients::where('status_essay_clients', '=', 0)->count(),
+        'count_assign_essay' => EssayEditors::where('status_essay_editors', '=', 2)->count(),
+        'count_ongoing_essay' => EssayEditors::where('status_essay_editors', '!=', 7)->count(),
+        'count_completed_essay' => EssayEditors::where('status_essay_editors', '=', 7)->count(),
+    ]);
+});
+
 Route::get('/mentor/dashboard', function () {
-    return view('user.mentor.dashboard');
+    return view('user.mentor.dashboard', [
+        'count_new_request' => EssayClients::where('status_essay_clients', '=', 0)->count(),
+        'count_student' => Client::count(),
+        'count_ongoing_essay' => EssayEditors::where('status_essay_editors', '!=', 7)->count(),
+        'count_completed_essay' => EssayEditors::where('status_essay_editors', '=', 7)->count(),
+    ]);
 });
 Route::get('/mentor/user/student', [StudentsMenu::class, 'index'])->name('list-student');
 Route::get('/mentor/user/student/detail/{id}', [StudentsMenu::class, 'detail']);

@@ -22,7 +22,7 @@
 
             {{-- Content --}}
             <div class="col" style="overflow: auto !important">
-                @include('user.admin.utama.head')
+                @include('user.mentor.utama.head')
                 <div class="container main-content m-0">
                     {{-- Table Student --}}
                     <div class="row">
