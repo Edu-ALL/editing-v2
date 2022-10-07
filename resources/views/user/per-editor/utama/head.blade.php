@@ -6,7 +6,7 @@
     <div class="head-content d-flex flex-row align-items-center justify-content-md-end justify-content-center gap-md-4 gap-2">
       <a class="d-flex flex-row align-items-center gap-md-2" href="/editors/profile">
         <img class="img-fluid" src="/assets/profile-grey.png" alt="">
-        <h6 class="d-none d-md-inline ps-1 mt-1">Editor Name</h6>
+        <h6 class="d-none d-md-inline ps-1 mt-1">{{ Auth::guard('web-editor')->user()->first_name." ".Auth::guard('web-editor')->user()->last_name }}</h6>
       </a>
     </div>
   </div>

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Essays;
 use App\Http\Controllers\Admin\Export;
 use App\Http\Controllers\Admin\Clients;
+use App\Http\Controllers\Admin\Dashboard as AdminDashboard;
 use App\Http\Controllers\Admin\Editors;
 use App\Http\Controllers\Admin\EssayPrompt;
 use App\Http\Controllers\Admin\Mentors;
@@ -82,15 +83,7 @@ Route::middleware('is_admin')->group(function(){
         return view('user.admin.help.help');
     });
     // Dashboard
-    Route::get('/admin/dashboard', function () {
-        return view('user.admin.dashboard', [
-            'count_student' => Client::count(),
-            'count_mentor' => Mentor::count(),
-            'count_editor' => Editor::count(),
-            'count_ongoing_essay' => EssayClients::where('status_essay_clients', '!=', 7)->count(),
-            'count_completed_essay' => EssayClients::where('status_essay_clients', '=', 7)->count(),
-        ]);
-    })->name('admin.dashboard');
+    Route::get('/admin/dashboard', [AdminDashboard::class, 'index']);
     
     // Student
     Route::get('/admin/user/student', [Clients::class, 'index'])->name('list-client');
