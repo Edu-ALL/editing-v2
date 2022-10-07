@@ -34,6 +34,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Mentor\EssaysMenu;
 use App\Http\Controllers\Mentor\NewRequestMenu;
 use App\Http\Controllers\Mentor\StudentsMenu;
+use App\Models\EssayEditors;
 
 /*
 |--------------------------------------------------------------------------
@@ -209,9 +210,9 @@ Route::get('/editor/list/detail', function () {
 Route::get('/editor/all-essays', function () {
     return view('user.editor.all-essays.editor-all-essays', [
         'count_not_assign_essay' => EssayClients::where('status_essay_clients', '=', 0)->count(),
-        'count_assign_essay' => EssayClients::where('status_essay_clients', '=', 2)->count(),
-        'count_ongoing_essay' => EssayClients::where('status_essay_clients', '!=', 7)->count(),
-        'count_completed_essay' => EssayClients::where('status_essay_clients', '=', 7)->count(),
+        'count_assign_essay' => EssayEditors::where('status_essay_editors', '=', 2)->count(),
+        'count_ongoing_essay' => EssayEditors::where('status_essay_editors', '!=', 7)->count(),
+        'count_completed_essay' => EssayEditors::where('status_essay_editors', '=', 7)->count(),
     ]);
 });
 Route::get('/editor/all-essays/not-assign-essay-list', function () {
@@ -220,9 +221,9 @@ Route::get('/editor/all-essays/not-assign-essay-list', function () {
 // Route::get('/editor/all-essays/assigned-essay-list', function () {
 //     return view('user.editor.all-essays.editor-assigned-essays-list');
 // });
-Route::get('/editor/all-essays/ongoing-essay-list', function () {
-    return view('user.editor.all-essays.editor-ongoing-essays-list');
-});
+// Route::get('/editor/all-essays/ongoing-essay-list', function () {
+//     return view('user.editor.all-essays.editor-ongoing-essays-list');
+// });
 
 Route::get('/editor/all-essays/completed-essay-list', [AllEssaysMenu::class, 'essayCompleted'])->name('editor-list-completed-essay');
 Route::get('/editor/all-essays/ongoing-essay-list', [AllEssaysMenu::class, 'ongoingList'])->name('editor-list-ongoing-essay');

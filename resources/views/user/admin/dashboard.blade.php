@@ -48,7 +48,7 @@
                                     <img class="img-fluid" src="/assets/mentor-bg.png" alt="">
                                 </div>
                                 <div class="col">
-                                    <h4>1</h4>
+                                    <h4>{{ $count_mentor }}</h4>
                                     <h4>Mentors</h4>
                                 </div>
                             </div>
