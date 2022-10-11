@@ -13,19 +13,26 @@
             <div class="col" style="overflow: auto !important">
                 @include('user.mentor.utama.head')
                 <div class="container main-content m-0">
-                    <form action="#">
+                    <form action="{{ route('save-new-request') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
                         {{-- Detail Student --}}
                         <div class="row">
+                            @if (session()->has('add-new-request-successful'))
+                                <div class="alert alert-success fade show" role="alert">
+                                    {{ session()->get('add-new-request-successful') }}
+                                </div>
+                            @endif
+
                             <div class="col-md col-12 p-0 studentList">
                                 <div class="headline d-flex justify-content-between">
                                     <div class="col-md-6 col-5 d-flex align-items-center gap-md-3 gap-2">
                                         <img src="/assets/student.png" alt="">
                                         <h6>New Request Essay</h6>
                                     </div>
-                                    <div
+                                    {{-- <div
                                         class="col-md-4 col-6 d-flex align-items-center justify-content-end gap-md-3 gap-2">
                                         <a href="/admin/user/student"><img src="/assets/back.png" alt=""></a>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <div class="row profile-editor px-md-3 py-md-4 px-3 py-4" style="overflow: auto !important">
                                     <div
@@ -131,7 +138,7 @@
                                     <div class="col-12 d-flex mb-3" style="overflow: auto !important">
                                         <div class="col">
                                             <h6 class="pb-2">Essay Prompt :</h6>
-                                            <textarea name="essays_prompt" class="textarea" placeholder="Essay Prompt"></textarea>
+                                            <textarea name="essay_prompt" class="textarea" placeholder="Essay Prompt"></textarea>
                                         </div>
                                     </div>
                                     <div class="row pb-md-0 pb-4 mt-4">
@@ -165,7 +172,7 @@
                                             <div class="text-area p-md-1 mb-3">
                                                 <h6 class="pb-3">File :</h6>
                                                 <div class="col-7">
-                                                    <input type="file" name="essay_deadline"
+                                                    <input type="file" name="attached_of_clients"
                                                         class="form-control inputField py-1 px-2" placeholder="Search">
                                                 </div>
                                             </div>

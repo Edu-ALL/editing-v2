@@ -54,7 +54,7 @@
                                     <h6>Student Detail</h6>
                                 </div>
                                 <div class="col-md-4 col-4 d-flex align-items-center justify-content-end gap-md-3 gap-2">
-                                    <a href="/admin/essay-list/ongoing"><img src="/assets/back.png" alt=""></a>
+                                    <a href='/mentor/user/student'><img src="/assets/back.png" alt=""></a>
                                 </div>
                             </div>
                             <div class="row profile-editor px-md-4 py-md-4 px-3 py-4 mb-2"

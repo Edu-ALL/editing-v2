@@ -1,6 +1,8 @@
 @extends('user.mentor.utama.utama')
 @section('css')
     <link rel="stylesheet" href="/css/mentor/dashboard.css">
+    <link rel="stylesheet" href="/css/mentor/user-editor-add.css">
+    <link rel="stylesheet" href="/css/mentor/user-mentor.css">
 @endsection
 @section('content')
     <div class="container-fluid p-0">
@@ -13,7 +15,7 @@
                 <div class="container main-content">
                     {{-- User List --}}
                     <div class="row gap-2">
-                        <a class="col-md-3 col-12 userCard p-0" href="/mentor/user/student">
+                        <a class="col-md-3 col-12 userCard p-0" href="/mentor/essay-list">
                             <div class="col-md col-12 p-0 ">
                                 <div class="headline d-flex align-items-center gap-3">
                                     <img src="/assets/all-essays.png" alt="">

@@ -46,7 +46,7 @@
                     <img class="active" src="/assets/ongoing-essay.png" alt="">
                     <h6 class="menu">Ongoing Essay</h6>
                 </a>
-                <a class="col d-flex gap-3 align-items-center" href="/admin/essay-list/completed">
+                <a class="col d-flex gap-3 align-items-center" href="/mentor/essay-list/completed">
                     <img class="active" src="/assets/completed-essay.png" alt="">
                     <h6 class="menu">Completed Essay</h6>
                 </a>

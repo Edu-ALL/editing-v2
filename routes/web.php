@@ -195,7 +195,7 @@ Route::middleware('is_mentor')->group(function(){
     //     return view('user.mentor.essay-list-detail');
     // });
     Route::get('/mentor/new-request', [NewRequestMenu::class, 'index'])->name('new-request');
-    Route::get('/mentor/new-request/save', [NewRequestMenu::class, 'store'])->name('save-new-request');
+    Route::post('/mentor/new-request/save', [NewRequestMenu::class, 'store'])->name('save-new-request');
     // Route::get('/mentor/new-request', function () {
     //     return view('user.mentor.new-request');
     // });

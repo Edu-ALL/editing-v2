@@ -12,9 +12,9 @@
                 @include('user.per-editor.utama.head')
                 <div class="container main-content m-0">
                     {{-- @if (session()->has('login-successful'))
-          <div class="row alert alert-success fade show" role="alert">
-            {{ session()->get('login-successful') }}
-          </div>
+        <div class="row alert alert-success fade show" role="alert">
+        {{ session()->get('login-successful') }}
+        </div>
         @endif --}}
                     <div class="row">
                         <div class="col-md col-12 p-0 userCard">

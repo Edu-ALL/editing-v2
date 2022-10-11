@@ -15,6 +15,7 @@ use App\Models\University;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Exception;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -64,45 +65,38 @@ class NewRequestMenu extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
-        $rules = [
-            'id_program' => 'required',
-            'id_univ' => 'required',
-            'id_editors' => 'required',
-            'essay_title' => 'required',
-            'essays_prompt' => 'required',
-            'id_clients' => 'required',
-            'number_of_words' => 'required',
+        // $rules = [
+        //     'id_program' => 'required',
+        //     'id_univ' => 'required',
+        //     'id_editors' => 'required',
+        //     'essay_title' => 'required',
+        //     'essays_prompt' => 'required',
+        //     'id_clients' => 'required',
+        //     'number_of_words' => 'required',
             
-            'essay_deadline' => 'required',
-            'application_deadline' => 'required',
-            'essay_title' => 'required'
-        ];
+        //     'essay_deadline' => 'required',
+        //     'application_deadline' => 'required',
+        //     'essay_title' => 'required',
+        //     'file' => 'required|mimes:docx,doc|max:2048'
+        // ];
 
-        $validator = Validator::make($request->all(), $rules);
-        if ($validator->fails()) {
-            return Redirect::back()->withErrors($validator->messages());
-        }
+        // $validator = Validator::make($request->all(), $rules);
+        // if ($validator->fails()) {
+        //     return Redirect::back()->withErrors($validator->messages());
+        // }
         $id_transaksi = '0';
         $mentor = Auth::guard('web-mentor')->user();
         $student_email = Client::where('id_mentor', '=', $mentor->id_mentors)->with('mentors')->get();
-        $data = [
-            'id_essay_clients' => $id_essay,
-            'id_transaction' => $code,
-            'id_program' => $this->input->post('words'),
-            'id_univ' => $this->input->post('univ_name'),
-            'id_editors' => $this->input->post('id_editors'),
-            'essay_title' => $title,
-            'essay_prompt' => $this->input->post('essay_prompt'),
-            'id_clients' => $this->input->post('student_id'),
-            'email' => $student_mail,
-            'mentors_mail' => $this->session->userdata('email'),
-            'essay_deadline' => $this->input->post('essay_deadline'),
-            'application_deadline' => $this->input->post('app_deadline'),
-            'attached_of_clients' => $new_files,
-            'uploaded_at' => date('Y-m-d H:i:s'),
-        ];
+        $student_name =  $request->id_clients;
+        $file_student = Client::where('id_clients', '=', $student_name)->first();
+        // dd($file_student->first_name);
+        $fileName = $request->attached_of_clients->getClientOriginalName();
+        $filePath = 'uploads/mentee/'.$file_student->first_name.'/'.$fileName;
 
+        $path = Storage::disk('public')->put($filePath, file_get_contents($request->attached_of_clients));
+        $path = Storage::disk('public')->url($path);
 
+        // dd($path);
         DB::beginTransaction();
         try {
             $new_request = new EssayClients();
@@ -111,9 +105,17 @@ class NewRequestMenu extends Controller
             $new_request->id_univ = $request->id_univ;
             $new_request->id_editors = $request->id_editors;
             $new_request->essay_title = $request->essay_title;
+            $new_request->essay_prompt = $request->essay_prompt;
+            $new_request->id_clients = $request->id_clients;
             $new_request->email = $student_email->email;
-            $new_request->client_by_id = $request->client_by_id;
-            $new_request->status = 0;
+            $new_request->mentors_mail = $student_email->mentors->email;
+            $new_request->essay_deadline = $request->essay_deadline;
+            $new_request->application_deadline = $request->application_deadline;
+            $new_request->attached_of_clients = $path;
+            $new_request->status_essay_clients = 0;
+            $new_request->status_read = 0;
+            $new_request->status_read_editor = 0;
+            dd($new_request);
             $new_request->save();
             DB::commit();
 
