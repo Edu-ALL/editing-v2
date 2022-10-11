@@ -13,7 +13,8 @@ class Authentication extends Controller
     public function _loginMentors(Request $request)
     {
         $credentials = $request->only('email', 'password');
-
+        // echo json_encode($credentials);
+        // exit();
         $messages = [
             "email.exists" => "This email has not been registered"
         ];

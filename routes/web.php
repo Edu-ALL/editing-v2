@@ -153,51 +153,54 @@ Route::middleware('is_admin')->group(function(){
     Route::get('/admin/setting/categories-tags/detail/{tag_id}', [CategoriesTags::class, 'detail']);
 });
 
-//**********Role Mentor**********//
-Route::get('/mentor/essay-list', [EssaysMenu::class, 'index'])->name('list-essay');
-Route::get('/admin/essay-list/detail', function () {
-    return view('user.admin.essay-list.essay-ongoing-detail');
-});
-Route::get('/mentor/essay-list/completed', [EssaysMenu::class, 'index'])->name('list-essay-completed');
+    //**********Role Mentor**********//
+Route::middleware('is_mentor')->group(function(){
 
-Route::get('/editor/all-essays', function () {
-    return view('user.editor.all-essays.editor-all-essays', [
-        'count_not_assign_essay' => EssayClients::where('status_essay_clients', '=', 0)->count(),
-        'count_assign_essay' => EssayEditors::where('status_essay_editors', '=', 2)->count(),
-        'count_ongoing_essay' => EssayEditors::where('status_essay_editors', '!=', 7)->count(),
-        'count_completed_essay' => EssayEditors::where('status_essay_editors', '=', 7)->count(),
-    ]);
-});
+    Route::get('/mentor/essay-list', [EssaysMenu::class, 'index'])->name('list-essay');
+    Route::get('/admin/essay-list/detail', function () {
+        return view('user.admin.essay-list.essay-ongoing-detail');
+    });
+    Route::get('/mentor/essay-list/completed', [EssaysMenu::class, 'index'])->name('list-essay-completed');
 
-Route::get('/mentor/dashboard', function () {
-    return view('user.mentor.dashboard', [
-        'count_new_request' => EssayClients::where('status_essay_clients', '=', 0)->count(),
-        'count_student' => Client::count(),
-        'count_ongoing_essay' => EssayEditors::where('status_essay_editors', '!=', 7)->count(),
-        'count_completed_essay' => EssayEditors::where('status_essay_editors', '=', 7)->count(),
-    ]);
-});
-Route::get('/mentor/user/student', [StudentsMenu::class, 'index'])->name('list-student');
-Route::get('/mentor/user/student/detail/{id}', [StudentsMenu::class, 'detail']);
-// Route::get('/mentor/user/student', function () {
-//     return view('user.mentor.user-student');
-// });
-Route::get('/mentor/user/student/detail', function () {
-    return view('user.mentor.user-student-detail');
-});
-// Route::get('/mentor/essay/list', function () {
-//     return view('user.mentor.essay-list');
-// });
-// Route::get('/mentor/essay/list/detail', function () {
-//     return view('user.mentor.essay-list-detail');
-// });
-Route::get('/mentor/new-request', [NewRequestMenu::class, 'index'])->name('new-request');
-Route::get('/mentor/new-request/save', [NewRequestMenu::class, 'store'])->name('save-new-request');
-// Route::get('/mentor/new-request', function () {
-//     return view('user.mentor.new-request');
-// });
+    Route::get('/editor/all-essays', function () {
+        return view('user.editor.all-essays.editor-all-essays', [
+            'count_not_assign_essay' => EssayClients::where('status_essay_clients', '=', 0)->count(),
+            'count_assign_essay' => EssayEditors::where('status_essay_editors', '=', 2)->count(),
+            'count_ongoing_essay' => EssayEditors::where('status_essay_editors', '!=', 7)->count(),
+            'count_completed_essay' => EssayEditors::where('status_essay_editors', '=', 7)->count(),
+        ]);
+    });
 
+    Route::get('/mentor/dashboard', function () {
+        return view('user.mentor.dashboard', [
+            'count_new_request' => EssayClients::where('status_essay_clients', '=', 0)->count(),
+            'count_student' => Client::count(),
+            'count_ongoing_essay' => EssayEditors::where('status_essay_editors', '!=', 7)->count(),
+            'count_completed_essay' => EssayEditors::where('status_essay_editors', '=', 7)->count(),
+        ]);
+    });
+    Route::get('/mentor/user/student', [StudentsMenu::class, 'index'])->name('list-student');
+    Route::get('/mentor/user/student/detail/{id}', [StudentsMenu::class, 'detail']);
+    Route::put('/mentor/user/student/update/{id}', [StudentsMenu::class, 'update'])->name('update-student');
+    // Route::get('/mentor/user/student', function () {
+    //     return view('user.mentor.user-student');
+    // });
+    Route::get('/mentor/user/student/detail', function () {
+        return view('user.mentor.user-student-detail');
+    });
+    // Route::get('/mentor/essay/list', function () {
+    //     return view('user.mentor.essay-list');
+    // });
+    // Route::get('/mentor/essay/list/detail', function () {
+    //     return view('user.mentor.essay-list-detail');
+    // });
+    Route::get('/mentor/new-request', [NewRequestMenu::class, 'index'])->name('new-request');
+    Route::get('/mentor/new-request/save', [NewRequestMenu::class, 'store'])->name('save-new-request');
+    // Route::get('/mentor/new-request', function () {
+    //     return view('user.mentor.new-request');
+    // });
 
+});
 
 
 //**********Role Editor**********//

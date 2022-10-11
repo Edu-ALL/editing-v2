@@ -87,45 +87,54 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="row student-addition p-md-5 p-3">
-                                {{-- Text Area --}}
-                                <div class="text-area p-md-1 mb-3">
-                                    <h6 class="pb-3">Personal Brand Statement :</h6>
-                                    <textarea name="personal_brand" class="textarea" placeholder="Presonal Brand Statement"> {{ $client->personal_brand }}</textarea>
-                                </div>
-                                <div class="text-area p-md-1 mb-3">
-                                    <h6 class="pb-3">Academic Goals & Interest :</h6>
-                                    <textarea name="interests" class="textarea" placeholder="Academic Goals & Interest"> {{ $client->interests }}</textarea>
-                                </div>
-                                <div class="text-area p-md-1 mb-3">
-                                    <h6 class="pb-3">Life Philosophy (Values) & Personalities :</h6>
-                                    <textarea name="personalities" class="textarea" placeholder="Life Philosophy (Values) & Personalities"> {{ $client->Personalities }}</textarea>
-                                </div>
-                                {{-- End Text Area --}}
-                                {{-- Attachment --}}
-                                <div
-                                    class="col-lg-2 col-3 mb-lg-4 mb-3 attachment d-flex align-items-center justify-content-center">
-                                    <h6 class="text-center">Attachment</h6>
-                                </div>
-                                <div
-                                    class="row d-flex flex-lg-row flex-column attachment-status gap-lg-0 gap-2 ps-lg-0 ps-2 mb-3">
-                                    <div class="col-lg-4 me-2">
-                                        <h6>Activities Resume<span class="px-2">:</span><span
-                                                style="color: var(--red)">Not Available</span></h6>
+                            <form action="{{ route('/mentor/user/student/update', ['student_id' => $client->id_clients]) }}"
+                                method="PUT">
+                                @csrf
+                                <div class="row student-addition p-md-5 p-3">
+                                    {{-- Text Area --}}
+                                    <div class="text-area p-md-1 mb-3">
+                                        <h6 class="pb-3">Personal Brand Statement :</h6>
+                                        <textarea name="personal_brand" class="textarea" placeholder="Presonal Brand Statement"> {{ $client->personal_brand }}</textarea>
                                     </div>
-                                    <div class="col-lg">
-                                        <h6>Questionnaire<span class="px-2">:</span><span style="color: var(--red)">Not
-                                                Available</span></h6>
+                                    <div class="text-area p-md-1 mb-3">
+                                        <h6 class="pb-3">Academic Goals & Interest :</h6>
+                                        <textarea name="interests" class="textarea" placeholder="Academic Goals & Interest"> {{ $client->interests }}</textarea>
                                     </div>
-                                    <div class="col-lg">
-                                        <h6>Others<span class="px-2">:</span><span style="color: var(--red)">Not
-                                                Available</span></h6>
+                                    <div class="text-area p-md-1 mb-3">
+                                        <h6 class="pb-3">Life Philosophy (Values) & Personalities :</h6>
+                                        <textarea name="personalities" class="textarea" placeholder="Life Philosophy (Values) & Personalities"> {{ $client->Personalities }}</textarea>
                                     </div>
+                                    {{-- End Text Area --}}
+                                    {{-- Attachment --}}
+                                    <div
+                                        class="col-lg-2 col-3 mb-lg-4 mb-3 attachment d-flex align-items-center justify-content-center">
+                                        <h6 class="text-center">Attachment</h6>
+                                    </div>
+                                    <div
+                                        class="row d-flex flex-lg-row flex-column attachment-status gap-lg-0 gap-2 ps-lg-0 ps-2 mb-3">
+                                        <div class="col-lg-4 me-2">
+                                            <h6>Activities Resume<span class="px-2">:</span><span
+                                                    style="color: var(--red)">Not Available</span></h6>
+                                        </div>
+                                        <div class="col-lg">
+                                            <h6>Questionnaire<span class="px-2">:</span><span
+                                                    style="color: var(--red)">Not
+                                                    Available</span></h6>
+                                        </div>
+                                        <div class="col-lg">
+                                            <h6>Others<span class="px-2">:</span><span style="color: var(--red)">Not
+                                                    Available</span></h6>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 d-flex justify-content-center p-4">
+                                        <button class="btn btn-create d-flex align-items-center gap-2">
+                                            <img src="/assets/upload.png" alt="">
+                                            <h6>Upload Student Essay</h6>
+                                        </button>
+                                    </div>
+                                    {{-- End Attachment --}}
                                 </div>
-                                {{-- End Attachment --}}
-                            </div>
-                            </a>
+                            </form>
                         </div>
                         {{-- End Detail Student --}}
                     </div>

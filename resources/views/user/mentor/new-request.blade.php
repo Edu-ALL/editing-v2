@@ -80,10 +80,11 @@
                                                 <select class="form-control select2" style="width: 96.5%;"
                                                     name="id_clients">
                                                     <option value=""></option>
-                                                    @foreach ($client as $user)
-                                                        @if ($user->id_clients != '')
-                                                            <option value="{{ $user->id_clients }}">
-                                                                {{ $user->client_by_id->first_name }}</option>
+                                                    @foreach ($clients as $client)
+                                                        @if ($client->id_clients != '')
+                                                            <option value="{{ $client->id_clients }}">
+                                                                {{ $client->first_name . ' ' . $client->last_name }}
+                                                            </option>
                                                         @endif
                                                     @endforeach
                                                 </select>
@@ -171,8 +172,8 @@
                                         </div>
                                         <div class="col-md-6 d-flex justify-content-center p-4">
                                             <button class="btn btn-create d-flex align-items-center gap-2">
-                                                <img src="/assets/reload.png" alt="">
-                                                <h6>Update Editor</h6>
+                                                <img src="/assets/upload.png" alt="">
+                                                <h6>Upload Student Essay</h6>
                                             </button>
                                         </div>
                                     </div>

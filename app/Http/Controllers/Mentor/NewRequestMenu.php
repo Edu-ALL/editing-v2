@@ -30,16 +30,21 @@ class NewRequestMenu extends Controller
         // $user = Auth::id_mentors();
         // $id = $user->id_mentors;
         // $name = $user->name;
-        $id = Auth::guard('web-editor')->user();
-        // $id = Auth::id();
-        $client = Client::where('id_mentor' || 'id_mentor_2', '=', $id);
-        // dd($client);
+        // $mentor = Auth::guard('web-mentor')->user();
+        $mentor = Auth::guard('web-mentor')->user();
+        // $clients = Client::where('id_mentor', '=', $mentor->id_mentors)->with('mentors')
+        $clients = Client::where('id_mentor', '=', $mentor->id_mentors)->with('mentors')->get();
+        // dd($clients);
         $request_editor = Editor::get();
         $university = University::get();
         $program = Programs::where('program_name', '=', 'Essay Editing')->orderBy('program_name', 'asc')->get();
         // dd($program);
         
-        return view('user.mentor.new-request',compact('client','request_editor','university','program'));
+        return view('user.mentor.new-request', ['clients' => $clients, 
+                                                'request_editor' => $request_editor, 
+                                                'university' => $university,
+                                                'program' => $program],);
+        // compact('clients','request_editor','university','program'));
     }
 
     /**
