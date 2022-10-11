@@ -220,41 +220,29 @@ Route::get('/editor/list/detail', function () {
 Route::get('/editor/all-essays', function () {
     return view('user.editor.all-essays.editor-all-essays', [
         'count_not_assign_essay' => EssayClients::where('status_essay_clients', '=', 0)->count(),
-        'count_assign_essay' => EssayEditors::where('status_essay_editors', '=', 2)->count(),
-        'count_ongoing_essay' => EssayEditors::where('status_essay_editors', '!=', 7)->count(),
+        'count_assign_essay' => EssayEditors::where('status_essay_editors', '=', 1)->count(),
+        'count_ongoing_essay' => EssayEditors::where('status_essay_editors', '=', 2)->orWhere('status_essay_editors', '=', 3)->orWhere('status_essay_editors', '=', 6)->count(),
         'count_completed_essay' => EssayEditors::where('status_essay_editors', '=', 7)->count(),
     ]);
 });
-Route::get('/editor/all-essays/not-assign-essay-list', function () {
-    return view('user.editor.all-essays.editor-not-assign-essays-list');
-});
-// Route::get('/editor/all-essays/assigned-essay-list', function () {
-//     return view('user.editor.all-essays.editor-assigned-essays-list');
-// });
-// Route::get('/editor/all-essays/ongoing-essay-list', function () {
-//     return view('user.editor.all-essays.editor-ongoing-essays-list');
+// Route::get('/editor/all-essays/not-assign-essay-list', function () {
+//     return view('user.editor.all-essays.editor-not-assign-essays-list');
 // });
 
 Route::get('/editor/all-essays/completed-essay-list', [AllEssaysMenu::class, 'essayCompleted'])->name('editor-list-completed-essay');
 Route::get('/editor/all-essays/ongoing-essay-list', [AllEssaysMenu::class, 'ongoingList'])->name('editor-list-ongoing-essay');
 Route::get('/editor/all-essays/assigned-essay-list', [AllEssaysMenu::class, 'assignList'])->name('editor-list-assign-essay');
+Route::get('/editor/all-essays/not-assign-essay-list', [AllEssaysMenu::class, 'notAssignList'])->name('editor-list-not-assign-essay');
 Route::get('/editor/all-essays/completed/detail/{id}', [AllEssaysMenu::class, 'detailEssayCompleted']);
 
 // Route::get('/editor/all-essays/completed-essay-list', function () {
 //     return view('user.editor.all-essays.essay-completed');
 // });
-Route::get('/editor/all-essays/essay-list-due-tommorow', function () {
-    return view('user.editor.all-essays.editor-list-due-tomorrow');
-});
-Route::get('/editor/all-essays/essay-list-due-within-three', function () {
-    return view('user.editor.all-essays.editor-list-due-within-three');
-});
-Route::get('/editor/all-essays/essay-list-due-within-five', function () {
-    return view('user.editor.all-essays.editor-list-due-within-five');
-});
-Route::get('/editor/all-essays/essay-list-due-tomorrow-detail', function () {
-    return view('user.editor.all-essays.editor-list-due-detail');
-});
+Route::get('/editor/all-essays/essay-list-due-tommorow', [AllEssaysMenu::class, 'dueTomorrow'])->name('editor-list-due-tomorrow');
+Route::get('/editor/all-essays/essay-list-due-within-three', [AllEssaysMenu::class, 'dueThree'])->name('editor-list-due-within-three');
+Route::get('/editor/all-essays/essay-list-due-within-five', [AllEssaysMenu::class, 'dueFive'])->name('editor-list-due-within-five');
+Route::get('/editor/all-essays/essay-list-due-detail/{id}', [AllEssaysMenu::class, 'detailEssayDue']);
+
 //All Essays detail
 Route::get('/editor/all-essays/not-assign-essay-list-detail', function () {
     return view('user.editor.all-essays.editor-not-assign-essays-list-detail');

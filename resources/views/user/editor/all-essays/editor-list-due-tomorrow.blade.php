@@ -1,4 +1,11 @@
 @extends('user.editor.utama.utama')
+@section('css')
+    <style>
+        .unread {
+            font-weight: 600
+        }
+    </style>
+@endsection
 @section('content')
     <div class="container-fluid">
         <div class="row flex-nowrap main">
@@ -32,10 +39,10 @@
                                     <h6>All Essays - Due Tomorrow List</h6>
                                 </div>
                                 <div class="col-md-4 col-6 d-flex align-items-center justify-content-end gap-md-3 gap-2">
-                                    <img src="/assets/reload.png" alt="">
                                     <div class="input-group">
-                                        <input type="email" class="form-control inputField py-2 px-3"
-                                            placeholder="Search">
+                                        <form id="editor-list-due-tomorrow" action="{{ route('editor-list-due-tomorrow') }}" method="GET" role="search" class="w-100">
+                                            <input type="search" class="form-control inputField py-2 px-3" name="keyword" placeholder="Search">
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -57,27 +64,36 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr onclick="location.href='/editor/all-essays/essay-list-due-tomorrow-detail'">
-                                            <th scope="row">1</th>
-                                            <td>Student Name Dummy</td>
-                                            <td>Mentor Name Dummy</td>
-                                            <td>Editor Name Dummy</td>
-                                            <td>Request</td>
-                                            <td>Program name</td>
-                                            <td>Title of Essay</td>
-                                            <td>01-08-2022</td>
-                                            <td>01-09-2022</td>
-                                            <td>01-10-2022</td>
-                                            <td><span class="badge badge-success">Success</span>
-                                            </td>
-                                            {{-- <td><button class="container-fluid btn btn-warning btnLogin"> <img
-                                                        src="" style="weight: 1%" alt=""></button>
-                                            </td> --}}
+                                        <?php $i = ($essays->currentpage()-1)* $essays->perpage() + 1;?>
+                                        @foreach ($essays as $essay)
+                                        <tr onclick="window.location='/editor/all-essays/essay-list-due-detail/{{ $essay->id_essay_clients }}'">
+                                            <th scope="row" class="{{ $essay->status_read_editor == 0 ? 'unread' : '' }}">{{ $i++ }}</th>
+
+                                            <td class="{{ $essay->status_read_editor == 0 ? 'unread' : '' }}">{{ $essay->client_by_id->first_name.' '.$essay->client_by_id->last_name }}</td>
+                                            <td class="{{ $essay->status_read_editor == 0 ? 'unread' : '' }}">{{ $essay->client_by_id->mentors->first_name.' '.$essay->client_by_id->mentors->last_name  }}</td>
+                                            <td class="{{ $essay->status_read_editor == 0 ? 'unread' : '' }}">{{ $essay->status_essay_clients == 0 ? '-' : $essay->editor->first_name.' '.$essay->editor->last_name }}</td>
+                                            <td class="{{ $essay->status_read_editor == 0 ? 'unread' : '' }}">{{ $essay->editor->first_name.' '.$essay->editor->last_name }}</td>
+                                            <td class="{{ $essay->status_read_editor == 0 ? 'unread' : '' }}">{{ $essay->program->program_name }}</td>
+                                            <td class="{{ $essay->status_read_editor == 0 ? 'unread' : '' }}">{{ $essay->essay_title }}</td>
+                                            <td class="{{ $essay->status_read_editor == 0 ? 'unread' : '' }}">{{ date('D, d M Y', strtotime($essay->uploaded_at)) }}</td>
+                                            <td class="{{ $essay->status_read_editor == 0 ? 'unread' : '' }}">{{ date('D, d M Y', strtotime($essay->essay_deadline)) }}</td>
+                                            <td class="{{ $essay->status_read_editor == 0 ? 'unread' : '' }}">{{ date('D, d M Y', strtotime($essay->application_deadline)) }}</td>
+                                            <td class="{{ $essay->status_read_editor == 0 ? 'unread' : '' }}" style="color: var(--green)">{{ $essay->status->status_title }}</td>
                                         </tr>
+                                        @endforeach
+                                        
+                                        @unless (count($essays)) 
+                                        <tr>
+                                            <td colspan="11">No data</td>
+                                        </tr>
+                                        @endunless
                                     </tbody>
                                 </table>
+                                {{-- Pagination --}}
+                                <div class="d-flex justify-content-center">
+                                    {{ $essays->links() }}
+                                </div>
                             </div>
-                            </a>
                         </div>
                         {{-- End Table Student --}}
                     </div>
