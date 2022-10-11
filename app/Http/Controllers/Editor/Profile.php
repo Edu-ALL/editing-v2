@@ -33,7 +33,7 @@ class Profile extends Controller
             'major' => 'nullable',
             'address' => 'nullable',
             'uploaded_file' => 'mimes:jpeg,jpg,png,bmp,webp|max:2048',
-            'password' => 'confirmed|min:6',
+            'password' => 'nullable|confirmed|min:6',
         ];
 
         $validator = Validator::make($request->all() + ['id_editors' => $id_editors], $rules);
