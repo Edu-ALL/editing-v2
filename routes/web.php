@@ -20,8 +20,11 @@ use App\Http\Controllers\Editor\Dashboard;
 use App\Http\Controllers\Editor\Essays as EditorEssays;
 use App\Http\Controllers\Editor\Profile;
 use App\Http\Controllers\ManagingEditor\AllEditorMenu;
+use App\Http\Controllers\ManagingEditor\AllEssaysMenu;
 use App\Http\Controllers\ManagingEditor\CategoriesTags as ManagingEditorCategoriesTags;
+use App\Http\Controllers\ManagingEditor\EssayListMenu;
 use App\Http\Controllers\ManagingEditor\ReportList;
+use App\Http\Controllers\ManagingEditor\DashboardManaging;
 use App\Http\Controllers\ManagingEditor\Universities as ManagingEditorUniversities;
 use App\Models\Category;
 use App\Models\EssayClients;
@@ -32,6 +35,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Mentor\EssaysMenu;
 use App\Http\Controllers\Mentor\NewRequestMenu;
 use App\Http\Controllers\Mentor\StudentsMenu;
+use App\Models\EssayEditors;
 
 /*
 |--------------------------------------------------------------------------
@@ -156,8 +160,22 @@ Route::get('/admin/essay-list/detail', function () {
 });
 Route::get('/mentor/essay-list/completed', [EssaysMenu::class, 'index'])->name('list-essay-completed');
 
+Route::get('/editor/all-essays', function () {
+    return view('user.editor.all-essays.editor-all-essays', [
+        'count_not_assign_essay' => EssayClients::where('status_essay_clients', '=', 0)->count(),
+        'count_assign_essay' => EssayEditors::where('status_essay_editors', '=', 2)->count(),
+        'count_ongoing_essay' => EssayEditors::where('status_essay_editors', '!=', 7)->count(),
+        'count_completed_essay' => EssayEditors::where('status_essay_editors', '=', 7)->count(),
+    ]);
+});
+
 Route::get('/mentor/dashboard', function () {
-    return view('user.mentor.dashboard');
+    return view('user.mentor.dashboard', [
+        'count_new_request' => EssayClients::where('status_essay_clients', '=', 0)->count(),
+        'count_student' => Client::count(),
+        'count_ongoing_essay' => EssayEditors::where('status_essay_editors', '!=', 7)->count(),
+        'count_completed_essay' => EssayEditors::where('status_essay_editors', '=', 7)->count(),
+    ]);
 });
 Route::get('/mentor/user/student', [StudentsMenu::class, 'index'])->name('list-student');
 Route::get('/mentor/user/student/detail/{id}', [StudentsMenu::class, 'detail']);
@@ -183,9 +201,10 @@ Route::get('/mentor/new-request/save', [NewRequestMenu::class, 'store'])->name('
 
 
 //**********Role Editor**********//
-Route::get('/editor/dashboard', function () {
-    return view('user.editor.dashboard');
-});
+Route::get('/editor/dashboard', [DashboardManaging::class, 'index']);
+// Route::get('/editor/dashboard', function () {
+//     return view('user.editor.dashboard');
+// });
 //Editor List Menu
 Route::get('/editor/list', [AllEditorMenu::class, 'index'])->name('list-editor');
 // Route::get('/editor/list', function () {
@@ -196,20 +215,31 @@ Route::get('/editor/list/detail', function () {
 });
 //All Essays Menu
 Route::get('/editor/all-essays', function () {
-    return view('user.editor.all-essays.editor-all-essays');
+    return view('user.editor.all-essays.editor-all-essays', [
+        'count_not_assign_essay' => EssayClients::where('status_essay_clients', '=', 0)->count(),
+        'count_assign_essay' => EssayEditors::where('status_essay_editors', '=', 2)->count(),
+        'count_ongoing_essay' => EssayEditors::where('status_essay_editors', '!=', 7)->count(),
+        'count_completed_essay' => EssayEditors::where('status_essay_editors', '=', 7)->count(),
+    ]);
 });
 Route::get('/editor/all-essays/not-assign-essay-list', function () {
     return view('user.editor.all-essays.editor-not-assign-essays-list');
 });
-Route::get('/editor/all-essays/assigned-essay-list', function () {
-    return view('user.editor.all-essays.editor-assigned-essays-list');
-});
-Route::get('/editor/all-essays/ongoing-essay-list', function () {
-    return view('user.editor.all-essays.editor-ongoing-essays-list');
-});
-Route::get('/editor/all-essays/completed-essay-list', function () {
-    return view('user.editor.all-essays.editor-completed-essays-list');
-});
+// Route::get('/editor/all-essays/assigned-essay-list', function () {
+//     return view('user.editor.all-essays.editor-assigned-essays-list');
+// });
+// Route::get('/editor/all-essays/ongoing-essay-list', function () {
+//     return view('user.editor.all-essays.editor-ongoing-essays-list');
+// });
+
+Route::get('/editor/all-essays/completed-essay-list', [AllEssaysMenu::class, 'essayCompleted'])->name('editor-list-completed-essay');
+Route::get('/editor/all-essays/ongoing-essay-list', [AllEssaysMenu::class, 'ongoingList'])->name('editor-list-ongoing-essay');
+Route::get('/editor/all-essays/assigned-essay-list', [AllEssaysMenu::class, 'assignList'])->name('editor-list-assign-essay');
+Route::get('/editor/all-essays/completed/detail/{id}', [AllEssaysMenu::class, 'detailEssayCompleted']);
+
+// Route::get('/editor/all-essays/completed-essay-list', function () {
+//     return view('user.editor.all-essays.essay-completed');
+// });
 Route::get('/editor/all-essays/essay-list-due-tommorow', function () {
     return view('user.editor.all-essays.editor-list-due-tomorrow');
 });
@@ -235,10 +265,16 @@ Route::get('/editor/all-essays/ongoing-essay-list-detail', function () {
 Route::get('/editor/all-essays/completed-essay-list-detail', function () {
     return view('user.editor.all-essays.editor-completed-essays-list-detail');
 });
+
+Route::get('/editors/essay-list', [EditorEssays::class, 'index'])->name('list-essay');
+Route::get('/editors/essay-list/completed/detail/{id_essay}', [EditorEssays::class, 'detailEssay']);
+Route::get('/editors/essay-list/ongoing/detail/{id_essay}', [EditorEssays::class, 'detailEssay']);
+
 //Essay List Menu
-Route::get('/editor/essay-list', function () {
-    return view('user.editor.essay-list.editor-essay-list');
-});
+Route::get('/editor/essay-list', [EssayListMenu::class, 'index'])->name('list-essay');
+// Route::get('/editor/essay-list', function () {
+//     return view('user.editor.essay-list.editor-essay-list');
+// });
 Route::get('/editor/essay-list-detail', function () {
     return view('user.editor.essay-list.editor-list-detail');
 });

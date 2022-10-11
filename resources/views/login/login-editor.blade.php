@@ -12,49 +12,51 @@
 </head>
 
 <body>
-  <nav class="navbar">
-    <div class="container py-2 px-4">
-      <a class="navbar-brand" href="/">
-        <img src="/assets/logo.png" alt="" width="220" height="40">
-      </a>
-    </div>
-  </nav>
+    <nav class="navbar">
+        <div class="container py-2 px-4">
+            <a class="navbar-brand" href="/">
+                <img src="/assets/logo.png" alt="" width="220" height="40">
+            </a>
+        </div>
+    </nav>
 
-  {{-- Content --}}
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-md-6 d-flex justify-content-center">
-        <img class="img-content" src="/assets/editor-bg.png" alt="" width="450">
-      </div>
-      <div class="col-md-6 cardLogin">
-        <h4>Login as Editor</h4>
-        <hr>
-        @if($errors->any())
-          {!! implode('', $errors->all('<div class="alert alert-danger" role="alert">:message</div>')) !!}
-        @endif
-        <form action="{{ route('editor-login') }}" method="POST">
-          @csrf
-          <div class="field-email mt-5">
-            <h6>Email</h6>
-            <div class="input-group mb-3">
-              <input type="email" class="form-control inputField py-3 px-4" name="email" placeholder="Enter your email">
+    {{-- Content --}}
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 d-flex justify-content-center">
+                <img class="img-content" src="/assets/editor-bg.png" alt="" width="450">
             </div>
-          </div>
-          <div class="field-password mt-4">
-            <h6>Password</h6>
-            <div class="input-group mb-2">
-              <input type="password" class="form-control inputField py-3 px-4" name="password" placeholder="Enter your password">
+            <div class="col-md-6 cardLogin">
+                <h4>Login as Editor</h4>
+                <hr>
+                @if ($errors->any())
+                    {!! implode('', $errors->all('<div class="alert alert-danger" role="alert">:message</div>')) !!}
+                @endif
+                <form action="{{ route('editor-login') }}" method="POST">
+                    @csrf
+                    <div class="field-email mt-5">
+                        <h6>Email</h6>
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control inputField py-3 px-4" name="email"
+                                placeholder="Enter your email">
+                        </div>
+                    </div>
+                    <div class="field-password mt-4">
+                        <h6>Password</h6>
+                        <div class="input-group mb-2">
+                            <input type="password" class="form-control inputField py-3 px-4" name="password"
+                                placeholder="Enter your password">
+                        </div>
+                    </div>
+                    <div class="container text-end forgotps">
+                        <a href="/forgot/editor">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="container-fluid btn btn-warning btnLogin">Login</button>
+                </form>
             </div>
-          </div>
-          <div class="container text-end forgotps">
-            <a href="/forgot/editor">Forgot Password?</a>
-          </div>
-          <button type="submit" class="container-fluid btn btn-warning btnLogin">Login</button>
-        </form>
-      </div>
+        </div>
     </div>
-  </div>
-  {{-- End Content --}}
+    {{-- End Content --}}
 </body>
 
 </html>

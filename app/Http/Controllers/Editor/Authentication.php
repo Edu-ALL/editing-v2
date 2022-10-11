@@ -33,6 +33,7 @@ class Authentication extends Controller
         }
 
         $currentEditor = Auth::guard('web-editor')->user();
+        
         if (!$currentEditor->status == 1) {
             return Redirect::back()->withErrors("This email has not been activated.");
         }

@@ -47,19 +47,19 @@
             </div>
             <div class="col-7 pt-1 my-auto d-none d-md-inline">
                 <h6
-                    class="menu {{ request()->is('editor/all-essays') || request()->is('mentor/user/student/detail') ? 'active' : '' }} ">
+                    class="menu {{ request()->is('editor/all-essays*') || request()->is('mentor/user/student/detail') ? 'active' : '' }} ">
                     All Essays</h6>
             </div>
         </div>
         <div class="row w-100 align-items-center pointer" onclick="location.href='/editor/essay-list'">
             <div class="col-md-3 ps-lg-1">
                 <img class="active"
-                    src="{{ request()->is('editor/essay-list') || request()->is('editor/essay-list-detail') || request()->is('editor/essay-list-due-tommorow') || request()->is('editor/essay-list-due-within-three') || request()->is('editor/essay-list-due-within-five') ? '/assets/essay-list-blue.png' : '/assets/essay-list.png' }}"
+                    src="{{ request()->is('editor/essay-list*') || request()->is('editor/essay-list-detail') || request()->is('editor/essay-list-due-tommorow') || request()->is('editor/essay-list-due-within-three') || request()->is('editor/essay-list-due-within-five') ? '/assets/essay-list-blue.png' : '/assets/essay-list.png' }}"
                     alt="">
             </div>
             <div class="col-7 pt-1 my-auto d-none d-md-inline">
                 <h6
-                    class="menu {{ request()->is('editor/essay-list') || request()->is('editor/essay-list-detail') || request()->is('editor/essay-list-due-tommorow') || request()->is('editor/essay-list-due-within-three') || request()->is('editor/essay-list-due-within-five') ? 'active' : '' }}">
+                    class="menu {{ request()->is('editor/essay-list*') || request()->is('editor/essay-list-detail') || request()->is('editor/essay-list-due-tommorow') || request()->is('editor/essay-list-due-within-three') || request()->is('editor/essay-list-due-within-five') ? 'active' : '' }}">
                     Essay List</h6>
             </div>
         </div>
@@ -68,7 +68,8 @@
         <div class="row w-100 pointer" onclick="location.href='/editor/report-list'">
             <div class="col-md-3 ps-lg-1">
                 <img class="active"
-                    src="{{ request()->is('editor/report-list*') ? '/assets/report-blue.png' : '/assets/report.png' }}" alt="">
+                    src="{{ request()->is('editor/report-list*') ? '/assets/report-blue.png' : '/assets/report.png' }}"
+                    alt="">
             </div>
             <div class="col-7 pt-1 my-auto d-none d-md-inline">
                 <h6 class="menu {{ request()->is('editor/report-list*') ? 'active' : '' }}">Report List</h6>
@@ -119,24 +120,24 @@
 <div class="modal fade" id="logout" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content border-0">
-        <div class="modal-header">
-            <div class="col d-flex gap-2 align-items-center">
-            <img src="/assets/logout-2.png" alt="">
-            <h6 class="modal-title ms-3">Ready to leave?</h6>
+            <div class="modal-header">
+                <div class="col d-flex gap-2 align-items-center">
+                    <img src="/assets/logout-2.png" alt="">
+                    <h6 class="modal-title ms-3">Ready to leave?</h6>
+                </div>
+                <div type="button" data-bs-dismiss="modal" aria-label="Close">
+                    <img src="/assets/close.png" alt="" style="height: 26px">
+                </div>
             </div>
-            <div type="button" data-bs-dismiss="modal" aria-label="Close">
-            <img src="/assets/close.png" alt="" style="height: 26px">
+            <div class="modal-body text-center px-4 py-4">
+                <p>Select "Logout" below if you are ready to end your current session.</p>
             </div>
-        </div>
-        <div class="modal-body text-center px-4 py-4">
-            <p>Select "Logout" below if you are ready to end your current session.</p>
-        </div>
-        <div class="modal-footer d-flex align-items-start justify-content-center border-0 pt-1 pb-4">
-            <form action="{{ route('editor-logout') }}">
-            @csrf
-            <button type="submit">Logout</button>
-            </form>
-        </div>
+            <div class="modal-footer d-flex align-items-start justify-content-center border-0 pt-1 pb-4">
+                <form action="{{ route('editor-logout') }}">
+                    @csrf
+                    <button type="submit">Logout</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>

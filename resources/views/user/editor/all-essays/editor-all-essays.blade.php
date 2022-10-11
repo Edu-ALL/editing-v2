@@ -27,9 +27,32 @@
                         {{-- User List --}}
                         <div class="row col-md-12">
                             <a class="col-md-6 userCard p-1" href="/mentor/user/student">
+                                <div class="col-md col-12 p-0 ">
+                                    <div class="headline d-flex align-items-center gap-3">
+                                        <img src="/assets/all-essays.png" alt="">
+                                        <h6>All Essays</h6>
+                                    </div>
+                                </div>
+                                <div class="row px-4 countUser align-items-center text-center">
+                                    <div class="col">
+                                        <img class="img-fluid" src="/assets/student-bg.png" alt="">
+                                    </div>
+                                </div>
+                                {{-- <hr>
+                                <div class="detailCard ps-3 mt-2">
+                                    <h6>See the list of uploaded essay</h6>
+                                </div> --}}
+                            </a>
+                            {{-- <a class="col-md-6 userCard p-1" href="/mentor/user/student">
                                 <div class="container px-3 countUser-editor align-items-center text-center">
                                     <div class="col">
                                         <img class="img-fluid" src="/assets/student-bg.png" alt="">
+                                    </div>
+                                </div>
+                                <div class="row px-3 countUser align-items-center text-center">
+                                    <div class="col">
+                                        <h4>1</h4>
+                                        <h4>Essay</h4>
                                     </div>
                                 </div>
                                 <hr>
@@ -39,7 +62,7 @@
                                         <h6>All Essays</h6>
                                     </div>
                                 </div>
-                            </a>
+                            </a> --}}
                             <div class="row col-md-6">
                                 <a class="col-md-6 userCard p-1" href="/editor/all-essays/not-assign-essay-list">
                                     <div class="col-md col-12 p-0 ">
@@ -50,7 +73,7 @@
                                     </div>
                                     <div class="row px-3 countUser align-items-center text-center">
                                         <div class="col">
-                                            <h4>1</h4>
+                                            <h4>{{ $count_not_assign_essay }}</h4>
                                             <h4>Essay</h4>
                                         </div>
                                     </div>
@@ -69,7 +92,7 @@
                                     </div>
                                     <div class="row px-3 countUser align-items-center text-center">
                                         <div class="col">
-                                            <h4>1</h4>
+                                            <h4>{{ $count_assign_essay }}</h4>
                                             <h4>Essay</h4>
                                         </div>
                                     </div>
@@ -87,7 +110,7 @@
                                     </div>
                                     <div class="row px-3 countUser align-items-center text-center">
                                         <div class="col">
-                                            <h4>1</h4>
+                                            <h4>{{ $count_ongoing_essay }}</h4>
                                             <h4>Essay</h4>
                                         </div>
                                     </div>
@@ -106,7 +129,7 @@
                                     </div>
                                     <div class="row px-3 countUser align-items-center text-center">
                                         <div class="col">
-                                            <h4>1</h4>
+                                            <h4>{{ $count_completed_essay }}</h4>
                                             <h4>Essay</h4>
                                         </div>
                                     </div>

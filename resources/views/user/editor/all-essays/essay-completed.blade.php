@@ -1,6 +1,6 @@
-@extends('user.admin.utama.utama')
+@extends('user.editor.utama.utama')
 @section('css')
-    <link rel="stylesheet" href="/css/admin/essay-completed.css">
+    <link rel="stylesheet" href="/css/editor/essay-completed.css">
     <style>
         .pagination {
             margin: 15px 0
@@ -18,11 +18,26 @@
         <div class="row flex-nowrap main" id="main">
 
             {{-- Sidenav --}}
-            @include('user.admin.utama.menu')
+            @include('user.editor.utama.menu')
 
             {{-- Content --}}
             <div class="col" style="overflow: auto !important">
-                @include('user.admin.utama.head')
+                <div class="row head py-4 align-items-center">
+                    <div class="col-md-6 col-10 ps-md-5 ps-3">
+                        <h4 class="">Editor Dashboard</h4>
+                    </div>
+                    <div class="col-md-6 col-2 pe-md-5 pe-3">
+                        <div class="head-content d-flex flex-row align-items-center justify-content-end gap-md-4 gap-2">
+                            <a class="help d-flex flex-row align-items-center gap-md-2 gap-1" href="">
+                                <img class="img-fluid" src="/assets/help-grey.png" alt="">
+                                <h6 class="d-none d-md-inline">Help</h6>
+                            </a>
+                            <a href="">
+                                <h6 class="pt-1 d-none d-md-inline">Editor Name</h6>
+                            </a>
+                        </div>
+                    </div>
+                </div>
                 <div class="container main-content m-0">
                     {{-- Table Student --}}
                     <div class="row">
@@ -35,8 +50,8 @@
                                 <div class="col-md-4 col-4 d-flex align-items-center justify-content-end">
                                     <div class="input-group">
                                         <form id="form-completed-essay-searching"
-                                            action="{{ route('list-completed-essay') }}" method="GET" role="search"
-                                            class="w-100">
+                                            action="{{ route('editor-list-completed-essay') }}" method="GET"
+                                            role="search" class="w-100">
                                             <input type="text" class="form-control inputField py-2 px-3" name="keyword"
                                                 placeholder="Search">
                                         </form>
@@ -60,7 +75,7 @@
                                         <?php $i = ($essays->currentpage() - 1) * $essays->perpage() + 1; ?>
                                         @foreach ($essays as $essay)
                                             <tr
-                                                onclick="window.location='/admin/essay-list/completed/detail/{{ $essay->id_essay_clients }}'">
+                                                onclick="window.location='/editor/all-essays/completed/detail/{{ $essay->id_essay_clients }}'">
                                                 <th scope="row">{{ $i++ }}</th>
 
                                                 <td>{{ $essay->essay_clients->client_by_id->first_name . ' ' . $essay->essay_clients->client_by_id->last_name }}

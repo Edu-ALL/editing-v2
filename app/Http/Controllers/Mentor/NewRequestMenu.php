@@ -30,7 +30,8 @@ class NewRequestMenu extends Controller
         // $user = Auth::id_mentors();
         // $id = $user->id_mentors;
         // $name = $user->name;
-        $id = Auth::id();
+        $id = Auth::guard('web-editor')->user();
+        // $id = Auth::id();
         $client = Client::where('id_mentor' || 'id_mentor_2', '=', $id);
         // dd($client);
         $request_editor = Editor::get();
