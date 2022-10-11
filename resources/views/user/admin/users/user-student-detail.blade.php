@@ -66,7 +66,7 @@
                   </div>
                   <div class="col-1 titik2 p-0"><p>:</p></div>
                   <div class="col ps-1">
-                    <p>{{ $client->address }}</p>
+                    <p>{!! $client->address !!}</p>
                   </div>
                 </div>
                 <div class="row d-flex align-items-center">

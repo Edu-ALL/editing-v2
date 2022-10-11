@@ -150,8 +150,8 @@
                     <td>{{ $result->essay_clients->program->program_name }}</td>
                     <td>{{ $result->essay_clients->university->university_name }}</td>
                     <td>{{ $result->essay_clients->essay_title }}</td>
-                    <td><a href="{{ public_path('uploaded_files/program/essay/editors/').$result->attached_of_editors }}" rel="noopener" target="_blank" title="{{ $result->attached_of_editors }}">Download</a></td>
-                    <td><a href="{{ public_path('uploaded_files/program/essay/students/').$result->essay_clients->attached_of_clients }}" rel="noopener" target="_blank" title="{{ $result->essay_clients->attached_of_clients }}">Download</a></td>
+                    <td><a href="{{ asset('uploaded_files/program/essay/editors/'.$result->attached_of_editors) }}" rel="noopener" target="_blank" title="{{ $result->attached_of_editors }}">Download</a></td>
+                    <td><a href="{{ asset('uploaded_files/program/essay/students/'.$result->essay_clients->attached_of_clients) }}" rel="noopener" target="_blank" title="{{ $result->essay_clients->attached_of_clients }}">Download</a></td>
                     <td>{{ $result->status->status_title }}</td>
                     <td>{{ $result->essay_clients->essay_rating }}</td>
                     <td>{{ $result->work_duration }}</td>
