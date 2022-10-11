@@ -42,7 +42,9 @@ class DashboardManaging extends Controller
         $dueDate = date('Y-m-d', strtotime('+'.$num.' days', strtotime($today)));
         $editor = Auth::guard('web-editor')->user();
         $essay = EssayClients::where('id_editors', '=', $editor->id_editors)->where('status_essay_clients', '!=', 7);
-        $essay->whereBetween('essay_deadline', [$start, $dueDate]);
+        // $essay->whereBetween('essay_deadline', [$start, $dueDate]);
+        $essay->where('essay_deadline', '>', $start);
+        $essay->where('essay_deadline', '<=', $dueDate);
         return $essay;
     }
 
@@ -53,7 +55,9 @@ class DashboardManaging extends Controller
         $dueDate = date('Y-m-d', strtotime('+'.$num.' days', strtotime($today)));
         // $editor = Auth::guard('web-editor')->user();
         $essay = EssayClients::where('status_essay_clients', '!=', 7);
-        $essay->whereBetween('essay_deadline', [$start, $dueDate]);
+        // $essay->whereBetween('essay_deadline', [$start, $dueDate]);
+        $essay->where('essay_deadline', '>', $start);
+        $essay->where('essay_deadline', '<=', $dueDate);
         return $essay;
     }
 }
