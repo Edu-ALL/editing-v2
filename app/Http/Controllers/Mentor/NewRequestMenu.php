@@ -65,13 +65,14 @@ class NewRequestMenu extends Controller
      */
     public function store(Request $request){
         $rules = [
-            'essay_title' => 'required',
-            'id_editors' => 'required',
+            'id_program' => 'required',
             'id_univ' => 'required',
-            'id_clients' => 'required',
-            'number_of_words' => 'required',
+            'id_editors' => 'required',
             'essay_title' => 'required',
             'essays_prompt' => 'required',
+            'id_clients' => 'required',
+            'number_of_words' => 'required',
+            
             'essay_deadline' => 'required',
             'application_deadline' => 'required',
             'essay_title' => 'required'
@@ -81,21 +82,38 @@ class NewRequestMenu extends Controller
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator->messages());
         }
+        $id_transaksi = '0';
+        $mentor = Auth::guard('web-mentor')->user();
+        $student_email = Client::where('id_mentor', '=', $mentor->id_mentors)->with('mentors')->get();
+        $data = [
+            'id_essay_clients' => $id_essay,
+            'id_transaction' => $code,
+            'id_program' => $this->input->post('words'),
+            'id_univ' => $this->input->post('univ_name'),
+            'id_editors' => $this->input->post('id_editors'),
+            'essay_title' => $title,
+            'essay_prompt' => $this->input->post('essay_prompt'),
+            'id_clients' => $this->input->post('student_id'),
+            'email' => $student_mail,
+            'mentors_mail' => $this->session->userdata('email'),
+            'essay_deadline' => $this->input->post('essay_deadline'),
+            'application_deadline' => $this->input->post('app_deadline'),
+            'attached_of_clients' => $new_files,
+            'uploaded_at' => date('Y-m-d H:i:s'),
+        ];
+
 
         DB::beginTransaction();
         try {
             $new_request = new EssayClients();
-            $new_request->first_name = $request->first_name;
-            $new_request->last_name = $request->last_name;
-            $new_request->phone = $request->phone;
-            $new_request->email = $request->email;
-            $new_request->graduated_from = $request->graduated_from;
-            $new_request->major = $request->major;
-            $new_request->address = $request->address;
+            $new_request->id_transaction = $id_transaksi;
+            $new_request->id_program = $request->id_program;
+            $new_request->id_univ = $request->id_univ;
+            $new_request->id_editors = $request->id_editors;
+            $new_request->essay_title = $request->essay_title;
+            $new_request->email = $student_email->email;
             $new_request->client_by_id = $request->client_by_id;
-            $new_request->image = "default.png";
-            $new_request->password = Hash::make(12345678);
-            $new_request->status = 1;
+            $new_request->status = 0;
             $new_request->save();
             DB::commit();
 

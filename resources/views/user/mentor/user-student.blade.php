@@ -23,6 +23,15 @@
                 <div class="container main-content m-0">
                     {{-- Table Student --}}
                     <div class="row">
+                        @if ($errors->any())
+                            {!! implode('', $errors->all('<div class="alert alert-danger" role="alert">:message</div>')) !!}
+                        @endif
+
+                        @if (session()->has('update-data-successful'))
+                            <div class="alert alert-success fade show" role="alert">
+                                {{ session()->get('update-data-successful') }}
+                            </div>
+                        @endif
                         <div class="col-md col-12 p-0 studentList">
                             <div class="headline d-flex justify-content-between">
                                 <div class="col-md-6 col-5 d-flex align-items-center gap-md-3 gap-2">

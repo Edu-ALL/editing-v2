@@ -1,6 +1,8 @@
 @extends('user.mentor.utama.utama')
 @section('css')
     <link rel="stylesheet" href="/css/mentor/user-student-detail.css">
+    <link rel="stylesheet" href="/css/mentor/user-editor-add.css">
+    <link rel="stylesheet" href="/css/mentor/user-mentor.css">
 @endsection
 @section('content')
     <div class="container-fluid" style="padding: 0">
@@ -87,10 +89,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <form action="{{ route('/mentor/user/student/update', ['student_id' => $client->id_clients]) }}"
-                                method="PUT">
-                                @csrf
-                                <div class="row student-addition p-md-5 p-3">
+
+                            <div class="row student-addition p-md-5 p-3">
+                                <form action="{{ route('update-student', ['id' => $client->id_clients]) }}" method="POST">
+                                    @csrf
                                     {{-- Text Area --}}
                                     <div class="text-area p-md-1 mb-3">
                                         <h6 class="pb-3">Personal Brand Statement :</h6>
@@ -102,39 +104,41 @@
                                     </div>
                                     <div class="text-area p-md-1 mb-3">
                                         <h6 class="pb-3">Life Philosophy (Values) & Personalities :</h6>
-                                        <textarea name="personalities" class="textarea" placeholder="Life Philosophy (Values) & Personalities"> {{ $client->Personalities }}</textarea>
+                                        <textarea name="personalities" class="textarea" placeholder="Life Philosophy (Values) & Personalities"> {{ $client->personalities }}</textarea>
                                     </div>
-                                    {{-- End Text Area --}}
-                                    {{-- Attachment --}}
-                                    <div
-                                        class="col-lg-2 col-3 mb-lg-4 mb-3 attachment d-flex align-items-center justify-content-center">
-                                        <h6 class="text-center">Attachment</h6>
-                                    </div>
-                                    <div
-                                        class="row d-flex flex-lg-row flex-column attachment-status gap-lg-0 gap-2 ps-lg-0 ps-2 mb-3">
-                                        <div class="col-lg-4 me-2">
-                                            <h6>Activities Resume<span class="px-2">:</span><span
-                                                    style="color: var(--red)">Not Available</span></h6>
-                                        </div>
-                                        <div class="col-lg">
-                                            <h6>Questionnaire<span class="px-2">:</span><span
-                                                    style="color: var(--red)">Not
-                                                    Available</span></h6>
-                                        </div>
-                                        <div class="col-lg">
-                                            <h6>Others<span class="px-2">:</span><span style="color: var(--red)">Not
-                                                    Available</span></h6>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 d-flex justify-content-center p-4">
+                                    <div class="col-md-12 d-flex justify-content-center p-4">
                                         <button class="btn btn-create d-flex align-items-center gap-2">
-                                            <img src="/assets/upload.png" alt="">
-                                            <h6>Upload Student Essay</h6>
+                                            <img src="/assets/reload.png" alt="">
+                                            <h6>Update Student Data</h6>
                                         </button>
                                     </div>
-                                    {{-- End Attachment --}}
+                                </form>
+                                {{-- End Text Area --}}
+                                {{-- Attachment --}}
+                                <div
+                                    class="col-lg-2 col-3 mb-lg-4 mb-3 attachment d-flex align-items-center justify-content-center">
+                                    <h6 class="text-center">Attachment</h6>
                                 </div>
-                            </form>
+
+                                <div
+                                    class="row d-flex flex-lg-row flex-column attachment-status gap-lg-0 gap-2 ps-lg-0 ps-2 mb-3">
+                                    <div class="col-lg-4 me-2">
+                                        <h6>Activities Resume<span class="px-2">:</span><span
+                                                style="color: var(--red)">Not Available</span></h6>
+                                    </div>
+                                    <div class="col-lg">
+                                        <h6>Questionnaire<span class="px-2">:</span><span style="color: var(--red)">Not
+                                                Available</span></h6>
+                                    </div>
+                                    <div class="col-lg">
+                                        <h6>Others<span class="px-2">:</span><span style="color: var(--red)">Not
+                                                Available</span></h6>
+                                    </div>
+                                </div>
+
+                                {{-- End Attachment --}}
+                            </div>
+
                         </div>
                         {{-- End Detail Student --}}
                     </div>

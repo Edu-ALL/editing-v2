@@ -181,7 +181,7 @@ Route::middleware('is_mentor')->group(function(){
     });
     Route::get('/mentor/user/student', [StudentsMenu::class, 'index'])->name('list-student');
     Route::get('/mentor/user/student/detail/{id}', [StudentsMenu::class, 'detail']);
-    Route::put('/mentor/user/student/update/{id}', [StudentsMenu::class, 'update'])->name('update-student');
+    Route::post('/mentor/user/student/update/{id}', [StudentsMenu::class, 'update'])->name('update-student');
     // Route::get('/mentor/user/student', function () {
     //     return view('user.mentor.user-student');
     // });

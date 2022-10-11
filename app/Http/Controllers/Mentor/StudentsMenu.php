@@ -42,7 +42,7 @@ class StudentsMenu extends Controller
     public function update($id, Request $request)
     {
         $rules = [
-            'id_essay_clients' => 'required|exists:tbl_essay_clients,id_essay_clients',
+            // 'id_essay_clients' => 'required|exists:tbl_essay_clients,id_essay_clients',
             'personal_brand' => 'required',
             'interests' => 'required',
             'personalities' => 'required'
@@ -57,9 +57,10 @@ class StudentsMenu extends Controller
         try {
 
             $student = Client::find($id);
-            $student->personal_brand = $request->personal_brand;
-            $student->interests = $request->interests;
-            $student->personalities = $request->personalities;
+            $student->personal_brand    = $request->personal_brand;
+            $student->interests         = $request->interests;
+            $student->personalities     = $request->personalities;
+            // dd($student);
             $student->save();
             DB::commit();
 
@@ -70,9 +71,9 @@ class StudentsMenu extends Controller
 
         }
 
-        return redirect('admin/setting/categories-tags')->with('update-tag-successful', 'The tag has been updated');
+        return redirect('/mentor/user/student')->with('update-data-successful', 'Data Student has been updated');
 
-        $client = Client::with('mentors')->find($id);
-        return view('user.mentor.user-student-detail',compact('client'));
+        // $client = Client::with('mentors')->find($id);
+        // return view('user.mentor.user-student-detail',compact('client'));
     }
 }
