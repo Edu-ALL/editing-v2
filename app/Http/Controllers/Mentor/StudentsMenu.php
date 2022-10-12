@@ -60,6 +60,7 @@ class StudentsMenu extends Controller
             $student->personal_brand    = $request->personal_brand;
             $student->interests         = $request->interests;
             $student->personalities     = $request->personalities;
+            // $student->attached_of_clients   = $fileName;
             // dd($student);
             $student->save();
             DB::commit();

@@ -44,35 +44,35 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @if ($essays->hasPages())
-                                            <?php $i = ($essays->currentpage() - 1) * $essays->perpage() + 1; ?>
-                                            @foreach ($essays as $essay)
-                                                <tr onclick="window.location='/mentor/essay-list/detail'">
-                                                    <th scope="row">{{ $i++ }}</th>
+                                        {{-- @if ($essays->links()->paginator->hasPages()) --}}
+                                        <?php $i = ($essays->currentpage() - 1) * $essays->perpage() + 1; ?>
+                                        @foreach ($essays as $essay)
+                                            <tr onclick="window.location='/mentor/essay-list/detail'">
+                                                <th scope="row">{{ $i++ }}</th>
 
-                                                    @if ($essay->client_by_id)
-                                                        <td>{{ $essay->client_by_id->first_name . ' ' . $essay->client_by_id->last_name }}
-                                                        </td>
-                                                        <td>{{ $essay->client_by_id->mentors->first_name . ' ' . $essay->client_by_id->mentors->last_name }}
-                                                        </td>
-                                                    @elseif ($essay->client_by_email)
-                                                        <td>{{ $essay->client_by_email->first_name . ' ' . $essay->client_by_email->last_name }}
-                                                        </td>
-                                                        <td>{{ $essay->client_by_email->mentors->first_name . ' ' . $essay->client_by_email->mentors->last_name }}
-                                                        </td>
-                                                    @endif
-
-                                                    <td><?php echo $essay->editor ? $essay->editor->first_name . ' ' . $essay->editor->last_name : '-'; ?></td>
-                                                    <td>{{ $essay->essay_title }}</td>
-                                                    <td>{{ date('D, d M Y', strtotime($essay->essay_deadline)) }}</td>
-                                                    <td style="color: var(--red)">{{ $essay->status->status_title }}</td>
+                                                @if ($essay->client_by_id)
+                                                    <td>{{ $essay->client_by_id->first_name . ' ' . $essay->client_by_id->last_name }}
                                                     </td>
-                                            @endforeach
-                                        @else
-                                            <tr>
-                                                <td colspan="7">No data</td>
-                                            </tr>
-                                        @endif
+                                                    <td>{{ $essay->client_by_id->mentors->first_name . ' ' . $essay->client_by_id->mentors->last_name }}
+                                                    </td>
+                                                @elseif ($essay->client_by_email)
+                                                    <td>{{ $essay->client_by_email->first_name . ' ' . $essay->client_by_email->last_name }}
+                                                    </td>
+                                                    <td>{{ $essay->client_by_email->mentors->first_name . ' ' . $essay->client_by_email->mentors->last_name }}
+                                                    </td>
+                                                @endif
+
+                                                <td><?php echo $essay->editor ? $essay->editor->first_name . ' ' . $essay->editor->last_name : '-'; ?></td>
+                                                <td>{{ $essay->essay_title }}</td>
+                                                <td>{{ date('D, d M Y', strtotime($essay->essay_deadline)) }}</td>
+                                                <td style="color: var(--red)">{{ $essay->status->status_title }}</td>
+                                                </td>
+                                        @endforeach
+                                        {{-- @else
+                                        <tr>
+                                            <td colspan="7">No data</td>
+                                        </tr>
+                                        @endif --}}
                                     </tbody>
                                 </table>
                                 {{-- Pagination --}}

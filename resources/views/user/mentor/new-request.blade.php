@@ -101,7 +101,7 @@
                                             <div class="col-12">
                                                 <h6 class="pb-2">Number of Words :</h6>
                                                 <select class="form-control select2" style="width: 96.5%;"
-                                                    name="number_of_words">
+                                                    name="number_of_word">
                                                     <option value=""></option>
                                                     @foreach ($program as $word)
                                                         @if ($word->id_program != '')

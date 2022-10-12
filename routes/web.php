@@ -26,6 +26,7 @@ use App\Http\Controllers\ManagingEditor\EssayListMenu;
 use App\Http\Controllers\ManagingEditor\ReportList;
 use App\Http\Controllers\ManagingEditor\DashboardManaging;
 use App\Http\Controllers\ManagingEditor\Universities as ManagingEditorUniversities;
+use App\Http\Controllers\Mentor\Dashboard as MentorDashboard;
 use App\Models\Category;
 use App\Models\EssayClients;
 use App\Models\PositionEditor;
@@ -171,14 +172,10 @@ Route::middleware('is_mentor')->group(function(){
         ]);
     });
 
-    Route::get('/mentor/dashboard', function () {
-        return view('user.mentor.dashboard', [
-            'count_new_request' => EssayClients::where('status_essay_clients', '=', 0)->count(),
-            'count_student' => Client::count(),
-            'count_ongoing_essay' => EssayEditors::where('status_essay_editors', '!=', 7)->count(),
-            'count_completed_essay' => EssayEditors::where('status_essay_editors', '=', 7)->count(),
-        ]);
-    });
+    Route::get('/mentor/dashboard', [MentorDashboard::class, 'index']);
+    // Route::get('/mentor/dashboard', function () {
+    //     return view('user.mentor.dashboard');
+    // });
     Route::get('/mentor/user/student', [StudentsMenu::class, 'index'])->name('list-student');
     Route::get('/mentor/user/student/detail/{id}', [StudentsMenu::class, 'detail']);
     Route::post('/mentor/user/student/update/{id}', [StudentsMenu::class, 'update'])->name('update-student');

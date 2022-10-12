@@ -86,41 +86,41 @@ class NewRequestMenu extends Controller
         // }
         $id_transaksi = '0';
         $mentor = Auth::guard('web-mentor')->user();
-        $student_email = Client::where('id_mentor', '=', $mentor->id_mentors)->with('mentors')->get();
+        // $student_email = Client::where('id_mentor', '=', $mentor->id_mentors)->with('mentors')->get();
         $student_name =  $request->id_clients;
         $file_student = Client::where('id_clients', '=', $student_name)->first();
-        // dd($file_student->first_name);
+        // dd($file_student->email);
         $fileName = $request->attached_of_clients->getClientOriginalName();
-        $filePath = 'uploads/mentee/'.$file_student->first_name.'/'.$fileName;
-
-        $path = Storage::disk('public')->put($filePath, file_get_contents($request->attached_of_clients));
-        $path = Storage::disk('public')->url($path);
+        $filePath = 'uploads/essay/mentor/'.$fileName;
+        Storage::disk('public')->put($filePath, file_get_contents($request->attached_of_clients));
+        // Storage::disk('public')->url($filePath);
 
         // dd($path);
         DB::beginTransaction();
         try {
             $new_request = new EssayClients();
-            $new_request->id_transaction = $id_transaksi;
-            $new_request->id_program = $request->id_program;
-            $new_request->id_univ = $request->id_univ;
-            $new_request->id_editors = $request->id_editors;
-            $new_request->essay_title = $request->essay_title;
-            $new_request->essay_prompt = $request->essay_prompt;
-            $new_request->id_clients = $request->id_clients;
-            $new_request->email = $student_email->email;
-            $new_request->mentors_mail = $student_email->mentors->email;
-            $new_request->essay_deadline = $request->essay_deadline;
-            $new_request->application_deadline = $request->application_deadline;
-            $new_request->attached_of_clients = $path;
-            $new_request->status_essay_clients = 0;
-            $new_request->status_read = 0;
-            $new_request->status_read_editor = 0;
-            dd($new_request);
+            $new_request->id_transaction        = $id_transaksi;
+            $new_request->id_program            = $request->number_of_word;
+            $new_request->id_univ               = $request->id_univ;
+            $new_request->id_editors            = $request->id_editors;
+            $new_request->essay_title           = $request->essay_title;
+            $new_request->essay_prompt          = $request->essay_prompt;
+            $new_request->id_clients            = $request->id_clients;
+            $new_request->email                 = $file_student->email;
+            $new_request->mentors_mail          = $file_student->mentors->email;
+            $new_request->essay_deadline        = $request->essay_deadline;
+            $new_request->application_deadline  = $request->application_deadline;
+            // dd($new_request);
+            $new_request->attached_of_clients   = $fileName;
+            $new_request->status_essay_clients  = 0;
+            $new_request->status_read           = 0;
+            $new_request->status_read_editor    = 0;
+            $new_request->uploaded_at    = date('Y-m-d H:i:s');
             $new_request->save();
             DB::commit();
 
         } catch (Exception $e) {
-            
+            // dd($e->getMessage());
             DB::rollBack();
             return Redirect::back()->withErrors($e->getMessage());
 
