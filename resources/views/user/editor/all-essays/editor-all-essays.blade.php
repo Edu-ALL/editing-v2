@@ -1,7 +1,7 @@
 @extends('user.editor.utama.utama')
 @section('content')
     <div class="container-fluid p-0">
-        <div class="row flex-nowrap main">
+        <div class="row flex-nowrap main" id="main">
 
             @include('user.editor.utama.menu')
             {{-- Content --}}
@@ -26,7 +26,7 @@
                     <div class="container main-content">
                         {{-- User List --}}
                         <div class="row col-md-12">
-                            <a class="col-md-6 userCard p-1" href="/mentor/user/student">
+                            <a class="col-md-6 userCard p-1" style="cursor: default">
                                 <div class="col-md col-12 p-0 ">
                                     <div class="headline d-flex align-items-center gap-3">
                                         <img src="/assets/all-essays.png" alt="">

@@ -61,6 +61,34 @@ class EssayListMenu extends Controller
         ]);
     }
 
+    public function essayDeadline($start, $num){
+        $today = date('Y-m-d');
+        $start = date('Y-m-d', strtotime('+'.$start.' days', strtotime($today)));
+        $dueDate = date('Y-m-d', strtotime('+'.$num.' days', strtotime($today)));
+        $editor = Auth::guard('web-editor')->user();
+        $essay = EssayEditors::where('editors_mail', '=', $editor->email)->where('status_essay_editors', '!=', 0)->where('status_essay_editors', '!=', 4)->where('status_essay_editors', '!=', 5)->where('status_essay_editors', '!=', 7);
+        $essay->whereHas('essay_clients', function ($query) use ($start, $dueDate) {
+            $query->where('essay_deadline', '>', $start)->where('essay_deadline', '<=', $dueDate);
+        });
+        return $essay;
+    }
+
+    public function dueTomorrow(Request $request){
+        $keyword = $request->get('keyword');
+        $essays = $this->essayDeadline('0', '1')->paginate(10);
+        return view('user.editor.essay-list.editor-list-due-tomorrow', ['essays' => $essays]);
+    }
+    public function dueThree(Request $request){
+        $keyword = $request->get('keyword');
+        $essays = $this->essayDeadline('1', '3')->paginate(10);
+        return view('user.editor.essay-list.editor-list-due-within-three', ['essays' => $essays]);
+    }
+    public function dueFive(Request $request){
+        $keyword = $request->get('keyword');
+        $essays = $this->essayDeadline('3', '5')->paginate(10);
+        return view('user.editor.essay-list.editor-list-due-within-five', ['essays' => $essays]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

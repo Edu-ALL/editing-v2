@@ -66,8 +66,12 @@
                                             <th>Student Name</th>
                                             <th>Mentor Name</th>
                                             <th>Editor Name</th>
+                                            <th>Request(Editor)</th>
+                                            <th>Program Name</th>
                                             <th>Essay Title</th>
+                                            <th>Upload Date</th>
                                             <th>Essay Deadline</th>
+                                            <th>App Deadline</th>
                                             <th>Status</th>
                                         </tr>
                                     </thead>
@@ -78,23 +82,22 @@
                                                 onclick="window.location='/editor/all-essays/completed/detail/{{ $essay->id_essay_clients }}'">
                                                 <th scope="row">{{ $i++ }}</th>
 
-                                                <td>{{ $essay->essay_clients->client_by_id->first_name . ' ' . $essay->essay_clients->client_by_id->last_name }}
-                                                </td>
-                                                <td>{{ $essay->essay_clients->client_by_id->mentors->first_name . ' ' . $essay->essay_clients->client_by_id->mentors->last_name }}
-                                                </td>
-
-                                                <td>{{ $essay->editor ? $essay->editor->first_name . ' ' . $essay->editor->last_name : '-' }}
-                                                </td>
+                                                <td>{{ $essay->essay_clients->client_by_id->first_name . ' ' . $essay->essay_clients->client_by_id->last_name }}</td>
+                                                <td>{{ $essay->essay_clients->client_by_id->mentors->first_name . ' ' . $essay->essay_clients->client_by_id->mentors->last_name }}</td>
+                                                <td>{{ $essay->editor->first_name.' '.$essay->editor->last_name }}</td>
+                                                <td>{{ $essay->editor->first_name.' '.$essay->editor->last_name }}</td>
+                                                <td>{{ $essay->essay_clients->program->program_name.' ('.$essay->essay_clients->program->minimum_word.' - '.$essay->essay_clients->program->maximum_word.' Words)' }}</td>
                                                 <td>{{ $essay->essay_clients->essay_title }}</td>
-                                                <td>{{ date('D, d M Y', strtotime($essay->essay_clients->essay_deadline)) }}
-                                                </td>
+                                                <td>{{ date('D, d M Y', strtotime($essay->essay_clients->uploaded_at)) }}</td>
+                                                <td>{{ date('D, d M Y', strtotime($essay->essay_clients->essay_deadline)) }}</td>
+                                                <td>{{ date('D, d M Y', strtotime($essay->essay_clients->application_deadline)) }}</td>
                                                 <td style="color: var(--green)">{{ $essay->status->status_title }}</td>
                                             </tr>
                                         @endforeach
 
                                         @unless(count($essays))
                                             <tr>
-                                                <td colspan="7">No data</td>
+                                                <td colspan="11">No data</td>
                                             </tr>
                                         @endunless
                                     </tbody>

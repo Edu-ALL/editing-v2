@@ -159,13 +159,14 @@ class AllEssaysMenu extends Controller
         $start = date('Y-m-d', strtotime('+'.$start.' days', strtotime($today)));
         $dueDate = date('Y-m-d', strtotime('+'.$num.' days', strtotime($today)));
         $essay = EssayClients::where('status_essay_clients', '!=', 7);
-        $essay->whereBetween('essay_deadline', [$start, $dueDate]);
+        $essay->where('essay_deadline', '>', $start);
+        $essay->where('essay_deadline', '<=', $dueDate);
         return $essay;
     }
 
     public function dueTomorrow(Request $request){
         $keyword = $request->get('keyword');
-        $allduetomorrow = $this->allEssayDeadline('0', '1')->when($keyword, function ($query_) use ($keyword) {
+        $essays = $this->allEssayDeadline('0', '1')->when($keyword, function ($query_) use ($keyword) {
             $query_->where(function ($query) use ($keyword) {
                 $query->whereHas('client_by_id', function ($query_by_id) use ($keyword) {
                     $query_by_id->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%')->orWhereHas('mentors', function ($query_mentor_by_id) use ($keyword) {
@@ -181,11 +182,14 @@ class AllEssaysMenu extends Controller
             });
         })->paginate(10);
 
-        return view('user.editor.all-essays.editor-list-due-tomorrow', ['essays' => $allduetomorrow]);
+        if ($keyword) 
+            $essays->appends(['keyword' => $keyword]);
+
+        return view('user.editor.all-essays.editor-list-due-tomorrow', ['essays' => $essays]);
     }
     public function dueThree(Request $request){
         $keyword = $request->get('keyword');
-        $allduetomorrow = $this->allEssayDeadline('2', '3')->when($keyword, function ($query_) use ($keyword) {
+        $essays = $this->allEssayDeadline('1', '3')->when($keyword, function ($query_) use ($keyword) {
             $query_->where(function ($query) use ($keyword) {
                 $query->whereHas('client_by_id', function ($query_by_id) use ($keyword) {
                     $query_by_id->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%')->orWhereHas('mentors', function ($query_mentor_by_id) use ($keyword) {
@@ -200,11 +204,15 @@ class AllEssaysMenu extends Controller
                 });
             });
         })->paginate(10);
-        return view('user.editor.all-essays.editor-list-due-within-three', ['essays' => $allduetomorrow]);
+        
+        if ($keyword) 
+            $essays->appends(['keyword' => $keyword]);
+
+        return view('user.editor.all-essays.editor-list-due-within-three', ['essays' => $essays]);
     }
     public function dueFive(Request $request){
         $keyword = $request->get('keyword');
-        $allduetomorrow = $this->allEssayDeadline('4', '5')->when($keyword, function ($query_) use ($keyword) {
+        $essays = $this->allEssayDeadline('3', '5')->when($keyword, function ($query_) use ($keyword) {
             $query_->where(function ($query) use ($keyword) {
                 $query->whereHas('client_by_id', function ($query_by_id) use ($keyword) {
                     $query_by_id->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%')->orWhereHas('mentors', function ($query_mentor_by_id) use ($keyword) {
@@ -219,7 +227,11 @@ class AllEssaysMenu extends Controller
                 });
             });
         })->paginate(10);
-        return view('user.editor.all-essays.editor-list-due-within-five', ['essays' => $allduetomorrow]);
+
+        if ($keyword) 
+            $essays->appends(['keyword' => $keyword]);
+            
+        return view('user.editor.all-essays.editor-list-due-within-five', ['essays' => $essays]);
     }
 
     public function detailEssayDue($id){

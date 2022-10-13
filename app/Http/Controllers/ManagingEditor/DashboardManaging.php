@@ -41,10 +41,12 @@ class DashboardManaging extends Controller
         $start = date('Y-m-d', strtotime('+'.$start.' days', strtotime($today)));
         $dueDate = date('Y-m-d', strtotime('+'.$num.' days', strtotime($today)));
         $editor = Auth::guard('web-editor')->user();
-        $essay = EssayClients::where('id_editors', '=', $editor->id_editors)->where('status_essay_clients', '!=', 7);
-        // $essay->whereBetween('essay_deadline', [$start, $dueDate]);
-        $essay->where('essay_deadline', '>', $start);
-        $essay->where('essay_deadline', '<=', $dueDate);
+        $essay = EssayEditors::where('editors_mail', '=', $editor->email)->where('status_essay_editors', '!=', 0)->where('status_essay_editors', '!=', 4)->where('status_essay_editors', '!=', 5)->where('status_essay_editors', '!=', 7);
+        $essay->whereHas('essay_clients', function ($query) use ($start, $dueDate) {
+            $query->where('essay_deadline', '>', $start)->where('essay_deadline', '<=', $dueDate);
+        });
+        // $essay->where('essay_deadline', '>', $start);
+        // $essay->where('essay_deadline', '<=', $dueDate);
         return $essay;
     }
 
@@ -53,9 +55,7 @@ class DashboardManaging extends Controller
         $today = date('Y-m-d');
         $start = date('Y-m-d', strtotime('+'.$start.' days', strtotime($today)));
         $dueDate = date('Y-m-d', strtotime('+'.$num.' days', strtotime($today)));
-        // $editor = Auth::guard('web-editor')->user();
         $essay = EssayClients::where('status_essay_clients', '!=', 7);
-        // $essay->whereBetween('essay_deadline', [$start, $dueDate]);
         $essay->where('essay_deadline', '>', $start);
         $essay->where('essay_deadline', '<=', $dueDate);
         return $essay;

@@ -85,13 +85,13 @@
                                                 <td>{{ $essay->client_by_id->mentors->first_name.' '. $essay->client_by_id->mentors->last_name }}</td>
                                                 
                                                 <td>{{ $essay->status_essay_clients == 0 || $essay->status_essay_clients == 4 ? '-' : $essay->editor->first_name.' '. $essay->editor->last_name }}</td>
-                                                <td>{{ $essay->editor->first_name . ' ' .$essay->editor->last_name }}</td>
-                                                <td>{{ $essay->program->program_name }}</td>
+                                                <td>{{ $essay->editor ? $essay->editor->first_name . ' ' .$essay->editor->last_name : '-' }}</td>
+                                                <td>{{ $essay->program->program_name.' ('.$essay->program->minimum_word.' - '.$essay->program->maximum_word.' Words)' }}</td>
                                                 <td>{{ $essay->essay_title }}</td>
                                                 <td>{{ date('D, d M Y', strtotime($essay->uploaded_at)) }}</td>
                                                 <td>{{ date('D, d M Y', strtotime($essay->essay_deadline)) }}</td>
                                                 <td>{{ date('D, d M Y', strtotime($essay->application_deadline)) }}</td>
-                                                <td style="color: var(--green)">{{ $essay->status->status_title }}</td>
+                                                <td style="color: var(--blue)">{{ $essay->status->status_title }}</td>
                                             </tr>
                                         @endforeach
 
