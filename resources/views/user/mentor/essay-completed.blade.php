@@ -9,6 +9,7 @@
 
             {{-- Sidenav --}}
             @include('user.mentor.utama.menu')
+
             {{-- Content --}}
             <div class="col" style="overflow: auto !important">
                 @include('user.mentor.utama.head')
@@ -45,7 +46,7 @@
                                         <?php $i = ($essays->currentpage() - 1) * $essays->perpage() + 1; ?>
                                         @foreach ($essays as $essay)
                                             <tr
-                                                onclick="window.location='/admin/essay-list/completed/detail/{{ $essay->id_essay_clients }}'">
+                                                onclick="window.location='/mentor/essay-list/completed/detail/{{ $essay->id_essay_clients }}'">
                                                 <th scope="row">{{ $i++ }}</th>
 
                                                 <td>{{ $essay->essay_clients->client_by_id->first_name . ' ' . $essay->essay_clients->client_by_id->last_name }}
@@ -68,11 +69,8 @@
                                             </tr>
                                         @endunless
                                     </tbody>
+
                                 </table>
-                                {{-- Pagination --}}
-                                <div class="d-flex justify-content-center">
-                                    {{ $essays->links() }}
-                                </div>
                             </div>
                         </div>
                     </div>

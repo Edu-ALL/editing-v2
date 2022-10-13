@@ -34,15 +34,17 @@
         <div class="row w-100" id="essay" style="cursor: pointer">
             <div class="col-md-3 ps-lg-1">
                 <img class="active"
-                    src="{{ request()->is('mentor/essay-list') || request()->is('mentor/essay-list/detail') ? '/assets/essay-list-blue.png' : '/assets/essay-list.png' }}"
+                    src="{{ request()->is('mentor/essay-list/*') || request()->is('mentor/essay-list/detail') || request()->is('mentor/essay-list/completed/*') ? '/assets/essay-list-blue.png' : '/assets/essay-list.png' }}"
                     alt="">
             </div>
             <div class="col-7 pt-1 my-auto d-none d-md-inline">
-                <h6 class="menu {{ request()->is('mentor/essay-list') ? 'active' : '' }}">Essay List</h6>
+                <h6
+                    class="menu {{ request()->is('mentor/essay-list/*') || request()->is('mentor/essay-list/completed/*') ? 'active' : '' }}">
+                    Essay List</h6>
             </div>
             {{-- Popup --}}
             <div class="col-auto d-none d-flex flex-column gap-4 popup-menu ps-4 pe-5 py-3" id="menu-essay">
-                <a class="col d-flex gap-3 align-items-center" href="/mentor/essay-list">
+                <a class="col d-flex gap-3 align-items-center" href="/mentor/essay-list/ongoing">
                     <img class="active" src="/assets/ongoing-essay.png" alt="">
                     <h6 class="menu">Ongoing Essay</h6>
                 </a>

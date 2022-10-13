@@ -22,8 +22,9 @@
                                 <div class="col-md-4 col-6 d-flex align-items-center justify-content-end gap-md-3 gap-2">
                                     <img src="/assets/reload.png" alt="">
                                     <div class="input-group">
-                                        <form id="form-ongoing-essay-searching" action="{{ route('list-essay') }}"
-                                            method="GET" role="search" class="w-100">
+                                        <form id="form-ongoing-essay-searching"
+                                            action="{{ route('mentor-essay-list-ongoing') }}" method="GET" role="search"
+                                            class="w-100">
                                             <input type="email" class="form-control inputField py-2 px-3" name="keyword"
                                                 placeholder="Search">
                                         </form>
@@ -45,9 +46,11 @@
                                     </thead>
                                     <tbody>
                                         {{-- @if ($essays->links()->paginator->hasPages()) --}}
+
                                         <?php $i = ($essays->currentpage() - 1) * $essays->perpage() + 1; ?>
                                         @foreach ($essays as $essay)
-                                            <tr onclick="window.location='/mentor/essay-list/detail'">
+                                            <tr
+                                                onclick="window.location='/mentor/essay-list/ongoing/detail/{{ $essay->id_essay_clients }}'">
                                                 <th scope="row">{{ $i++ }}</th>
 
                                                 @if ($essay->client_by_id)
@@ -68,6 +71,11 @@
                                                 <td style="color: var(--red)">{{ $essay->status->status_title }}</td>
                                                 </td>
                                         @endforeach
+                                        @unless(count($essays))
+                                            <tr style="cursor: default">
+                                                <td colspan="9">No data</td>
+                                            </tr>
+                                        @endunless
                                         {{-- @else
                                         <tr>
                                             <td colspan="7">No data</td>
