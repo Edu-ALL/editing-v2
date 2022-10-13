@@ -86,12 +86,12 @@
                                                 <td>{{ $essay->essay_clients->client_by_id->mentors->first_name . ' ' . $essay->essay_clients->client_by_id->mentors->last_name }}</td>
                                                 <td>{{ $essay->editor->first_name.' '.$essay->editor->last_name }}</td>
                                                 <td>{{ $essay->editor->first_name.' '.$essay->editor->last_name }}</td>
-                                                <td>{{ $essay->essay_clients->program->program_name }}</td>
+                                                <td>{{ $essay->essay_clients->program->program_name.' ('.$essay->essay_clients->program->minimum_word.' - '.$essay->essay_clients->program->maximum_word.' Words)' }}</td>
                                                 <td>{{ $essay->essay_clients->essay_title }}</td>
                                                 <td>{{ date('D, d M Y', strtotime($essay->essay_clients->uploaded_at)) }}</td>
                                                 <td>{{ date('D, d M Y', strtotime($essay->essay_clients->essay_deadline)) }}</td>
                                                 <td>{{ date('D, d M Y', strtotime($essay->essay_clients->application_deadline)) }}</td>
-                                                <td style="color: var(--green)">{{ $essay->status->status_title }}</td>
+                                                <td style="color: var(--blue)">{{ $essay->status->status_title }}</td>
                                                 
                                             </tr>
                                         @endforeach

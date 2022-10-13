@@ -4,6 +4,7 @@ namespace App\Http\Controllers\ManagingEditor;
 
 use App\Http\Controllers\Controller;
 use App\Models\Editor;
+use App\Models\EssayClients;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -18,7 +19,6 @@ class AllEditorMenu extends Controller
     {
         $keyword = $request->get('keyword');
         $editors = Editor::when($keyword, function($query) use ($keyword) {
-            // $query->where('first_name', 'like', '%'.$keyword.'%');
             $query->where(DB::raw("CONCAT(`first_name`,`last_name`)"), 'like', '%'.$keyword.'%')->orWhereHas('mentors', function ($querym) use ($keyword) {
                 $querym->where(DB::raw("CONCAT(`first_name`,`last_name`)"), 'like', '%'.$keyword.'%');
             })->orWhere('email', 'like', '%'.$keyword.'%');
@@ -27,7 +27,26 @@ class AllEditorMenu extends Controller
         if ($keyword) 
             $editors->appends(['keyword' => $keyword]);
 
-        return view('user.editor.editor-list.editor-list', ['editors' => $editors]);
+        $dueTomorrow = $this->dueEssay('0', '1');
+        $dueThree = $this->dueEssay('1', '3');
+        $dueFive = $this->dueEssay('3', '5');
+
+        return view('user.editor.editor-list.editor-list', [
+            'editors' => $editors,
+            'dueTomorrow' => $dueTomorrow,
+            'dueThree' => $dueThree,
+            'dueFive' => $dueFive,
+        ]);
+    }
+
+    public function dueEssay($start, $num){
+        $today = date('Y-m-d');
+        $start = date('Y-m-d', strtotime('+'.$start.' days', strtotime($today)));
+        $dueDate = date('Y-m-d', strtotime('+'.$num.' days', strtotime($today)));
+        $essay = EssayClients::where('status_essay_clients', '!=', 7);
+        $essay->where('essay_deadline', '>', $start);
+        $essay->where('essay_deadline', '<=', $dueDate);
+        return $essay->get();
     }
 
     /**

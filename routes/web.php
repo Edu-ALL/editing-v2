@@ -266,15 +266,19 @@ Route::get('/editor/essay-list', [EssayListMenu::class, 'index'])->name('list-es
 Route::get('/editor/essay-list-detail', function () {
     return view('user.editor.essay-list.editor-list-detail');
 });
-Route::get('/editor/essay-list-due-tommorow', function () {
-    return view('user.editor.essay-list.editor-list-due-tomorrow');
-});
-Route::get('/editor/essay-list-due-within-three', function () {
-    return view('user.editor.essay-list.editor-list-due-within-three');
-});
-Route::get('/editor/essay-list-due-within-five', function () {
-    return view('user.editor.essay-list.editor-list-due-within-five');
-});
+// Route::get('/editor/essay-list-due-tommorow', function () {
+//     return view('user.editor.essay-list.editor-list-due-tomorrow');
+// });
+// Route::get('/editor/essay-list-due-within-three', function () {
+//     return view('user.editor.essay-list.editor-list-due-within-three');
+// });
+// Route::get('/editor/essay-list-due-within-five', function () {
+//     return view('user.editor.essay-list.editor-list-due-within-five');
+// });
+
+Route::get('/editor/essay-list-due-tommorow', [EssayListMenu::class, 'dueTomorrow'])->name('editor-list-due-tomorrow');
+Route::get('/editor/essay-list-due-within-three', [EssayListMenu::class, 'dueThree'])->name('editor-list-due-within-three');
+Route::get('/editor/essay-list-due-within-five', [EssayListMenu::class, 'dueFive'])->name('editor-list-due-within-five');
 
 //Setting Menu
 Route::get('/editor/setting/universities', [ManagingEditorUniversities::class, 'index'])->name('list-university');

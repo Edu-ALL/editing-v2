@@ -50,7 +50,7 @@
                                     <h6>Editor List</h6>
                                 </div>
                                 <div class="col-md-4 col-6 d-flex align-items-center justify-content-end gap-md-3 gap-2">
-                                    <img src="/assets/reload.png" alt="">
+                                    {{-- <img src="/assets/reload.png" alt=""> --}}
                                     <div class="input-group">
                                         <input type="email" class="form-control inputField py-2 px-3"
                                             placeholder="Search">
@@ -69,10 +69,8 @@
                                             <th>Due Within 5 Days</th>
                                             <th>Position</th>
                                             <th>Status</th>
-                                            {{-- <th>View</th> --}}
                                         </tr>
                                     </thead>
-                                    {{-- onclick="window.location='/mentor/user/student/detail/{{ $editor->id_editors }}'" --}}
                                     <tbody>
                                         <?php $i = ($editors->currentpage() - 1) * $editors->perpage() + 1; ?>
                                         @foreach ($editors as $editor)
@@ -81,8 +79,9 @@
                                                 <th scope="row">{{ $i++ }}</th>
                                                 <td>{{ $editor->first_name . ' ' . $editor->last_name }}</td>
                                                 <td>{{ $editor->email }}</td>
-                                                <td>{{ $editor->phone }}</td>
-                                                <td>{{ strip_tags($editor->address) }}</td>
+                                                <td>{{ $dueTomorrow->where('id_editors', $editor->id_editors)->count() }} Essays</td>
+                                                <td>{{ $dueThree->where('id_editors', $editor->id_editors)->count() }} Essays</td>
+                                                <td>{{ $dueFive->where('id_editors', $editor->id_editors)->count() }} Essays</td>
                                                 @if ($editor->position == 1)
                                                     <td>Associate</td>
                                                 @elseif ($editor->position == 2)
