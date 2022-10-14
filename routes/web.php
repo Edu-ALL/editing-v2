@@ -25,6 +25,7 @@ use App\Http\Controllers\ManagingEditor\CategoriesTags as ManagingEditorCategori
 use App\Http\Controllers\ManagingEditor\EssayListMenu;
 use App\Http\Controllers\ManagingEditor\ReportList;
 use App\Http\Controllers\ManagingEditor\DashboardManaging;
+use App\Http\Controllers\ManagingEditor\ProfileManaging;
 use App\Http\Controllers\ManagingEditor\Universities as ManagingEditorUniversities;
 use App\Models\Category;
 use App\Models\EssayClients;
@@ -207,12 +208,11 @@ Route::get('/editor/dashboard', [DashboardManaging::class, 'index']);
 // });
 //Editor List Menu
 Route::get('/editor/list', [AllEditorMenu::class, 'index'])->name('list-editor');
-// Route::get('/editor/list', function () {
-//     return view('user.editor.editor-list.editor-list');
+Route::get('/editor/list/detail/{id}', [AllEditorMenu::class, 'detail']);
+
+// Route::get('/editor/list/detail', function () {
+//     return view('user.editor.editor-list.editor-list-detail');
 // });
-Route::get('/editor/list/detail', function () {
-    return view('user.editor.editor-list.editor-list-detail');
-});
 //All Essays Menu
 Route::get('/editor/all-essays', function () {
     return view('user.editor.all-essays.editor-all-essays', [
@@ -291,6 +291,8 @@ Route::get('/editor/setting/categories-tags', [ManagingEditorCategoriesTags::cla
 Route::get('/editor/setting/categories-tags/detail/{tag_id}', [ManagingEditorCategoriesTags::class, 'detail']);
 
 Route::get('/editor/report-list', [ReportList::class, 'index'])->name('report-list');
+
+Route::get('/editor/profile', [ProfileManaging::class, 'index']);
 
 
 // **** Per Editor *****
