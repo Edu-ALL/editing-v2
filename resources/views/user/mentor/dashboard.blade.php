@@ -18,7 +18,7 @@
                             <div class="row gap-2 m-3">
                                 <div class="col-lg d-flex flex-column gap-2 p-0">
                                     <div class="row gap-2">
-                                        <a class="col-md col-12 p-0 userCard" href="/mentor/essay-list">
+                                        <a class="col-md col-12 p-0 userCard" href="/mentor/essay-list/ongoing">
                                             <div class="col-md col-12 p-0 ">
                                                 <div class="headline d-flex align-items-center gap-3">
                                                     <img src="/assets/all-essays.png" alt="">

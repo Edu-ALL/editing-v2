@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Redirect;
 use Exception;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
+// use Illuminate\Support\Facades\File; 
 
 class NewRequestMenu extends Controller
 {
@@ -91,8 +91,8 @@ class NewRequestMenu extends Controller
         $file_student = Client::where('id_clients', '=', $student_name)->first();
         // dd($file_student->email);
         $fileName = $request->attached_of_clients->getClientOriginalName();
-        $filePath = 'uploads/essay/mentor/'.$fileName;
-        Storage::disk('public')->put($filePath, file_get_contents($request->attached_of_clients));
+        $filePath = 'program/essay/mentors/'.$fileName;
+        Storage::disk('public_assets')->put($filePath, file_get_contents($request->attached_of_clients));
         // Storage::disk('public')->url($filePath);
 
         // dd($path);
@@ -111,6 +111,7 @@ class NewRequestMenu extends Controller
             $new_request->essay_deadline        = $request->essay_deadline;
             $new_request->application_deadline  = $request->application_deadline;
             // dd($new_request);
+            
             $new_request->attached_of_clients   = $fileName;
             $new_request->status_essay_clients  = 0;
             $new_request->status_read           = 0;

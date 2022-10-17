@@ -112,49 +112,50 @@
                                             <h6>Update Student Data</h6>
                                         </button>
                                     </div>
-                                </form>
-                                {{-- End Text Area --}}
-                                {{-- Attachment --}}
-                                <div
-                                    class="col-lg-2 col-3 mb-lg-4 mb-3 attachment d-flex align-items-center justify-content-center">
-                                    <h6 class="text-center">Attachment</h6>
-                                </div>
 
-                                <div
-                                    class="row d-flex flex-lg-row flex-column attachment-status gap-lg-0 gap-2 ps-lg-0 ps-2 mb-3">
-                                    {{-- <div class="text-area p-md-1 mb-3">
+                                    {{-- End Text Area --}}
+                                    {{-- Attachment --}}
+                                    <div
+                                        class="col-lg-2 col-3 mb-lg-4 mb-3 attachment d-flex align-items-center justify-content-center">
+                                        <h6 class="text-center">Attachment</h6>
+                                    </div>
+
+                                    <div
+                                        class="row d-flex flex-lg-row flex-column attachment-status gap-lg-0 gap-2 ps-lg-0 ps-2 mb-3">
+                                        {{-- <div class="text-area p-md-1 mb-3">
                                         <h6 class="pb-3">File :</h6>
                                         <div class="col-lg-3">
                                             <input type="file" name="attached_of_clients"
                                                 class="form-control inputField py-1 px-2" placeholder="Search">
                                         </div>
                                     </div> --}}
-                                    <div class="col-lg-4 me-2">
-                                        <h6>Activities Resume<span class="px-2">:</span>
-                                            @if (empty($client->resume))
-                                                <span style="color: var(--red)">Not Available</span>
-                                                <br>
-                                                <input type="file" name="attached_of_clients"
-                                                    class="form-control inputField py-1 px-2" placeholder="Search">
-                                            @else
-                                                <div class="col-lg-3">
+                                        <div class="col-lg-4 me-2">
+                                            <h6>Activities Resume<span class="px-2">:</span>
+                                                @if (empty($client->resume))
+                                                    <span style="color: var(--red)">Not Available</span>
+                                                    <br>
                                                     <input type="file" name="attached_of_clients"
-                                                        class="form-control inputField py-1 px-2" placeholder="Search"
-                                                        value="{{ $client->resume }}">
-                                                </div>
-                                            @endif
-                                        </h6>
+                                                        class="form-control inputField py-1 px-2" placeholder="Search">
+                                                @else
+                                                    <div class="col-lg-3">
+                                                        <input type="file" name="attached_of_clients"
+                                                            class="form-control inputField py-1 px-2" placeholder="Search"
+                                                            value="{{ $client->resume }}">
+                                                    </div>
+                                                @endif
+                                            </h6>
+                                        </div>
+                                        <div class="col-lg">
+                                            <h6>Questionnaire<span class="px-2">:</span><span
+                                                    style="color: var(--red)">Not
+                                                    Available</span></h6>
+                                        </div>
+                                        <div class="col-lg">
+                                            <h6>Others<span class="px-2">:</span><span style="color: var(--red)">Not
+                                                    Available</span></h6>
+                                        </div>
                                     </div>
-                                    <div class="col-lg">
-                                        <h6>Questionnaire<span class="px-2">:</span><span style="color: var(--red)">Not
-                                                Available</span></h6>
-                                    </div>
-                                    <div class="col-lg">
-                                        <h6>Others<span class="px-2">:</span><span style="color: var(--red)">Not
-                                                Available</span></h6>
-                                    </div>
-                                </div>
-
+                                </form>
                                 {{-- End Attachment --}}
                             </div>
 

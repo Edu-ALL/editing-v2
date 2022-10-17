@@ -48,7 +48,7 @@
                                     <h6>Student Detail</h6>
                                 </div>
                                 <div class="col-md-4 col-4 d-flex align-items-center justify-content-end gap-md-3 gap-2">
-                                    <a href="/mentor/essay-list"><img src="/assets/back.png" alt=""></a>
+                                    <a href="/mentor/essay-list/ongoing"><img src="/assets/back.png" alt=""></a>
                                 </div>
                             </div>
                             <div class="row profile-editor px-md-4 py-md-4 px-3 py-4 mb-2"
@@ -181,16 +181,22 @@
                             </div>
                             <div class="col-12 d-flex py-3 mt-4" style="border-top: 1px solid var(--light-grey)">
                                 <div class="col d-flex flex-row align-items-center justify-content-center gap-3">
-                                    <form action="{{ route('accept-essay', ['id_essay' => $essay->id_essay_clients]) }}"
-                                        method="POST" class="p-0">
-                                        @csrf
-                                        <button class="btn btn-download d-flex align-items-center gap-2"
-                                            data-bs-toggle="modal" data-bs-target="#reject"
-                                            style="background-color: var(--red)">
-                                            <img src="/assets/exit.png" alt="">
-                                            <h6>Delete</h6>
-                                        </button>
-                                    </form>
+                                    @if ($essay->status_essay_clients == '0' ||
+                                        $essay->status_essay_clients == '4' ||
+                                        $essay->status_essay_clients == '5')
+                                        <form
+                                            action="{{ route('mentor-essay-delete', ['id' => $essay->id_essay_clients]) }}"
+                                            method="POST" class="p-0">
+                                            @csrf
+                                            <button class="btn btn-download d-flex align-items-center gap-2"
+                                                style="background-color: var(--red)">
+                                                <img src="/assets/exit.png" alt="">
+                                                <h6>Delete</h6>
+                                            </button>
+                                        </form>
+                                    @else
+                                    @endif
+                                    {{-- data-bs-toggle="modal" data-bs-target="#reject" --}}
                                     {{-- <button class="btn btn-download d-flex align-items-center gap-2" data-bs-toggle="modal"
                                         data-bs-target="#reject" style="background-color: var(--red)">
                                         <img src="/assets/exit.png" alt="">
