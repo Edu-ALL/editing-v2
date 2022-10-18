@@ -1,5 +1,9 @@
 @extends('user.per-editor.utama.utama')
-
+@section('css')
+    <style>
+        .alert {font-size: 14px; margin: 0 -12px 16px -12px}
+    </style>
+@endsection
 @section('content')
     <div class="container-fluid">
         <div class="row flex-nowrap main" id="main">
@@ -11,11 +15,12 @@
             <div class="col">
                 @include('user.per-editor.utama.head')
                 <div class="container main-content m-0">
-                    {{-- @if (session()->has('login-successful'))
-          <div class="row alert alert-success fade show" role="alert">
-            {{ session()->get('login-successful') }}
-          </div>
-        @endif --}}
+                    @if (session()->has('login-successful'))
+                    <div class="row alert alert-success fade show d-flex justify-content-between" role="alert">
+                        {{ session()->get('login-successful') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    @endif
                     <div class="row">
                         <div class="col-md col-12 p-0 userCard">
                             <div class="headline d-flex align-items-center justify-content-center py-md-4 py-3 gap-3">

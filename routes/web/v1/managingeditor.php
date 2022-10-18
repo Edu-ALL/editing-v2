@@ -2,15 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Editor\Authentication;
-use App\Http\Controllers\Editor\Profile;
 use App\Http\Controllers\Editor\Essays;
 use App\Http\Controllers\ManagingEditor\CategoriesTags;
+use App\Http\Controllers\ManagingEditor\ProfileManaging;
 use App\Http\Controllers\ManagingEditor\Universities;
 
 Route::post('authenticate', [Authentication::class, '_loginEditor'])->name('editor-login');
 Route::get('logout', [Authentication::class, 'logout'])->name('editor-logout');
 
-Route::post('profile/{id_editors}', [Profile::class, 'update'])->name('update-profile');
+Route::post('profile/{id_editors}', [ProfileManaging::class, 'update'])->name('update-profile');
 
 Route::post('ongoing/accept/{id_essay}', [Essays::class, 'accept'])->name('accept-essay');
 Route::post('ongoing/reject/{id_essay}', [Essays::class, 'reject'])->name('reject-essay');
