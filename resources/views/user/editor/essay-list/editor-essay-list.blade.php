@@ -1,6 +1,6 @@
 @extends('user.editor.utama.utama')
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid p-0">
         <div class="row flex-nowrap main">
             @include('user.editor.utama.menu')
 
@@ -10,7 +10,7 @@
                 <div class="container main-content m-0">
                     <div class="row flex-column gap-4">
                         <div class="col p-0">
-                            <div class="col-md col-12 p-0 userCard">
+                            <div class="col-md col-12 p-0 userCard" style="cursor: default">
                                 <div class="headline d-flex align-items-center px-md-4 px-3 py-3 gap-md-3 gap-1">
                                     <div class="col-md col-7 d-flex align-items-center gap-md-3 gap-2">
                                         <img src="/assets/ongoing-essay.png" alt="">
@@ -18,7 +18,7 @@
                                     </div>
                                     <div class="col-md-4 col d-flex align-items-center justify-content-end">
                                         <div class="input-group">
-                                            <form id="form-ongoing-essay-searching" action="{{ route('list-essay') }}"
+                                            <form id="form-ongoing-essay-searching" action="{{ route('editor-essay-list') }}"
                                                 method="GET" role="search" class="w-100">
                                                 <input type="search" class="form-control inputField py-2 px-3"
                                                     name="keyword-ongoing" placeholder="Search">
@@ -45,7 +45,7 @@
                                             <?php $i = ($ongoing_essay->currentpage() - 1) * $ongoing_essay->perpage() + 1; ?>
                                             @foreach ($ongoing_essay as $essay)
                                                 <tr
-                                                    onclick="window.location='/editors/essay-list/ongoing/detail/{{ $essay->id_essay_clients }}'">
+                                                    onclick="window.location='/editor/essay-list/ongoing/detail/{{ $essay->id_essay_clients }}'">
                                                     <th scope="row"
                                                         class="{{ $essay->essay_editors->read == 0 ? 'unread' : '' }}">
                                                         {{ $i++ }}</th>
@@ -86,7 +86,7 @@
                             </div>
                         </div>
                         <div class="col p-0">
-                            <div class="col-md col-12 p-0 userCard">
+                            <div class="col-md col-12 p-0 userCard" style="cursor: default">
                                 <div class="headline d-flex align-items-center px-md-4 px-3 py-3 gap-md-3 gap-1"
                                     style="background-color: var(--green);">
                                     <div class="col-md col-7 d-flex align-items-center gap-md-3 gap-2">
@@ -122,7 +122,7 @@
                                             <?php $i = ($completed_essay->currentpage() - 1) * $completed_essay->perpage() + 1; ?>
                                             @foreach ($completed_essay as $essay)
                                                 <tr
-                                                    onclick="window.location='/editors/essay-list/completed/detail/{{ $essay->id_essay_clients }}'">
+                                                    onclick="window.location='/editor/essay-list/completed/detail/{{ $essay->id_essay_clients }}'">
                                                     <th scope="row" class="{{ $essay->read == 0 ? 'unread' : '' }}">
                                                         {{ $i++ }}</th>
                                                     <td class="{{ $essay->read == 0 ? 'unread' : '' }}">

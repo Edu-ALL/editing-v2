@@ -203,16 +203,11 @@ Route::get('/mentor/new-request/save', [NewRequestMenu::class, 'store'])->name('
 
 //**********Role Editor**********//
 Route::get('/editor/dashboard', [DashboardManaging::class, 'index']);
-// Route::get('/editor/dashboard', function () {
-//     return view('user.editor.dashboard');
-// });
+
 //Editor List Menu
 Route::get('/editor/list', [AllEditorMenu::class, 'index'])->name('list-editor');
 Route::get('/editor/list/detail/{id}', [AllEditorMenu::class, 'detail']);
 
-// Route::get('/editor/list/detail', function () {
-//     return view('user.editor.editor-list.editor-list-detail');
-// });
 //All Essays Menu
 Route::get('/editor/all-essays', function () {
     return view('user.editor.all-essays.editor-all-essays', [
@@ -254,27 +249,11 @@ Route::get('/editor/all-essays/completed-essay-list-detail', function () {
     return view('user.editor.all-essays.editor-completed-essays-list-detail');
 });
 
-Route::get('/editors/essay-list', [EditorEssays::class, 'index'])->name('list-essay');
-Route::get('/editors/essay-list/completed/detail/{id_essay}', [EditorEssays::class, 'detailEssay']);
-Route::get('/editors/essay-list/ongoing/detail/{id_essay}', [EditorEssays::class, 'detailEssay']);
-
 //Essay List Menu
-Route::get('/editor/essay-list', [EssayListMenu::class, 'index'])->name('list-essay');
-// Route::get('/editor/essay-list', function () {
-//     return view('user.editor.essay-list.editor-essay-list');
-// });
-Route::get('/editor/essay-list-detail', function () {
-    return view('user.editor.essay-list.editor-list-detail');
-});
-// Route::get('/editor/essay-list-due-tommorow', function () {
-//     return view('user.editor.essay-list.editor-list-due-tomorrow');
-// });
-// Route::get('/editor/essay-list-due-within-three', function () {
-//     return view('user.editor.essay-list.editor-list-due-within-three');
-// });
-// Route::get('/editor/essay-list-due-within-five', function () {
-//     return view('user.editor.essay-list.editor-list-due-within-five');
-// });
+Route::get('/editor/essay-list', [EssayListMenu::class, 'index'])->name('editor-essay-list');
+Route::get('/editor/essay-list/ongoing/detail/{id_essay}', [EssayListMenu::class, 'detailEssayList']);
+Route::get('/editor/essay-list/completed/detail/{id_essay}', [EssayListMenu::class, 'detailEssayList']);
+
 
 Route::get('/editor/essay-list-due-tommorow', [EssayListMenu::class, 'dueTomorrow'])->name('editor-list-due-tomorrow');
 Route::get('/editor/essay-list-due-within-three', [EssayListMenu::class, 'dueThree'])->name('editor-list-due-within-three');
@@ -286,12 +265,13 @@ Route::get('/editor/setting/universities/detail/{id}', [ManagingEditorUniversiti
 Route::get('/editor/setting/universities/add', function () {
     return view('user.editor.settings.setting-add-universities');
 });
-
 Route::get('/editor/setting/categories-tags', [ManagingEditorCategoriesTags::class, 'index'])->name('list-tag');
 Route::get('/editor/setting/categories-tags/detail/{tag_id}', [ManagingEditorCategoriesTags::class, 'detail']);
 
+// Report List
 Route::get('/editor/report-list', [ReportList::class, 'index'])->name('report-list');
 
+// Profile
 Route::get('/editor/profile', [ProfileManaging::class, 'index']);
 
 

@@ -7,7 +7,7 @@
     </style>
 @endsection
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid p-0">
         <div class="row flex-nowrap main">
             @include('user.editor.utama.menu')
 
@@ -52,7 +52,7 @@
                                     <tbody>
                                         <?php $i = ($essays->currentpage()-1)* $essays->perpage() + 1;?>
                                         @foreach ($essays as $essay)
-                                        <tr onclick="window.location='/editor/all-essays/essay-list-due-detail/{{ $essay->id_essay_clients }}'">
+                                        <tr onclick="window.location='/editor/essay-list/ongoing/detail/{{ $essay->id_essay_clients }}'">
                                             <th scope="row" class="{{ $essay->read == 0 ? 'unread' : '' }}">{{ $i++ }}</th>
 
                                             <td class="{{ $essay->read == 0 ? 'unread' : '' }}">{{ $essay->essay_clients->client_by_id->first_name.' '.$essay->essay_clients->client_by_id->last_name }}</td>
