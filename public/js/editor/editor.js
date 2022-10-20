@@ -120,7 +120,10 @@ $(".select-beast").selectize({
   create: false,
   sortField: "text"
 });
-
+$(".select-state").selectize({
+  maxItems: null,
+  sortField: "text"
+});
 $(".select-date, .select-normal").selectize({
   create: false
 });
