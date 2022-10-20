@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 use Exception;
 
 class StudentsMenu extends Controller
@@ -52,6 +53,12 @@ class StudentsMenu extends Controller
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator->messages());
         }
+        $student_name =  $request->id_clients;
+        $file_student = Client::where('id_clients', '=', $student_name)->first();
+        // dd($file_student->email);
+        $fileName = $request->resume->getClientOriginalName();
+        $filePath = 'program/essay/mentors/'.$fileName;
+        Storage::disk('public_assets')->put($filePath, file_get_contents($request->resume));
 
         DB::beginTransaction();
         try {
@@ -60,7 +67,7 @@ class StudentsMenu extends Controller
             $student->personal_brand    = $request->personal_brand;
             $student->interests         = $request->interests;
             $student->personalities     = $request->personalities;
-            // $student->attached_of_clients   = $fileName;
+            $student->resume   = $fileName;
             // dd($student);
             $student->save();
             DB::commit();

@@ -106,12 +106,6 @@
                                         <h6 class="pb-3">Life Philosophy (Values) & Personalities :</h6>
                                         <textarea name="personalities" class="textarea" placeholder="Life Philosophy (Values) & Personalities"> {{ $client->personalities }}</textarea>
                                     </div>
-                                    <div class="col-md-12 d-flex justify-content-center p-4">
-                                        <button class="btn btn-create d-flex align-items-center gap-2">
-                                            <img src="/assets/reload.png" alt="">
-                                            <h6>Update Student Data</h6>
-                                        </button>
-                                    </div>
 
                                     {{-- End Text Area --}}
                                     {{-- Attachment --}}
@@ -134,26 +128,63 @@
                                                 @if (empty($client->resume))
                                                     <span style="color: var(--red)">Not Available</span>
                                                     <br>
-                                                    <input type="file" name="attached_of_clients"
+                                                    <input type="file" name="resume"
                                                         class="form-control inputField py-1 px-2" placeholder="Search">
                                                 @else
                                                     <div class="col-lg-3">
-                                                        <input type="file" name="attached_of_clients"
+                                                        <input type="file" name="resume"
                                                             class="form-control inputField py-1 px-2" placeholder="Search"
                                                             value="{{ $client->resume }}">
+                                                    </div>
+                                                    <div
+                                                        class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
+                                                        <a class="btn btn-download d-flex align-items-center gap-2"
+                                                            href={{ asset('uploaded_files/program/essay/students/' . $client->resume) }}>
+                                                            <img src="/assets/download.png" alt="">
+                                                            <h6>Download</h6>
+                                                        </a>
                                                     </div>
                                                 @endif
                                             </h6>
                                         </div>
                                         <div class="col-lg">
-                                            <h6>Questionnaire<span class="px-2">:</span><span
-                                                    style="color: var(--red)">Not
-                                                    Available</span></h6>
+                                            <h6>Questionnaire<span class="px-2">:</span>
+                                                @if (empty($client->questionnaire))
+                                                    <span style="color: var(--red)">Not Available</span>
+                                                    <br>
+                                                    <input type="file" name="questionnaire"
+                                                        class="form-control inputField py-1 px-2" placeholder="Search">
+                                                @else
+                                                    <div class="col-lg-3">
+                                                        <input type="file" name="questionnaire"
+                                                            class="form-control inputField py-1 px-2" placeholder="Search"
+                                                            value="{{ $client->questionnaire }}">
+                                                    </div>
+                                                @endif
+                                            </h6>
                                         </div>
                                         <div class="col-lg">
-                                            <h6>Others<span class="px-2">:</span><span style="color: var(--red)">Not
-                                                    Available</span></h6>
+                                            <h6>Others<span class="px-2">:</span>
+                                                @if (empty($client->others))
+                                                    <span style="color: var(--red)">Not Available</span>
+                                                    <br>
+                                                    <input type="file" name="others"
+                                                        class="form-control inputField py-1 px-2" placeholder="Search">
+                                                @else
+                                                    <div class="col-lg-3">
+                                                        <input type="file" name="others"
+                                                            class="form-control inputField py-1 px-2" placeholder="Search"
+                                                            value="{{ $client->others }}">
+                                                    </div>
+                                                @endif
+                                            </h6>
                                         </div>
+                                    </div>
+                                    <div class="col-md-12 d-flex justify-content-center p-4">
+                                        <button class="btn btn-create d-flex align-items-center gap-2">
+                                            <img src="/assets/reload.png" alt="">
+                                            <h6>Update Student Data</h6>
+                                        </button>
                                     </div>
                                 </form>
                                 {{-- End Attachment --}}
