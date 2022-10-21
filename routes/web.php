@@ -204,7 +204,8 @@ Route::get('/editor/all-essays/ongoing-essay-list', [AllEssaysMenu::class, 'ongo
 Route::get('/editor/all-essays/assigned-essay-list', [AllEssaysMenu::class, 'assignList'])->name('editor-list-assign-essay');
 Route::get('/editor/all-essays/not-assign-essay-list', [AllEssaysMenu::class, 'notAssignList'])->name('editor-list-not-assign-essay');
 Route::get('/editor/all-essays/completed/detail/{id}', [AllEssaysMenu::class, 'detailEssayCompleted']);
-Route::get('/editor/all-essays/ongoing/detail/{id}', [AllEssaysMenu::class, 'detailEssayOngoing']);
+Route::get('/editor/essay-list/completed/detail/{id_essay}', [AllEssaysMenu::class, 'detailEssay']);
+Route::get('/editor/essay-list/ongoing/detail/{id_essay}', [AllEssaysMenu::class, 'detailEssay']);
 // Route::get('/editor/all-essays/completed-essay-list', function () {
 //     return view('user.editor.all-essays.essay-completed');
 // });
