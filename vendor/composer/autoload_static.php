@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit7873f007422ca1d6e0ba52ac7b59dd74
+class ComposerStaticInit58814e79bf00861160fba3c85018f344
 {
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
@@ -568,9 +568,11 @@ class ComposerStaticInit7873f007422ca1d6e0ba52ac7b59dd74
         'App\\Http\\Controllers\\ManagingEditor\\CategoriesTags' => __DIR__ . '/../..' . '/app/Http/Controllers/ManagingEditor/CategoriesTags.php',
         'App\\Http\\Controllers\\ManagingEditor\\DashboardManaging' => __DIR__ . '/../..' . '/app/Http/Controllers/ManagingEditor/DashboardManaging.php',
         'App\\Http\\Controllers\\ManagingEditor\\EssayListMenu' => __DIR__ . '/../..' . '/app/Http/Controllers/ManagingEditor/EssayListMenu.php',
+        'App\\Http\\Controllers\\ManagingEditor\\ProfileManaging' => __DIR__ . '/../..' . '/app/Http/Controllers/ManagingEditor/ProfileManaging.php',
         'App\\Http\\Controllers\\ManagingEditor\\ReportList' => __DIR__ . '/../..' . '/app/Http/Controllers/ManagingEditor/ReportList.php',
         'App\\Http\\Controllers\\ManagingEditor\\Universities' => __DIR__ . '/../..' . '/app/Http/Controllers/ManagingEditor/Universities.php',
         'App\\Http\\Controllers\\Mentor\\Authentication' => __DIR__ . '/../..' . '/app/Http/Controllers/Mentor/Authentication.php',
+        'App\\Http\\Controllers\\Mentor\\Dashboard' => __DIR__ . '/../..' . '/app/Http/Controllers/Mentor/Dashboard.php',
         'App\\Http\\Controllers\\Mentor\\EssaysMenu' => __DIR__ . '/../..' . '/app/Http/Controllers/Mentor/EssaysMenu.php',
         'App\\Http\\Controllers\\Mentor\\NewRequestMenu' => __DIR__ . '/../..' . '/app/Http/Controllers/Mentor/NewRequestMenu.php',
         'App\\Http\\Controllers\\Mentor\\StudentsMenu' => __DIR__ . '/../..' . '/app/Http/Controllers/Mentor/StudentsMenu.php',
@@ -6429,10 +6431,10 @@ class ComposerStaticInit7873f007422ca1d6e0ba52ac7b59dd74
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit7873f007422ca1d6e0ba52ac7b59dd74::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit7873f007422ca1d6e0ba52ac7b59dd74::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit7873f007422ca1d6e0ba52ac7b59dd74::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit7873f007422ca1d6e0ba52ac7b59dd74::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit58814e79bf00861160fba3c85018f344::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit58814e79bf00861160fba3c85018f344::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit58814e79bf00861160fba3c85018f344::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit58814e79bf00861160fba3c85018f344::$classMap;
 
         }, null, ClassLoader::class);
     }
