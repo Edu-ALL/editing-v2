@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use Exception;
 
 class StudentsMenu extends Controller
@@ -35,6 +36,7 @@ class StudentsMenu extends Controller
     public function detail($id)
     {
         $client = Client::with('mentors')->find($id);
+        // dd($client->resume);
 
         
         return view('user.mentor.user-student-detail',compact('client'));
@@ -53,12 +55,64 @@ class StudentsMenu extends Controller
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator->messages());
         }
-        $student_name =  $request->id_clients;
-        $file_student = Client::where('id_clients', '=', $student_name)->first();
+        // $student_name =  $request->id_clients;
+        $user = Client::where('id_clients', '=', $id)->first();
         // dd($file_student->email);
-        $fileName = $request->resume->getClientOriginalName();
-        $filePath = 'program/essay/mentors/'.$fileName;
-        Storage::disk('public_assets')->put($filePath, file_get_contents($request->resume));
+        // $user = $id;
+        // dd($user->resume);
+        // if ($request->hasFile('resume')) {
+            
+        // };
+
+        if ($request->hasFile('resume')) {
+            if ($old_file_path_resume = $user->resume) {
+                $file_path_resume = public_path('uploaded_files/user/students/'.$user->first_name.'/resume'.'/'.$old_file_path_resume);
+                // dd($user->resume);
+                if (File::exists($file_path_resume)) {
+                    File::delete($file_path_resume);
+                }
+            }
+            $resumeFile = $request->resume->getClientOriginalName();
+            $filePathresume = 'user/students/'.$user->first_name.'/resume'.'/'.$resumeFile;
+            Storage::disk('public_assets')->put($filePathresume, file_get_contents($request->resume));
+        }else{
+            $resumeFile = $request->resume;
+        };
+            
+
+        if ($request->hasFile('questionnaire')) {
+            if ($old_file_path_questionnaire = $user->questionnaire) {
+                $file_path_questionnaire = public_path('uploaded_files/user/students/'.$user->first_name.'/questionnaire'.'/'.$old_file_path_questionnaire);
+                // dd($user->resume);
+                if (File::exists($file_path_questionnaire)) {
+                    File::delete($file_path_questionnaire);
+                }
+            } 
+            $questionnaireFile = $request->questionnaire->getClientOriginalName();
+            $filePathquestionnaire = 'user/students/'.$user->first_name.'/questionnaire'.'/'.$questionnaireFile;
+            Storage::disk('public_assets')->put($filePathquestionnaire, file_get_contents($request->questionnaire));
+        }else{
+            $questionnaireFile = $request->questionnaire;
+        }
+        ;
+            
+
+        if ($request->hasFile('others')) {
+            if ($old_file_path_others = $user->others) {
+                $file_path_others = public_path('uploaded_files/user/students/'.$user->first_name.'/others'.'/'.$old_file_path_others);
+                // dd($user->resume);
+                if (File::exists($file_path_others)) {
+                    File::delete($file_path_others);
+                }
+            } 
+            $othersFile = $request->others->getClientOriginalName();
+            $filePathothers = 'user/students/'.$user->first_name.'/others'.'/'.$othersFile;
+            Storage::disk('public_assets')->put($filePathothers, file_get_contents($request->others));
+        }else{
+            $othersFile = $request->others;
+        };
+            
+        // dd($questionnaireFile);
 
         DB::beginTransaction();
         try {
@@ -67,7 +121,14 @@ class StudentsMenu extends Controller
             $student->personal_brand    = $request->personal_brand;
             $student->interests         = $request->interests;
             $student->personalities     = $request->personalities;
-            $student->resume   = $fileName;
+            if ($request->hasFile('resume')) {
+                $student->resume            = $resumeFile;
+            }elseif ($request->hasFile('questionnaire')){
+                $student->questionnaire     = $questionnaireFile;
+            }elseif ($request->hasFile('others')){
+                $student->others            = $othersFile;
+            };
+            
             // dd($student);
             $student->save();
             DB::commit();

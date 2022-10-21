@@ -91,7 +91,7 @@ class NewRequestMenu extends Controller
         $file_student = Client::where('id_clients', '=', $student_name)->first();
         // dd($file_student->email);
         $fileName = $request->attached_of_clients->getClientOriginalName();
-        $filePath = 'uploaded_files/program/essay/mentors/'.$fileName;
+        $filePath = 'program/essay/mentors/'.$fileName;
         Storage::disk('public_assets')->put($filePath, file_get_contents($request->attached_of_clients));
         // Storage::disk('public')->url($filePath);
 

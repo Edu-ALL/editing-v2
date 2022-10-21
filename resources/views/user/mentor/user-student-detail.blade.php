@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="/css/mentor/user-student-detail.css">
     <link rel="stylesheet" href="/css/mentor/user-editor-add.css">
     <link rel="stylesheet" href="/css/mentor/user-mentor.css">
+    <link rel="stylesheet" href="/css/admin/essay-ongoing-detail.css">
 @endsection
 @section('content')
     <div class="container-fluid" style="padding: 0">
@@ -91,7 +92,8 @@
                             </div>
 
                             <div class="row student-addition p-md-5 p-3">
-                                <form action="{{ route('update-student', ['id' => $client->id_clients]) }}" method="POST">
+                                <form action="{{ route('update-student', ['id' => $client->id_clients]) }}" method="POST"
+                                    enctype="multipart/form-data">
                                     @csrf
                                     {{-- Text Area --}}
                                     <div class="text-area p-md-1 mb-3">
@@ -131,15 +133,13 @@
                                                     <input type="file" name="resume"
                                                         class="form-control inputField py-1 px-2" placeholder="Search">
                                                 @else
-                                                    <div class="col-lg-3">
-                                                        <input type="file" name="resume"
-                                                            class="form-control inputField py-1 px-2" placeholder="Search"
-                                                            value="{{ $client->resume }}">
-                                                    </div>
+                                                    <p class="mt-2" style="color: var(--blue)">{{ $client->resume }}</p>
+                                                    <input type="file" name="resume"
+                                                        class="form-control inputField py-1 px-2 mt-2" placeholder="Search">
                                                     <div
-                                                        class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
+                                                        class="col d-flex align-items-center justify-content-left pb-md-3 px-5 mt-2">
                                                         <a class="btn btn-download d-flex align-items-center gap-2"
-                                                            href={{ asset('uploaded_files/program/essay/students/' . $client->resume) }}>
+                                                            href={{ asset('uploaded_files/user/students/' . $client->first_name . '/resume' . '/' . $client->resume) }}>
                                                             <img src="/assets/download.png" alt="">
                                                             <h6>Download</h6>
                                                         </a>
@@ -155,10 +155,18 @@
                                                     <input type="file" name="questionnaire"
                                                         class="form-control inputField py-1 px-2" placeholder="Search">
                                                 @else
-                                                    <div class="col-lg-3">
-                                                        <input type="file" name="questionnaire"
-                                                            class="form-control inputField py-1 px-2" placeholder="Search"
-                                                            value="{{ $client->questionnaire }}">
+                                                    <p class="mt-2" style="color: var(--blue)">
+                                                        {{ $client->questionnaire }}</p>
+                                                    <input type="file" name="questionnaire"
+                                                        class="form-control inputField py-1 px-2 mt-2"
+                                                        placeholder="Search">
+                                                    <div
+                                                        class="col d-flex align-items-center justify-content-left pb-md-3 px-5 mt-2">
+                                                        <a class="btn btn-download d-flex align-items-center gap-2"
+                                                            href={{ asset('uploaded_files/user/students/' . $client->first_name . '/questionnaire' . '/' . $client->questionnaire) }}>
+                                                            <img src="/assets/download.png" alt="">
+                                                            <h6>Download</h6>
+                                                        </a>
                                                     </div>
                                                 @endif
                                             </h6>
@@ -171,10 +179,18 @@
                                                     <input type="file" name="others"
                                                         class="form-control inputField py-1 px-2" placeholder="Search">
                                                 @else
-                                                    <div class="col-lg-3">
-                                                        <input type="file" name="others"
-                                                            class="form-control inputField py-1 px-2" placeholder="Search"
-                                                            value="{{ $client->others }}">
+                                                    <p class="mt-2" style="color: var(--blue)">{{ $client->others }}
+                                                    </p>
+                                                    <input type="file" name="others"
+                                                        class="form-control inputField py-1 px-2 mt-2"
+                                                        placeholder="Search">
+                                                    <div
+                                                        class="col d-flex align-items-center justify-content-left pb-md-3 px-5 mt-2">
+                                                        <a class="btn btn-download d-flex align-items-center gap-2"
+                                                            href={{ asset('uploaded_files/user/students/' . $client->first_name . '/others' . '/' . $client->others) }}>
+                                                            <img src="/assets/download.png" alt="">
+                                                            <h6>Download</h6>
+                                                        </a>
                                                     </div>
                                                 @endif
                                             </h6>
