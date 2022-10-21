@@ -7,7 +7,7 @@
     </style>
 @endsection
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid p-0">
         <div class="row flex-nowrap main" id="main">
             @include('user.editor.utama.menu')
 

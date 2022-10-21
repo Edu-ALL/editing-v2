@@ -10,14 +10,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 // use App\Models\Editor;
 use App\Models\EssayClients;
+use App\Models\Mentor;
 use App\Models\Programs;
 use App\Models\University;
+use App\Models\Token;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Exception;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 // use Illuminate\Support\Facades\File; 
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Str;
 
 class NewRequestMenu extends Controller
 {
@@ -127,7 +132,47 @@ class NewRequestMenu extends Controller
 
         }
 
+        $client = Client::where('id_clients', $request->id_clients)->first();
+        $data = [
+            'client' => $client,
+            'mentor' => $mentor,
+            'essay_title' => $request->essay_title,
+            'essay_deadline' => $request->essay_deadline,
+            'application_deadline' => $request->application_deadline,
+            'university' => University::where('id_univ', $request->id_univ)->first(),
+            'essay_prompt' => $request->essay_prompt
+        ];
+
+        $this->sendEmail('reject', $data);
+
         return redirect('/mentor/new-request')->with('add-new-request-successful', 'New request has been saved');
+    }
+
+    public function sendEmail($type, $data){
+        $managing = Editor::where('position', 3)->get()->toArray();
+        $email = array_column($managing, 'email');
+
+        $i = 0;
+        foreach ($email as $key) {
+            $user_token = [
+                'email' => $email[$i],
+                'token' => Crypt::encrypt(Str::random(32)),
+                'activated_at' => time()
+            ];
+            Token::create($user_token);
+            $i++;
+        }
+
+        Mail::send('mail.mentor.new-request', $data, function($mail) use ($email) {
+            $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+            $mail->to($email);
+            $mail->cc('essay@all-inedu.com');
+            $mail->subject('An essay needs to be assigned!');
+        });
+
+        if (Mail::failures()) {
+            return response()->json(Mail::failures());
+        }
     }
 
     /**
