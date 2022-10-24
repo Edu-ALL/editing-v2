@@ -19,12 +19,12 @@
       @include('user.editor.utama.head')
       <div class="container main-content m-0">
 
-        {{-- @if(session()->has('update-editor-successful'))
+        @if(session()->has('update-editor-successful'))
         <div class="row alert alert-success fade show d-flex justify-content-between" role="alert">
           {{ session()->get('update-editor-successful') }}
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        @endif --}}
+        @endif
 
         <div class="row gap-2">
           <div class="col-md col-12 p-0 userCard profile" style="cursor: default">
@@ -129,13 +129,7 @@
                 <img class="rating" src="/assets/rating-fill.png" alt="">
                 @endif
               </div>
-              {{-- <h4>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star half"></span>
-                <span class="fa fa-star"></span>
-              </h4> --}}
+
               @if ($average_rating == 0)
                 <h4 class="d-block" style="color: var(--yellow)">-</h4>
               @elseif ($average_rating >= 0.5 && $average_rating <= 0.9)
@@ -169,12 +163,12 @@
                 <h6>View Editor</h6>
               </div>
               <div class="col-md-4 col-4 d-flex align-items-center justify-content-end gap-md-3 gap-2">
-                <a href="/admin/user/editor"><img src="/assets/back.png" alt=""></a>
+                <a href="/editor/list"><img src="/assets/back.png" alt=""></a>
               </div>
             </div>
             
             <div class="row profile-editor px-md-3 py-md-4 px-3 py-4" style="overflow: auto !important">
-              <form action="{{ route('update-editor', ['id_editors' => $editor->id_editors]) }}" method="POST" class="p-0">
+              <form action="{{ route('update-managing-editor', ['id_editors' => $editor->id_editors]) }}" method="POST" class="p-0">
                 @csrf
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6">

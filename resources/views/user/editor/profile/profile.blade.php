@@ -69,7 +69,7 @@
                   </div>
                 </div>
               @endif
-              <form action="{{ route('update-profile', ['id_editors' => $editor->id_editors]) }}" class="p-0" id="form-profile" onsubmit="swal.showLoading()" enctype="multipart/form-data" method="POST">
+              <form action="{{ route('update-managing-profile', ['id_editors' => $editor->id_editors]) }}" class="p-0" id="form-profile" onsubmit="swal.showLoading()" enctype="multipart/form-data" method="POST">
                 @csrf
                 <div class="col-12 d-flex flex-lg-row flex-column mb-3 gap-lg-0 gap-3">
                   <div class="col">

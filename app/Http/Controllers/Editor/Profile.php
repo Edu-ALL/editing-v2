@@ -53,7 +53,9 @@ class Profile extends Controller
             $editor->major = $request->major;
             $editor->address = $request->address;
             $editor->about_me = $request->about_me;
-            $editor->password = Hash::make($request->password);
+            if ($request->password != null) {
+                $editor->password = Hash::make($request->password);
+            }
 
             $name = $request->first_name;
             $time = time();
