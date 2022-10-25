@@ -23,7 +23,7 @@
   margin: 0;
 }
 .userCard .pic-profile {
-  width: 50%;
+  width: auto;
   height: auto;
   border: 1px solid var(--light-grey);
   border-radius: 50%;

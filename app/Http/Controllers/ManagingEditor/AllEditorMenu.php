@@ -8,21 +8,21 @@ use App\Models\EssayClients;
 use App\Models\EssayEditors;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
+use Exception;
 
 class AllEditorMenu extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $keyword = $request->get('keyword');
         $editors = Editor::when($keyword, function($query) use ($keyword) {
-            $query->where(DB::raw("CONCAT(`first_name`,`last_name`)"), 'like', '%'.$keyword.'%')->orWhereHas('mentors', function ($querym) use ($keyword) {
-                $querym->where(DB::raw("CONCAT(`first_name`,`last_name`)"), 'like', '%'.$keyword.'%');
-            })->orWhere('email', 'like', '%'.$keyword.'%');
+            $query->whereHas('position', function ($query) use ($keyword) {
+                $query->where('position_name', 'like', '%'.$keyword.'%');
+            })
+            ->orWhere(DB::raw("CONCAT(`first_name`,`last_name`)"), 'like', '%'.$keyword.'%')
+            ->orWhere('email', 'like', '%'.$keyword.'%');
         })->orderBy('first_name', 'asc')->paginate(10);
 
         if ($keyword) 
@@ -99,69 +99,62 @@ class AllEditorMenu extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function update($id_editors, Request $request){
+        $rules = [
+            'position' => 'nullable',
+        ];
+
+        $validator = Validator::make($request->all() + ['id_editors' => $id_editors], $rules);
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator->messages());
+        }
+
+        DB::beginTransaction();
+        try {
+
+            $editor = Editor::find($id_editors);
+            $editor->position = $request->position;
+            $editor->save();
+            DB::commit();
+
+        } catch (Exception $e) {
+
+            DB::rollBack();
+            return Redirect::back()->withErrors($e->getMessage());
+
+        }
+
+        return redirect('editor/list/detail/'.$id_editors)->with('update-editor-successful', 'The Editor has been updated');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function deactivate($id_editors){
+        DB::beginTransaction();
+        try {
+            $editor = Editor::find($id_editors);
+            $editor->status = 2;
+            $editor->save();
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return Redirect::back()->withErrors($e->getMessage());
+        }
+        return redirect('editor/list');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+    public function activate($id_editors){
+        DB::beginTransaction();
+        try {
+            $editor = Editor::find($id_editors);
+            $editor->status = 1;
+            $editor->save();
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return Redirect::back()->withErrors($e->getMessage());
+        }
+        return redirect('editor/list');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

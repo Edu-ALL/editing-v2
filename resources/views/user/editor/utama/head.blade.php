@@ -4,7 +4,7 @@
   </div>
   <div class="col-md-6 col-2 pe-md-5 pe-3">
       <div class="head-content d-flex flex-row align-items-center justify-content-end gap-md-4 gap-2">
-          <a class="help d-flex flex-row align-items-center gap-md-2 gap-1" href="">
+          <a class="help d-flex flex-row align-items-center gap-md-2 gap-1" href="/editor/help">
               <img class="img-fluid" src="/assets/help-grey.png" alt="">
               <h6 class="d-none d-md-inline">Help</h6>
           </a>

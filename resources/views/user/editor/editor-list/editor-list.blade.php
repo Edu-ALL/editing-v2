@@ -35,11 +35,11 @@
                                     <h6>Editor List</h6>
                                 </div>
                                 <div class="col-md-4 col-6 d-flex align-items-center justify-content-end gap-md-3 gap-2">
-                                    {{-- <img src="/assets/reload.png" alt=""> --}}
-                                    <div class="input-group">
-                                        <input type="email" class="form-control inputField py-2 px-3"
-                                            placeholder="Search">
-                                    </div>
+                                    <form action="{{ route('list-editor') }}"
+                                        method="GET" role="search" class="w-100">
+                                        <input type="search" class="form-control inputField py-2 px-3"
+                                            name="keyword" placeholder="Search">
+                                    </form>
                                 </div>
                             </div>
                             <div class="container text-center" style="overflow-x: auto !important">
@@ -89,6 +89,12 @@
                                                 @endif
                                             </tr>
                                         @endforeach
+
+                                        @unless(count($editors))
+                                            <tr style="cursor: default">
+                                                <td colspan="8">No data</td>
+                                            </tr>
+                                        @endunless
                                     </tbody>
                                 </table>
                                 {{-- Pagination --}}

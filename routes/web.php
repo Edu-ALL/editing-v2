@@ -182,6 +182,11 @@ Route::middleware('is_mentor')->group(function(){
 //**********Role Editor**********//
 Route::get('/editor/dashboard', [DashboardManaging::class, 'index']);
 
+// Help
+Route::get('/editor/help', function () {
+    return view('user.editor.help.help');
+});
+
 //Editor List Menu
 Route::get('/editor/list', [AllEditorMenu::class, 'index'])->name('list-editor');
 Route::get('/editor/list/detail/{id}', [AllEditorMenu::class, 'detail']);
