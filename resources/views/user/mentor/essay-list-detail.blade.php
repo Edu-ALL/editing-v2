@@ -1,7 +1,7 @@
 @extends('user.mentor.utama.utama')
 @section('content')
     <div class="container-fluid" style="padding: 0">
-        <div class="row flex-nowrap main">
+        <div class="row flex-nowrap main" id="main">
             @include('user.mentor.utama.menu')
             {{-- Content --}}
             <div class="col" style="overflow: auto !important">

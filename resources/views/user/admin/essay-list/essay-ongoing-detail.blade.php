@@ -230,10 +230,10 @@
 </div>
 @endsection
 
-@section('js')
+{{-- @section('js')
 <script>
   $(document).ready(function(){
       $("#info").modal('show');
   });
 </script>
-@endsection
+@endsection --}}

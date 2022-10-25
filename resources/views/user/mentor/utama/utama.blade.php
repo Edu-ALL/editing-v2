@@ -20,6 +20,10 @@
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.6/css/selectize.bootstrap5.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.6/js/standalone/selectize.min.js"></script>
+
+    {{-- TinyMCE --}}
+    <script src="https://cdn.tiny.cloud/1/h7t62ozvqkx2ifkeh051fsy3k9irz7axx1g2zitzpbaqfo8m/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 </head>
@@ -35,7 +39,7 @@
     {{-- End Footer --}}
 
     <script src="{{ asset('js/bootstrap.js') }}"></script>
-    <script src="/js/admin/admin.js"></script>
+    <script src="/js/mentor/mentor.js"></script>
     <script>
         var main = document.getElementById('main');
         let height = window.innerHeight;

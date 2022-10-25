@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="/css/admin/essay-ongoing-detail.css">
 @endsection
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid p-0">
         <div class="row flex-nowrap main" id="main">
 
             {{-- Sidenav --}}
@@ -139,7 +139,18 @@
                                             <p>:</p>
                                         </div>
                                         <div class="col-7">
-                                            <p>{{ $essay->editor->first_name . ' ' . $essay->editor->last_name }}</p>
+                                            <p>
+                                                @if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 5)
+                                                    @if ($essay->editor != null)
+                                                        {{ $essay->editor->first_name.' '.$essay->editor->last_name }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    {{ $essay->editor->first_name.' '.$essay->editor->last_name }}
+                                                @endif
+                                            </p>
+                                            {{-- <p>{{ $essay->editor->first_name . ' ' . $essay->editor->last_name }}</p> --}}
                                         </div>
                                     </div>
                                     <div class="row d-flex align-items-center">
