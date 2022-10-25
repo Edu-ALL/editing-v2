@@ -56,7 +56,14 @@
                     <td>{{ $essay->client_by_id->first_name.' '.$essay->client_by_id->last_name }}</td>
                     <td>{{ $essay->client_by_id->mentors->first_name.' '.$essay->client_by_id->mentors->last_name  }}</td>
                     
-                    <td>{{ $essay->status_essay_clients == 0 ? '-' : $essay->editor->first_name.' '.$essay->editor->last_name }}</td>
+                    {{-- <td>{{ $essay->status_essay_clients == 0 ? '-' : $essay->editor->first_name.' '.$essay->editor->last_name }}</td> --}}
+                    <td>
+                      @if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 5)
+                          -
+                      @else
+                        {{ $essay->editor->first_name.' '.$essay->editor->last_name }}
+                      @endif
+                    </td>
                     <td>{{ $essay->essay_title }}</td>
                     <td>{{ date('D, d M Y', strtotime($essay->essay_deadline)) }}</td>
                     <td style="color: var(--red)">{{ $essay->status->status_title }}</td>

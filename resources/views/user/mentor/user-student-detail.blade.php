@@ -7,7 +7,7 @@
 @endsection
 @section('content')
     <div class="container-fluid" style="padding: 0">
-        <div class="row flex-nowrap main">
+        <div class="row flex-nowrap main" id="main">
             @include('user.mentor.utama.menu')
             {{-- Content --}}
             <div class="col" style="overflow: auto !important">
@@ -52,7 +52,7 @@
                                             <p>:</p>
                                         </div>
                                         <div class="col-7">
-                                            <p>{{ $client->phone }}</p>
+                                            <p>{{ $client->phone ? $client->phone : '-' }}</p>
                                         </div>
                                     </div>
                                     <div class="row d-flex align-items-center">
@@ -63,7 +63,7 @@
                                             <p>:</p>
                                         </div>
                                         <div class="col-7">
-                                            <p>{{ $client->email }}</p>
+                                            <p>{{ $client->email ? $client->email : '-' }}</p>
                                         </div>
                                     </div>
                                     <div class="row d-flex align-items-center">
@@ -74,7 +74,7 @@
                                             <p>:</p>
                                         </div>
                                         <div class="col-7">
-                                            <p>{{ $client->address }}</p>
+                                            <p>{!! $client->address ? $client->address : '-' !!}</p>
                                         </div>
                                     </div>
                                     <div class="row d-flex align-items-center">
@@ -116,34 +116,27 @@
                                         <h6 class="text-center">Attachment</h6>
                                     </div>
 
-                                    <div
-                                        class="row d-flex flex-lg-row flex-column attachment-status gap-lg-0 gap-2 ps-lg-0 ps-2 mb-3">
-                                        {{-- <div class="text-area p-md-1 mb-3">
-                                        <h6 class="pb-3">File :</h6>
-                                        <div class="col-lg-3">
-                                            <input type="file" name="attached_of_clients"
-                                                class="form-control inputField py-1 px-2" placeholder="Search">
-                                        </div>
-                                    </div> --}}
+                                    <div class="row d-flex flex-lg-row flex-column attachment-status align-items-end gap-lg-0 gap-2 ps-lg-0 ps-2 mb-3">
                                         <div class="col-lg-4 me-2">
                                             <h6>Activities Resume<span class="px-2">:</span>
                                                 @if (empty($client->resume))
                                                     <span style="color: var(--red)">Not Available</span>
                                                     <br>
                                                     <input type="file" name="resume"
-                                                        class="form-control inputField py-1 px-2" placeholder="Search">
+                                                        class="form-control inputField py-1 px-2 mt-2" placeholder="Search">
                                                 @else
-                                                    <p class="mt-2" style="color: var(--blue)">{{ $client->resume }}</p>
+                                                    {{-- <p class="mt-2" style="color: var(--blue)">{{ $client->resume }}</p> --}}
+                                                    <a class="d-block mt-2" href="{{ asset('uploaded_files/user/students/'.$client->first_name.'/resume'.'/'. $client->resume) }}" style="color: var(--blue)">{{ $client->resume }}</a>
                                                     <input type="file" name="resume"
                                                         class="form-control inputField py-1 px-2 mt-2" placeholder="Search">
-                                                    <div
+                                                    {{-- <div
                                                         class="col d-flex align-items-center justify-content-left pb-md-3 px-5 mt-2">
                                                         <a class="btn btn-download d-flex align-items-center gap-2"
                                                             href={{ asset('uploaded_files/user/students/' . $client->first_name . '/resume' . '/' . $client->resume) }}>
                                                             <img src="/assets/download.png" alt="">
                                                             <h6>Download</h6>
                                                         </a>
-                                                    </div>
+                                                    </div> --}}
                                                 @endif
                                             </h6>
                                         </div>
@@ -153,21 +146,20 @@
                                                     <span style="color: var(--red)">Not Available</span>
                                                     <br>
                                                     <input type="file" name="questionnaire"
-                                                        class="form-control inputField py-1 px-2" placeholder="Search">
+                                                        class="form-control inputField py-1 px-2 mt-2" placeholder="Search">
                                                 @else
-                                                    <p class="mt-2" style="color: var(--blue)">
-                                                        {{ $client->questionnaire }}</p>
+                                                    <a class="d-block mt-2" href="{{ asset('uploaded_files/user/students/' . $client->first_name . '/questionnaire' . '/' . $client->questionnaire) }}" style="color: var(--blue)">{{ $client->questionnaire }}</a>
                                                     <input type="file" name="questionnaire"
                                                         class="form-control inputField py-1 px-2 mt-2"
                                                         placeholder="Search">
-                                                    <div
+                                                    {{-- <div
                                                         class="col d-flex align-items-center justify-content-left pb-md-3 px-5 mt-2">
                                                         <a class="btn btn-download d-flex align-items-center gap-2"
                                                             href={{ asset('uploaded_files/user/students/' . $client->first_name . '/questionnaire' . '/' . $client->questionnaire) }}>
                                                             <img src="/assets/download.png" alt="">
                                                             <h6>Download</h6>
                                                         </a>
-                                                    </div>
+                                                    </div> --}}
                                                 @endif
                                             </h6>
                                         </div>
@@ -177,21 +169,20 @@
                                                     <span style="color: var(--red)">Not Available</span>
                                                     <br>
                                                     <input type="file" name="others"
-                                                        class="form-control inputField py-1 px-2" placeholder="Search">
+                                                        class="form-control inputField py-1 px-2 mt-2" placeholder="Search">
                                                 @else
-                                                    <p class="mt-2" style="color: var(--blue)">{{ $client->others }}
-                                                    </p>
+                                                    <a class="d-block mt-2" href="{{ asset('uploaded_files/user/students/' . $client->first_name . '/others' . '/' . $client->others) }}" style="color: var(--blue)">{{ $client->others }}</a>
                                                     <input type="file" name="others"
                                                         class="form-control inputField py-1 px-2 mt-2"
                                                         placeholder="Search">
-                                                    <div
+                                                    {{-- <div
                                                         class="col d-flex align-items-center justify-content-left pb-md-3 px-5 mt-2">
                                                         <a class="btn btn-download d-flex align-items-center gap-2"
                                                             href={{ asset('uploaded_files/user/students/' . $client->first_name . '/others' . '/' . $client->others) }}>
                                                             <img src="/assets/download.png" alt="">
                                                             <h6>Download</h6>
                                                         </a>
-                                                    </div>
+                                                    </div> --}}
                                                 @endif
                                             </h6>
                                         </div>
@@ -199,7 +190,7 @@
                                     <div class="col-md-12 d-flex justify-content-center p-4">
                                         <button class="btn btn-create d-flex align-items-center gap-2">
                                             <img src="/assets/reload.png" alt="">
-                                            <h6>Update Student Data</h6>
+                                            <h6 style="font-weight: 500">Update Student Data</h6>
                                         </button>
                                     </div>
                                 </form>

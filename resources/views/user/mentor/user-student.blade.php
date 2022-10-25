@@ -13,8 +13,8 @@
     </style>
 @endsection
 @section('content')
-    <div class="container-fluid">
-        <div class="row flex-nowrap main">
+    <div class="container-fluid p-0">
+        <div class="row flex-nowrap main" id="main">
             @include('user.mentor.utama.menu')
 
             {{-- Content --}}
@@ -35,16 +35,14 @@
                         <div class="col-md col-12 p-0 studentList">
                             <div class="headline d-flex justify-content-between">
                                 <div class="col-md-6 col-5 d-flex align-items-center gap-md-3 gap-2">
-                                    <img src="/assets/mentor.png" alt="">
+                                    <img src="/assets/student.png" alt="">
                                     <h6>Students List</h6>
                                 </div>
                                 <div class="col-md-4 col-6 d-flex align-items-center justify-content-end gap-md-3 gap-2">
-                                    <img src="/assets/reload.png" alt="">
                                     <div class="input-group">
                                         <form id="form-client-searching" action="{{ route('list-student') }}" method="GET"
                                             role="search" class="w-100">
-                                            <input type="text" class="form-control inputField py-2 px-3" name="keyword"
-                                                id="search-client" placeholder="Search" required>
+                                            <input type="search" class="form-control inputField py-2 px-3" name="keyword" id="search-client" placeholder="Search">
                                         </form>
                                     </div>
                                 </div>
@@ -70,9 +68,9 @@
                                                 <td>{{ $client->first_name . ' ' . $client->last_name }}</td>
                                                 <td>{{ $client->mentors->first_name . ' ' . $client->mentors->last_name }}
                                                 </td>
-                                                <td>{{ $client->email }}</td>
-                                                <td>{{ $client->phone }}</td>
-                                                <td>{{ strip_tags($client->address) }}</td>
+                                                <td>{{ $client->email ? $client->email : '-' }}</td>
+                                                <td>{{ $client->phone ? $client->phone : '-' }}</td>
+                                                <td>{{ $client->address ? strip_tags($client->address) : '-' }}</td>
                                             </tr>
                                         @endforeach
 

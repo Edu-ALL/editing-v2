@@ -3,8 +3,8 @@
     <link rel="stylesheet" href="/css/mentor/user-mentor.css">
 @endsection
 @section('content')
-    <div class="container-fluid">
-        <div class="row flex-nowrap main">
+    <div class="container-fluid p-0">
+        <div class="row flex-nowrap main" id="main">
             @include('user.mentor.utama.menu')
 
             {{-- Content --}}
@@ -16,17 +16,15 @@
                         <div class="col-md col-12 p-0 studentList">
                             <div class="headline d-flex justify-content-between">
                                 <div class="col-md-6 col-5 d-flex align-items-center gap-md-3 gap-2">
-                                    <img src="/assets/mentor.png" alt="">
+                                    <img src="/assets/ongoing-essay.png" alt="">
                                     <h6>Ongoing Essay List</h6>
                                 </div>
                                 <div class="col-md-4 col-6 d-flex align-items-center justify-content-end gap-md-3 gap-2">
-                                    <img src="/assets/reload.png" alt="">
                                     <div class="input-group">
                                         <form id="form-ongoing-essay-searching"
                                             action="{{ route('mentor-essay-list-ongoing') }}" method="GET" role="search"
                                             class="w-100">
-                                            <input type="email" class="form-control inputField py-2 px-3" name="keyword"
-                                                placeholder="Search">
+                                            <input type="search" class="form-control inputField py-2 px-3" name="keyword" placeholder="Search">
                                         </form>
                                     </div>
                                 </div>

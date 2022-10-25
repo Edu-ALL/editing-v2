@@ -48,7 +48,7 @@
                   </div>
                   <div class="col-1 titik2 p-0"><p>:</p></div>
                   <div class="col ps-1">
-                    <p>{{ $client->phone }}</p>
+                    <p>{{ $client->phone ? $client->phone : '-' }}</p>
                   </div>
                 </div>
                 <div class="row d-flex align-items-center">
@@ -57,7 +57,7 @@
                   </div>
                   <div class="col-1 titik2 p-0"><p>:</p></div>
                   <div class="col ps-1">
-                    <p>{{ $client->email }}</p>
+                    <p>{{ $client->email ? $client->email : '-' }}</p>
                   </div>
                 </div>
                 <div class="row d-flex align-items-center">
@@ -66,7 +66,7 @@
                   </div>
                   <div class="col-1 titik2 p-0"><p>:</p></div>
                   <div class="col ps-1">
-                    <p>{!! $client->address !!}</p>
+                    <p>{!! $client->address ? $client->address : '-' !!}</p>
                   </div>
                 </div>
                 <div class="row d-flex align-items-center">
@@ -136,16 +136,34 @@
               <div class="col-lg-2 col-3 mb-lg-4 mb-3 ms-lg-0 ms-2 attachment d-flex align-items-center justify-content-center">
                 <h6 class="text-center">Attachment</h6>
               </div>
-              <div class="row d-flex flex-column attachment-status gap-lg-2 gap-2 ps-lg-0 ps-1 mb-3">
+              <div class="row d-flex flex-column attachment-status gap-lg-3 gap-2 ps-lg-0 ps-1 mb-3">
                 {{-- flex-lg-row  --}}
-                <div class="col-lg me-2">
-                  <h6>Activities Resume<span class="px-2">:</span><span style="color: var(--red)">{{ $client->resume }}</span></h6>
+                <div class="col-lg">
+                  <h6>Activities Resume<span class="ps-2 pe-1">:</span>
+                    @if ($client->resume != null)
+                      <a href="{{ asset('uploaded_files/user/students/'.$client->first_name.'/resume'.'/'. $client->resume) }}" style="color: var(--blue)">{{ $client->resume }}</a>
+                    @else
+                      <span style="color: var(--red)">Not Available</span>
+                    @endif
+                  </h6>
                 </div>
                 <div class="col-lg">
-                  <h6>Questionnaire<span class="px-2">:</span><span style="color: var(--red)">Not Available</span></h6>
+                  <h6>Questionnaire<span class="ps-2 pe-1">:</span>
+                    @if ($client->questionnaire != null)
+                      <a href="{{ asset('uploaded_files/user/students/'.$client->first_name.'/questionnaire'.'/'.$client->questionnaire) }}" style="color: var(--blue)">{{ $client->questionnaire }}</a>
+                    @else
+                      <span style="color: var(--red)">Not Available</span>
+                    @endif
+                  </h6>
                 </div>
                 <div class="col-lg">
-                  <h6>Others<span class="px-2">:</span><span style="color: var(--red)">Not Available</span></h6>
+                  <h6>Others<span class="ps-2 pe-1">:</span>
+                    @if ($client->others != null)
+                      <a href="{{ asset('uploaded_files/user/students/'.$client->first_name.'/others'.'/'.$client->others) }}" style="color: var(--blue)">{{ $client->others }}</a>
+                    @else
+                      <span style="color: var(--red)">Not Available</span>
+                    @endif
+                  </h6>
                 </div>
               </div>
               {{-- End Attachment --}}
