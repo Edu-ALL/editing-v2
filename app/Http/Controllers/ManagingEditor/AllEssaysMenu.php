@@ -8,10 +8,13 @@ use App\Models\EssayClients;
 use App\Models\EssayEditors;
 use App\Models\EssayFeedbacks;
 use App\Models\EssayRevise;
+use App\Models\EssayStatus;
 use App\Models\EssayTags;
 use App\Models\Tags;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Exception;
+use Illuminate\Support\Facades\Redirect;
 
 class AllEssaysMenu extends Controller
 {
@@ -174,6 +177,34 @@ class AllEssaysMenu extends Controller
         ]);
     }
 
+    public function assignEditor($id_essay, Request $request){
+        DB::beginTransaction();
+        try {
+            $essay = EssayClients::find($id_essay);
+            $essay->id_editors = $request->id_editors;
+            $essay->status_essay_clients = 1;
+            $essay->save();
+
+            $essay_editor = new EssayEditors;
+            $essay_editor->id_essay_clients = $essay->id_essay_clients;
+            $essay_editor->editors_mail = $essay->editor->email;
+            $essay_editor->status_essay_editors = 1;
+            $essay_editor->save();
+
+            $essay_status = new EssayStatus();
+            $essay_status->id_essay_clients = $essay->id_essay_clients;
+            $essay_status->status = 1;
+            $essay_status->save();
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json($e->getMessage());
+            return Redirect::back()->withErrors($e->getMessage());
+        }
+        return redirect('admin/essay-list/ongoing');
+    }
+
     public function detailEssayManaging($id_essay, Request $request)
     {
         $editors = Editor::paginate(10);
@@ -188,7 +219,7 @@ class AllEssaysMenu extends Controller
         }
 
         if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4) {
-            return view('user.per-editor.essay-list.essay-list-ongoing-detail', [
+            return view('user.editor.all-essays.essay-list-ongoing-detail', [
                 'essay' => $essay,
                 'editors' => $editors
             ]);
