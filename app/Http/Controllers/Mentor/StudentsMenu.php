@@ -21,11 +21,19 @@ class StudentsMenu extends Controller
     {
         $mentor = Auth::guard('web-mentor')->user();
         $keyword = $request->get('keyword');
-        $clients = Client::where('id_mentor', '=', $mentor->id_mentors)->with('mentors')->when($keyword, function($query) use ($keyword) {
-            $query->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%')->orWhereHas('mentors', function ($querym) use ($keyword) {
-                $querym->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%');
-            })->orWhere('email', 'like', '%'.$keyword.'%');
-        })->orderBy('first_name', 'asc')->paginate(10);
+
+        $clients = Client::where('id_mentor', $mentor->id_mentors)
+        ->when($keyword, function ($query) use ($keyword) {
+            $query->where(function($query_) use ($keyword) {
+                $query_->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%')
+                ->orWhereHas('mentors', function ($query_mentor) use ($keyword) {
+                    $query_mentor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%');
+                })->orWhere('email', 'like', '%'.$keyword.'%')
+                ->orWhere('phone', 'like', '%'.$keyword.'%')
+                ->orWhere('address', 'like', '%'.$keyword.'%');
+            });
+        })
+        ->orderBy('first_name', 'asc')->paginate(10);
 
         if ($keyword) 
             $clients->appends(['keyword' => $keyword]);
@@ -36,9 +44,6 @@ class StudentsMenu extends Controller
     public function detail($id)
     {
         $client = Client::with('mentors')->find($id);
-        // dd($client->resume);
-
-        
         return view('user.mentor.user-student-detail',compact('client'));
     }
 
@@ -46,9 +51,9 @@ class StudentsMenu extends Controller
     {
         $rules = [
             // 'id_essay_clients' => 'required|exists:tbl_essay_clients,id_essay_clients',
-            'personal_brand' => 'required',
-            'interests' => 'required',
-            'personalities' => 'required'
+            'personal_brand' => 'nullable',
+            'interests' => 'nullable',
+            'personalities' => 'nullable'
         ];
 
         $validator = Validator::make($request->all() + ['id_essay_clients' => $id], $rules);
@@ -77,7 +82,7 @@ class StudentsMenu extends Controller
             Storage::disk('public_assets')->put($filePathresume, file_get_contents($request->resume));
         }else{
             $resumeFile = $request->resume;
-        };
+        }
             
 
         if ($request->hasFile('questionnaire')) {
@@ -94,7 +99,6 @@ class StudentsMenu extends Controller
         }else{
             $questionnaireFile = $request->questionnaire;
         }
-        ;
             
 
         if ($request->hasFile('others')) {
@@ -110,7 +114,7 @@ class StudentsMenu extends Controller
             Storage::disk('public_assets')->put($filePathothers, file_get_contents($request->others));
         }else{
             $othersFile = $request->others;
-        };
+        }
             
         // dd($questionnaireFile);
 
@@ -122,12 +126,21 @@ class StudentsMenu extends Controller
             $student->interests         = $request->interests;
             $student->personalities     = $request->personalities;
             if ($request->hasFile('resume')) {
-                $student->resume            = $resumeFile;
-            }elseif ($request->hasFile('questionnaire')){
-                $student->questionnaire     = $questionnaireFile;
-            }elseif ($request->hasFile('others')){
-                $student->others            = $othersFile;
-            };
+                $student->resume = $resumeFile;
+            }
+            if ($request->hasFile('questionnaire')){
+                $student->questionnaire = $questionnaireFile;
+            }
+            if ($request->hasFile('others')){
+                $student->others = $othersFile;
+            }
+            // if ($request->hasFile('resume')) {
+            //     $student->resume            = $resumeFile;
+            // }elseif ($request->hasFile('questionnaire')){
+            //     $student->questionnaire     = $questionnaireFile;
+            // }elseif ($request->hasFile('others')){
+            //     $student->others            = $othersFile;
+            // };
             
             // dd($student);
             $student->save();

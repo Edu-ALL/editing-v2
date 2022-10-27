@@ -82,7 +82,7 @@
                                             <p>:</p>
                                         </div>
                                         <div class="col-7">
-                                            <p>{{ $essay->client_by_id->email }}</p>
+                                            <p>{{ $essay->client_by_id->email ? $essay->client_by_id->email : '-' }}</p>
                                         </div>
                                     </div>
                                     <div class="row d-flex">
@@ -93,7 +93,7 @@
                                             <p>:</p>
                                         </div>
                                         <div class="col-7">
-                                            <p>{{ $essay->client_by_id->address }}</p>
+                                            <p>{{ $essay->client_by_id->address ? $essay->client_by_id->address : '-' }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -172,7 +172,7 @@
                                             <p>:</p>
                                         </div>
                                         <div class="col-7">
-                                            <p>{!! $essay->essay_prompt !!}</p>
+                                            <p>{!! $essay->essay_prompt ? $essay->essay_prompt : '-' !!}</p>
                                         </div>
                                     </div>
                                     <div class="row d-flex">
