@@ -37,7 +37,7 @@ class AllEssaysMenu extends Controller
     public function assignList(Request $request)
     {
         $keyword = $request->get('keyword');
-        $essays = EssayEditors::where('status_essay_editors', 1)->when($keyword, function ($query_) use ($keyword) {
+        $essays = EssayEditors::where('status_essay_editors','=', 1)->when($keyword, function ($query_) use ($keyword) {
             $query_->where(function ($query) use ($keyword) {
                 $query->whereHas('essay_clients', function ($query_essay) use ($keyword) {
                     $query_essay->whereHas('client_by_id', function ($query_client) use ($keyword) {
@@ -218,39 +218,56 @@ class AllEssaysMenu extends Controller
             DB::commit();
         }
 
-        if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4) {
+        
+        if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4 || $essay->status_essay_clients == 5) {
             return view('user.editor.all-essays.essay-list-ongoing-detail', [
                 'essay' => $essay,
                 'editors' => $editors
             ]);
-        } else if ($essay->status_essay_clients == 1) {
-            return view('user.editor.all-essays.essay-list-ongoing-detail', [
+        } else if ($essay->status_essay_clients == 1 || $essay->status_essay_clients == 2) {
+            return view('user.editor.all-essays.essay-assigned-detail', [
                 'essay' => $essay
             ]);
-        } 
-        else if ($essay->status_essay_clients == 2) {
-            return view('user.per-editor.essay-list.essay-list-ongoing-accepted', [
+        } else if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 6 || $essay->status_essay_clients == 8) {
+            return view('user.admin.essay-list.essay-ongoing-submitted', [
                 'essay' => $essay,
-                'tags' => Tags::get()
-            ]);
-        } else if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 8) {
-            return view('user.per-editor.essay-list.essay-list-ongoing-submitted', [
-                'essay' => $essay,
-                'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
-            ]);
-        } else if ($essay->status_essay_clients == 6) {
-            return view('user.per-editor.essay-list.essay-list-ongoing-revise', [
-                'essay' => $essay,
-                'tags' => EssayTags::where('id_essay_clients', $id_essay)->get(),
-                'list_tags' => Tags::get(),
-                'essay_revise' => EssayRevise::where('id_essay_clients', $id_essay)->get()
-            ]);
-        } else if ($essay->status_essay_clients == 7) {
-            return view('user.per-editor.essay-list.essay-list-completed-detail', [
-                'essay' => $essay_editor,
                 'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
             ]);
         }
+
+        // if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4) {
+        //     return view('user.editor.all-essays.essay-list-ongoing-detail', [
+        //         'essay' => $essay,
+        //         'editors' => $editors
+        //     ]);
+        // } else if ($essay->status_essay_clients == 1) {
+        //     return view('user.editor.all-essays.essay-list-ongoing-detail', [
+        //         'essay' => $essay
+        //     ]);
+        // } 
+        // else if ($essay->status_essay_clients == 2) {
+        //     return view('user.per-editor.essay-list.essay-list-ongoing-accepted', [
+        //         'essay' => $essay,
+        //         'tags' => Tags::get()
+        //     ]);
+        // } else if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 8) {
+        //     return view('user.per-editor.essay-list.essay-list-ongoing-submitted', [
+        //         'essay' => $essay,
+        //         'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
+        //     ]);
+        // } else if ($essay->status_essay_clients == 6) {
+        //     return view('user.per-editor.essay-list.essay-list-ongoing-revise', [
+        //         'essay' => $essay,
+        //         'tags' => EssayTags::where('id_essay_clients', $id_essay)->get(),
+        //         'list_tags' => Tags::get(),
+        //         'essay_revise' => EssayRevise::where('id_essay_clients', $id_essay)->get()
+        //     ]);
+        // } else if ($essay->status_essay_clients == 7) {
+        //     return view('user.per-editor.essay-list.essay-list-completed-detail', [
+        //         'essay' => $essay_editor,
+        //         'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
+        //     ]);
+        // }
     }
 
     public function allEssayDeadline($start, $num){
