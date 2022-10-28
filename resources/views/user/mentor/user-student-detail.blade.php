@@ -116,8 +116,8 @@
                                         <h6 class="text-center">Attachment</h6>
                                     </div>
 
-                                    <div class="row d-flex flex-lg-row flex-column attachment-status align-items-end gap-lg-0 gap-2 ps-lg-0 ps-2 mb-3">
-                                        <div class="col-lg-4 me-2">
+                                    <div class="row d-flex flex-lg-row flex-column attachment-status align-items-end gap-lg-1 gap-2 ps-lg-0 ps-2 mb-3">
+                                        <div class="col">
                                             <h6>Activities Resume<span class="px-2">:</span>
                                                 @if (empty($client->resume))
                                                     <span style="color: var(--red)">Not Available</span>
@@ -125,8 +125,7 @@
                                                     <input type="file" name="resume"
                                                         class="form-control inputField py-1 px-2 mt-2" placeholder="Search">
                                                 @else
-                                                    {{-- <p class="mt-2" style="color: var(--blue)">{{ $client->resume }}</p> --}}
-                                                    <a class="d-block mt-2" href="{{ asset('uploaded_files/user/students/'.$client->first_name.'/resume'.'/'. $client->resume) }}" style="color: var(--blue)">{{ $client->resume }}</a>
+                                                    <a class="d-block mt-2" href="{{ asset('uploaded_files/user/students/'.$client->first_name.'/resume'.'/'. $client->resume) }}" style="color: var(--blue)"><img src="/assets/download-blue.png" alt="" width="18" height="18" style="margin-right: 2px"> Download Uploaded Resume</a>
                                                     <input type="file" name="resume"
                                                         class="form-control inputField py-1 px-2 mt-2" placeholder="Search">
                                                     {{-- <div
@@ -140,7 +139,7 @@
                                                 @endif
                                             </h6>
                                         </div>
-                                        <div class="col-lg">
+                                        <div class="col">
                                             <h6>Questionnaire<span class="px-2">:</span>
                                                 @if (empty($client->questionnaire))
                                                     <span style="color: var(--red)">Not Available</span>
@@ -148,7 +147,7 @@
                                                     <input type="file" name="questionnaire"
                                                         class="form-control inputField py-1 px-2 mt-2" placeholder="Search">
                                                 @else
-                                                    <a class="d-block mt-2" href="{{ asset('uploaded_files/user/students/' . $client->first_name . '/questionnaire' . '/' . $client->questionnaire) }}" style="color: var(--blue)">{{ $client->questionnaire }}</a>
+                                                    <a class="d-block mt-2" href="{{ asset('uploaded_files/user/students/' . $client->first_name . '/questionnaire' . '/' . $client->questionnaire) }}" style="color: var(--blue)"><img src="/assets/download-blue.png" alt="" width="18" height="18" style="margin-right: 2px"> Download Uploaded Questionnaire</a>
                                                     <input type="file" name="questionnaire"
                                                         class="form-control inputField py-1 px-2 mt-2"
                                                         placeholder="Search">
@@ -163,7 +162,7 @@
                                                 @endif
                                             </h6>
                                         </div>
-                                        <div class="col-lg">
+                                        <div class="col">
                                             <h6>Others<span class="px-2">:</span>
                                                 @if (empty($client->others))
                                                     <span style="color: var(--red)">Not Available</span>
@@ -171,7 +170,7 @@
                                                     <input type="file" name="others"
                                                         class="form-control inputField py-1 px-2 mt-2" placeholder="Search">
                                                 @else
-                                                    <a class="d-block mt-2" href="{{ asset('uploaded_files/user/students/' . $client->first_name . '/others' . '/' . $client->others) }}" style="color: var(--blue)">{{ $client->others }}</a>
+                                                    <a class="d-block mt-2" href="{{ asset('uploaded_files/user/students/' . $client->first_name . '/others' . '/' . $client->others) }}" style="color: var(--blue)"><img src="/assets/download-blue.png" alt="" width="18" height="18" style="margin-right: 2px"> Download Uploaded Others File</a>
                                                     <input type="file" name="others"
                                                         class="form-control inputField py-1 px-2 mt-2"
                                                         placeholder="Search">

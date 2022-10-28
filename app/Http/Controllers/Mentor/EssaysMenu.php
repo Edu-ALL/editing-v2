@@ -6,9 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\EssayClients;
 use App\Models\EssayEditors;
+use App\Models\EssayFeedbacks;
+use App\Models\EssayTags;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Redirect;
+use Exception;
 
 class EssaysMenu extends Controller
 {
@@ -16,28 +20,31 @@ class EssaysMenu extends Controller
     {
         $mentor = Auth::guard('web-mentor')->user();
         $keyword = $request->get('keyword');
-        $essays = EssayClients::where('mentors_mail', '=', $mentor->email)->with(['status', 'editor', 'university', 'program', 'program.category', 'client_by_id', 'client_by_email', 'client_by_id.mentors', 'client_by_email.mentors'])->where('status_essay_clients', '!=', 7)->when($keyword, function ($query_) use ($keyword) {
-            $query_->where(function ($query) use ($keyword) {
-                $query->whereHas('client_by_id', function ($query_by_id) use ($keyword) {
-                    $query_by_id->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%')->orWhereHas('mentors', function ($query_mentor_by_id) use ($keyword) {
-                        $query_mentor_by_id->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%');
-                    });
-                })->orWhereHas('client_by_email', function ($query_by_email) use ($keyword) {
-                    $query_by_email->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%')->orWhereHas('mentors', function ($query_mentor_by_email) use ($keyword) {
-                        $query_mentor_by_email->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%');
+
+        $essays = EssayClients::where('status_essay_clients', '!=', 7)->
+        whereHas('client_by_id', function ($query) use ($mentor) {
+            $query->where('id_mentor', $mentor->id_mentors);
+        })->when($keyword, function ($query) use ($keyword) {
+            $query->where(function($query1) use ($keyword) {
+                $query1->whereHas('client_by_id', function ($query_client) use ($keyword) {
+                    $query_client->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%')
+                    ->orWhereHas('mentors', function ($query_mentor) use ($keyword) {
+                        $query_mentor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%');
                     });
                 })->orWhereHas('editor', function ($query_editor) use ($keyword) {
                     $query_editor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%');
-                })->orWhere('essay_title', 'like', '%'.$keyword.'%')->orWhereHas('status', function ($query_status) use ($keyword) {
+                })->orWhereHas('program', function ($query_program) use ($keyword) {
+                    $query_program->where('program_name', 'like', '%'.$keyword.'%');
+                })->orWhere('essay_title', 'like', '%'.$keyword.'%')
+                ->orWhereHas('status', function ($query_status) use ($keyword) {
                     $query_status->where('status_title', 'like', '%'.$keyword.'%');
                 });
             });
         })->orderBy('uploaded_at', 'desc')->paginate(10);
         
-        // $essays = EssayClients::where('mentors_mail', '=', $mentor->email)->with(['status', 'editor', 'university', 'program', 'program.category', 'client_by_id', 'client_by_email', 'client_by_id.mentors', 'client_by_email.mentors'])->where('status_essay_clients', '!=', 7)->paginate(10);
-        // dd($essays);
         if ($keyword) 
             $essays->appends(['keyword' => $keyword]);
+            
         return view('user.mentor.essay-list-ongoing', ['essays' => $essays]);
     }
 
@@ -46,30 +53,32 @@ class EssaysMenu extends Controller
         $mentor = Auth::guard('web-mentor')->user();
         $keyword = $request->get('keyword');
 
-        $essays = EssayEditors::where('status_essay_editors', 7)->when($keyword, function ($query_) use ($keyword) {
-            $query_->where(function ($query) use ($keyword) {
-                $query->whereHas('essay_clients', function ($query_essay) use ($keyword) {
-                    $query_essay->whereHas('client_by_id', function ($query_client) use ($keyword) {
-                        $query_client->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%')->orWhereHas('mentors', function ($query_mentor) use ($keyword) {
-                            $query_mentor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%');
-                        });;
-                    })->orWhereHas('editor', function ($query_editor) use ($keyword) {
-                        $query_editor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%');
-                    })->orWhereHas('program', function ($query_program) use ($keyword) {
-                        $query_program->where('program_name', 'like', '%'.$keyword.'%');
-                    })->orWhere('essay_title', 'like', '%'.$keyword.'%')
-                    ->orWhereHas('status', function ($query_status) use ($keyword) {
-                        $query_status->where('status_title', 'like', '%'.$keyword.'%');
+        $essays = EssayEditors::where('status_essay_editors', 7)
+        ->whereHas('essay_clients', function ($query) use ($mentor) {
+            $query->whereHas('client_by_id', function ($query) use ($mentor) {
+                $query->where('id_mentor', $mentor->id_mentors);
+            });
+        })->when($keyword, function ($query) use ($keyword) {
+            $query->whereHas('essay_clients', function ($query) use ($keyword) {
+                $query->whereHas('client_by_id', function ($query) use ($keyword) {
+                    $query->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%')
+                    ->orWhereHas('mentors', function ($query_mentor) use ($keyword) {
+                        $query_mentor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%');
                     });
+                })->orWhereHas('editor', function ($query_editor) use ($keyword) {
+                    $query_editor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%');
+                })->orWhereHas('program', function ($query_program) use ($keyword) {
+                    $query_program->where('program_name', 'like', '%'.$keyword.'%');
+                })->orWhere('essay_title', 'like', '%'.$keyword.'%')
+                ->orWhereHas('status', function ($query_status) use ($keyword) {
+                    $query_status->where('status_title', 'like', '%'.$keyword.'%');
                 });
             });
         })->orderBy('uploaded_at', 'desc')->paginate(10);
 
-
-        // $essays = EssayClients::where('mentors_mail', '=', $mentor->email)->with(['status', 'editor', 'university', 'program', 'program.category', 'client_by_id', 'client_by_email', 'client_by_id.mentors', 'client_by_email.mentors'])->where('status_essay_clients', '=', 7)->paginate(10);
-// dd($essays);
         if ($keyword) 
             $essays->appends(['keyword' => $keyword]);
+
         return view('user.mentor.essay-completed', ['essays' => $essays]);
     }
 
@@ -87,10 +96,18 @@ class EssaysMenu extends Controller
 
     public function detailCompletedEssay($id)
     {
-        $essay = EssayClients::find($id);
-        
-        return view('user.mentor.essay-list-ongoing-detail', [
-            'essay' => $essay
+        $essay = EssayEditors::where('id_essay_clients', $id)->first();
+        $essay_client = EssayClients::where('id_essay_clients', $id)->first();
+        if ($essay_client->essay_deadline > $essay->uploaded_at) {
+            $status_essay = 'On Time';
+        } else {
+            $status_essay = 'Late';
+        }
+        return view('user.mentor.essay-list-completed-detail', [
+            'essay' => $essay,
+            'tags' => EssayTags::where('id_essay_clients', $id)->get(),
+            'feedback' => EssayFeedbacks::where('id_essay_clients', $id)->first(),
+            'status_essay' => $status_essay
         ]);
         
     }
@@ -118,5 +135,40 @@ class EssaysMenu extends Controller
         
         return redirect('mentor/essay-list/ongoing')->with('delete-essay-successful', 'Essay has been deleted');
         
+    }
+
+    public function feedback(Request $request, $id)
+    {
+        $rate_1 = $request->rating_1;
+        $rate_2 = $request->rating_2;
+        $rate_3 = $request->rating_3;
+        $rate_4 = $request->rating_4;
+        $rate_5 = $request->rating_5;
+        $rate_6 = $request->rating_6;
+
+        DB::beginTransaction();
+        try {
+            $essay_feedback = new EssayFeedbacks;
+            $essay_feedback->id_essay_clients = $id;
+            $essay_feedback->option1 = $rate_1;
+            $essay_feedback->option2 = $rate_2;
+            $essay_feedback->option3 = $rate_3;
+            $essay_feedback->option4 = $rate_4;
+            $essay_feedback->option5 = $rate_5;
+            $essay_feedback->option6 = $rate_6;
+            $essay_feedback->add_comments = $request->comment;
+            $essay_feedback->save();
+
+            $essay = EssayClients::find($id);
+            $essay->essay_rating = ($rate_1 + $rate_2 + $rate_3 + $rate_4 + $rate_5 + $rate_6)/6;
+            $essay->save();
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return Redirect::back()->withErrors($e->getMessage());
+        }
+
+        return redirect('mentor/essay-list/completed/detail/'.$id);
     }
 }

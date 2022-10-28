@@ -26,6 +26,7 @@
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
 </head>
 
 <body>
@@ -40,6 +41,7 @@
 
     <script src="{{ asset('js/bootstrap.js') }}"></script>
     <script src="/js/mentor/mentor.js"></script>
+    <script src="https://kit.fontawesome.com/76ac67da65.js" crossorigin="anonymous"></script>
     <script>
         var main = document.getElementById('main');
         let height = window.innerHeight;

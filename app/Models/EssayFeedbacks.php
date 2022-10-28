@@ -11,6 +11,8 @@ class EssayFeedbacks extends Model
 
     protected $table = "tbl_essay_feedback";
     protected $primaryKey = 'id';
+    public $incrementing = false;
+    public $timestamps = false;
 
     protected $fillable = [
         'id_essay_clients',

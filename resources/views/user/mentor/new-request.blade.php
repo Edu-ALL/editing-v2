@@ -1,10 +1,6 @@
 @extends('user.mentor.utama.utama')
 @section('css')
-    {{-- <link rel="stylesheet" href="/css/admin/essay-completed.css"> --}}
-    {{-- <link rel="stylesheet" href="/css/mentor/user-editor-add.css"> --}}
-    {{-- <link rel="stylesheet" href="/css/mentor/user-mentor.css"> --}}
     <link rel="stylesheet" href="/css/mentor/new-request.css">
-    {{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> --}}
 @endsection
 @section('content')
     <div class="container-fluid" style="padding: 0">
@@ -47,7 +43,7 @@
                                                 <h6 class="pb-2">Request (Editor) :</h6>
                                                 <select class="select-normal" style="width: 96.5%;"
                                                     name="id_editors">
-                                                    <option value=""></option>
+                                                    <option value="0"></option>
                                                     @foreach ($request_editor->where('status', 1) as $editor)
                                                         @if ($editor->id_editors != '')
                                                             <option value="{{ $editor->id_editors }}">
@@ -141,8 +137,8 @@
                                             <div class="text-area mb-3">
                                                 <h6 class="pb-2">Essay Deadline :</h6>
                                                 <div class="col">
-                                                    <input type="date" name="essay_deadline"
-                                                        class="form-control inputField py-2 px-2" placeholder="Search" min="<?= date("Y-m-d", strtotime("+1days")); ?>" style="width: 96.5%;">
+                                                    <input type="date" id="minEssay" name="essay_deadline"
+                                                        class="form-control inputField py-2 px-2" placeholder="Search" onchange="addMinApp()" min="<?= date("Y-m-d", strtotime("+1days")); ?>" style="width: 96.5%;">
                                                 </div>
                                             </div>
                                         </div>
@@ -150,8 +146,8 @@
                                             <div class="text-area mb-3">
                                                 <h6 class="pb-2">Application Deadline :</h6>
                                                 <div class="col">
-                                                    <input type="date" name="application_deadline"
-                                                        class="form-control inputField py-2 px-2" placeholder="Search" min="<?= date("Y-m-d", strtotime("+1days")); ?>" style="width: 96.5%;">
+                                                    <input type="date" id="minApp" name="application_deadline"
+                                                        class="form-control inputField py-2 px-2" placeholder="Search" style="width: 96.5%;">
                                                 </div>
                                             </div>
                                         </div>
@@ -182,6 +178,35 @@
                 {{-- End Content --}}
             </div>
         </div>
+    @endsection
+    @section('js')
+        <script>
+            function incrementDate(date_str, incrementor) {
+                var parts = date_str.split("-");
+                var dt = new Date(
+                    parseInt(parts[0], 10),      // year
+                    parseInt(parts[1], 10) - 1,  // month (starts with 0)
+                    parseInt(parts[2], 10)       // date
+                );
+                dt.setTime(dt.getTime() + incrementor * 86400000);
+                parts[0] = "" + dt.getFullYear();
+                parts[1] = "" + (dt.getMonth() + 1);
+                if (parts[1].length < 2) {
+                    parts[1] = "0" + parts[1];
+                }
+                parts[2] = "" + dt.getDate();
+                if (parts[2].length < 2) {
+                    parts[2] = "0" + parts[2];
+                }
+                return parts.join("-");
+            };
+            function addMinApp(){
+                var minEssay = document.getElementById('minEssay').value;
+                var minApp = document.getElementById('minApp');
+                minApp.min = incrementDate(minEssay, 1);
+                console.log(minApp.min);
+            }
+        </script>
     @endsection
     {{-- @section('js')
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
