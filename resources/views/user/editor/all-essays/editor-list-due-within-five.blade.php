@@ -51,7 +51,7 @@
                                     <tbody>
                                         <?php $i = ($essays->currentpage()-1)* $essays->perpage() + 1;?>
                                         @foreach ($essays as $essay)
-                                        <tr onclick="window.location='/editor/all-essays/essay-list-due-detail/{{ $essay->id_essay_clients }}'">
+                                        <tr onclick="window.location='/editor/all-essays/ongoing/detail/{{ $essay->id_essay_clients }}'">
                                             <th scope="row" class="{{ $essay->status_read_editor == 0 ? 'unread' : '' }}">{{ $i++ }}</th>
 
                                             <td class="{{ $essay->status_read_editor == 0 ? 'unread' : '' }}">{{ $essay->client_by_id->first_name.' '.$essay->client_by_id->last_name }}</td>

@@ -65,7 +65,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{{ $essay->client_by_id->email }}</p>
+                    <p>{{ $essay->client_by_id->email ? $essay->client_by_id->email : '-' }}</p>
                   </div>
                 </div>
                 <div class="row d-flex">
@@ -74,7 +74,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{{ $essay->client_by_id->address }}</p>
+                    <p>{{ $essay->client_by_id->address ? $essay->client_by_id->address : '-' }}</p>
                   </div>
                 </div>
               </div>
@@ -111,7 +111,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{!! $essay->essay_prompt !!}</p>
+                    <p>{!! $essay->essay_prompt ? $essay->essay_prompt : '-' !!}</p>
                   </div>
                 </div>
                 <div class="row d-flex">
@@ -130,7 +130,7 @@
             </div>
             <div class="col-12 d-flex py-3 mt-4" style="border-top: 1px solid var(--light-grey)">
               <div class="col d-flex flex-row align-items-center justify-content-center gap-3">
-                <form action="{{ route('accept-essay', ['id_essay' => $essay->id_essay_clients]) }}" method="POST" class="p-0">
+                <form action="{{ route('accept-your-essay', ['id_essay' => $essay->id_essay_clients]) }}" method="POST" class="p-0">
                   @csrf
                   <button class="btn btn-download d-flex align-items-center gap-2" style="background-color: var(--green)">
                     <img src="/assets/assign-list.png" alt="">
@@ -166,7 +166,7 @@
         </div>
       </div>
       <div class="modal-body px-4 py-4">
-        <form action="{{ route('reject-essay', ['id_essay' => $essay->id_essay_clients]) }}" method="POST" class="p-0">
+        <form action="{{ route('reject-your-essay', ['id_essay' => $essay->id_essay_clients]) }}" method="POST" class="p-0">
           @csrf
           <h6 style="font-size: 14px">Notes :</h6>
           <textarea name="notes" class="textarea" style="overflow: auto !important"></textarea>

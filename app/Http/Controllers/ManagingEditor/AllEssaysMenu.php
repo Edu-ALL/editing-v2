@@ -143,11 +143,11 @@ class AllEssaysMenu extends Controller
         return view('user.editor.all-essays.essay-completed', ['essays' => $essays]);
     }
 
-    public function dueEssay($start, $num){
+    public function dueEssayEditor($start, $num){
         $today = date('Y-m-d');
         $start = date('Y-m-d', strtotime('+'.$start.' days', strtotime($today)));
         $dueDate = date('Y-m-d', strtotime('+'.$num.' days', strtotime($today)));
-        $essay = EssayClients::where('status_essay_clients', '!=', 7);
+        $essay = EssayClients::where('status_essay_clients', '!=', 0)->where('status_essay_clients', '!=', 7);
         $essay->where('essay_deadline', '>', $start);
         $essay->where('essay_deadline', '<=', $dueDate);
         return $essay->get();
@@ -165,14 +165,20 @@ class AllEssaysMenu extends Controller
             $essay->save();
             DB::commit();
         }
+        if ($essay->status_read_editor == 0) {
+            DB::beginTransaction();
+            $essay->status_read_editor = 1;
+            $essay->save();
+            DB::commit();
+        }
 
         if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4 || $essay->status_essay_clients == 5) {
             return view('user.editor.all-essays.essay-ongoing-detail', [
                 'essay' => $essay,
                 'editors' => $editors,
-                'dueTomorrow' => $this->dueEssay('0', '1'),
-                'dueThree' => $this->dueEssay('1', '3'),
-                'dueFive' => $this->dueEssay('3', '5'),
+                'dueTomorrow' => $this->dueEssayEditor('0', '1'),
+                'dueThree' => $this->dueEssayEditor('1', '3'),
+                'dueFive' => $this->dueEssayEditor('3', '5'),
                 'completedEssay' => EssayEditors::where('status_essay_editors', 7)->get()
             ]);
         } else if ($essay->status_essay_clients == 1) {

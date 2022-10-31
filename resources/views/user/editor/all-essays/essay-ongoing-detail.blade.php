@@ -19,7 +19,7 @@
       @include('user.editor.utama.head')
       <div class="container main-content m-0">
         <div class="row gap-2">
-          <div class="col-md col-12 p-0 userCard profile">
+          <div class="col-md col-12 p-0 userCard profile" style="cursor: default">
             <div class="headline d-flex align-items-center gap-3">
               <img src="/assets/status.png" alt="">
               <h6>Status</h6>
@@ -53,7 +53,7 @@
             </div>
           </div>
           
-          <div class="col-md-8 col-12 p-0 userCard">
+          <div class="col-md-8 col-12 p-0 userCard" style="cursor: default">
             <div class="headline d-flex justify-content-between">
               <div class="col-md-6 col-8 d-flex align-items-center gap-3">
                 <img src="/assets/student.png" alt="">
