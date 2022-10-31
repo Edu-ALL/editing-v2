@@ -51,6 +51,7 @@ use App\Models\EssayEditors;
 */
 
 Route::post('register/editor', [Editors::class, 'selfAddEditor'])->name('self-add-editor');
+Route::post('invite-editor', [Editors::class, 'invite'])->name('invite-editor');
 
 // Login
 Route::middleware('check.login')->group(function() {
@@ -187,6 +188,7 @@ Route::get('/editor/help', function () {
     return view('user.editor.help.help');
 });
 
+
 //Editor List Menu
 Route::get('/editor/list', [AllEditorMenu::class, 'index'])->name('list-editor');
 Route::get('/editor/list/detail/{id}', [AllEditorMenu::class, 'detail']);
@@ -275,4 +277,8 @@ Route::middleware('is_editor')->group(function(){
     Route::get('/editors/essay-list', [EditorEssays::class, 'index'])->name('list-essay');
     Route::get('/editors/essay-list/completed/detail/{id_essay}', [EditorEssays::class, 'detailEssay']);
     Route::get('/editors/essay-list/ongoing/detail/{id_essay}', [EditorEssays::class, 'detailEssay']);
+
+    Route::get('/editor/invite', function () {
+        return view('user/editor/editor-list/user-editor-invite');
+    });
 });
