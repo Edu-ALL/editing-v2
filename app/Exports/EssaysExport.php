@@ -37,8 +37,9 @@ class EssaysExport implements FromArray, ShouldAutoSize, WithStyles, WithEvents
                 foreach ($event->sheet->getColumnIterator('F') as $row) {
                     $row_count = 1;
                     foreach ($row->getCellIterator() as $cell) {
-                        if ($cell->getValue() != "" && str_contains($cell->getValue(), '://')) {
+                        if ($cell->getValue() != "" && (str_contains($cell->getValue(), '://') || (str_contains($cell->getValue(), ':\\')))) {
                             $link = $cell->getvalue();
+                            // $link = "https://editing.crm-allinedu.com/upload_files/program/essay/editors/Editing-Aaman-Essays-by-Alyssa(29-07-2020).docx";
                             $cell->setValue("Download");
 
                             $cell->setHyperlink(new Hyperlink($link));
