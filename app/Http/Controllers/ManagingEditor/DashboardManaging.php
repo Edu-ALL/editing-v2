@@ -13,8 +13,10 @@ class DashboardManaging extends Controller
     public function index(){
         $editor = Auth::guard('web-editor')->user();
 
-        $ongoing_essay = EssayClients::where('id_editors', $editor->id_editors)->where('status_essay_clients', '!=', 7);
-        $completed_essay = EssayEditors::where('editors_mail', $editor->email)->where('status_essay_editors', '=', 7);
+        $ongoing_essay = EssayClients::where('status_essay_clients', '!=', 7);
+        $completed_essay = EssayEditors::where('status_essay_editors', '=', 7);
+        $your_essay_ongoing = EssayEditors::where('editors_mail', $editor->email)->where('status_essay_editors', '!=', 7);
+        $your_essay_completed = EssayEditors::where('editors_mail', $editor->email)->where('status_essay_editors', '=', 7);
 
         $duetomorrow = $this->essayDeadline('0', '1');
         $duethree = $this->essayDeadline('1', '3');
@@ -27,6 +29,8 @@ class DashboardManaging extends Controller
         return view('user.editor.dashboard', [
             'ongoing_essay' => $ongoing_essay->count(),
             'completed_essay' => $completed_essay->count(),
+            'your_essay_ongoing' => $your_essay_ongoing->count(),
+            'your_essay_completed' => $your_essay_completed->count(),
             'duetomorrow' => $duetomorrow,
             'duethree' => $duethree,
             'duefive' => $duefive,
@@ -45,8 +49,6 @@ class DashboardManaging extends Controller
         $essay->whereHas('essay_clients', function ($query) use ($start, $dueDate) {
             $query->where('essay_deadline', '>', $start)->where('essay_deadline', '<=', $dueDate);
         });
-        // $essay->where('essay_deadline', '>', $start);
-        // $essay->where('essay_deadline', '<=', $dueDate);
         return $essay;
     }
 

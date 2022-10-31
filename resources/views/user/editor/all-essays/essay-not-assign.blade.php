@@ -72,7 +72,7 @@
                                                 <td>{{ $essay->client_by_id->mentors->first_name . ' ' . $essay->client_by_id->mentors->last_name }}
                                                 </td>
 
-                                                <td>{{ $essay->status_essay_clients == 0 || $essay->status_essay_clients == 4 ? '-' : $essay->editor->first_name . ' ' . $essay->editor->last_name }}
+                                                <td>{{ $essay->status_essay_clients == 0 || $essay->status_essay_clients == 4 || $essay->status_essay_clients == 5 ? '-' : $essay->editor->first_name . ' ' . $essay->editor->last_name }}
                                                 </td>
                                                 <td>{{ $essay->editor ? $essay->editor->first_name . ' ' . $essay->editor->last_name : '-' }}
                                                 </td>

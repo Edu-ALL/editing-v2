@@ -23,14 +23,20 @@
                                 style="color: var(--black)">
                                 <img class="img-status" src="/assets/status-edit.png" alt="">
                                 <h6>{{ $essay->status->status_title }}</h6>
-                                @if ($essay->status_essay_clients == '1' ||
+                                @if ($essay->status_essay_clients != '0' 
+                                    || $essay->status_essay_clients != '4' 
+                                    || $essay->status_essay_clients != '5' )
+                                    <h6>Editor : {{ $essay->editor->first_name . ' ' . $essay->editor->last_name }}
+                                    </h6>
+                                @endif
+                                {{-- @if ($essay->status_essay_clients == '1' ||
                                     $essay->status_essay_clients == '2' ||
                                     $essay->status_essay_clients == '6' ||
                                     $essay->status_essay_clients == '8')
-                                    <h6>Mentor : {{ $essay->editor->first_name . ' ' . $essay->editor->last_name }}
+                                    <h6>Editor : {{ $essay->editor->first_name . ' ' . $essay->editor->last_name }}
                                     </h6>
                                 @else
-                                @endif
+                                @endif --}}
                             </div>
                             <div class="headline d-flex align-items-center gap-3">
                                 <img src="/assets/file.png" alt="">

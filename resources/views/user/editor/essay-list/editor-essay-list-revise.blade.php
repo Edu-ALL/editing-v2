@@ -192,7 +192,7 @@
                         @endforeach
                         
                       </div>
-                      <form action="{{ route('add-comment', ['id_essay' => $essay->id_essay_clients]) }}" method="POST" class="p-0">
+                      <form action="{{ route('add-your-comment', ['id_essay' => $essay->id_essay_clients]) }}" method="POST" class="p-0">
                         @csrf
                         <textarea name="comment" class="textarea" style="overflow: auto !important"></textarea>
                         <div class="col d-flex align-items-center justify-content-center pt-3">
@@ -213,7 +213,7 @@
                 <h6>Upload Your Revision</h6>
               </div>
             </div>
-            <form action="{{ route('upload-revise', ['id_essay' => $essay->id_essay_clients]) }}" class="p-0" id="form-revise" enctype="multipart/form-data" method="POST">
+            <form action="{{ route('upload-your-revise', ['id_essay' => $essay->id_essay_clients]) }}" class="p-0" id="form-revise" enctype="multipart/form-data" method="POST">
               @csrf
               <div class="row field px-2 py-md-4 py-4" style="overflow: auto !important">
                 <div class="col-12 d-flex flex-md-row flex-column mb-md-3 mb-2 gap-md-0 gap-3">

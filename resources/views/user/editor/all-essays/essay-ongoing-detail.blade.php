@@ -1,4 +1,4 @@
-@extends('user.admin.utama.utama')
+@extends('user.editor.utama.utama')
 @section('css')
   <link rel="stylesheet" href="/css/admin/essay-ongoing-detail.css">
   <style>
@@ -12,21 +12,21 @@
   <div class="row flex-nowrap main" id="main">
 
     {{-- Sidenav --}}
-    @include('user.admin.utama.menu')
+    @include('user.editor.utama.menu')
 
     {{-- Content --}}
     <div class="col" style="overflow: auto !important">
-      @include('user.admin.utama.head')
+      @include('user.editor.utama.head')
       <div class="container main-content m-0">
         <div class="row gap-2">
-          <div class="col-md col-12 p-0 userCard profile">
+          <div class="col-md col-12 p-0 userCard profile" style="cursor: default">
             <div class="headline d-flex align-items-center gap-3">
               <img src="/assets/status.png" alt="">
               <h6>Status</h6>
             </div>
             <div class="col d-flex flex-column align-items-center px-3 py-md-5 py-4 gap-3 text-center justify-content-center" style="color: var(--black)">
               <img class="img-status" src="/assets/status-edit.png" alt="">
-              <h6>{{ $ongoing->status->status_title }}</h6>
+              <h6>{{ $essay->status->status_title }}</h6>
             </div>
             <div class="headline d-flex align-items-center gap-3">
               <img src="/assets/file.png" alt="">
@@ -36,12 +36,12 @@
               <img class="img-word" src="/assets/logo-word.png" alt="">
             </div>
             <div class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
-              <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/students/'.$ongoing->attached_of_clients) }}>
+              <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/students/'.$essay->attached_of_clients) }}>
                 <img src="/assets/download.png" alt="">
                 <h6>Download</h6>
               </a>
             </div>
-            {{-- <div class="headline d-flex align-items-center gap-3">
+            <div class="headline d-flex align-items-center gap-3">
               <img src="/assets/assign.png" alt="">
               <h6>Assignment</h6>
             </div>
@@ -50,17 +50,17 @@
                 <img src="/assets/assign-list.png" alt="">
                 <h6>Select Editor</h6>
               </button>
-            </div> --}}
+            </div>
           </div>
           
-          <div class="col-md-8 col-12 p-0 userCard">
+          <div class="col-md-8 col-12 p-0 userCard" style="cursor: default">
             <div class="headline d-flex justify-content-between">
               <div class="col-md-6 col-8 d-flex align-items-center gap-3">
                 <img src="/assets/student.png" alt="">
                 <h6>Student Detail</h6>
               </div>
               <div class="col-md-4 col-4 d-flex align-items-center justify-content-end gap-md-3 gap-2">
-                <a href="/admin/essay-list/ongoing"><img src="/assets/back.png" alt=""></a>
+                <a href="/editor/all-essays/not-assign-essay-list"><img src="/assets/back.png" alt=""></a>
               </div>
             </div>
             <div class="row profile-editor px-md-4 py-md-4 px-3 py-4 mb-2" style="overflow: auto !important">
@@ -71,7 +71,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{{ $ongoing->client_by_id->first_name.' '.$ongoing->client_by_id->last_name }}</p>
+                    <p>{{ $essay->client_by_id->first_name.' '.$essay->client_by_id->last_name }}</p>
                   </div>
                 </div>
                 <div class="row d-flex align-items-center">
@@ -80,7 +80,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{{ $ongoing->client_by_id->email }}</p>
+                    <p>{{ $essay->client_by_id->email ? $essay->client_by_id->email : '-' }}</p>
                   </div>
                 </div>
                 <div class="row d-flex align-items-center">
@@ -89,7 +89,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{{ $ongoing->client_by_id->address }}</p>
+                    <p>{{ $essay->client_by_id->address ? $essay->client_by_id->address : '-' }}</p>
                   </div>
                 </div>
                 
@@ -106,27 +106,27 @@
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6">
                     <h6 class="pb-2">University Name :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" disabled value="{{ $ongoing->university->university_name }}">
+                    <input type="text" class="form-control inputField py-2 px-3" disabled value="{{ $essay->university->university_name }}">
                   </div>
                   <div class="col-6">
                     <h6 class="pb-2">Essay Title :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" disabled value="{{ $ongoing->essay_title }}">
+                    <input type="text" class="form-control inputField py-2 px-3" disabled value="{{ $essay->essay_title }}">
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-4" style="overflow: auto !important">
                   <div class="col">
                     <h6 class="pb-2">Essay Prompt :</h6>
-                    <textarea name="" class="textarea" style="overflow: auto !important">{{ $ongoing->essay_prompt }}</textarea>
+                    <textarea name="" class="textarea" style="overflow: auto !important">{{ $essay->essay_prompt }}</textarea>
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-3">
                   <div class="col-6">
                     <h6 class="pb-2">Essay Deadline :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" disabled value="{{ date('D, d M Y', strtotime($ongoing->essay_deadline)) }}">
+                    <input type="text" class="form-control inputField py-2 px-3" disabled value="{{ date('D, d M Y', strtotime($essay->essay_deadline)) }}">
                   </div>
                   <div class="col-6">
                     <h6 class="pb-2">Application Deadline :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" disabled value="{{ date('D, d M Y', strtotime($ongoing->application_deadline)) }}">
+                    <input type="text" class="form-control inputField py-2 px-3" disabled value="{{ date('D, d M Y', strtotime($essay->application_deadline)) }}">
                   </div>
                 </div>
               </form>
@@ -139,6 +139,7 @@
     {{-- End Content --}}
   </div>
 </div>
+
 {{-- Modal Info --}}
 <div class="modal fade" id="info" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog d-flex align-items-center justify-content-center">
@@ -158,6 +159,7 @@
     </div>
   </div>
 </div>
+
 {{-- Modal Select Editor --}}
 <div class="modal fade" id="selectEditor" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog" style="max-width: 80% !important">
@@ -172,8 +174,7 @@
         </div>
       </div>
       <div class="modal-body p-0">
-        <form action="{{ route('assign-editor', $ongoing->id_essay_clients) }}" method="POST">
-        {{-- <form action="/admin/essay-list/ongoing/detail/{{ $ongoing->id_essay_clients }}" method="post"> --}}
+        <form action="{{ route('assign-editor', ['id_essay' => $essay->id_essay_clients]) }}" method="POST">
           @csrf
           <div class="container text-center p-0" style="overflow-x: auto !important">
             <table class="table table-bordered m-0">
@@ -196,10 +197,10 @@
                   <th scope="row">{{ $i++ }}</th>
                   <td>{{ $editor->first_name.' '.$editor->last_name }}</td>
                   <td>{{ $editor->graduated_from }}</td>
-                  <td>{{ $editor->graduated_from }}</td>
-                  <td>{{ $editor->graduated_from }}</td>
-                  <td>{{ $editor->graduated_from }}</td>
-                  <td>{{ $editor->graduated_from }}</td>
+                  <td>{{ $dueTomorrow->where('id_editors', $editor->id_editors)->count() }} Essays</td>
+                  <td>{{ $dueThree->where('id_editors', $editor->id_editors)->count() }} Essays</td>
+                  <td>{{ $dueFive->where('id_editors', $editor->id_editors)->count() }} Essays</td>
+                  <td>{{ $completedEssay->where('editors_mail', $editor->email)->count() }} Essays</td>
                   <td class="d-flex align-items-center justify-content-center">
                     <div class="form-check d-flex align-items-center justify-content-center">
                       <input class="form-check-input" type="radio" name="id_editors" id="flexRadioDefault1" value="{{ $editor->id_editors }}">

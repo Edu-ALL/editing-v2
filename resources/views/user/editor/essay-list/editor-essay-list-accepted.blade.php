@@ -65,7 +65,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{{ $essay->client_by_id->email }}</p>
+                    <p>{{ $essay->client_by_id->email ? $essay->client_by_id->email : '-' }}</p>
                   </div>
                 </div>
                 <div class="row d-flex">
@@ -74,7 +74,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{{ $essay->client_by_id->address }}</p>
+                    <p>{{ $essay->client_by_id->address ? $essay->client_by_id->address : '-' }}</p>
                   </div>
                 </div>
               </div>
@@ -134,15 +134,15 @@
                 <h6>Upload Your File</h6>
               </div>
             </div>
-            <form action="{{ route('upload-essay', ['id_essay' => $essay->id_essay_clients]) }}" class="p-0" id="form-essay" enctype="multipart/form-data" method="POST">
+            <form action="{{ route('upload-your-essay', ['id_essay' => $essay->id_essay_clients]) }}" class="p-0" id="form-essay" enctype="multipart/form-data" method="POST">
               @csrf
-              <div class="row field px-md-4 py-md-4 py-4" style="overflow: auto !important">
+              <div class="row field px-md-4 px-4 py-md-4 py-4" style="overflow: auto !important">
                 <div class="col-12 d-flex flex-md-row flex-column mb-md-3 mb-2 gap-md-0 gap-3">
                   <div class="col-md-6 col">
                     <h6 class="pb-2">Upload Your File :</h6>
                     <div class="col" id="chooseFile">
                       <div class="h-100 p-0">
-                        <input class="form-control form-control-sm inputField h-100" id="formFileSm" name="uploaded_file" form="form-essay" type="file">
+                        <input class="form-control p-1 ps-2 inputField h-100" id="formFileSm" name="uploaded_file" form="form-essay" type="file">
                       </div>
                       <h6 class="pt-2" style="font-size: 10px; color: var(--red)">* Upload your essay with the '.docx' format</h6>
                     </div>
