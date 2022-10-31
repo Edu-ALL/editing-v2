@@ -10,7 +10,7 @@
                 <div class="container main-content m-0">
                     <div class="row col-md-12 head align-items-center" style="background-color: transparent !important">
                         {{-- User List --}}
-                        <div class="row col-md-12 gap-2">
+                        <div class="row col-md-12 gap-md-2 gap-4">
                             <div class="col-md-5 userCard" style="cursor: default">
                                 <div class="row p-4 align-items-center text-center" style="height: 87%">
                                     <div class="col">
