@@ -34,7 +34,11 @@
                                     <img src="/assets/editor.png" alt="">
                                     <h6>Editor List</h6>
                                 </div>
+                                
                                 <div class="col-md-4 col-6 d-flex align-items-center justify-content-end gap-md-3 gap-2">
+                                    <a class="btn-invite" href="/editor/invite">
+                                        <img src="/assets/letter.png" alt="">
+                                    </a>
                                     <form action="{{ route('list-editor') }}"
                                         method="GET" role="search" class="w-100">
                                         <input type="search" class="form-control inputField py-2 px-3"

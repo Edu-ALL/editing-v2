@@ -44,7 +44,10 @@ class Editors extends Controller
             return response()->json(Mail::failures());
         }
 
-        return redirect('admin/user/editor/invite')->with('invite-editor-successful', 'Invitation email has been sent');
+        if (Auth::guard('web-admin')->check())
+            return redirect('admin/user/editor/invite')->with('invite-editor-successful', 'Invitation email has been sent');
+        else
+            return redirect('editor/invite')->with('invite-editor-successful', 'Invitation email has been sent');
     }
 
     public function join_editor(Request $request)

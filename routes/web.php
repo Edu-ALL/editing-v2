@@ -51,6 +51,7 @@ use App\Models\EssayEditors;
 */
 
 Route::post('register/editor', [Editors::class, 'selfAddEditor'])->name('self-add-editor');
+Route::post('invite-editor', [Editors::class, 'invite'])->name('invite-editor');
 
 // Login
 Route::middleware('check.login')->group(function() {
@@ -195,15 +196,12 @@ Route::middleware('is_editor')->group(function(){
     //All Essays Menu
     Route::get('/editor/all-essays', [AllEssaysMenu::class, 'index']);
 
-    // Route::get('/editor/all-essays/not-assign-essay-list', function () {
-    //     return view('user.editor.all-essays.editor-not-assign-essays-list');
-    // });
-        //List
+    //List
     Route::get('/editor/all-essays/completed-essay-list', [AllEssaysMenu::class, 'essayCompleted'])->name('editor-list-completed-essay');
     Route::get('/editor/all-essays/ongoing-essay-list', [AllEssaysMenu::class, 'ongoingList'])->name('editor-list-ongoing-essay');
     Route::get('/editor/all-essays/assigned-essay-list', [AllEssaysMenu::class, 'assignList'])->name('editor-list-assign-essay');
     Route::get('/editor/all-essays/not-assign-essay-list', [AllEssaysMenu::class, 'notAssignList'])->name('editor-list-not-assign-essay');
-        //Detail
+    //Detail
     Route::get('/editor/all-essays/ongoing/detail/{id}', [AllEssaysMenu::class, 'detailEssayManaging']);
 
     Route::get('/editor/all-essays/completed/detail/{id}', [AllEssaysMenu::class, 'detailEssayCompleted']);
@@ -257,7 +255,6 @@ Route::middleware('is_editor')->group(function(){
 });
 
 
-
 // **** Per Editor *****
 Route::middleware('is_editor')->group(function(){
     Route::get('/editors/dashboard', [Dashboard::class, 'index']);
@@ -267,4 +264,8 @@ Route::middleware('is_editor')->group(function(){
     Route::get('/editors/essay-list', [EditorEssays::class, 'index'])->name('list-essay');
     Route::get('/editors/essay-list/completed/detail/{id_essay}', [EditorEssays::class, 'detailEssay']);
     Route::get('/editors/essay-list/ongoing/detail/{id_essay}', [EditorEssays::class, 'detailEssay']);
+
+    Route::get('/editor/invite', function () {
+        return view('user/editor/editor-list/user-editor-invite');
+    });
 });
