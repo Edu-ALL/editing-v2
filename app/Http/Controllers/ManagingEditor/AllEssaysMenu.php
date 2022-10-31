@@ -15,22 +15,19 @@ use Illuminate\Support\Facades\DB;
 
 class AllEssaysMenu extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $count_not_assign_essay = EssayClients::where('status_essay_clients', 0)->orWhere('status_essay_clients', 4)->orWhere('status_essay_clients', 5)->count();
+        $count_assign_essay = EssayEditors::where('status_essay_editors', 1)->count();
+        $count_ongoing_essay = EssayEditors::where('status_essay_editors', 2)->orWhere('status_essay_editors', 3)->orWhere('status_essay_editors', 6)->orWhere('status_essay_editors', 8)->count();
+        $count_completed_essay = EssayEditors::where('status_essay_editors', 7)->count();
+        return view('user.editor.all-essays.editor-all-essays', [
+            'count_not_assign_essay' => $count_not_assign_essay,
+            'count_assign_essay' => $count_assign_essay,
+            'count_ongoing_essay' => $count_ongoing_essay,
+            'count_completed_essay' => $count_completed_essay,
+        ]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
     public function assignList(Request $request)
     {
         $keyword = $request->get('keyword');
@@ -62,7 +59,8 @@ class AllEssaysMenu extends Controller
     public function notAssignList(Request $request)
     {
         $keyword = $request->get('keyword');
-        $essays = EssayClients::where('status_essay_clients', 0)->orWhere('status_essay_clients', 4)->when($keyword, function ($query_) use ($keyword) {
+        $essays = EssayClients::where('status_essay_clients', 0)->orWhere('status_essay_clients', 4)->orWhere('status_essay_clients', 5)
+        ->when($keyword, function ($query_) use ($keyword) {
             $query_->where(function ($query) use ($keyword) {
                 $query->whereHas('client_by_id', function ($query_client) use ($keyword) {
                     $query_client->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%')->orWhereHas('mentors', function ($query_mentor) use ($keyword) {
@@ -140,39 +138,40 @@ class AllEssaysMenu extends Controller
         
         return view('user.editor.all-essays.essay-completed', ['essays' => $essays]);
     }
-    public function detailEssayCompleted($id){
-        $essay = EssayEditors::where('id_essay_clients', $id)->first();
-        $essay_client = EssayClients::where('id_essay_clients', $id)->first();
-        if ($essay_client->essay_deadline > $essay->uploaded_at) {
-            $status_essay = 'On Time';
-        } else {
-            $status_essay = 'Late';
-        }
 
-        return view('user.editor.all-essays.essay-completed-detail', [
-            'essay' => $essay,
-            'tags' => EssayTags::where('id_essay_clients', $id)->get(),
-            'feedback' => EssayFeedbacks::where('id_essay_clients', $id)->first(),
-            'status_essay' => $status_essay
-        ]);
-    }
+    // public function detailEssayCompleted($id){
+    //     $essay = EssayEditors::where('id_essay_clients', $id)->first();
+    //     $essay_client = EssayClients::where('id_essay_clients', $id)->first();
+    //     if ($essay_client->essay_deadline > $essay->uploaded_at) {
+    //         $status_essay = 'On Time';
+    //     } else {
+    //         $status_essay = 'Late';
+    //     }
 
-    public function detailEssayOngoing($id){
-        $essay = EssayEditors::where('id_essay_clients', $id)->first();
-        $essay_client = EssayClients::where('id_essay_clients', $id)->first();
-        if ($essay_client->essay_deadline > $essay->uploaded_at) {
-            $status_essay = 'On Time';
-        } else {
-            $status_essay = 'Late';
-        }
+    //     return view('user.editor.all-essays.essay-completed-detail', [
+    //         'essay' => $essay,
+    //         'tags' => EssayTags::where('id_essay_clients', $id)->get(),
+    //         'feedback' => EssayFeedbacks::where('id_essay_clients', $id)->first(),
+    //         'status_essay' => $status_essay
+    //     ]);
+    // }
 
-        return view('user.editor.all-essays.essay-completed-detail', [
-            'essay' => $essay,
-            'tags' => EssayTags::where('id_essay_clients', $id)->get(),
-            'feedback' => EssayFeedbacks::where('id_essay_clients', $id)->first(),
-            'status_essay' => $status_essay
-        ]);
-    }
+    // public function detailEssayOngoing($id){
+    //     $essay = EssayEditors::where('id_essay_clients', $id)->first();
+    //     $essay_client = EssayClients::where('id_essay_clients', $id)->first();
+    //     if ($essay_client->essay_deadline > $essay->uploaded_at) {
+    //         $status_essay = 'On Time';
+    //     } else {
+    //         $status_essay = 'Late';
+    //     }
+
+    //     return view('user.editor.all-essays.essay-completed-detail', [
+    //         'essay' => $essay,
+    //         'tags' => EssayTags::where('id_essay_clients', $id)->get(),
+    //         'feedback' => EssayFeedbacks::where('id_essay_clients', $id)->first(),
+    //         'status_essay' => $status_essay
+    //     ]);
+    // }
 
     public function detailEssayManaging($id_essay, Request $request)
     {
@@ -231,7 +230,6 @@ class AllEssaysMenu extends Controller
         $essay->where('essay_deadline', '<=', $dueDate);
         return $essay;
     }
-
     public function dueTomorrow(Request $request){
         $keyword = $request->get('keyword');
         $essays = $this->allEssayDeadline('0', '1')->when($keyword, function ($query_) use ($keyword) {
@@ -301,7 +299,6 @@ class AllEssaysMenu extends Controller
             
         return view('user.editor.all-essays.editor-list-due-within-five', ['essays' => $essays]);
     }
-
     public function detailEssayDue($id){
         $essay_client = EssayClients::where('id_essay_clients', $id)->first();
 
@@ -314,66 +311,5 @@ class AllEssaysMenu extends Controller
         return view('user.editor.all-essays.editor-list-due-detail', [
             'essay' => $essay_client,
         ]);
-    }
-    
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

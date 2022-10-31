@@ -13,11 +13,11 @@ Route::get('logout', [Authentication::class, 'logout'])->name('editor-logout');
 
 Route::post('profile/managing/{id_editors}', [ProfileManaging::class, 'update'])->name('update-managing-profile');
 
-Route::post('ongoing/accept/{id_essay}', [EssayListMenu::class, 'accept'])->name('accept-essay');
-Route::post('ongoing/reject/{id_essay}', [EssayListMenu::class, 'reject'])->name('reject-essay');
-Route::post('ongoing/upload/{id_essay}', [EssayListMenu::class, 'uploadEssay'])->name('upload-essay');
-Route::post('ongoing/addcomment/{id_essay}', [EssayListMenu::class, 'addComment'])->name('add-comment');
-Route::post('ongoing/uploadrevise/{id_essay}', [EssayListMenu::class, 'uploadRevise'])->name('upload-revise');
+Route::post('ongoing/managing/accept/{id_essay}', [EssayListMenu::class, 'accept'])->name('accept-essay');
+Route::post('ongoing/managing/reject/{id_essay}', [EssayListMenu::class, 'reject'])->name('reject-essay');
+Route::post('ongoing/managing/upload/{id_essay}', [EssayListMenu::class, 'uploadEssay'])->name('upload-essay');
+Route::post('ongoing/managing/addcomment/{id_essay}', [EssayListMenu::class, 'addComment'])->name('add-comment');
+Route::post('ongoing/managing/uploadrevise/{id_essay}', [EssayListMenu::class, 'uploadRevise'])->name('upload-revise');
 
 Route::post('university', [Universities::class, 'store'])->name('add-universities');
 Route::post('university/{uni_id}', [Universities::class, 'update'])->name('update-universities');
