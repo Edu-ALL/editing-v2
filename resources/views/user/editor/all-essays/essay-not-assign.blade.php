@@ -37,7 +37,8 @@
                                         <form id="form-ongoing-essay-searching"
                                             action="{{ route('editor-list-not-assign-essay') }}" method="GET"
                                             role="search" class="w-100">
-                                            <input type="text" class="form-control inputField py-2 px-3" name="keyword" placeholder="Search">
+                                            <input type="text" class="form-control inputField py-2 px-3" name="keyword"
+                                                placeholder="Search">
                                         </form>
                                     </div>
                                 </div>
@@ -63,15 +64,20 @@
                                         <?php $i = ($essays->currentpage() - 1) * $essays->perpage() + 1; ?>
                                         @foreach ($essays as $essay)
                                             <tr
-                                                onclick="window.location='/editor/all-essays/completed/detail/{{ $essay->id_essay_clients }}'">
+                                                onclick="window.location='/editor/all-essays/ongoing/detail/{{ $essay->id_essay_clients }}'">
                                                 <th scope="row">{{ $i++ }}</th>
 
-                                                <td>{{ $essay->client_by_id->first_name . ' ' . $essay->client_by_id->last_name }}</td>
-                                                <td>{{ $essay->client_by_id->mentors->first_name.' '. $essay->client_by_id->mentors->last_name }}</td>
-                                                
-                                                <td>{{ $essay->status_essay_clients == 0 || $essay->status_essay_clients == 4 ? '-' : $essay->editor->first_name.' '. $essay->editor->last_name }}</td>
-                                                <td>{{ $essay->editor ? $essay->editor->first_name . ' ' .$essay->editor->last_name : '-' }}</td>
-                                                <td>{{ $essay->program->program_name.' ('.$essay->program->minimum_word.' - '.$essay->program->maximum_word.' Words)' }}</td>
+                                                <td>{{ $essay->client_by_id->first_name . ' ' . $essay->client_by_id->last_name }}
+                                                </td>
+                                                <td>{{ $essay->client_by_id->mentors->first_name . ' ' . $essay->client_by_id->mentors->last_name }}
+                                                </td>
+
+                                                <td>{{ $essay->status_essay_clients == 0 || $essay->status_essay_clients == 4 ? '-' : $essay->editor->first_name . ' ' . $essay->editor->last_name }}
+                                                </td>
+                                                <td>{{ $essay->editor ? $essay->editor->first_name . ' ' . $essay->editor->last_name : '-' }}
+                                                </td>
+                                                <td>{{ $essay->program->program_name . ' (' . $essay->program->minimum_word . ' - ' . $essay->program->maximum_word . ' Words)' }}
+                                                </td>
                                                 <td>{{ $essay->essay_title }}</td>
                                                 <td>{{ date('D, d M Y', strtotime($essay->uploaded_at)) }}</td>
                                                 <td>{{ date('D, d M Y', strtotime($essay->essay_deadline)) }}</td>

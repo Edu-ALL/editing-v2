@@ -18,8 +18,9 @@
                                     </div>
                                     <div class="col-md-4 col d-flex align-items-center justify-content-end">
                                         <div class="input-group">
-                                            <form id="form-ongoing-essay-searching" action="{{ route('editor-essay-list') }}"
-                                                method="GET" role="search" class="w-100">
+                                            <form id="form-ongoing-essay-searching"
+                                                action="{{ route('editor-essay-list') }}" method="GET" role="search"
+                                                class="w-100">
                                                 <input type="search" class="form-control inputField py-2 px-3"
                                                     name="keyword-ongoing" placeholder="Search">
                                             </form>

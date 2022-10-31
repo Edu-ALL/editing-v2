@@ -41,7 +41,7 @@ class NewRequestMenu extends Controller
         // $clients = Client::where('id_mentor', '=', $mentor->id_mentors)->with('mentors')
         $clients = Client::where('id_mentor', '=', $mentor->id_mentors)->with('mentors')->get();
         // dd($clients);
-        $request_editor = Editor::get();
+        $request_editor = Editor::where('status', '=', '1')->get();
         $university = University::get();
         $program = Programs::where('program_name', '=', 'Essay Editing')->orderBy('program_name', 'asc')->get();
         // dd($program);
