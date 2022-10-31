@@ -209,7 +209,7 @@
                 <div class="col-12 d-flex mb-5">
                   <div class="col">
                     <h6 class="pb-2">Position :</h6>
-                    <select class="select-beast" name="position">
+                    <select class="select-beast" name="position" disabled>
                       <option value="1" @if ($editor->position == 1)
                           selected
                       @endif>Associate</option>
@@ -222,12 +222,12 @@
                     </select>
                   </div>
                 </div>
-                <div class="col-12 d-flex justify-content-center pt-3" style="border-top: 1px solid var(--light-grey)">
+                {{-- <div class="col-12 d-flex justify-content-center pt-3" style="border-top: 1px solid var(--light-grey)">
                   <button class="btn btn-create d-flex align-items-center gap-2">
                     <img src="/assets/update.png" alt="">
                     <h6>Update Editor</h6>
                   </button>
-                </div>
+                </div> --}}
               </form>
             </div>
           </div>

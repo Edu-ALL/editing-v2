@@ -98,7 +98,7 @@
                                     {{-- Text Area --}}
                                     <div class="text-area p-md-1 mb-3">
                                         <h6 class="pb-3">Personal Brand Statement :</h6>
-                                        <textarea name="personal_brand" class="textarea" placeholder="Presonal Brand Statement"> {{ $client->personal_brand }}</textarea>
+                                        <textarea name="personal_brand" class="textarea" placeholder="Personal Brand Statement"> {{ $client->personal_brand }}</textarea>
                                     </div>
                                     <div class="text-area p-md-1 mb-3">
                                         <h6 class="pb-3">Academic Goals & Interest :</h6>

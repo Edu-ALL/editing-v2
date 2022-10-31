@@ -40,7 +40,7 @@
             </div>
             <div class="headline d-flex align-items-center gap-3" style="background-color: var(--yellow)">
               <img src="/assets/file.png" alt="">
-              <h6>Download Your File</h6>
+              <h6>Download Editor File</h6>
             </div>
             <div class="col d-flex align-items-center justify-content-center py-md-4 py-4">
               <img class="img-word" src="/assets/logo-word.png" alt="">
