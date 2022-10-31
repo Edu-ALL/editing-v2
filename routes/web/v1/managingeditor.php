@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Editor\Authentication;
 use App\Http\Controllers\ManagingEditor\AllEditorMenu;
+use App\Http\Controllers\ManagingEditor\AllEssaysMenu;
 use App\Http\Controllers\ManagingEditor\CategoriesTags;
 use App\Http\Controllers\ManagingEditor\EssayListMenu;
 use App\Http\Controllers\ManagingEditor\ProfileManaging;
@@ -12,6 +13,11 @@ Route::post('authenticate', [Authentication::class, '_loginEditor'])->name('edit
 Route::get('logout', [Authentication::class, 'logout'])->name('editor-logout');
 
 Route::post('profile/managing/{id_editors}', [ProfileManaging::class, 'update'])->name('update-managing-profile');
+
+Route::post('all-essay/ongoing/managing/assign/{id_essay}', [AllEssaysMenu::class, 'assignEditor'])->name('assign-editor');
+Route::post('all-essay/ongoing/managing/cancel/{id_essay}', [AllEssaysMenu::class, 'cancel'])->name('cancel-editor');
+Route::post('all-essay/ongoing/managing/verify/{id_essay}', [AllEssaysMenu::class, 'verifyEssay'])->name('verify-essay');
+Route::post('all-essay/ongoing/managing/revise/{id_essay}', [AllEssaysMenu::class, 'reviseEssay'])->name('revise-essay');
 
 Route::post('ongoing/managing/accept/{id_essay}', [EssayListMenu::class, 'accept'])->name('accept-essay');
 Route::post('ongoing/managing/reject/{id_essay}', [EssayListMenu::class, 'reject'])->name('reject-essay');

@@ -84,7 +84,6 @@ class EssayListMenu extends Controller
         });
         return $essay;
     }
-
     public function dueTomorrow(Request $request){
         $keyword = $request->get('keyword');
         $essays = $this->essayDeadline('0', '1')->when($keyword, function ($query_) use ($keyword) {
