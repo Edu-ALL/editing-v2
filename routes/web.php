@@ -82,9 +82,9 @@ Route::middleware('check.login')->group(function() {
     });
 });
 
-// Admin
-// Help
+//**********Role Admin**********//
 Route::middleware('is_admin')->group(function(){
+    // Help
     Route::get('/admin/help', function () {
         return view('user.admin.help.help');
     });
@@ -155,7 +155,6 @@ Route::middleware('is_admin')->group(function(){
     Route::get('/admin/setting/categories-tags/detail/{tag_id}', [CategoriesTags::class, 'detail']);
 });
 
-
 //**********Role Mentor**********//
 Route::middleware('is_mentor')->group(function(){
     // Dashboard
@@ -180,8 +179,9 @@ Route::middleware('is_mentor')->group(function(){
 
 });
 
+//**********Role Managing**********//
 Route::middleware('is_editor')->group(function(){
-    //**********Role Editor**********//
+    // Dashboard
     Route::get('/editor/dashboard', [DashboardManaging::class, 'index']);
 
     // Help
