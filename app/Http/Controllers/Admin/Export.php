@@ -90,7 +90,23 @@ class Export extends Controller
         }
 
         $export = new EssaysExport([
-            ['Students Name', 'Editors Name', 'Program Name', 'University', 'Essay Title', 'Editors File', 'Students File', 'Status', 'Essay Rating', 'Work Duration (Minutes)', 'Application Date', 'Completed Date'],
+            [
+                'Students Name', 
+                'Editors Name', 
+                'Program Name', 
+                'University', 
+                'Essay Title', 
+                // 'Description',  # new
+                // 'Essay Deadline', # new
+                // 'Application Deadline', # new 
+                'Editors File', 
+                'Students File', 
+                // 'Students Status', # new
+                'Status', # editor status
+                'Essay Rating', 
+                'Work Duration (Minutes)', 
+                'Application Date', 
+                'Completed Date'],
             $body_excel
         ]);
 
