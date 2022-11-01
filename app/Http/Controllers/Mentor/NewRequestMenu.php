@@ -26,49 +26,22 @@ use Illuminate\Support\Str;
 
 class NewRequestMenu extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        // $user = Auth::id_mentors();
-        // $id = $user->id_mentors;
-        // $name = $user->name;
-        // $mentor = Auth::guard('web-mentor')->user();
         $mentor = Auth::guard('web-mentor')->user();
-        // $clients = Client::where('id_mentor', '=', $mentor->id_mentors)->with('mentors')
         $clients = Client::where('id_mentor', '=', $mentor->id_mentors)->with('mentors')->get();
-        // dd($clients);
         $request_editor = Editor::where('status', '=', '1')->get();
         $university = University::get();
         $program = Programs::where('program_name', '=', 'Essay Editing')->orderBy('program_name', 'asc')->get();
-        // dd($program);
         
-        return view('user.mentor.new-request', ['clients' => $clients, 
-                                                'request_editor' => $request_editor, 
-                                                'university' => $university,
-                                                'program' => $program],);
-        // compact('clients','request_editor','university','program'));
+        return view('user.mentor.new-request', [
+            'clients' => $clients, 
+            'request_editor' => $request_editor, 
+            'university' => $university,
+            'program' => $program
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request){
         // $rules = [
         //     'id_program' => 'required',
@@ -91,16 +64,13 @@ class NewRequestMenu extends Controller
         // }
         $id_transaksi = '0';
         $mentor = Auth::guard('web-mentor')->user();
-        // $student_email = Client::where('id_mentor', '=', $mentor->id_mentors)->with('mentors')->get();
         $student_name =  $request->id_clients;
+        
         $file_student = Client::where('id_clients', '=', $student_name)->first();
-        // dd($file_student->email);
         $fileName = $request->attached_of_clients->getClientOriginalName();
         $filePath = 'program/essay/mentors/'.$fileName;
         Storage::disk('public_assets')->put($filePath, file_get_contents($request->attached_of_clients));
-        // Storage::disk('public')->url($filePath);
 
-        // dd($path);
         DB::beginTransaction();
         try {
             $new_request = new EssayClients();
@@ -115,7 +85,6 @@ class NewRequestMenu extends Controller
             $new_request->mentors_mail          = $file_student->mentors->email;
             $new_request->essay_deadline        = $request->essay_deadline;
             $new_request->application_deadline  = $request->application_deadline;
-            // dd($new_request);
             
             $new_request->attached_of_clients   = $fileName;
             $new_request->status_essay_clients  = 0;
@@ -126,7 +95,6 @@ class NewRequestMenu extends Controller
             DB::commit();
 
         } catch (Exception $e) {
-            // dd($e->getMessage());
             DB::rollBack();
             return Redirect::back()->withErrors($e->getMessage());
 
@@ -173,50 +141,5 @@ class NewRequestMenu extends Controller
         if (Mail::failures()) {
             return response()->json(Mail::failures());
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

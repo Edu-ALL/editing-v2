@@ -1,6 +1,9 @@
 @extends('user.mentor.utama.utama')
 @section('css')
     <link rel="stylesheet" href="/css/mentor/new-request.css">
+    <style>
+        .alert {font-size: 14px; margin: 0 0px 16px 0px}
+    </style>
 @endsection
 @section('content')
     <div class="container-fluid" style="padding: 0">
@@ -14,9 +17,10 @@
                         @csrf
 
                         <div class="row">
-                            @if (session()->has('add-new-request-successful'))
-                                <div class="alert alert-success fade show" role="alert">
-                                    {{ session()->get('add-new-request-successful') }}
+                            @if(session()->has('add-new-request-successful'))
+                                <div class="row alert alert-success fade show d-flex justify-content-between" role="alert">
+                                {{ session()->get('add-new-request-successful') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
                             @endif
 
