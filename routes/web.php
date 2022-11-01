@@ -196,24 +196,20 @@ Route::middleware('is_editor')->group(function(){
     //All Essays Menu
     Route::get('/editor/all-essays', [AllEssaysMenu::class, 'index']);
 
-    //List
+    //List All Essays
     Route::get('/editor/all-essays/completed-essay-list', [AllEssaysMenu::class, 'essayCompleted'])->name('editor-list-completed-essay');
     Route::get('/editor/all-essays/ongoing-essay-list', [AllEssaysMenu::class, 'ongoingList'])->name('editor-list-ongoing-essay');
     Route::get('/editor/all-essays/assigned-essay-list', [AllEssaysMenu::class, 'assignList'])->name('editor-list-assign-essay');
     Route::get('/editor/all-essays/not-assign-essay-list', [AllEssaysMenu::class, 'notAssignList'])->name('editor-list-not-assign-essay');
-    //Detail
+
+    //Detail All Essays
     Route::get('/editor/all-essays/ongoing/detail/{id}', [AllEssaysMenu::class, 'detailEssayManaging']);
+    Route::get('/editor/all-essays/completed/detail/{id}', [AllEssaysMenu::class, 'detailEssayManagingCompleted']);
 
-    Route::get('/editor/all-essays/completed/detail/{id}', [AllEssaysMenu::class, 'detailEssayCompleted']);
-    Route::get('/editor/all-essays/ongoing-essay/detail/{id}', [AllEssaysMenu::class, 'detailEssayCompleted']);
-    Route::get('/editor/all-essays/assigned-essay/detail/{id}', [AllEssaysMenu::class, 'detailEssayCompleted']);
-    Route::get('/editor/all-essays/not-assign-essay/detail/{id}', [AllEssaysMenu::class, 'detailEssayCompleted']);
-
-
+    //List All Essays Due
     Route::get('/editor/all-essays/essay-list-due-tommorow', [AllEssaysMenu::class, 'dueTomorrow'])->name('editor-list-due-tomorrow');
     Route::get('/editor/all-essays/essay-list-due-within-three', [AllEssaysMenu::class, 'dueThree'])->name('editor-list-due-within-three');
     Route::get('/editor/all-essays/essay-list-due-within-five', [AllEssaysMenu::class, 'dueFive'])->name('editor-list-due-within-five');
-    Route::get('/editor/all-essays/essay-list-due-detail/{id}', [AllEssaysMenu::class, 'detailEssayDue']);
 
     //All Essays detail
     // Route::get('/editor/all-essays/not-assign-essay-list-detail', function () {
@@ -234,6 +230,7 @@ Route::middleware('is_editor')->group(function(){
     Route::get('/editor/essay-list/ongoing/detail/{id_essay}', [EssayListMenu::class, 'detailEssayList']);
     Route::get('/editor/essay-list/completed/detail/{id_essay}', [EssayListMenu::class, 'detailEssayList']);
 
+    //List Essays List Due
     Route::get('/editor/essay-list-due-tommorow', [EssayListMenu::class, 'dueTomorrow'])->name('editor-list-due-tomorrow');
     Route::get('/editor/essay-list-due-within-three', [EssayListMenu::class, 'dueThree'])->name('editor-list-due-within-three');
     Route::get('/editor/essay-list-due-within-five', [EssayListMenu::class, 'dueFive'])->name('editor-list-due-within-five');

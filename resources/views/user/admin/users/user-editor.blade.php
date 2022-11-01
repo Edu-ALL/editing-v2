@@ -81,9 +81,9 @@
                                                 onclick="window.location='/admin/user/editor/detail/{{ $editor->id_editors }}'">
                                                 <th scope="row">{{ $i++ }}</th>
                                                 <td>{{ $editor->first_name . ' ' . $editor->last_name }}</td>
-                                                <td>{{ $editor->email }}</td>
-                                                <td>{{ $editor->phone }}</td>
-                                                <td>{{ strip_tags($editor->address) }}</td>
+                                                <td>{{ $editor->email ? $editor->email : '-' }}</td>
+                                                <td>{{ $editor->phone ? $editor->phone : '-' }}</td>
+                                                <td>{{ $editor->address ? strip_tags($editor->address) : '-' }}</td>
                                                 @if ($editor->position == 1)
                                                     <td>Associate</td>
                                                 @elseif ($editor->position == 2)

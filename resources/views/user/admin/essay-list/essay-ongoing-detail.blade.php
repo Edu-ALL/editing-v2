@@ -80,7 +80,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{{ $ongoing->client_by_id->email }}</p>
+                    <p>{{ $ongoing->client_by_id->email ? $ongoing->client_by_id->email : '-' }}</p>
                   </div>
                 </div>
                 <div class="row d-flex align-items-center">
@@ -89,7 +89,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{{ $ongoing->client_by_id->address }}</p>
+                    <p>{!! $ongoing->client_by_id->address ? $ongoing->client_by_id->address : '-' !!}</p>
                   </div>
                 </div>
                 
@@ -173,7 +173,6 @@
       </div>
       <div class="modal-body p-0">
         <form action="{{ route('assign-editor', $ongoing->id_essay_clients) }}" method="POST">
-        {{-- <form action="/admin/essay-list/ongoing/detail/{{ $ongoing->id_essay_clients }}" method="post"> --}}
           @csrf
           <div class="container text-center p-0" style="overflow-x: auto !important">
             <table class="table table-bordered m-0">

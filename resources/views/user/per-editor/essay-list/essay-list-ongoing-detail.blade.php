@@ -20,7 +20,6 @@
             <div class="col d-flex flex-column align-items-center px-3 py-md-5 py-4 gap-3 text-center justify-content-center" style="color: var(--black)">
               <img class="img-status" src="/assets/status-edit.png" alt="">
               <h6>{{ $essay->status->status_title }}</h6>
-              {{-- <h6>Assigned to you</h6> --}}
             </div>
             <div class="headline d-flex align-items-center gap-3">
               <img src="/assets/file.png" alt="">
@@ -64,7 +63,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{{ $essay->client_by_id->email }}</p>
+                    <p>{{ $essay->client_by_id->email ? $essay->client_by_id->email : '-' }}</p>
                   </div>
                 </div>
                 <div class="row d-flex">
@@ -73,7 +72,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{{ $essay->client_by_id->address }}</p>
+                    <p>{!! $essay->client_by_id->address ? $essay->client_by_id->address : '-' !!}</p>
                   </div>
                 </div>
               </div>

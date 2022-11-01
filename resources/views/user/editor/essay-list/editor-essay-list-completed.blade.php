@@ -102,7 +102,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{{ $essay->essay_clients->client_by_id->email }}</p>
+                    <p>{{ $essay->essay_clients->client_by_id->email ? $essay->essay_clients->client_by_id->email : '-' }}</p>
                   </div>
                 </div>
                 <div class="row d-flex">
@@ -111,7 +111,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{{ $essay->essay_clients->client_by_id->address }}</p>
+                    <p>{!! $essay->essay_clients->client_by_id->address ? $essay->essay_clients->client_by_id->address : '-' !!}</p>
                   </div>
                 </div>
               </div>

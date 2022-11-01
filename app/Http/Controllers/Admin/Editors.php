@@ -140,7 +140,7 @@ class Editors extends Controller
     public function detail($id, Request $request){
         $keyword1 = $request->get('keyword-ongoing');
         $keyword2 = $request->get('keyword-completed');
-        $essay_ongoing = EssayClients::with('client_by_id', 'program')->where('id_editors', '=', $id)->where('status_essay_clients', '!=', 7)->when($keyword1, function ($query_) use ($keyword1) {
+        $essay_ongoing = EssayClients::with('client_by_id', 'program')->where('id_editors', '=', $id)->where('status_essay_clients', '!=', 0)->where('status_essay_clients', '!=', 4)->where('status_essay_clients', '!=', 5)->where('status_essay_clients', '!=', 7)->when($keyword1, function ($query_) use ($keyword1) {
             $query_->where(function ($query) use ($keyword1) {
                 $query->orWhereHas('client_by_id', function ($query_client) use ($keyword1) {
                     $query_client->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword1.'%');

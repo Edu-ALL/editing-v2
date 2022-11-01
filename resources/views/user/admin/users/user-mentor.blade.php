@@ -54,9 +54,9 @@
                   <tr style="cursor: default">
                     <th scope="row">{{ $i++ }}</th>
                     <td>{{ $mentor->first_name.' '.$mentor->last_name }}</td>
-                    <td>{{ $mentor->email }}</td>
-                    <td>{{ $mentor->phone }}</td>
-                    <td>{{ strip_tags($mentor->address) }}</td>
+                    <td>{{ $mentor->email ? $mentor->email : '-' }}</td>
+                    <td>{{ $mentor->phone ? $mentor->phone : '-' }}</td>
+                    <td>{{ $mentor->address ? strip_tags($mentor->address) : '-' }}</td>
                   </tr>
                   @endforeach
 

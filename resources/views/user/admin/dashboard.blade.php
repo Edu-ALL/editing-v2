@@ -91,7 +91,7 @@
                             </div>
                             <hr>
                             <div class="detailCard ps-3 mt-2">
-                                <h6>See the list of Students</h6>
+                                <h6>See the list of Ongoing Essay</h6>
                             </div>
                         </a>
                         <a class="col-md col-12 p-0 userCard" href="/admin/essay-list/completed">
@@ -106,7 +106,7 @@
                             </div>
                             <hr>
                             <div class="detailCard ps-3 mt-2">
-                                <h6>See the list of Students</h6>
+                                <h6>See the list of Completed Essay</h6>
                             </div>
                         </a>
                     </div>

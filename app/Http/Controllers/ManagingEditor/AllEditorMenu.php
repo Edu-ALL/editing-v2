@@ -44,7 +44,7 @@ class AllEditorMenu extends Controller
         $today = date('Y-m-d');
         $start = date('Y-m-d', strtotime('+'.$start.' days', strtotime($today)));
         $dueDate = date('Y-m-d', strtotime('+'.$num.' days', strtotime($today)));
-        $essay = EssayClients::where('status_essay_clients', '!=', 7);
+        $essay = EssayClients::where('status_essay_clients', '!=', 0)->where('status_essay_clients', '!=', 4)->where('status_essay_clients', '!=', 5)->where('status_essay_clients', '!=', 7);
         $essay->where('essay_deadline', '>', $start);
         $essay->where('essay_deadline', '<=', $dueDate);
         return $essay->get();
@@ -53,7 +53,7 @@ class AllEditorMenu extends Controller
     public function detail($id, Request $request){
         $keyword1 = $request->get('keyword-ongoing');
         $keyword2 = $request->get('keyword-completed');
-        $essay_ongoing = EssayClients::with('client_by_id', 'program')->where('id_editors', '=', $id)->where('status_essay_clients', '!=', 7)->when($keyword1, function ($query_) use ($keyword1) {
+        $essay_ongoing = EssayClients::with('client_by_id', 'program')->where('id_editors', '=', $id)->where('status_essay_clients', '!=', 0)->where('status_essay_clients', '!=', 4)->where('status_essay_clients', '!=', 5)->where('status_essay_clients', '!=', 7)->when($keyword1, function ($query_) use ($keyword1) {
             $query_->where(function ($query) use ($keyword1) {
                 $query->orWhereHas('client_by_id', function ($query_client) use ($keyword1) {
                     $query_client->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword1.'%');

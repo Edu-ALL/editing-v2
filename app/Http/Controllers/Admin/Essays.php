@@ -182,7 +182,6 @@ class Essays extends Controller
             $essay_editor = EssayEditors::where('id_essay_clients', '=', $id_essay)->first();
             $essay_editor->status_essay_editors = 6;
             $essay_editor->notes_editors = $request->notes;
-            // dd($essay_editor->notes_editors);
             $essay_editor->save();
 
             $essay_revise = new EssayRevise;
@@ -231,7 +230,6 @@ class Essays extends Controller
     public function detailEssayCompleted($id){
         $essay = EssayEditors::where('id_essay_clients', $id)->first();
         $essay_client = EssayClients::where('id_essay_clients', $id)->first();
-        dd($essay_client);
         if ($essay_client->essay_deadline > $essay->uploaded_at) {
             $status_essay = 'On Time';
         } else {

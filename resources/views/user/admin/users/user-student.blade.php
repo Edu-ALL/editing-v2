@@ -57,9 +57,9 @@
                     <th scope="row">{{ $i++ }}</th>
                     <td>{{ $client->first_name.' '.$client->last_name }}</td>
                     <td>{{ $client->mentors->first_name.' '.$client->mentors->last_name }}</td>
-                    <td>{{ $client->email }}</td>
-                    <td>{{ $client->phone }}</td>
-                    <td>{{ strip_tags($client->address) }}</td>
+                    <td>{{ $client->email ? $client->email : '-' }}</td>
+                    <td>{{ $client->phone ? $client->phone : '-' }}</td>
+                    <td>{{ $client->address ? strip_tags($client->address) : '-' }}</td>
                   </tr>
                   @endforeach
                   

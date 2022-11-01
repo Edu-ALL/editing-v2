@@ -32,7 +32,7 @@ class Essays extends Controller
         $editor = Auth::guard('web-editor')->user();
         $keyword1 = $request->get('keyword-ongoing');
         $keyword2 = $request->get('keyword-completed');
-        $ongoing_essay = EssayClients::where('id_editors', '=', $editor->id_editors)->where('status_essay_clients', '!=', 7)->where('status_essay_clients', '!=', 0)->where('status_essay_clients', '!=', 5)->when($keyword1, function ($query_) use ($keyword1) {
+        $ongoing_essay = EssayClients::where('id_editors', '=', $editor->id_editors)->where('status_essay_clients', '!=', 7)->where('status_essay_clients', '!=', 0)->where('status_essay_clients', '!=', 4)->where('status_essay_clients', '!=', 5)->when($keyword1, function ($query_) use ($keyword1) {
             $query_->where(function ($query) use ($keyword1) {
                 $query->whereHas('client_by_id', function ($query_by_id) use ($keyword1) {
                     $query_by_id->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword1.'%')->orWhereHas('mentors', function ($query_mentor_by_id) use ($keyword1) {

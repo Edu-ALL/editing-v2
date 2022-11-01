@@ -8,7 +8,7 @@
 @endsection
 @section('content')
     <div class="container-fluid p-0">
-        <div class="row flex-nowrap main">
+        <div class="row flex-nowrap main" id="main">
             @include('user.editor.utama.menu')
 
             {{-- Content --}}
@@ -55,26 +55,26 @@
                                                 <tr
                                                     onclick="window.location='/editor/essay-list/ongoing/detail/{{ $essay->id_essay_clients }}'">
                                                     <th scope="row"
-                                                        class="{{ $essay->essay_editors->read == 0 ? 'unread' : '' }}">
+                                                        class="{{ isset($essay->essay_editors) && $essay->essay_editors->read == 0 ? 'unread' : '' }}">
                                                         {{ $i++ }}</th>
-                                                    <td class="{{ $essay->essay_editors->read == 0 ? 'unread' : '' }}">
+                                                    <td class="{{ isset($essay->essay_editors) && $essay->essay_editors->read == 0 ? 'unread' : '' }}">
                                                         {{ $essay->client_by_id->first_name . ' ' . $essay->client_by_id->last_name }}
                                                     </td>
-                                                    <td class="{{ $essay->essay_editors->read == 0 ? 'unread' : '' }}">
+                                                    <td class="{{ isset($essay->essay_editors) && $essay->essay_editors->read == 0 ? 'unread' : '' }}">
                                                         {{ $essay->client_by_id->mentors->first_name . ' ' . $essay->client_by_id->mentors->last_name }}
                                                     </td>
-                                                    <td class="{{ $essay->essay_editors->read == 0 ? 'unread' : '' }}">
+                                                    <td class="{{ isset($essay->essay_editors) && $essay->essay_editors->read == 0 ? 'unread' : '' }}">
                                                         {{ $essay->editor ? $essay->editor->first_name . ' ' . $essay->editor->last_name : '-' }}
                                                     </td>
-                                                    <td class="{{ $essay->essay_editors->read == 0 ? 'unread' : '' }}">
+                                                    <td class="{{ isset($essay->essay_editors) && $essay->essay_editors->read == 0 ? 'unread' : '' }}">
                                                         {{ $essay->program->program_name }}</td>
-                                                    <td class="{{ $essay->essay_editors->read == 0 ? 'unread' : '' }}">
+                                                    <td class="{{ isset($essay->essay_editors) && $essay->essay_editors->read == 0 ? 'unread' : '' }}">
                                                         {{ $essay->essay_title }}</td>
-                                                    <td class="{{ $essay->essay_editors->read == 0 ? 'unread' : '' }}">
+                                                    <td class="{{ isset($essay->essay_editors) && $essay->essay_editors->read == 0 ? 'unread' : '' }}">
                                                         {{ date('D, d M Y', strtotime($essay->uploaded_at)) }}</td>
-                                                    <td class="{{ $essay->essay_editors->read == 0 ? 'unread' : '' }}">
+                                                    <td class="{{ isset($essay->essay_editors) && $essay->essay_editors->read == 0 ? 'unread' : '' }}">
                                                         {{ date('D, d M Y', strtotime($essay->essay_deadline)) }}</td>
-                                                    <td class="{{ $essay->essay_editors->read == 0 ? 'unread' : '' }}"
+                                                    <td class="{{ isset($essay->essay_editors) && $essay->essay_editors->read == 0 ? 'unread' : '' }}"
                                                         style="color: var(--red)">{{ $essay->status->status_title }}</td>
                                                 </tr>
                                             @endforeach
