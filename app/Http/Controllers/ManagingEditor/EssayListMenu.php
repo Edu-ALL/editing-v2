@@ -32,7 +32,7 @@ class EssayListMenu extends Controller
         $editor = Auth::guard('web-editor')->user();
         $keyword1 = $request->get('keyword-ongoing');
         $keyword2 = $request->get('keyword-completed');
-        $ongoing_essay_client = EssayClients::with('essay_editors')->where('id_editors', '=', $editor->id_editors)->where('status_essay_clients', '!=', 7)->where('status_essay_clients', '!=', 0)->where('status_essay_clients', '!=', 5)->
+        $ongoing_essay_client = EssayClients::where('id_editors', '=', $editor->id_editors)->where('status_essay_clients', '!=', 7)->where('status_essay_clients', '!=', 0)->where('status_essay_clients', '!=', 5)->
             when($keyword1, function ($query_) use ($keyword1) {
                 $query_->where(function ($query) use ($keyword1) {
                     $query->whereHas('client_by_id', function ($query_by_id) use ($keyword1) {
@@ -89,7 +89,7 @@ class EssayListMenu extends Controller
         })->orderBy('read', 'asc')->orderBy('uploaded_at', 'desc')->paginate(10);
 
         return view('user.editor.essay-list.editor-essay-list', [
-            'ongoing_essay' => $ongoing_essay_editor,
+            'ongoing_essay' => $ongoing_essay_client,
             'completed_essay' => $completed_essay,
         ]);
     }
