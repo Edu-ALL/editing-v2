@@ -21,12 +21,12 @@
         <div class="row w-100 pointer" onclick="location.href='/editor/list'">
             <div class="col-md-3">
                 <img class="active"
-                    src="{{ request()->is('editor/list*') ? '/assets/editor-blue.png' : '/assets/editor.png' }}"
+                    src="{{ request()->is('editor/*') ? '/assets/editor-blue.png' : '/assets/editor.png' }}"
                     alt="">
             </div>
             <div class="col-7 pt-1 my-auto d-none d-md-inline">
                 <h6
-                    class="menu {{ request()->is('editor/list*') ? 'active' : '' }}">
+                    class="menu {{ request()->is('editor/*') ? 'active' : '' }}">
                     Editor List</h6>
             </div>
         </div>
