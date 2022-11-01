@@ -54,28 +54,29 @@
                                             @foreach ($ongoing_essay as $essay)
                                                 <tr
                                                     onclick="window.location='/editor/essay-list/ongoing/detail/{{ $essay->id_essay_clients }}'">
+                                                    {{-- <td colspan="9">{{ json_encode($essay) }}</td> --}}
                                                     <th scope="row"
-                                                        class="{{ $essay->essay_editors->read == 0 ? 'unread' : '' }}">
+                                                        class="{{ isset($essay->essay_editors) && $essay->essay_editors->read == 0 ? 'unread' : '' }}">
                                                         {{ $i++ }}</th>
-                                                    <td class="{{ $essay->essay_editors->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->client_by_id->first_name . ' ' . $essay->client_by_id->last_name }}
+                                                    <td class="{{ isset($essay->essay_editors) && $essay->essay_editors->read == 0 ? 'unread' : '' }}">
+                                                        {{ $essay->essay_clients->client_by_id->first_name . ' ' . $essay->essay_clients->client_by_id->last_name }}
                                                     </td>
-                                                    <td class="{{ $essay->essay_editors->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->client_by_id->mentors->first_name . ' ' . $essay->client_by_id->mentors->last_name }}
+                                                    <td class="{{ isset($essay->essay_editors) && $essay->essay_editors->read == 0 ? 'unread' : '' }}">
+                                                        {{ $essay->essay_clients->client_by_id->mentors->first_name . ' ' . $essay->essay_clients->client_by_id->mentors->last_name }}
                                                     </td>
-                                                    <td class="{{ $essay->essay_editors->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->editor ? $essay->editor->first_name . ' ' . $essay->editor->last_name : '-' }}
+                                                    <td class="{{ isset($essay->essay_editors) && $essay->essay_editors->read == 0 ? 'unread' : '' }}">
+                                                        {{ $essay->essay_clients->editor ? $essay->essay_clients->editor->first_name . ' ' . $essay->essay_clients->editor->last_name : '-' }}
                                                     </td>
-                                                    <td class="{{ $essay->essay_editors->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->program->program_name }}</td>
-                                                    <td class="{{ $essay->essay_editors->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->essay_title }}</td>
-                                                    <td class="{{ $essay->essay_editors->read == 0 ? 'unread' : '' }}">
-                                                        {{ date('D, d M Y', strtotime($essay->uploaded_at)) }}</td>
-                                                    <td class="{{ $essay->essay_editors->read == 0 ? 'unread' : '' }}">
-                                                        {{ date('D, d M Y', strtotime($essay->essay_deadline)) }}</td>
-                                                    <td class="{{ $essay->essay_editors->read == 0 ? 'unread' : '' }}"
-                                                        style="color: var(--red)">{{ $essay->status->status_title }}</td>
+                                                    <td class="{{ isset($essay->essay_editors) && $essay->essay_editors->read == 0 ? 'unread' : '' }}">
+                                                        {{ $essay->essay_clients->program->program_name }}</td>
+                                                    <td class="{{ isset($essay->essay_editors) && $essay->essay_editors->read == 0 ? 'unread' : '' }}">
+                                                        {{ $essay->essay_clients->essay_title }}</td>
+                                                    <td class="{{ isset($essay->essay_editors) && $essay->essay_editors->read == 0 ? 'unread' : '' }}">
+                                                        {{ date('D, d M Y', strtotime($essay->essay_clients->uploaded_at)) }}</td>
+                                                    <td class="{{ isset($essay->essay_editors) && $essay->essay_editors->read == 0 ? 'unread' : '' }}">
+                                                        {{ date('D, d M Y', strtotime($essay->essay_clients->essay_deadline)) }}</td>
+                                                    <td class="{{ isset($essay->essay_editors) && $essay->essay_editors->read == 0 ? 'unread' : '' }}"
+                                                        style="color: var(--red)">{{ $essay->essay_clients->status->status_title }}</td>
                                                 </tr>
                                             @endforeach
 

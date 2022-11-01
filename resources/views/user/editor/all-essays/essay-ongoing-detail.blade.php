@@ -193,7 +193,7 @@
               <tbody>
                 <?php $i = ($editors->currentpage()-1)* $editors->perpage() + 1;?>
                 @foreach ($editors as $editor)
-                <tr style="cursor: default">
+                <tr style="cursor: pointer" onclick="select_row(this)">
                   <th scope="row">{{ $i++ }}</th>
                   <td>{{ $editor->first_name.' '.$editor->last_name }}</td>
                   <td>{{ $editor->graduated_from }}</td>
@@ -236,5 +236,9 @@
   $(document).ready(function(){
       $("#info").modal('show');
   });
+
+  function select_row(cb) {
+    $(cb).find('input[type=radio]').prop("checked", true)
+  }
 </script>
 @endsection
