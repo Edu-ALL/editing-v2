@@ -39,7 +39,7 @@
             </div>
             <div class="headline d-flex align-items-center gap-3" style="background-color: var(--yellow)">
               <img src="/assets/file.png" alt="">
-              <h6>Download Your File</h6>
+              <h6>Download Editor File</h6>
             </div>
             <div class="col d-flex align-items-center justify-content-center py-md-4 py-4">
               <img class="img-word" src="/assets/logo-word.png" alt="">
@@ -168,13 +168,10 @@
                       <h6>Send to Student / Mentor</h6>
                     </button>
                   </form>
-                  <form action="">
-                    @csrf
-                    <button class="btn btn-create d-flex align-items-center gap-2" style="background-color: var(--red)">
-                      <img src="/assets/danger.png" alt="">
-                      <h6>Cancel, Revise</h6>
-                    </button>
-                  </form>
+                  <button class="btn btn-create d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#revise" style="background-color: var(--red)">
+                    <img src="/assets/danger.png" alt="">
+                    <h6>Cancel, Revise</h6>
+                  </button>
                 </div>
               </div>
             </div>
@@ -346,6 +343,36 @@
       </div>
     </div>
     {{-- End Content --}}
+  </div>
+</div>
+
+{{-- Modal Info --}}
+<div class="modal fade" id="revise" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog d-flex align-items-center justify-content-center">
+    <div class="modal-content border-0 w-100">
+      <div class="modal-header" style="background-color: var(--blue)">
+        <div class="col d-flex gap-1 align-items-center">
+          <img src="/assets/danger.png" alt="">
+          <h6 class="modal-title ms-3">Revise</h6>
+        </div>
+        <div type="button" data-bs-dismiss="modal" aria-label="Close">
+          <img src="/assets/close.png" alt="" style="height: 26px">
+        </div>
+      </div>
+      <div class="modal-body px-4 py-4">
+        <form action="{{ route('revise-essay', ['id_essay' => $essay->essay_clients->id_essay_clients]) }}" method="POST" class="p-0">
+          @csrf
+          <h6 style="font-size: 14px">Notes :</h6>
+          <textarea name="notes" class="textarea" style="overflow: auto !important"></textarea>
+          <div class="col d-flex align-items-center justify-content-center mt-3">
+            <button class="btn btn-download d-flex align-items-center justify-content-center gap-2" style="background-color: var(--red)">
+              <img src="/assets/exit.png" alt="">
+              <h6 class="mb-0">Revise</h6>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
 @endsection
