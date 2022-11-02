@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ManagingEditor;
 
 use App\Http\Controllers\Controller;
+use App\Models\Client;
 use App\Models\Editor;
 use App\Models\EssayClients;
 use App\Models\EssayEditors;
@@ -10,6 +11,7 @@ use App\Models\EssayFeedbacks;
 use App\Models\EssayRevise;
 use App\Models\EssayStatus;
 use App\Models\EssayTags;
+use App\Models\Mentor;
 use App\Models\Tags;
 use App\Models\Token;
 use Illuminate\Http\Request;
@@ -194,45 +196,14 @@ class AllEssaysMenu extends Controller
             return view('user.editor.all-essays.essay-ongoing-ongoing', [
                 'essay' => $essay
             ]);
-        } else if ($essay->status_essay_clients == 3) {
+        } else if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 6 || $essay->status_essay_clients == 8) {
             return view('user.editor.all-essays.essay-ongoing-submitted', [
                 'essay' => $essay,
-                'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
+                'tags' => EssayTags::where('id_essay_clients', $id_essay)->get(),
+                'list_tags' => Tags::get(),
+                'essay_revise' => EssayRevise::where('id_essay_clients', $id_essay)->get()
             ]);
-        }  
-        // if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4) {
-        //     return view('user.per-editor.essay-list.essay-list-ongoing-detail', [
-        //         'essay' => $essay,
-        //         'editors' => $editors
-        //     ]);
-        // } else if ($essay->status_essay_clients == 1) {
-        //     return view('user.editor.all-essays.essay-list-ongoing-detail', [
-        //         'essay' => $essay
-        //     ]);
-        // } 
-        // else if ($essay->status_essay_clients == 2) {
-        //     return view('user.per-editor.essay-list.essay-list-ongoing-accepted', [
-        //         'essay' => $essay,
-        //         'tags' => Tags::get()
-        //     ]);
-        // } else if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 8) {
-        //     return view('user.per-editor.essay-list.essay-list-ongoing-submitted', [
-        //         'essay' => $essay,
-        //         'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
-        //     ]);
-        // } else if ($essay->status_essay_clients == 6) {
-        //     return view('user.per-editor.essay-list.essay-list-ongoing-revise', [
-        //         'essay' => $essay,
-        //         'tags' => EssayTags::where('id_essay_clients', $id_essay)->get(),
-        //         'list_tags' => Tags::get(),
-        //         'essay_revise' => EssayRevise::where('id_essay_clients', $id_essay)->get()
-        //     ]);
-        // } else if ($essay->status_essay_clients == 7) {
-        //     return view('user.per-editor.essay-list.essay-list-completed-detail', [
-        //         'essay' => $essay_editor,
-        //         'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
-        //     ]);
-        // }
+        }
     }
 
     public function detailEssayManagingCompleted($id_essay, Request $request)
@@ -361,6 +332,82 @@ class AllEssaysMenu extends Controller
             DB::rollBack();
             return Redirect::back()->withErrors($e->getMessage());
         }
+        return redirect('editor/all-essays/ongoing/detail/'.$id_essay);
+    }
+
+    public function send_email($id_essay){
+        $editor = Auth::guard('web-editor')->user();
+        $essay = EssayClients::find($id_essay);
+        $essayEditor = EssayEditors::where('id_essay_clients', $essay->id_essay_clients)->first();
+        $client = Client::where('id_clients', $essay->id_clients)->first();
+        $mentor = Mentor::where('id_mentors', $client->id_mentor)->first();
+        $email = $mentor->email;
+
+        $user_token = [
+            'email' => $editor->email,
+            'token' => Crypt::encrypt(Str::random(32)),
+            'activated_at' => time()
+        ];
+
+        # save token
+        Token::create($user_token);
+
+        $data = [
+            'editor' => $editor,
+            'essay' => $essay,
+            'essayEditor' => $essayEditor,
+            'client' => $client,
+            'mentor' => $mentor
+        ];
+
+        Mail::send('mail.send-essay', $data, function($mail) use ($email, $client, $essay) {
+            $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+            $mail->to($email);
+            $mail->cc('essay@all-inedu.com');
+            $mail->subject($client->first_name.' '.$client->last_name.'`s essay, '.$essay->essay_title.', is ready!');
+        });
+
+        if (Mail::failures()) {
+            return response()->json(Mail::failures());
+        }
+
+        return redirect('editor/all-essays/completed/detail/'.$id_essay);
+    }
+
+    public function revise($id_essay, Request $request){
+        $editor = Auth::guard('web-editor')->user();
+
+        DB::beginTransaction();
+        try {
+            $essay = EssayClients::find($id_essay);
+            $essay->status_essay_clients = 6;
+            $essay->save();
+
+            $essay_status = new EssayStatus;
+            $essay_status->id_essay_clients = $essay->id_essay_clients;
+            $essay_status->status = 6;
+            $essay_status->save();
+
+            $essay_editor = EssayEditors::where('id_essay_clients', '=', $id_essay)->first();
+            $essay_editor->status_essay_editors = 6;
+            $essay_editor->notes_editors = $request->notes;
+            $essay_editor->save();
+
+            $essay_revise = new EssayRevise;
+            $essay_revise->id_essay_clients = $id_essay;
+            $essay_revise->editors_mail = $essay_editor->editors_mail;
+            $essay_revise->admin_mail = $editor->email;
+            $essay_revise->role = 'managing_editor';
+            $essay_revise->notes = $request->notes;
+            $essay_revise->created_at = date('Y-m-d H:i:s');
+            $essay_revise->save();
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return Redirect::back()->withErrors($e->getMessage());
+        }
+
         return redirect('editor/all-essays/ongoing/detail/'.$id_essay);
     }
 

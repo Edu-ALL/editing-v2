@@ -161,7 +161,7 @@
               </div>
               <div class="col-12 d-flex pt-3" style="border-top: 1px solid var(--light-grey)">
                 <div class="col d-flex flex-row align-items-center justify-content-center gap-3">
-                  <form action="">
+                  <form action="{{ route('send-email-mentor', ['id_essay' => $essay->id_essay_clients]) }}" method="POST" class="p-0">
                     @csrf
                     <button class="btn btn-create d-flex align-items-center gap-2" style="background-color: var(--green)">
                       <img src="/assets/letter.png" alt="">
@@ -360,7 +360,7 @@
         </div>
       </div>
       <div class="modal-body px-4 py-4">
-        <form action="{{ route('revise-essay', ['id_essay' => $essay->essay_clients->id_essay_clients]) }}" method="POST" class="p-0">
+        <form action="{{ route('revise-essay', ['id_essay' => $essay->id_essay_clients]) }}" method="POST" class="p-0">
           @csrf
           <h6 style="font-size: 14px">Notes :</h6>
           <textarea name="notes" class="textarea" style="overflow: auto !important"></textarea>

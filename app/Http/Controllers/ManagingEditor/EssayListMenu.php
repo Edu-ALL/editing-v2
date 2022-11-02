@@ -38,9 +38,16 @@ class EssayListMenu extends Controller
                     $query_by_id->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword1.'%')->orWhereHas('mentors', function ($query_mentor_by_id) use ($keyword1) {
                         $query_mentor_by_id->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword1.'%');
                     });
+                })->orWhereHas('editor', function ($query_editor) use ($keyword1) {
+                    $query_editor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword1.'%');
+                })->orWhereHas('program', function ($query_program) use ($keyword1) {
+                    $query_program->where('program_name', 'like', '%'.$keyword1.'%');
+                })->orWhere('essay_title', 'like', '%'.$keyword1.'%')
+                ->orWhereHas('status', function ($query_status) use ($keyword1) {
+                    $query_status->where('status_title', 'like', '%'.$keyword1.'%');
                 });
-            })->orderBy('uploaded_at', 'asc')->paginate(10);
-        
+            });
+        })->orderBy('uploaded_at', 'asc')->paginate(10);
         $completed_essay = EssayEditors::where('editors_mail', $editor->email)->where('status_essay_editors', '=', 7)->when($keyword2, function ($query_) use ($keyword2) {
             $query_->where(function ($query) use ($keyword2) {
                 $query->whereHas('essay_clients', function ($query_essay) use ($keyword2) {
@@ -61,7 +68,7 @@ class EssayListMenu extends Controller
         })->orderBy('read', 'asc')->orderBy('uploaded_at', 'desc')->paginate(10);
 
         return view('user.editor.essay-list.editor-essay-list', [
-            'ongoing_essay' => $ongoing_essay_client,
+            'ongoing_essay' => $ongoing_essay,
             'completed_essay' => $completed_essay,
         ]);
     }

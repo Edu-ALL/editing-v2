@@ -18,6 +18,8 @@ Route::post('all-essay/ongoing/managing/assign/{id_essay}', [AllEssaysMenu::clas
 Route::post('all-essay/ongoing/managing/cancel/{id_essay}', [AllEssaysMenu::class, 'cancel'])->name('cancel-editor');
 // Route::post('all-essay/ongoing/managing/verify/{id_essay}', [AllEssaysMenu::class, 'verifyEssay'])->name('verify-essay');
 // Route::post('all-essay/ongoing/managing/revise/{id_essay}', [AllEssaysMenu::class, 'reviseEssay'])->name('revise-essay');
+Route::post('all-essay/ongoing/managing/sendEmail/{id_essay}', [AllEssaysMenu::class, 'send_email'])->name('send-email-mentor');
+Route::post('all-essay/ongoing/managing/revise/{id_essay}', [AllEssaysMenu::class, 'revise'])->name('revise-essay');
 
 Route::post('ongoing/managing/accept/{id_essay}', [EssayListMenu::class, 'accept'])->name('accept-your-essay');
 Route::post('ongoing/managing/reject/{id_essay}', [EssayListMenu::class, 'reject'])->name('reject-your-essay');

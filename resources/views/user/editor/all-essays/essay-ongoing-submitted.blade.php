@@ -1,6 +1,7 @@
 @extends('user.editor.utama.utama')
 @section('css')
   <link rel="stylesheet" href="/css/admin/essay-ongoing-detail.css">
+  <link rel="stylesheet" href="/css/per-editor/dashboard.css">
 @endsection
 
 @section('content')
@@ -147,6 +148,33 @@
                 <div class="col-lg-7 col">
                   <div class="col">
                     <h6 class="pb-2">Notes :</h6>
+                    <div class="chat-messages p-3 w-100">
+                      @foreach ($essay_revise->reverse() as $revise)
+                        @if ($revise->role == 'managing_editor')
+                        <div class="chat-message-left pb-3">
+                          <div>
+                            <div class="text-muted d-none small text-nowrap mt-2">2:33 am</div>
+                          </div>
+                          <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3 mt-2">
+                            <p><b>{{ $revise->managing_editor->first_name.' '.$revise->managing_editor->last_name }}</b></p>
+                            <p class="mb-2" style="font-size: 12px">Managing Editor</p>
+                            <p>{!! $revise->notes !!}</p>
+                          </div>
+                        </div>
+                        @elseif ($revise->role == 'editor')
+                        <div class="chat-message-right pb-3">
+                          <div class="text-end">
+                            <div class="text-muted d-none small text-nowrap mt-2">2:34 am</div>
+                          </div>
+                          <div class="flex-shrink-1 text-end bg-light rounded py-2 px-3 ml-3 mt-2">
+                            <p><b>{{ $revise->editor->first_name.' '.$revise->editor->last_name }}</b></p>
+                            <p class="mb-2" style="font-size: 12px">Editor</p>
+                            <p>{!! $revise->notes !!}</p>
+                          </div>
+                        </div>
+                        @endif
+                      @endforeach
+                    </div>
                     <textarea name="notes" class="textarea" form="form-revise" style="overflow: auto !important"></textarea>
                   </div>
                   <div class="col mt-3 mb-2">
@@ -191,7 +219,11 @@
                   @csrf
                   <button class="btn btn-create d-flex align-items-center gap-2" style="background-color: var(--green)">
                     <img src="/assets/assign-list.png" alt="">
-                    <h6>Accept</h6>
+                    @if ($essay->status_essay_clients == 6)
+                      <h6>Cancel, Accept</h6>
+                    @else
+                      <h6>Accept</h6>
+                    @endif
                   </button>
                 </form>
               </div>
