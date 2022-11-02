@@ -54,6 +54,7 @@
                                             @foreach ($ongoing_essay as $essay)
                                                 <tr
                                                     onclick="window.location='/editor/essay-list/ongoing/detail/{{ $essay->id_essay_clients }}'">
+                                                    {{-- <td colspan="9">{{ json_encode($essay) }}</td> --}}
                                                     <th scope="row"
                                                         class="{{ isset($essay->essay_editors) && $essay->essay_editors->read == 0 ? 'unread' : '' }}">
                                                         {{ $i++ }}</th>

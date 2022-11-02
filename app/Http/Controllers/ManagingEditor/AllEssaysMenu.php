@@ -11,10 +11,15 @@ use App\Models\EssayRevise;
 use App\Models\EssayStatus;
 use App\Models\EssayTags;
 use App\Models\Tags;
+use App\Models\Token;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Exception;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class AllEssaysMenu extends Controller
 {
@@ -267,29 +272,73 @@ class AllEssaysMenu extends Controller
     }
 
     public function assignEditor($id_essay, Request $request){
+        
+        # managing editor data
+        $managing_name = Auth::guard('web-editor')->user()->first_name.' '.Auth::guard('web-editor')->user()->last_name;
+
+        # get associate editor data
+        $editor = Editor::find($request->id_editors);
+
         DB::beginTransaction();
         try {
+
+
+            # update table essay clients
             $essay = EssayClients::find($id_essay);
             $essay->id_editors = $request->id_editors;
             $essay->status_essay_clients = 1;
             $essay->save();
 
+            # insert into table essay editor
             $essay_editor = new EssayEditors;
             $essay_editor->id_essay_clients = $essay->id_essay_clients;
             $essay_editor->editors_mail = $essay->editor->email;
             $essay_editor->status_essay_editors = 1;
             $essay_editor->save();
 
+            # insert into table essay status
             $essay_status = new EssayStatus;
             $essay_status->id_essay_clients = $essay->id_essay_clients;
             $essay_status->status = 1;
             $essay_status->save();
+            
 
-            DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
             return Redirect::back()->withErrors($e->getMessage());
         }
+
+
+        $editors_mail = $essay->editor->email;
+
+        $user_token = [
+            'email' => $editors_mail,
+            'token' => Crypt::encrypt(Str::random(32)),
+            'activated_at' => time()
+        ];
+
+        # save token
+        Token::create($user_token);
+
+        $content = [
+            'managing_name' => $managing_name,
+            'editor' => $editor,
+            'essay' => $essay
+        ];
+
+        Mail::send('mail.assign-essay', $content, function($mail) use ($editors_mail) {
+            $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+            $mail->to($editors_mail);
+            $mail->subject('Your Assignment');
+        });
+
+        if (Mail::failures()) {
+            DB::rollBack();
+            return Redirect::back()->withErrors("Failed to send email to editor");
+        }
+        
+        DB::commit();
+
         return redirect('editor/all-essays/ongoing/detail/'.$id_essay);
     }
 

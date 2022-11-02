@@ -27,6 +27,11 @@ class EssayEditors extends Model
         'uploaded_at',
     ];
 
+    public function scopeWithAndWhereHas($query, $relation, $constraint){
+        return $query->whereHas($relation, $constraint)
+                     ->with([$relation => $constraint]);
+    }
+
     public function status()
     {
         return $this->belongsTo(Status::class, 'status_essay_editors', 'id');
