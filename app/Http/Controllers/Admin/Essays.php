@@ -142,62 +142,62 @@ class Essays extends Controller
         return redirect('admin/essay-list/ongoing/detail/'.$id_essay);
     }
 
-    public function verifyEssay($id_essay, Request $request){
-        DB::beginTransaction();
-        try {
-            $essay = EssayClients::find($id_essay);
-            $essay->status_essay_clients = 7;
-            $essay->completed_at = date('Y-m-d H:i:s');
-            $essay->save();
+    // public function verifyEssay($id_essay, Request $request){
+    //     DB::beginTransaction();
+    //     try {
+    //         $essay = EssayClients::find($id_essay);
+    //         $essay->status_essay_clients = 7;
+    //         $essay->completed_at = date('Y-m-d H:i:s');
+    //         $essay->save();
 
-            $essay_status = new EssayStatus;
-            $essay_status->id_essay_clients = $essay->id_essay_clients;
-            $essay_status->status = 7;
-            $essay_status->save();
+    //         $essay_status = new EssayStatus;
+    //         $essay_status->id_essay_clients = $essay->id_essay_clients;
+    //         $essay_status->status = 7;
+    //         $essay_status->save();
 
-            $essay_editor = EssayEditors::where('id_essay_clients', '=', $id_essay)->first();
-            $essay_editor->status_essay_editors = 7;
-            $essay_editor->save();
+    //         $essay_editor = EssayEditors::where('id_essay_clients', '=', $id_essay)->first();
+    //         $essay_editor->status_essay_editors = 7;
+    //         $essay_editor->save();
 
-            DB::commit();
-        } catch (Exception $e) {
-            DB::rollBack();
-            return Redirect::back()->withErrors($e->getMessage());
-        }
-        return redirect('admin/essay-list/completed');
-    }
+    //         DB::commit();
+    //     } catch (Exception $e) {
+    //         DB::rollBack();
+    //         return Redirect::back()->withErrors($e->getMessage());
+    //     }
+    //     return redirect('admin/essay-list/completed');
+    // }
 
-    public function reviseEssay($id_essay, Request $request){
-        DB::beginTransaction();
-        try {
-            $essay = EssayClients::find($id_essay);
-            $essay->status_essay_clients = 6;
-            $essay->save();
+    // public function reviseEssay($id_essay, Request $request){
+    //     DB::beginTransaction();
+    //     try {
+    //         $essay = EssayClients::find($id_essay);
+    //         $essay->status_essay_clients = 6;
+    //         $essay->save();
 
-            $essay_status = new EssayStatus;
-            $essay_status->id_essay_clients = $essay->id_essay_clients;
-            $essay_status->status = 6;
-            $essay_status->save();
+    //         $essay_status = new EssayStatus;
+    //         $essay_status->id_essay_clients = $essay->id_essay_clients;
+    //         $essay_status->status = 6;
+    //         $essay_status->save();
 
-            $essay_editor = EssayEditors::where('id_essay_clients', '=', $id_essay)->first();
-            $essay_editor->status_essay_editors = 6;
-            $essay_editor->notes_editors = $request->notes;
-            $essay_editor->save();
+    //         $essay_editor = EssayEditors::where('id_essay_clients', '=', $id_essay)->first();
+    //         $essay_editor->status_essay_editors = 6;
+    //         $essay_editor->notes_editors = $request->notes;
+    //         $essay_editor->save();
 
-            $essay_revise = new EssayRevise;
-            $essay_revise->id_essay_clients = $id_essay;
-            $essay_revise->editors_mail = $essay_editor->editors_mail;
-            $essay_revise->admin_mail = $essay_editor->editors_mail;
-            dd($essay_revise->editors_mail);
-            $essay_revise->save();
+    //         $essay_revise = new EssayRevise;
+    //         $essay_revise->id_essay_clients = $id_essay;
+    //         $essay_revise->editors_mail = $essay_editor->editors_mail;
+    //         $essay_revise->admin_mail = $essay_editor->editors_mail;
+    //         dd($essay_revise->editors_mail);
+    //         $essay_revise->save();
 
-            DB::commit();
-        } catch (Exception $e) {
-            DB::rollBack();
-            return Redirect::back()->withErrors($e->getMessage());
-        }
-        return redirect('admin/essay-list/ongoing/detail/'.$id_essay);
-    }
+    //         DB::commit();
+    //     } catch (Exception $e) {
+    //         DB::rollBack();
+    //         return Redirect::back()->withErrors($e->getMessage());
+    //     }
+    //     return redirect('admin/essay-list/ongoing/detail/'.$id_essay);
+    // }
 
     // Essay Completed
     public function essayCompleted(Request $request)

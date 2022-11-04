@@ -39,16 +39,30 @@
             </div>
             <div class="headline d-flex align-items-center gap-3" style="background-color: var(--yellow)">
               <img src="/assets/file.png" alt="">
-              <h6>Download Your File</h6>
+              <h6>Download Editor File</h6>
             </div>
             <div class="col d-flex align-items-center justify-content-center py-md-4 py-4">
               <img class="img-word" src="/assets/logo-word.png" alt="">
             </div>
             <div class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
-              <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/editors/'.$essay->attached_of_editors) }}>
-                <img src="/assets/download.png" alt="">
-                <h6>Download</h6>
-              </a>
+              @if ($essay->managing_file)
+                <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/managing/'.$essay->managing_file) }}>
+                  <img src="/assets/download.png" alt="">
+                  <h6>Download</h6>
+                </a>
+              @else
+                @if (str_contains($essay->attached_of_editors, 'Revised'))
+                  <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/revised/'.$essay->attached_of_editors) }}>
+                    <img src="/assets/download.png" alt="">
+                    <h6>Download</h6>
+                  </a>
+                @else
+                  <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/editors/'.$essay->attached_of_editors) }}>
+                    <img src="/assets/download.png" alt="">
+                    <h6>Download</h6>
+                  </a>
+                @endif
+              @endif
             </div>
             <div class="headline d-flex align-items-center gap-3">
               <img src="/assets/assign.png" alt="">
