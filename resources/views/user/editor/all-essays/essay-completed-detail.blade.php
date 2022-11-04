@@ -45,10 +45,24 @@
               <img class="img-word" src="/assets/logo-word.png" alt="">
             </div>
             <div class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
-              <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/editors/'.$essay->attached_of_editors) }}>
-                <img src="/assets/download.png" alt="">
-                <h6>Download</h6>
-              </a>
+              @if ($essay->managing_file)
+                <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/managing/'.$essay->managing_file) }}>
+                  <img src="/assets/download.png" alt="">
+                  <h6>Download</h6>
+                </a>
+              @else
+                @if (str_contains($essay->attached_of_editors, 'Revised'))
+                  <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/revised/'.$essay->attached_of_editors) }}>
+                    <img src="/assets/download.png" alt="">
+                    <h6>Download</h6>
+                  </a>
+                @else
+                  <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/editors/'.$essay->attached_of_editors) }}>
+                    <img src="/assets/download.png" alt="">
+                    <h6>Download</h6>
+                  </a>
+                @endif
+              @endif
             </div>
             <div class="headline d-flex align-items-center gap-3">
               <img src="/assets/assign.png" alt="">
@@ -99,7 +113,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{{ $essay->essay_clients->client_by_id->email }}</p>
+                    <p>{{ $essay->essay_clients->client_by_id->email ? $essay->essay_clients->client_by_id->email : '-' }}</p>
                   </div>
                 </div>
                 <div class="row d-flex align-items-center">
@@ -108,7 +122,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{{ $essay->essay_clients->client_by_id->address }}</p>
+                    <p>{!! $essay->essay_clients->client_by_id->address ? $essay->essay_clients->client_by_id->address : '-' !!}</p>
                   </div>
                 </div>
                 
@@ -360,7 +374,7 @@
         </div>
       </div>
       <div class="modal-body px-4 py-4">
-        <form action="{{ route('revise-essay', ['id_essay' => $essay->id_essay_clients]) }}" method="POST" class="p-0">
+        <form action="{{ route('cancel-revise-essay', ['id_essay' => $essay->id_essay_clients]) }}" method="POST" class="p-0">
           @csrf
           <h6 style="font-size: 14px">Notes :</h6>
           <textarea name="notes" class="textarea" style="overflow: auto !important"></textarea>

@@ -211,20 +211,6 @@ Route::middleware('is_editor')->group(function(){
     Route::get('/editor/all-essays/essay-list-due-within-three', [AllEssaysMenu::class, 'dueThree'])->name('editor-list-due-within-three');
     Route::get('/editor/all-essays/essay-list-due-within-five', [AllEssaysMenu::class, 'dueFive'])->name('editor-list-due-within-five');
 
-    //All Essays detail
-    // Route::get('/editor/all-essays/not-assign-essay-list-detail', function () {
-    //     return view('user.editor.all-essays.editor-not-assign-essays-list-detail');
-    // });
-    // Route::get('/editor/all-essays/assign-essay-list-detail', function () {
-    //     return view('user.editor.all-essays.editor-assign-essays-list-detail');
-    // });
-    // Route::get('/editor/all-essays/ongoing-essay-list-detail', function () {
-    //     return view('user.editor.editor-ongoing-essays-list-detail');
-    // });
-    // Route::get('/editor/all-essays/completed-essay-list-detail', function () {
-    //     return view('user.editor.all-essays.editor-completed-essays-list-detail');
-    // });
-
     //Essay List Menu
     Route::get('/editor/essay-list', [EssayListMenu::class, 'index'])->name('editor-essay-list');
     Route::get('/editor/essay-list/ongoing/detail/{id_essay}', [EssayListMenu::class, 'detailEssayList']);
