@@ -160,6 +160,11 @@
                             <p><b>{{ $revise->managing_editor->first_name.' '.$revise->managing_editor->last_name }}</b></p>
                             <p class="mb-2" style="font-size: 12px">Managing Editor</p>
                             <p>{!! $revise->notes !!}</p>
+                            @if ($revise->role == 'managing_editor' && $revise->file)
+                            <p style="margin-top: -4px">
+                              <a class="d-block mt-2" href="{{ asset('uploaded_files/program/essay/revise/'.$revise->file) }}" style="color: var(--blue)"><img src="/assets/download-blue.png" alt="" width="14" height="14" style="margin-right: 2px"> Download Attachment</a>
+                            </p>
+                            @endif
                           </div>
                         </div>
                         @elseif ($revise->role == 'editor')

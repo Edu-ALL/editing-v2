@@ -51,52 +51,57 @@ class AllEditorMenu extends Controller
     }
 
     public function detail($id, Request $request){
-        $keyword1 = $request->get('keyword-ongoing');
-        $keyword2 = $request->get('keyword-completed');
-        $essay_ongoing = EssayClients::with('client_by_id', 'program')->where('id_editors', '=', $id)->where('status_essay_clients', '!=', 0)->where('status_essay_clients', '!=', 4)->where('status_essay_clients', '!=', 5)->where('status_essay_clients', '!=', 7)->when($keyword1, function ($query_) use ($keyword1) {
-            $query_->where(function ($query) use ($keyword1) {
-                $query->orWhereHas('client_by_id', function ($query_client) use ($keyword1) {
-                    $query_client->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword1.'%');
-                })->orWhereHas('program', function ($query_program) use ($keyword1) {
-                    $query_program->where('program_name', 'like', '%'.$keyword1.'%');
-                })->orWhereHas('status', function ($query_status) use ($keyword1) {
-                    $query_status->where('status_title', 'like', '%'.$keyword1.'%');
-                })->orWhere('essay_title', 'like', '%'.$keyword1.'%');
-            });
-        })->paginate(5);
-        $essay_completed = EssayClients::with('client_by_id', 'program')->where('id_editors', '=', $id)->where('status_essay_clients', '=', 7)->when($keyword2, function ($query_) use ($keyword2) {
-            $query_->where(function ($query) use ($keyword2) {
-                $query->orWhereHas('client_by_id', function ($query_client) use ($keyword2) {
-                    $query_client->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword2.'%');
-                })->orWhereHas('program', function ($query_program) use ($keyword2) {
-                    $query_program->where('program_name', 'like', '%'.$keyword2.'%');
-                })->orWhereHas('status', function ($query_status) use ($keyword2) {
-                    $query_status->where('status_title', 'like', '%'.$keyword2.'%');
-                })->orWhere('essay_title', 'like', '%'.$keyword2.'%');
-            });
-        })->paginate(5);
+        if (Editor::find($id) != null) {
+            $keyword1 = $request->get('keyword-ongoing');
+            $keyword2 = $request->get('keyword-completed');
+            $essay_ongoing = EssayClients::with('client_by_id', 'program')->where('id_editors', '=', $id)->where('status_essay_clients', '!=', 0)->where('status_essay_clients', '!=', 4)->where('status_essay_clients', '!=', 5)->where('status_essay_clients', '!=', 7)->when($keyword1, function ($query_) use ($keyword1) {
+                $query_->where(function ($query) use ($keyword1) {
+                    $query->orWhereHas('client_by_id', function ($query_client) use ($keyword1) {
+                        $query_client->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword1.'%');
+                    })->orWhereHas('program', function ($query_program) use ($keyword1) {
+                        $query_program->where('program_name', 'like', '%'.$keyword1.'%');
+                    })->orWhereHas('status', function ($query_status) use ($keyword1) {
+                        $query_status->where('status_title', 'like', '%'.$keyword1.'%');
+                    })->orWhere('essay_title', 'like', '%'.$keyword1.'%');
+                });
+            })->paginate(5);
+            $essay_completed = EssayClients::with('client_by_id', 'program')->where('id_editors', '=', $id)->where('status_essay_clients', '=', 7)->when($keyword2, function ($query_) use ($keyword2) {
+                $query_->where(function ($query) use ($keyword2) {
+                    $query->orWhereHas('client_by_id', function ($query_client) use ($keyword2) {
+                        $query_client->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword2.'%');
+                    })->orWhereHas('program', function ($query_program) use ($keyword2) {
+                        $query_program->where('program_name', 'like', '%'.$keyword2.'%');
+                    })->orWhereHas('status', function ($query_status) use ($keyword2) {
+                        $query_status->where('status_title', 'like', '%'.$keyword2.'%');
+                    })->orWhere('essay_title', 'like', '%'.$keyword2.'%');
+                });
+            })->paginate(5);
 
-        $editor = Editor::find($id);
-        $count_essay = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', '=', 'tbl_essay_editors.id_essay_clients')->where('editors_mail', $editor->email)->where('essay_rating', '!=', 0)->get();
+            $editor = Editor::find($id);
+            $count_essay = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', '=', 'tbl_essay_editors.id_essay_clients')->where('editors_mail', $editor->email)->where('essay_rating', '!=', 0)->get();
 
-        $rating = 0;
-        $i = 0;
-        foreach ($count_essay as $essay) {
-            $rating += $count_essay[$i]->essay_rating;
-            $i++;
+            $rating = 0;
+            $i = 0;
+            foreach ($count_essay as $essay) {
+                $rating += $count_essay[$i]->essay_rating;
+                $i++;
+            }
+
+            $average_rating = 0;
+            if ($rating != 0) {
+                $average_rating = $rating / count($count_essay);
+            }
+
+            return view('user.editor.editor-list.editor-list-detail', [
+                'editor' => $editor,
+                'essay_ongoing' => $essay_ongoing,
+                'essay_completed' => $essay_completed,
+                'average_rating' => number_format($average_rating, 1, ".", ",")
+            ]);
+        } else {
+            return redirect('editor/list')->with('isEditor', 'Editor not found');
         }
-
-        $average_rating = 0;
-        if ($rating != 0) {
-            $average_rating = $rating / count($count_essay);
-        }
-
-        return view('user.editor.editor-list.editor-list-detail', [
-            'editor' => $editor,
-            'essay_ongoing' => $essay_ongoing,
-            'essay_completed' => $essay_completed,
-            'average_rating' => number_format($average_rating, 1, ".", ",")
-        ]);
+        
     }
 
     public function update($id_editors, Request $request){

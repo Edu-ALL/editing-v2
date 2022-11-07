@@ -86,7 +86,12 @@ class EssaysMenu extends Controller
     
     public function detailOngoingEssay($id)
     {
-        $essay = EssayClients::find($id);
+        // $essay = EssayClients::find($id);
+        if (EssayClients::find($id) != null) {
+            $essay = EssayClients::find($id);
+        } else {
+            return redirect('mentor/essay-list/ongoing');
+        }
         
         return view('user.mentor.essay-list-ongoing-detail', [
             'essay' => $essay
@@ -96,13 +101,19 @@ class EssaysMenu extends Controller
 
     public function detailCompletedEssay($id)
     {
-        $essay = EssayEditors::where('id_essay_clients', $id)->first();
-        $essay_client = EssayClients::where('id_essay_clients', $id)->first();
-        if ($essay_client->essay_deadline > $essay->uploaded_at) {
-            $status_essay = 'On Time';
+        // $essay = EssayEditors::where('id_essay_clients', $id)->first();
+        if (EssayClients::find($id) != null) {
+            $essay = EssayEditors::where('id_essay_clients', $id)->first();
+            $essay_client = EssayClients::where('id_essay_clients', $id)->first();
+            if ($essay_client->essay_deadline > $essay->uploaded_at) {
+                $status_essay = 'On Time';
+            } else {
+                $status_essay = 'Late';
+            }
         } else {
-            $status_essay = 'Late';
+            return redirect('mentor/essay-list/completed');
         }
+        
         return view('user.mentor.essay-list-completed-detail', [
             'essay' => $essay,
             'tags' => EssayTags::where('id_essay_clients', $id)->get(),

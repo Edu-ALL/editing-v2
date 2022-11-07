@@ -117,4 +117,33 @@
             {{-- End Content --}}
         </div>
     </div>
+
+    {{-- Modal Info --}}
+    @if (session()->has('isEditor'))
+    <div class="modal fade" id="info-editor" tabindex="-1" show>
+        <div class="modal-dialog d-flex align-items-center justify-content-center">
+        <div class="modal-content border-0 w-75">
+            <div class="modal-header" style="background-color: var(--red)">
+                <div class="col d-flex gap-1 align-items-center">
+                    <img src="/assets/info.png" alt="">
+                    <h6 class="modal-title ms-3">Alert</h6>
+                </div>
+                <div type="button" data-bs-dismiss="modal" aria-label="Close">
+                    <img src="/assets/close.png" alt="" style="height: 26px">
+                </div>
+            </div>
+            <div class="modal-body text-center px-4 py-4 my-md-3">
+                <p>{{ session()->get('isEditor') }}  <span style="color: var(--red)">*</span></p>
+            </div>
+        </div>
+        </div>
+    </div>
+    @endif
+@endsection
+@section('js')
+<script>
+    $(document).ready(function(){
+        $("#info-editor").modal('show');
+    });
+</script>
 @endsection
