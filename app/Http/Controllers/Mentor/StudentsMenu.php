@@ -43,7 +43,9 @@ class StudentsMenu extends Controller
 
     public function detail($id)
     {
-        $client = Client::with('mentors')->find($id);
+        if (!$client = Client::with('mentors')->find($id)) {
+            return Redirect::to('mentor/user/student');
+        }
         return view('user.mentor.user-student-detail',compact('client'));
     }
 

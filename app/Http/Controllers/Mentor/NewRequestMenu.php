@@ -33,16 +33,17 @@ class NewRequestMenu extends Controller
         $request_editor = Editor::where('status', '=', '1')->get();
         $university = University::get();
         $program = Programs::where('program_name', '=', 'Essay Editing')->orderBy('program_name', 'asc')->get();
-        
+
         return view('user.mentor.new-request', [
-            'clients' => $clients, 
-            'request_editor' => $request_editor, 
+            'clients' => $clients,
+            'request_editor' => $request_editor,
             'university' => $university,
             'program' => $program
         ]);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         // $rules = [
         //     'id_program' => 'required',
         //     'id_univ' => 'required',
@@ -51,7 +52,7 @@ class NewRequestMenu extends Controller
         //     'essays_prompt' => 'required',
         //     'id_clients' => 'required',
         //     'number_of_words' => 'required',
-            
+
         //     'essay_deadline' => 'required',
         //     'application_deadline' => 'required',
         //     'essay_title' => 'required',
@@ -64,11 +65,15 @@ class NewRequestMenu extends Controller
         // }
         $id_transaksi = '0';
         $mentor = Auth::guard('web-mentor')->user();
-        $student_name =  $request->id_clients;
+        $mentee_id =  $request->id_clients;
         
-        $file_student = Client::where('id_clients', '=', $student_name)->first();
+        $client = Client::where('id_clients', '=', $mentee_id)->first();
         $fileName = $request->attached_of_clients->getClientOriginalName();
-        $filePath = 'program/essay/mentors/'.$fileName;
+        $fileExt = $request->attached_of_clients->getClientOriginalExtension();
+
+        $cstFileName = $client->first_name.'_Essay_by_'.$mentor->first_name.'('.date('d-m-Y').').'.$fileExt;
+        // $filePath = 'program/essay/mentors/'.$fileName;
+        $filePath = 'program/essay/students/'.$cstFileName;
         Storage::disk('public_assets')->put($filePath, file_get_contents($request->attached_of_clients));
 
         DB::beginTransaction();
@@ -81,26 +86,23 @@ class NewRequestMenu extends Controller
             $new_request->essay_title           = $request->essay_title;
             $new_request->essay_prompt          = $request->essay_prompt;
             $new_request->id_clients            = $request->id_clients;
-            $new_request->email                 = $file_student->email;
-            $new_request->mentors_mail          = $file_student->mentors->email;
+            $new_request->email                 = $client->email;
+            $new_request->mentors_mail          = $client->mentors->email;
             $new_request->essay_deadline        = $request->essay_deadline;
             $new_request->application_deadline  = $request->application_deadline;
             
-            $new_request->attached_of_clients   = $fileName;
+            $new_request->attached_of_clients   = $cstFileName;
             $new_request->status_essay_clients  = 0;
             $new_request->status_read           = 0;
             $new_request->status_read_editor    = 0;
             $new_request->uploaded_at    = date('Y-m-d H:i:s');
             $new_request->save();
             DB::commit();
-
         } catch (Exception $e) {
             DB::rollBack();
             return Redirect::back()->withErrors($e->getMessage());
-
         }
 
-        $client = Client::where('id_clients', $request->id_clients)->first();
         $data = [
             'client' => $client,
             'mentor' => $mentor,
@@ -116,7 +118,8 @@ class NewRequestMenu extends Controller
         return redirect('/mentor/new-request')->with('add-new-request-successful', 'New request has been saved');
     }
 
-    public function sendEmail($type, $data){
+    public function sendEmail($type, $data)
+    {
         $managing = Editor::where('position', 3)->get()->toArray();
         $email = array_column($managing, 'email');
 
@@ -131,7 +134,7 @@ class NewRequestMenu extends Controller
             $i++;
         }
 
-        Mail::send('mail.mentor.new-request', $data, function($mail) use ($email) {
+        Mail::send('mail.mentor.new-request', $data, function ($mail) use ($email) {
             $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
             $mail->to($email);
             $mail->cc('essay@all-inedu.com');

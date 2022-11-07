@@ -16,7 +16,7 @@ class Authentication extends Controller
         // echo json_encode($credentials);
         // exit();
         $messages = [
-            "email.exists" => "This email has not been registered"
+            // "email.exists" => "This email has not been registered"
         ];
 
         $rules = [
