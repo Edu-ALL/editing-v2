@@ -86,7 +86,9 @@ class EssaysMenu extends Controller
     
     public function detailOngoingEssay($id)
     {
-        $essay = EssayClients::find($id);
+        if (!$essay = EssayClients::find($id)) {
+            return Redirect::to('mentor/essay-list/ongoing');
+        }
         
         return view('user.mentor.essay-list-ongoing-detail', [
             'essay' => $essay
@@ -96,7 +98,11 @@ class EssaysMenu extends Controller
 
     public function detailCompletedEssay($id)
     {
-        $essay = EssayEditors::where('id_essay_clients', $id)->first();
+
+        if (!$essay = EssayEditors::where('id_essay_clients', $id)->first()) {
+            return Redirect::to('mentor/essay-list/completed');
+        }
+        
         $essay_client = EssayClients::where('id_essay_clients', $id)->first();
         if ($essay_client->essay_deadline > $essay->uploaded_at) {
             $status_essay = 'On Time';
