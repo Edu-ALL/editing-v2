@@ -373,7 +373,7 @@
                                                     <tr>
                                                         <td class="img"
                                                             style="font-size:0pt; line-height:0pt; text-align:left"
-                                                            width="10" bgcolor="#78ce2d"></td>
+                                                            width="10" bgcolor="#ffa114"></td>
                                                         <td class="img"
                                                             style="font-size:0pt; line-height:0pt; text-align:left"
                                                             width="22"></td>
@@ -403,7 +403,7 @@
 
                                                                                     <div class="h5-2"
                                                                                         style="color:#555555; font-family:Arial,sans-serif; font-size:14px; line-height:20px; text-align:left; text-transform:capitalize">
-                                                                                        Hi {{ $mentor->first_name.' '.$mentor->last_name }},
+                                                                                        <p>Hi {{ $editor->first_name.' '.$editor->last_name }},</p>
                                                                                     </div>
                                                                                     <table width="100%" border="0"
                                                                                         cellspacing="0" cellpadding="0"
@@ -420,32 +420,17 @@
                                                                                     <div class="text2"
                                                                                         style="color:#777777; font-family:Arial,sans-serif; font-size:12px; line-height:20px; text-align:left">
                                                                                         <br>
-                                                                                        <p>{{ $client->first_name.' '.$client->last_name }}'s essay, {{ $essay->essay_title }}, has been reviewed by our essay editor, {{ $editor->first_name.' '.$editor->last_name }}, and is now ready to be returned to your mentee.</p>
+                                                                                        <p>After reviewing your revision of {{ $client->first_name.' '.$client->last_name }}'s essay, {{ $essay->essay_title }}, {{ $managing->first_name.' '.$managing->last_name }} is asking you to please give it another look.</p> 
                                                                                         <br>
-                                                                                        <p>Please find the comments and/or suggestions for further revision in the document.</p> 
+                                                                                        <p>You can find the managing editor's comments, including why they are requesting further revision, along with the client's essay and all the relevant information by clicking on the link below: </p> 
                                                                                         <br>
-                                                                                        <p>You can download the revised essay in the attachment, or access it through the link below:</p>
-                                                                                        <br>
-                                                                                        @if ($essayEditor->managing_file)
-                                                                                        <a href={{ asset('uploaded_files/program/essay/managing/'.$essayEditor->managing_file) }}
+                                                                                        <a href="{{ url('/login/editor') }}"
                                                                                         style="background-color: #4CAF50;border: none;color: white; padding: 8px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 14px; margin: 4px 2px; cursor: pointer;"
-                                                                                        >Download</a>
-                                                                                        @else
-                                                                                            @if (str_contains($essayEditor->attached_of_editors, 'Revised'))
-                                                                                                <a href={{ asset('uploaded_files/program/essay/revised/'.$essayEditor->attached_of_editors) }}
-                                                                                                style="background-color: #4CAF50;border: none;color: white; padding: 8px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 14px; margin: 4px 2px; cursor: pointer;"
-                                                                                                >Download</a>
-                                                                                            @else
-                                                                                                <a href={{ asset('uploaded_files/program/essay/editors/'.$essayEditor->attached_of_editors) }}
-                                                                                                style="background-color: #4CAF50;border: none;color: white; padding: 8px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 14px; margin: 4px 2px; cursor: pointer;"
-                                                                                                >Download</a>
-                                                                                            @endif
-                                                                                        @endif
-                                                                                        
-                                                                                        
+                                                                                        >Check Your Revision</a>
+                                                                                        <br><br>
+                                                                                        <p>Please complete this revision process by <b>{{ date('D, d M Y', strtotime($essay->essay_deadline)) }}</b>. </p>
                                                                                         <br>
-                                                                                        <br>
-                                                                                        <p>Thanks! Please feel free to contact us if you have further questions. </p>
+                                                                                        <p>Thanks! Please feel free to contact your managing editor if you have further questions or concerns. </p>
 
                                                                                     </div>
                                                                                     <table width="100%" border="0"
@@ -464,7 +449,6 @@
                                                                             </tr>
                                                                         </table>
                                                                     </th>
-                                                                    <!-- END Column -->
                                                                 </tr>
                                                             </table>
                                                         </td>
@@ -581,11 +565,12 @@
                                                                         style="color:#ffffff; text-decoration:none"><span
                                                                             class="link-white"
                                                                             style="color:#ffffff; text-decoration:none">info@all-inedu.com</span></a>
-                                                                    <br />Phone: <a href="tel:+6281808081363"
+                                                                    <br />Phone: <a href="tel:+1123456789"
                                                                         target="_blank" class="link-white"
                                                                         style="color:#ffffff; text-decoration:none"><span
                                                                             class="link-white"
-                                                                            style="color:#ffffff; text-decoration:none">+62 818 0808 1363</span></a>
+                                                                            style="color:#ffffff; text-decoration:none">+1
+                                                                            (123) 456-789</span></a>
                                                                 </div>
                                                                 <div style="font-size:0pt; line-height:0pt;"
                                                                     class="mobile-br-15"></div>

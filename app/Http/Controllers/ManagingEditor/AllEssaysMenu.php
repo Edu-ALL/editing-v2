@@ -16,6 +16,7 @@ use App\Models\Tags;
 use App\Models\Token;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -332,6 +333,139 @@ class AllEssaysMenu extends Controller
             DB::rollBack();
             return Redirect::back()->withErrors($e->getMessage());
         }
+
+        $managing = Auth::guard('web-editor')->user();
+        $client = Client::where('id_clients', $essay->id_clients)->first();
+        $editor = Editor::where('id_editors', $essay->id_editors)->first();
+        $email = $essay->editor->email;
+
+        $data = [
+            'managing' => $managing,
+            'essay' => $essay,
+            'client' => $client,
+            'editor' => $editor
+        ];
+
+        $this->sendEmail('cancel', $email, $data);
+
+        return redirect('editor/all-essays/ongoing/detail/'.$id_essay);
+    }
+
+    public function verify($id_essay, Request $request){
+        $editor = Auth::guard('web-editor')->user();
+
+        $rules = [
+            'uploaded_acc_file' => 'mimes:doc,docx|max:2048'
+        ];
+
+        $validator = Validator::make($request->all() + ['id_essay_clients' => $id_essay], $rules);
+        if ($validator->fails()) {
+            dd($validator->messages());
+            return Redirect::back()->withErrors($validator->messages());
+        }
+
+        DB::beginTransaction();
+        try {
+            $essay = EssayClients::find($id_essay);
+            $essay->status_essay_clients = 7;
+            $essay->completed_at = date('Y-m-d H:i:s');
+            $essay->save();
+
+            $essay_status = new EssayStatus;
+            $essay_status->id_essay_clients = $essay->id_essay_clients;
+            $essay_status->status = 7;
+            $essay_status->save();
+
+            $essay_editor = EssayEditors::where('id_essay_clients', '=', $id_essay)->first();
+            $essay_editor->status_essay_editors = 7;
+            // Upload Acc File
+            if ($request->hasFile('uploaded_acc_file')) {
+                $file_name = 'Revised-by-'.$editor->first_name.'-'.$editor->last_name.'('.date('d-m-Y').')';
+                $file_name = str_replace(' ', '-', $file_name);
+                $file_format = $request->file('uploaded_acc_file')->getClientOriginalExtension();
+                $med_file_path = $request->file('uploaded_acc_file')->storeAs('program/essay/managing', $file_name.'.'.$file_format, ['disk' => 'public_assets']);
+                $essay_editor->managing_file = $file_name.'.'.$file_format;
+            }
+            $essay_editor->save();
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return Redirect::back()->withErrors($e->getMessage());
+        }
+
+        $email = $essay_editor->editors_mail;
+        $data = [];
+        $this->sendEmail('verify', $email, $data);
+
+        return redirect('editor/all-essays/completed/detail/'.$id_essay);
+    }
+
+    public function revise($id_essay, Request $request){
+        $managing = Auth::guard('web-editor')->user();
+
+        $rules = [
+            'uploaded_revise_file' => 'mimes:doc,docx|max:2048'
+        ];
+
+        $validator = Validator::make($request->all() + ['id_essay_clients' => $id_essay], $rules);
+        if ($validator->fails()) {
+            dd($validator->messages());
+            return Redirect::back()->withErrors($validator->messages());
+        }
+
+        DB::beginTransaction();
+        try {
+            $essay = EssayClients::find($id_essay);
+            $essay->status_essay_clients = 6;
+            $essay->save();
+
+            $essay_status = new EssayStatus;
+            $essay_status->id_essay_clients = $essay->id_essay_clients;
+            $essay_status->status = 6;
+            $essay_status->save();
+
+            $essay_editor = EssayEditors::where('id_essay_clients', '=', $id_essay)->first();
+            $essay_editor->status_essay_editors = 6;
+            // $essay_editor->notes_editors = $request->notes;
+            $essay_editor->save();
+
+            $essay_revise = new EssayRevise;
+            $essay_revise->id_essay_clients = $id_essay;
+            $essay_revise->editors_mail = $essay_editor->editors_mail;
+            $essay_revise->admin_mail = $managing->email;
+            $essay_revise->role = 'managing_editor';
+            $essay_revise->notes = $request->notes;
+            // Upload Revise File
+            if ($request->hasFile('uploaded_revise_file')) {
+                $file_name = 'Revise-'.date('d-m-Y');
+                $file_name = str_replace(' ', '-', $file_name);
+                $file_format = $request->file('uploaded_revise_file')->getClientOriginalExtension();
+                $med_file_path = $request->file('uploaded_revise_file')->storeAs('program/essay/revise', $file_name.'.'.$file_format, ['disk' => 'public_assets']);
+                $essay_revise->file = $file_name.'.'.$file_format;
+            }
+            $essay_revise->created_at = date('Y-m-d H:i:s');
+            $essay_revise->save();
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return Redirect::back()->withErrors($e->getMessage());
+        }
+
+        $email = $essay_editor->editors_mail;
+        $essay = EssayClients::find($id_essay);
+        $editor = Editor::where('id_editors', $essay->id_editors)->first();
+        $client = Client::where('id_clients', $essay->id_clients)->first();
+
+        $data = [
+            'editor' => $editor,
+            'essay' => $essay,
+            'client' => $client,
+            'managing' => $managing
+        ];
+        $this->sendEmail('revise', $email, $data);
+
         return redirect('editor/all-essays/ongoing/detail/'.$id_essay);
     }
 
@@ -343,15 +477,6 @@ class AllEssaysMenu extends Controller
         $mentor = Mentor::where('id_mentors', $client->id_mentor)->first();
         $email = $mentor->email;
 
-        $user_token = [
-            'email' => $editor->email,
-            'token' => Crypt::encrypt(Str::random(32)),
-            'activated_at' => time()
-        ];
-
-        # save token
-        Token::create($user_token);
-
         $data = [
             'editor' => $editor,
             'essay' => $essay,
@@ -360,21 +485,12 @@ class AllEssaysMenu extends Controller
             'mentor' => $mentor
         ];
 
-        Mail::send('mail.send-essay', $data, function($mail) use ($email, $client, $essay) {
-            $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
-            $mail->to($email);
-            $mail->cc('essay@all-inedu.com');
-            $mail->subject($client->first_name.' '.$client->last_name.'`s essay, '.$essay->essay_title.', is ready!');
-        });
-
-        if (Mail::failures()) {
-            return response()->json(Mail::failures());
-        }
+        $this->sendEmail('send_email', $email, $data);
 
         return redirect('editor/all-essays/completed/detail/'.$id_essay);
     }
 
-    public function revise($id_essay, Request $request){
+    public function cancel_revise($id_essay, Request $request){
         $editor = Auth::guard('web-editor')->user();
 
         DB::beginTransaction();
@@ -390,7 +506,7 @@ class AllEssaysMenu extends Controller
 
             $essay_editor = EssayEditors::where('id_essay_clients', '=', $id_essay)->first();
             $essay_editor->status_essay_editors = 6;
-            $essay_editor->notes_editors = $request->notes;
+            // $essay_editor->notes_editors = $request->notes;
             $essay_editor->save();
 
             $essay_revise = new EssayRevise;
@@ -409,6 +525,54 @@ class AllEssaysMenu extends Controller
         }
 
         return redirect('editor/all-essays/ongoing/detail/'.$id_essay);
+    }
+
+    public function sendEmail($type, $email, $data)
+    {
+        $managing = Auth::guard('web-editor')->user();
+
+        $user_token = [
+            'email' => $managing->email,
+            'token' => Crypt::encrypt(Str::random(32)),
+            'activated_at' => time()
+        ];
+
+        # save token
+        Token::create($user_token);
+
+        if ($type == 'cancel') {
+            Mail::send('mail.cancel-assign', $data, function($mail) use ($email) {
+                $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+                $mail->to($email);
+                $mail->cc('essay@all-inedu.com');
+                $mail->subject('One of your assignments has been canceled');
+            });
+        } else if ($type == 'verify') {
+            Mail::send('mail.complete-essay', $data, function($mail) use ($email, $data) {
+                $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+                $mail->to($email);
+                $mail->cc('essay@all-inedu.com');
+                $mail->subject('Your Essay is Complete');
+            });
+        } else if ($type == 'revise') {
+            Mail::send('mail.revise-essay', $data, function($mail) use ($email, $data) {
+                $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+                $mail->to($email);
+                $mail->cc('essay@all-inedu.com');
+                $mail->subject($data['client']->first_name.' '.$data['client']->last_name.'`s essay, '.$data['essay']->essay_title.', needs further revision');
+            });
+        } else if ($type == 'send_email') {
+            Mail::send('mail.send-essay', $data, function($mail) use ($email, $data) {
+                $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+                $mail->to($email);
+                $mail->cc('essay@all-inedu.com');
+                $mail->subject($data['client']->first_name.' '.$data['client']->last_name.'`s essay, '.$data['essay']->essay_title.', is ready!');
+            });
+        } 
+
+        if (Mail::failures()) {
+            return response()->json(Mail::failures());
+        }
     }
 
     public function allEssayDeadline($start, $num){

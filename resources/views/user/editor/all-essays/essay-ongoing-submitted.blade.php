@@ -128,7 +128,8 @@
                       <img class="img-word" src="/assets/logo-word.png" alt="">
                     </div>
                     <div class="col d-flex align-items-center justify-content-center pb-md-0 pb-3">
-                      <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/editors/'.$essay->essay_editors->attached_of_editors) }}>
+                      <a class="btn btn-download d-flex align-items-center gap-2" 
+                      href={{ $essay->status_essay_clients == 6 || $essay->status_essay_clients == 8 ? asset('uploaded_files/program/essay/revised/'.$essay->essay_editors->attached_of_editors) : asset('uploaded_files/program/essay/editors/'.$essay->essay_editors->attached_of_editors) }}>
                         <img src="/assets/download.png" alt="">
                         <h6>Download</h6>
                       </a>
@@ -180,7 +181,7 @@
                   <div class="col mt-3 mb-2">
                     <h6 class="pb-2">Add Attachments :</h6>
                     <div class="h-100 p-0">
-                      <input class="form-control p-1 ps-2 inputField h-100" id="formFileSm" name="uploaded_file" form="form-essay" type="file" style="box-shadow: none">
+                      <input class="form-control p-1 ps-2 inputField h-100" id="formFileSm" name="uploaded_revise_file" form="form-revise" type="file" style="box-shadow: none">
                     </div>
                   </div>
                   <div class="col-12 d-flex mb-2">
@@ -189,7 +190,7 @@
                     </div>
                   </div>
                   <div class="col d-flex align-items-center justify-content-center py-3">
-                    <form action="{{ route('revise-essay', ['id_essay' => $essay->id_essay_clients]) }}" method="POST" class="p-0" id="form-revise" onsubmit="swal.showLoading()">
+                    <form action="{{ route('revise-editor-essay', ['id_essay' => $essay->id_essay_clients]) }}" enctype="multipart/form-data" method="POST" class="p-0" id="form-revise">
                       @csrf
                       <button class="btn btn-download d-flex align-items-center gap-2" style="background-color: var(--red)">
                         <img src="/assets/danger.png" alt="">
@@ -210,12 +211,12 @@
                 </div>
                 <div class="col">
                   <div class="d-none h-auto p-0" id="inputField">
-                    <input class="form-control ps-2 inputField h-100 w-100" id="formFileSm" name="uploaded_file" form="form-essay" type="file" style="box-shadow: none; padding: 6px 12px">
+                    <input class="form-control ps-2 inputField h-100 w-100" name="uploaded_acc_file" form="form-accept" type="file" style="box-shadow: none; padding: 6px 12px">
                   </div>
                 </div>
               </div>
               <div class="col-12 d-flex justify-content-center pt-3" style="border-top: 1px solid var(--light-grey)">
-                <form action="{{ route('verify-essay', ['id_essay' => $essay->id_essay_clients]) }}" method="POST" class="p-0" onsubmit="swal.showLoading()">
+                <form action="{{ route('verify-editor-essay', ['id_essay' => $essay->id_essay_clients]) }}" enctype="multipart/form-data" method="POST" id="form-accept" class="p-0">
                   @csrf
                   <button class="btn btn-create d-flex align-items-center gap-2" style="background-color: var(--green)">
                     <img src="/assets/assign-list.png" alt="">

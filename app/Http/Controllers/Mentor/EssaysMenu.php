@@ -45,7 +45,7 @@ class EssaysMenu extends Controller
         if ($keyword) 
             $essays->appends(['keyword' => $keyword]);
             
-        return view('user.mentor.essay-list-ongoing', ['essays' => $essays]);
+        return view('user.mentor.essay-ongoing', ['essays' => $essays]);
     }
 
     public function completedEssay(Request $request)
