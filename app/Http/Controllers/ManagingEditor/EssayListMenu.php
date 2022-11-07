@@ -164,44 +164,50 @@ class EssayListMenu extends Controller
     }
 
     public function detailEssayList($id_essay, Request $request){
-        $editors = Editor::paginate(10);
         $essay = EssayClients::find($id_essay);
-        $essay_editor = EssayEditors::where('id_essay_clients', $id_essay)->first();
+        if ($essay) {
+            $editors = Editor::paginate(10);
+            // $essay = EssayClients::find($id_essay);
+            $essay_editor = EssayEditors::where('id_essay_clients', $id_essay)->first();
 
-        if ($essay_editor->read == 0) {
-            DB::beginTransaction();
-            $essay_editor->read = 1;
-            $essay_editor->save();
-            DB::commit();
-        }
+            if ($essay_editor->read == 0) {
+                DB::beginTransaction();
+                $essay_editor->read = 1;
+                $essay_editor->save();
+                DB::commit();
+            }
 
-        if ($essay->status_essay_clients == 1) {
-            return view('user.editor.essay-list.editor-essay-list-ongoing', [
-                'essay' => $essay
-            ]);
-        } else if ($essay->status_essay_clients == 2) {
-            return view('user.editor.essay-list.editor-essay-list-accepted', [
-                'essay' => $essay,
-                'tags' => Tags::get()
-            ]);
-        } else if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 8) {
-            return view('user.editor.essay-list.editor-essay-list-submitted', [
-                'essay' => $essay,
-                'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
-            ]);
-        } else if ($essay->status_essay_clients == 6) {
-            return view('user.editor.essay-list.editor-essay-list-revise', [
-                'essay' => $essay,
-                'tags' => EssayTags::where('id_essay_clients', $id_essay)->get(),
-                'list_tags' => Tags::get(),
-                'essay_revise' => EssayRevise::where('id_essay_clients', $id_essay)->get()
-            ]);
-        } else if ($essay->status_essay_clients == 7) {
-            return view('user.editor.essay-list.editor-essay-list-completed', [
-                'essay' => $essay_editor,
-                'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
-            ]);
+            if ($essay->status_essay_clients == 1) {
+                return view('user.editor.essay-list.editor-essay-list-ongoing', [
+                    'essay' => $essay
+                ]);
+            } else if ($essay->status_essay_clients == 2) {
+                return view('user.editor.essay-list.editor-essay-list-accepted', [
+                    'essay' => $essay,
+                    'tags' => Tags::get()
+                ]);
+            } else if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 8) {
+                return view('user.editor.essay-list.editor-essay-list-submitted', [
+                    'essay' => $essay,
+                    'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
+                ]);
+            } else if ($essay->status_essay_clients == 6) {
+                return view('user.editor.essay-list.editor-essay-list-revise', [
+                    'essay' => $essay,
+                    'tags' => EssayTags::where('id_essay_clients', $id_essay)->get(),
+                    'list_tags' => Tags::get(),
+                    'essay_revise' => EssayRevise::where('id_essay_clients', $id_essay)->get()
+                ]);
+            } else if ($essay_editor->status_essay_editors == 7) {
+                return view('user.editor.essay-list.editor-essay-list-completed', [
+                    'essay' => $essay_editor,
+                    'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
+                ]);
+            }
+        } else {
+            return redirect('editor/essay-list')->with('isEssay', 'Essay not found');
         }
+        
     }
 
     public function accept($id_essay){
@@ -494,10 +500,11 @@ class EssayListMenu extends Controller
                 $mail->cc('essay@all-inedu.com');
                 $mail->subject($editor.' has rejected an essay assignment');
             });
-        } else if ($type == 'accept') {
-            Mail::send('mail.per-editor.accept-assign', $data, function($mail) use ($email) {
+        } else if ($type == 'accept') { # to mentor
+            $email_mentor = $data['mentor']->email;
+            Mail::send('mail.per-editor.accept-assign', $data, function($mail) use ($email_mentor) {
                 $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
-                $mail->to($email);
+                $mail->to($email_mentor);
                 $mail->cc('essay@all-inedu.com');
                 $mail->subject('Assignment Accepted');
             });

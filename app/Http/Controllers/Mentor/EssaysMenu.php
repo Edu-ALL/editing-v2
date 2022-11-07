@@ -109,6 +109,7 @@ class EssaysMenu extends Controller
         } else {
             $status_essay = 'Late';
         }
+        
         return view('user.mentor.essay-list-completed-detail', [
             'essay' => $essay,
             'tags' => EssayTags::where('id_essay_clients', $id)->get(),
