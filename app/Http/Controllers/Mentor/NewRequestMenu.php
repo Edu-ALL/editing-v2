@@ -44,30 +44,29 @@ class NewRequestMenu extends Controller
 
     public function store(Request $request)
     {
-        // $rules = [
-        //     'id_program' => 'required',
-        //     'id_univ' => 'required',
-        //     'id_editors' => 'required',
-        //     'essay_title' => 'required',
-        //     'essays_prompt' => 'required',
-        //     'id_clients' => 'required',
-        //     'number_of_words' => 'required',
+        $rules = [
+            'id_editors' => 'required',
+            'id_univ' => 'required',
+            'id_clients' => 'required',
+            'number_of_word' => 'required',
+            'essay_title' => 'required',
+            'essay_prompt' => 'required',
+            'essay_deadline' => 'required|date',
+            'application_deadline' => 'required|date|after:essay_deadline',
+            'attached_of_clients' => 'required|mimes:docx,doc|max:2048',
+        ];
 
-        //     'essay_deadline' => 'required',
-        //     'application_deadline' => 'required',
-        //     'essay_title' => 'required',
-        //     'file' => 'required|mimes:docx,doc|max:2048'
-        // ];
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator->messages());
+        }
 
-        // $validator = Validator::make($request->all(), $rules);
-        // if ($validator->fails()) {
-        //     return Redirect::back()->withErrors($validator->messages());
-        // }
         $id_transaksi = '0';
         $mentor = Auth::guard('web-mentor')->user();
         $mentee_id =  $request->id_clients;
         
         $client = Client::where('id_clients', '=', $mentee_id)->first();
+
         $fileName = $request->attached_of_clients->getClientOriginalName();
         $fileExt = $request->attached_of_clients->getClientOriginalExtension();
 
@@ -75,6 +74,7 @@ class NewRequestMenu extends Controller
         // $filePath = 'program/essay/mentors/'.$fileName;
         $filePath = 'program/essay/students/'.$cstFileName;
         Storage::disk('public_assets')->put($filePath, file_get_contents($request->attached_of_clients));
+        
 
         DB::beginTransaction();
         try {

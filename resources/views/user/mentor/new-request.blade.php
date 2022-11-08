@@ -13,6 +13,16 @@
             <div class="col" style="overflow: auto !important">
                 @include('user.mentor.utama.head')
                 <div class="container main-content m-0">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     <form action="{{ route('save-new-request') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
