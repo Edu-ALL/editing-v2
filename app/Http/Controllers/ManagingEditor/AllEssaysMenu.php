@@ -372,10 +372,12 @@ class AllEssaysMenu extends Controller
             $essay_editor->status_essay_editors = 7;
             // Upload Acc File
             if ($request->hasFile('uploaded_acc_file')) {
-                $file_name = 'Revised-by-'.$editor->first_name.'-'.$editor->last_name.'('.date('d-m-Y').')';
-                $file_name = str_replace(' ', '-', $file_name);
+                $file_name = 'Revised_by_'.$editor->first_name.'_'.$editor->last_name.'('.date('d-m-Y').')';
+                // $file_name = str_replace(' ', '-', $file_name);
                 $file_format = $request->file('uploaded_acc_file')->getClientOriginalExtension();
-                $med_file_path = $request->file('uploaded_acc_file')->storeAs('program/essay/managing', $file_name.'.'.$file_format, ['disk' => 'public_assets']);
+                // $med_file_path = $request->file('uploaded_acc_file')->storeAs('program/essay/managing', $file_name.'.'.$file_format, ['disk' => 'public_assets']);
+                $med_file_path = $request->file('uploaded_acc_file')->storeAs('program/essay/revised', $file_name.'.'.$file_format, ['disk' => 'public_assets']);
+                
                 $essay_editor->managing_file = $file_name.'.'.$file_format;
             }
             $essay_editor->save();

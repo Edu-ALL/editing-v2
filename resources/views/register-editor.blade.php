@@ -59,7 +59,7 @@
                       {{-- </form> --}}
                     </div>
                     <div class="ml-2">
-                      <img src="https://placehold.it/80x80" id="preview" class="img-thumbnail">
+                      <img src="https://via.placeholder.com/500x300" id="preview" class="img-thumbnail">
                     </div>
                 </div>
                 <div class="col">
