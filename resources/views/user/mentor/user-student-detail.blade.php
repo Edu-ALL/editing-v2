@@ -99,14 +99,23 @@
                                     <div class="text-area p-md-1 mb-3">
                                         <h6 class="pb-3">Personal Brand Statement :</h6>
                                         <textarea name="personal_brand" class="textarea" placeholder="Personal Brand Statement"> {{ $client->personal_brand }}</textarea>
+                                        @error('personal_brand')
+                                            <small class="alert text-danger fs-10">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                     <div class="text-area p-md-1 mb-3">
                                         <h6 class="pb-3">Academic Goals & Interest :</h6>
                                         <textarea name="interests" class="textarea" placeholder="Academic Goals & Interest"> {{ $client->interests }}</textarea>
+                                        @error('interests')
+                                            <small class="alert text-danger fs-10">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                     <div class="text-area p-md-1 mb-3">
                                         <h6 class="pb-3">Life Philosophy (Values) & Personalities :</h6>
                                         <textarea name="personalities" class="textarea" placeholder="Life Philosophy (Values) & Personalities"> {{ $client->personalities }}</textarea>
+                                        @error('personalities')
+                                            <small class="alert text-danger fs-10">{{ $message }}</small>
+                                        @enderror
                                     </div>
 
                                     {{-- End Text Area --}}
