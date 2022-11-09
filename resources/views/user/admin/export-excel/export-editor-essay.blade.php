@@ -83,9 +83,10 @@
                   <div class="col-4">
                     <h6 class="pb-2">Status</h6>
                     <select class="select-normal" style="width: 90%;" name="f-status">
-                      <option value="all" {{ $request->get('f-status') == 'all' ? 'selected' : null }}>All Status</option>
+                      <option value="all" {{ $request->get('f-status') == null || $request->get('f-status') == "all" ? 'selected' : null }}>All Status</option>
                       @foreach ($status as $_status)
-                        <option value="{{ $_status->id }}" {{ $request->get('f-status') == $_status->id ? 'selected' : null }}>{{ $_status->status_title }}</option>
+                        <option value="{{ $_status->id }}" 
+                          {{ $request->get('f-status') != null && $request->get('f-status') != "all" && $request->get('f-status') == $_status->id ? 'selected' : null }}>{{ $_status->status_title }}</option>
                       @endforeach
                     </select>
                   </div>
