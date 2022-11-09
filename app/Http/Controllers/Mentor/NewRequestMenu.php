@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
+use App\Events\StatusEssay;
 
 class NewRequestMenu extends Controller
 {
@@ -44,8 +45,9 @@ class NewRequestMenu extends Controller
 
     public function store(Request $request)
     {
+
         $rules = [
-            'id_editors' => 'required',
+            'id_editors' => 'nullable',
             'id_univ' => 'required',
             'id_clients' => 'required',
             'number_of_word' => 'required',

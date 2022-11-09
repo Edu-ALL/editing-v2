@@ -27,6 +27,9 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <style>
+        .fs-10 { font-size: 10px; }
+    </style>
 </head>
 
 <body>
@@ -48,6 +51,22 @@
         main.style.minHeight = height + "px";
     </script>
     @yield('js')
+    <script src="//js.pusher.com/3.1/pusher.min.js"></script>
+    <script>
+        // Initiate the Pusher JS library
+        var pusher = new Pusher('174254d6ea94361b0744', {
+            encrypted: true
+        });
+
+        // Subscribe to the channel we specified in our Laravel Event
+        var channel = pusher.subscribe('essay-status');
+
+        // Bind a function to a Event (the full Laravel class)
+        channel.bind('App\\Events\\EssayStatus', function(data) {
+            // this is called when the event notification is received...
+            alert(data)
+        });
+    </script>
 </body>
 
 </html>
