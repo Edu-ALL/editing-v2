@@ -10,11 +10,10 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class EssayStatus implements ShouldBroadcast
+class ManagingNotif implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $username;
     public $message;
 
     /**
@@ -22,9 +21,8 @@ class EssayStatus implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($role, $message)
+    public function __construct($message)
     {
-        $this->username = $role;
         $this->message = $message;
     }
 
@@ -35,7 +33,7 @@ class EssayStatus implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['status'];
+        return ['managing'];
     }
 
     public function broadcastAs()

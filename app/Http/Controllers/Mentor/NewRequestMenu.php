@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Mentor;
 
+use App\Events\ManagingNotif;
 use App\Http\Controllers\Admin\Program;
 use App\Http\Controllers\Controller;
 use App\Models\Client;
@@ -23,7 +24,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
-use App\Events\EssayStatus;
 
 class NewRequestMenu extends Controller
 {
@@ -46,7 +46,7 @@ class NewRequestMenu extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'id_editors' => 'required',
+            'id_editors' => 'nullable',
             'id_univ' => 'required',
             'id_clients' => 'required',
             'number_of_word' => 'required',
@@ -113,6 +113,9 @@ class NewRequestMenu extends Controller
             'university' => University::where('id_univ', $request->id_univ)->first(),
             'essay_prompt' => $request->essay_prompt
         ];
+
+        // Pusher 
+        event(new ManagingNotif('Mentor has uploaded the essay.'));
 
         $this->sendEmail('new-request', $data);
 

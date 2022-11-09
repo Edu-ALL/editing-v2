@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\ManagingEditor;
 
+use App\Events\EditorNotif;
 use App\Events\MentorNotif;
 use App\Http\Controllers\Controller;
 use App\Models\Client;
@@ -238,16 +239,15 @@ class AllEssaysMenu extends Controller
 
     public function assignEditor($id_essay, Request $request)
     {
-
         # managing editor data
         $managing_name = Auth::guard('web-editor')->user()->first_name . ' ' . Auth::guard('web-editor')->user()->last_name;
 
         # get associate editor data
         $editor = Editor::find($request->id_editors);
 
+
         DB::beginTransaction();
         try {
-
 
             # update table essay clients
             $essay = EssayClients::find($id_essay);
@@ -261,6 +261,9 @@ class AllEssaysMenu extends Controller
             $essay_editor->editors_mail = $essay->editor->email;
             $essay_editor->status_essay_editors = 1;
             $essay_editor->save();
+
+            // Pusher 
+            event(new EditorNotif($editor->email, 'You have a new assignment.'));
 
             # insert into table essay status
             $essay_status = new EssayStatus;
@@ -364,11 +367,15 @@ class AllEssaysMenu extends Controller
             $essay->status_essay_clients = 7;
             $essay->completed_at = date('Y-m-d H:i:s');
             $essay->save();
+            // Pusher 
+            event(new MentorNotif($essay->mentors_mail, 'Congratulations, your essay has been completed.'));
+
 
             $essay_status = new EssayStatus;
             $essay_status->id_essay_clients = $essay->id_essay_clients;
             $essay_status->status = 7;
             $essay_status->save();
+
 
             $essay_editor = EssayEditors::where('id_essay_clients', '=', $id_essay)->first();
             $essay_editor->status_essay_editors = 7;
@@ -384,6 +391,9 @@ class AllEssaysMenu extends Controller
             }
             $essay_editor->save();
 
+            // Pusher 
+            event(new EditorNotif($essay_editor->editors_mail, 'Congratulations, your essay has been completed.'));
+
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
@@ -392,6 +402,7 @@ class AllEssaysMenu extends Controller
 
         $email = $essay_editor->editors_mail;
         $data = [];
+
         $this->sendEmail('verify', $email, $data);
 
         return redirect('editor/all-essays/completed/detail/' . $id_essay);
@@ -444,6 +455,9 @@ class AllEssaysMenu extends Controller
             $essay_revise->created_at = date('Y-m-d H:i:s');
             $essay_revise->save();
 
+            // Pusher 
+            event(new EditorNotif($essay_editor->editors_mail, 'Please, revise your essay.'));
+
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
@@ -484,8 +498,10 @@ class AllEssaysMenu extends Controller
         ];
 
 
-        event(new MentorNotif($email, 'Your essay is ready'));
-        // $this->sendEmail('send_email', $email, $data);
+        // Pusher 
+        // event(new MentorNotif($email, 'Congratulations, your essay has been completed.'));
+
+        $this->sendEmail('send_email', $email, $data);
 
         return redirect('editor/all-essays/completed/detail/' . $id_essay);
     }
@@ -518,6 +534,9 @@ class AllEssaysMenu extends Controller
             $essay_revise->notes = $request->notes;
             $essay_revise->created_at = date('Y-m-d H:i:s');
             $essay_revise->save();
+
+            // Pusher 
+            event(new EditorNotif($essay_editor->editors_mail, 'Please, revise your essay.'));
 
             DB::commit();
         } catch (Exception $e) {

@@ -13,6 +13,9 @@
             margin: 0px;
             padding: 0px;
         }
+        .fs-10 {
+            font-size: 10px
+        }
     </style>
 @endsection
 
@@ -47,7 +50,7 @@
                             </div>
                             <div class="col px-md-4 px-3">
                                 <div class="mb-4">
-                                    <input class="form-control form-control-sm" id="formFileSm" name="uploaded_file"
+                                    <input class="form-control py-1 px-1" id="formFileSm" name="uploaded_file"
                                         form="form-university" type="file" onchange="previewImage()">
                                 </div>
                             </div>
@@ -65,7 +68,7 @@
                             </div>
                             <div class="row profile-editor px-md-3 py-md-4 px-3 py-4" style="overflow: auto !important">
 
-                                @if ($errors->any())
+                                {{-- @if ($errors->any())
                                     <div class="error-style">
                                         <div class="alert alert-danger" role="alert">
                                             <ul>
@@ -74,10 +77,9 @@
 
                                         </div>
                                     </div>
-                                @endif
+                                @endif --}}
 
-                                <form action="{{ route('add-universities') }}" id="form-university"
-                                    onsubmit="swal.showLoading()" method="POST" class="p-0"
+                                <form action="{{ route('add-universities') }}" id="form-university" method="POST" class="p-0"
                                     enctype="multipart/form-data">
                                     @csrf
                                     <div class="col-12 d-flex mb-3">
@@ -85,6 +87,9 @@
                                             <h6 class="pb-2">University Name :</h6>
                                             <input type="text" name="university_name"
                                                 class="form-control inputField py-2 px-3">
+                                            @error('university_name')
+                                                <div class="alert text-danger fs-10">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                         <div class="col-6">
                                             <h6 class="pb-2">Email :</h6>
@@ -106,6 +111,9 @@
                                         <div class="col-6">
                                             <h6 class="pb-2">Country :</h6>
                                             <input type="text" name="country" class="form-control inputField py-2 px-3">
+                                            @error('country')
+                                                <small class="alert text-danger fs-10">{{ $message }}</small>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex mb-5" style="overflow: auto !important">

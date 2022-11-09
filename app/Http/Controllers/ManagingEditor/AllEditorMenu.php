@@ -51,10 +51,12 @@ class AllEditorMenu extends Controller
     }
 
     public function detail($id, Request $request){
-        if (Editor::find($id) != null) {
+        if ($editor = Editor::find($id)) {
             $keyword1 = $request->get('keyword-ongoing');
             $keyword2 = $request->get('keyword-completed');
-            $essay_ongoing = EssayClients::with('client_by_id', 'program')->where('id_editors', '=', $id)->where('status_essay_clients', '!=', 0)->where('status_essay_clients', '!=', 4)->where('status_essay_clients', '!=', 5)->where('status_essay_clients', '!=', 7)->when($keyword1, function ($query_) use ($keyword1) {
+            $essay_ongoing = EssayClients::whereHas('essay_editors', function($query_essay_editor) use ($editor) {
+                $query_essay_editor->where('editors_mail', $editor->email);
+            })->with('client_by_id', 'program')->where('status_essay_clients', '!=', 0)->where('status_essay_clients', '!=', 4)->where('status_essay_clients', '!=', 5)->where('status_essay_clients', '!=', 7)->when($keyword1, function ($query_) use ($keyword1) {
                 $query_->where(function ($query) use ($keyword1) {
                     $query->orWhereHas('client_by_id', function ($query_client) use ($keyword1) {
                         $query_client->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword1.'%');
@@ -65,7 +67,9 @@ class AllEditorMenu extends Controller
                     })->orWhere('essay_title', 'like', '%'.$keyword1.'%');
                 });
             })->paginate(5);
-            $essay_completed = EssayClients::with('client_by_id', 'program')->where('id_editors', '=', $id)->where('status_essay_clients', '=', 7)->when($keyword2, function ($query_) use ($keyword2) {
+            $essay_completed = EssayClients::whereHas('essay_editors', function($query_essay_editor) use ($editor) {
+                $query_essay_editor->where('editors_mail', $editor->email);
+            })->with('client_by_id', 'program')->where('status_essay_clients', '=', 7)->when($keyword2, function ($query_) use ($keyword2) {
                 $query_->where(function ($query) use ($keyword2) {
                     $query->orWhereHas('client_by_id', function ($query_client) use ($keyword2) {
                         $query_client->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword2.'%');
@@ -77,7 +81,11 @@ class AllEditorMenu extends Controller
                 });
             })->paginate(5);
 
-            $editor = Editor::find($id);
+            $essay_completed_count = EssayClients::whereHas('essay_editors', function($query_essay_editor) use ($editor) {
+                $query_essay_editor->where('editors_mail', $editor->email);
+            })->where('status_essay_clients', '=', 7);
+
+            // $editor = Editor::find($id);
             $count_essay = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', '=', 'tbl_essay_editors.id_essay_clients')->where('editors_mail', $editor->email)->where('essay_rating', '!=', 0)->get();
 
             $rating = 0;
@@ -96,6 +104,7 @@ class AllEditorMenu extends Controller
                 'editor' => $editor,
                 'essay_ongoing' => $essay_ongoing,
                 'essay_completed' => $essay_completed,
+                'essay_completed_count' => $essay_completed_count,
                 'average_rating' => number_format($average_rating, 1, ".", ",")
             ]);
         } else {

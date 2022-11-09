@@ -27,11 +27,19 @@
         referrerpolicy="origin"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-
+    <style>
+        .fs-10 {
+            font-size: 10px;
+        }
+    </style>
 </head>
 
 <body>
     {{-- @include('menu') --}}
+    <audio id="myAudio">
+        <source src="{{ asset('assets/sound/notify.mp3') }}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
     @yield('content')
     <footer class="container-fluid footer">
         <div class="col-md-5 mx-auto text-center py-2 copyright">
@@ -53,7 +61,6 @@
     <script src="/js/toast.js"></script>
     <script>
         // Pusher.logToConsole = true;
-
         var pusher = new Pusher('174254d6ea94361b0744', {
             cluster: 'ap1',
             encrypted: true
@@ -64,9 +71,12 @@
 
         // Bind a function to a Event (the full Laravel class)
         channel.bind('my-event', function(data) {
-            Notif(data.message)
-            // this is called when the event notification is received...
-
+            let authEmail = '{{ Auth::guard('web-mentor')->user()->email }}'
+            if (data.email == authEmail) {
+                Notif(data.message)
+                var x = document.getElementById("myAudio");
+                x.play();
+            }
         });
     </script>
 

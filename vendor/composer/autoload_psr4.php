@@ -43,7 +43,11 @@ return array(
     'Pusher\\' => array($vendorDir . '/pusher/pusher-php-server/src'),
     'Psy\\' => array($vendorDir . '/psy/psysh/src'),
     'Psr\\SimpleCache\\' => array($vendorDir . '/psr/simple-cache/src'),
+<<<<<<< HEAD
     'Psr\\Log\\' => array($vendorDir . '/psr/log/src'),
+=======
+    'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
+>>>>>>> 22b0193e9bb474ead62e76da7c80ee6e19049722
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-factory/src', $vendorDir . '/psr/http-message/src'),
     'Psr\\Http\\Client\\' => array($vendorDir . '/psr/http-client/src'),
     'Psr\\EventDispatcher\\' => array($vendorDir . '/psr/event-dispatcher/src'),
