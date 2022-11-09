@@ -44,25 +44,26 @@ class NewRequestMenu extends Controller
 
     public function store(Request $request)
     {
-        // $rules = [
-        //     'id_program' => 'required',
-        //     'id_univ' => 'required',
-        //     'id_editors' => 'required',
-        //     'essay_title' => 'required',
-        //     'essays_prompt' => 'required',
-        //     'id_clients' => 'required',
-        //     'number_of_words' => 'required',
+        $rules = [
+            'id_program' => 'required',
+            'id_univ' => 'required',
+            'id_editors' => 'required',
+            'essay_title' => 'required',
+            'essays_prompt' => 'required',
+            'id_clients' => 'required',
+            'number_of_words' => 'required',
 
-        //     'essay_deadline' => 'required',
-        //     'application_deadline' => 'required',
-        //     'essay_title' => 'required',
-        //     'file' => 'required|mimes:docx,doc|max:2048'
-        // ];
+            'essay_deadline' => 'required',
+            'application_deadline' => 'required',
+            'essay_title' => 'required',
+            'file' => 'required|mimes:docx,doc|max:2048'
+        ];
 
-        // $validator = Validator::make($request->all(), $rules);
-        // if ($validator->fails()) {
-        //     return Redirect::back()->withErrors($validator->messages());
-        // }
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator->messages());
+        }
+        
         $id_transaksi = '0';
         $mentor = Auth::guard('web-mentor')->user();
         $mentee_id =  $request->id_clients;
