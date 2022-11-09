@@ -22,6 +22,7 @@ class Export extends Controller
         $status = Status::orderBy('status_title', 'asc')->get();
 
         if ($request->all()) {
+            
             $f_token = $request->get('_token');
             $f_month = $request->get('f-month');
             $f_year = $request->get('f-year');
@@ -53,6 +54,7 @@ class Export extends Controller
             'editors' => $editors,
             'status' => $status,
             'results' => $essay_editors != NULL ? $essay_editors : NULL,
+            'request' => $request
         ];
 
         // download excel
