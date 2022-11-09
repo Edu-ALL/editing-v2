@@ -67,8 +67,8 @@
                                                 onclick="window.location='/editor/all-essays/completed/detail/{{ $essay->id_essay_clients }}'">
                                                 <th scope="row">{{ $i++ }}</th>
 
-                                                <td>{{ $essay->essay_clients->client_by_id->first_name . ' ' . $essay->essay_clients->client_by_id->last_name }}</td>
-                                                <td>{{ $essay->essay_clients->client_by_id->mentors->first_name . ' ' . $essay->essay_clients->client_by_id->mentors->last_name }}</td>
+                                                <td>{{ isset($essay->essay_clients->client_by_id) ? $essay->essay_clients->client_by_id->first_name . ' ' . $essay->essay_clients->client_by_id->last_name : $essay->essay_clients->client_by_email->first_name . ' ' . $essay->essay_clients->client_by_email->last_name }}</td>
+                                                <td>{{ isset($essay->essay_clients->client_by_id) ?$essay->essay_clients->client_by_id->mentors->first_name . ' ' . $essay->essay_clients->client_by_id->mentors->last_name : $essay->essay_clients->client_by_email->mentors->first_name . ' ' . $essay->essay_clients->client_by_email->mentors->last_name }}</td>
                                                 <td>{{ $essay->editor->first_name.' '.$essay->editor->last_name }}</td>
                                                 <td>{{ $essay->editor->first_name.' '.$essay->editor->last_name }}</td>
                                                 <td>{{ $essay->essay_clients->program->program_name.' ('.$essay->essay_clients->program->minimum_word.' - '.$essay->essay_clients->program->maximum_word.' Words)' }}</td>

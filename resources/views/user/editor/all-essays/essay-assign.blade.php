@@ -73,7 +73,7 @@
                                                 </td>
                                                 <td>{{ $essay->editor ? $essay->editor->first_name . ' ' . $essay->editor->last_name : '-' }}
                                                 </td>
-                                                <td>{{ $essay->editor->first_name . ' ' . $essay->editor->last_name }}</td>
+                                                <td>{{ $essay->essay_clients->editor->first_name . ' ' . $essay->essay_clients->editor->last_name }}</td>
                                                 <td>{{ $essay->essay_clients->program->program_name . ' (' . $essay->essay_clients->program->minimum_word . ' - ' . $essay->essay_clients->program->maximum_word . ' Words)' }}
                                                 </td>
                                                 <td>{{ $essay->essay_clients->essay_title }}</td>

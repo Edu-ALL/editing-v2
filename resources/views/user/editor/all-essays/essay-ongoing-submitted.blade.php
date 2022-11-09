@@ -120,7 +120,7 @@
                 <div class="col">
                   <div class="col mb-3">
                     <h6 class="pb-2">Assign to Editor :</h6>
-                    <input type="text" class="form-control inputField py-2 px-3" disabled value="{{ $essay->editor->first_name.' '.$essay->editor->last_name }}" style="width: 97%">
+                    <input type="text" class="form-control inputField py-2 px-3" disabled value="{{ $essay->essay_editors->editor->first_name.' '.$essay->essay_editors->editor->last_name }}" style="width: 97%">
                   </div>
                   <div class="col mb-3">
                     <h6 class="pb-2">Editor Essay :</h6>

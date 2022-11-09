@@ -51,7 +51,7 @@
               <h6>Completed Essay</h6>
             </div>
             <div class="col d-flex flex-column px-3 py-md-5 py-4 gap-2 countEssay text-center justify-content-center" style="color: var(--green)">
-              <h4>{{ $essay_completed->count() }}</h4>
+              <h4>{{ $essay_completed_count->count() }}</h4>
               <h4>Completed Essay</h4>
             </div>
             <div class="headline d-flex align-items-center gap-3" style="background-color: var(--yellow)">
@@ -318,7 +318,7 @@
                   @foreach ($essay_completed as $essays_completed)
                   <tr style="cursor: default">
                     <th scope="row">{{ $i++ }}</th>
-                    <td>{{ $essays_completed->client_by_id->first_name.' '.$essays_completed->client_by_id->last_name}}</td>
+                    <td>{{ isset($essays_completed->client_by_id) ? $essays_completed->client_by_id->first_name.' '.$essays_completed->client_by_id->last_name : $essays_completed->client_by_email->first_name.' '.$essays_completed->client_by_email->last_name }}</td>
                     <td>{{ $essays_completed->program->program_name }}</td>
                     <td>{{ $essays_completed->essay_title }}</td>
                     <td>{{ date('D, d M Y', strtotime($essays_completed->essay_deadline)) }}</td>

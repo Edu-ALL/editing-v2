@@ -87,7 +87,7 @@
                                                 @else
                                                     <td>
                                                         <div class="status-editor" style="background-color: var(--red)">
-                                                            Deleted
+                                                            Deactive
                                                         </div>
                                                     </td>
                                                 @endif

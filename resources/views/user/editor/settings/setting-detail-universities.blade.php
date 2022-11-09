@@ -44,7 +44,7 @@
                             </div>
                             <div class="col d-none px-md-4 px-3" id="chooseFile">
                                 <div class="mb-4">
-                                    <input class="form-control form-control-sm" id="formFileSm" name="uploaded_file"
+                                    <input class="form-control py-1 px-1" id="formFileSm" name="uploaded_file"
                                         type="file" form="form-university" onchange="previewImage()">
                                 </div>
                             </div>
