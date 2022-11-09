@@ -245,7 +245,7 @@ class Essays extends Controller
                 $mail->cc('essay@all-inedu.com');
                 $mail->subject($editor.' has rejected an essay assignment');
             });
-        } else if ($type == 'accept') {
+        } else if ($type == 'accept') { # to mentor cc managing
             Mail::send('mail.per-editor.accept-assign', $data, function($mail) use ($email) {
                 $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
                 $mail->to($email);

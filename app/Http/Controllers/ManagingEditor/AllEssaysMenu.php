@@ -387,7 +387,20 @@ class AllEssaysMenu extends Controller
         }
 
         $email = $essay_editor->editors_mail;
-        $data = [];
+        // $editor = Auth::guard('web-editor')->user();
+        $essay = EssayClients::find($id_essay);
+        $essayEditor = EssayEditors::where('id_essay_clients', $essay->id_essay_clients)->first();
+        $client = Client::where('id_clients', $essay->id_clients)->first();
+        $mentor = Mentor::where('id_mentors', $client->id_mentor)->first();
+        // $email = $mentor->email;
+
+        $data = [
+            'editor' => $editor,
+            'essay' => $essay,
+            'essayEditor' => $essayEditor,
+            'client' => $client,
+            'mentor' => $mentor
+        ];
         $this->sendEmail('verify', $email, $data);
 
         return redirect('editor/all-essays/completed/detail/'.$id_essay);
@@ -545,6 +558,12 @@ class AllEssaysMenu extends Controller
                 $mail->to($email);
                 $mail->cc('essay@all-inedu.com');
                 $mail->subject('Your Essay is Complete');
+            });
+            Mail::send('mail.send-essay', $data, function($mail) use ($email, $data) {
+                $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+                $mail->to($data['mentor']->email);
+                $mail->cc('essay@all-inedu.com');
+                $mail->subject($data['client']->first_name.' '.$data['client']->last_name.'`s essay, '.$data['essay']->essay_title.', is ready!');
             });
         } else if ($type == 'revise') {
             Mail::send('mail.revise-essay', $data, function($mail) use ($email, $data) {
