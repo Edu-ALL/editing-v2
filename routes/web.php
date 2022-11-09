@@ -1,5 +1,7 @@
 <?php
 
+use App\Events\EssayStatus;
+use App\Events\MentorNotif;
 use App\Models\Client;
 use App\Models\Editor;
 use App\Models\Mentor;
@@ -54,13 +56,13 @@ Route::post('register/editor', [Editors::class, 'selfAddEditor'])->name('self-ad
 Route::post('invite-editor', [Editors::class, 'invite'])->name('invite-editor');
 
 // Login
-Route::middleware('check.login')->group(function() {
+Route::middleware('check.login')->group(function () {
 
     Route::get('/', function () {
         return view('home.home');
     });
 
-    Route::get('/login/mentor', function () {   
+    Route::get('/login/mentor', function () {
         return view('login.login-mentor');
     });
     Route::get('/login/editor', function () {
@@ -69,8 +71,8 @@ Route::middleware('check.login')->group(function() {
     Route::get('/login/admin', function () {
         return view('login.login-admin');
     })->name('login.admin');
-    
-    
+
+
     Route::get('/forgot/mentor', function () {
         return view('forgot.mentor-forgot-password');
     });
@@ -83,21 +85,21 @@ Route::middleware('check.login')->group(function() {
 });
 
 //**********Role Admin**********//
-Route::middleware('is_admin')->group(function(){
+Route::middleware('is_admin')->group(function () {
     // Help
     Route::get('/admin/help', function () {
         return view('user.admin.help.help');
     });
     // Dashboard
     Route::get('/admin/dashboard', [AdminDashboard::class, 'index']);
-    
+
     // Student
     Route::get('/admin/user/student', [Clients::class, 'index'])->name('list-client');
     Route::get('/admin/user/student/detail/{id}', [Clients::class, 'detail']);
-    
+
     // Mentor
     Route::get('/admin/user/mentor', [Mentors::class, 'index'])->name('list-mentor');
-    
+
     // Editor
     Route::get('/admin/user/editor', [Editors::class, 'index'])->name('list-editor');
     Route::get('/admin/user/editor/detail/{id}', [Editors::class, 'detail']);
@@ -109,11 +111,11 @@ Route::middleware('is_admin')->group(function(){
     Route::get('/admin/user/editor/invite', function () {
         return view('user.admin.users.user-editor-invite');
     });
-    
+
     // Essay List
     Route::get('/admin/essay-list/ongoing', [Essays::class, 'index'])->name('list-ongoing-essay');
     Route::get('/admin/essay-list/ongoing/detail/{id_essay}', [Essays::class, 'detailEssayOngoing']);
-    
+
     Route::get('/admin/essay-list/completed', [Essays::class, 'essayCompleted'])->name('list-completed-essay');
     Route::get('/admin/essay-list/completed/detail/{id}', [Essays::class, 'detailEssayCompleted']);
 
@@ -156,18 +158,18 @@ Route::middleware('is_admin')->group(function(){
 });
 
 //**********Role Mentor**********//
-Route::middleware('is_mentor')->group(function(){
+Route::middleware('is_mentor')->group(function () {
     // Dashboard
     Route::get('/mentor/dashboard', [MentorDashboard::class, 'index']);
-    
+
     // Essay List
     Route::get('/mentor/essay-list/ongoing', [EssaysMenu::class, 'ongoingEssay'])->name('mentor-essay-list-ongoing');
     Route::get('/mentor/essay-list/ongoing/detail/{id}', [EssaysMenu::class, 'detailOngoingEssay'])->name('mentor-essay-list-ongoing-detail');
     Route::post('/mentor/essay-list/ongoing/delete/{id}', [EssaysMenu::class, 'deletEssay'])->name('mentor-essay-delete');;
-    
+
     Route::get('/mentor/essay-list/completed', [EssaysMenu::class, 'completedEssay'])->name('mentor-essay-list-completed');
     Route::get('/mentor/essay-list/completed/detail/{id}', [EssaysMenu::class, 'detailCompletedEssay']);
-    
+
     // User List
     Route::get('/mentor/user/student', [StudentsMenu::class, 'index'])->name('list-student');
     Route::get('/mentor/user/student/detail/{id}', [StudentsMenu::class, 'detail']);
@@ -176,11 +178,10 @@ Route::middleware('is_mentor')->group(function(){
     // New Request
     Route::get('/mentor/new-request', [NewRequestMenu::class, 'index'])->name('new-request');
     Route::post('/mentor/new-request/save', [NewRequestMenu::class, 'store'])->name('save-new-request');
-
 });
 
 //**********Role Managing**********//
-Route::middleware('is_editor')->group(function(){
+Route::middleware('is_editor')->group(function () {
     // Dashboard
     Route::get('/editor/dashboard', [DashboardManaging::class, 'index']);
 
@@ -239,9 +240,9 @@ Route::middleware('is_editor')->group(function(){
 
 
 // **** Per Editor *****
-Route::middleware('is_editor')->group(function(){
+Route::middleware('is_editor')->group(function () {
     Route::get('/editors/dashboard', [Dashboard::class, 'index']);
-    
+
     Route::get('/editors/profile', [Profile::class, 'index']);
 
     Route::get('/editors/essay-list', [EditorEssays::class, 'index'])->name('list-essay');
@@ -251,4 +252,8 @@ Route::middleware('is_editor')->group(function(){
     Route::get('/editor/invite', function () {
         return view('user/editor/editor-list/user-editor-invite');
     });
+});
+
+Route::get('/event', function () {
+    event(new MentorNotif('test@gmail.com', 'Essay has been completed'));
 });

@@ -17,16 +17,17 @@
     @yield('css')
     {{-- Selectize --}}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.6/css/selectize.bootstrap5.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.6/js/standalone/selectize.min.js"></script>
 
     {{-- TinyMCE --}}
-    <script src="https://cdn.tiny.cloud/1/h7t62ozvqkx2ifkeh051fsy3k9irz7axx1g2zitzpbaqfo8m/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.tiny.cloud/1/h7t62ozvqkx2ifkeh051fsy3k9irz7axx1g2zitzpbaqfo8m/tinymce/5/tinymce.min.js"
+        referrerpolicy="origin"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
 </head>
 
 <body>
@@ -48,6 +49,27 @@
         main.style.minHeight = height + "px";
     </script>
     @yield('js')
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+    <script src="/js/toast.js"></script>
+    <script>
+        // Pusher.logToConsole = true;
+
+        var pusher = new Pusher('174254d6ea94361b0744', {
+            cluster: 'ap1',
+            encrypted: true
+        });
+
+        // Subscribe to the channel we specified in our Laravel Event
+        var channel = pusher.subscribe('mentor');
+
+        // Bind a function to a Event (the full Laravel class)
+        channel.bind('my-event', function(data) {
+            Notif(data.message)
+            // this is called when the event notification is received...
+
+        });
+    </script>
+
 </body>
 
 </html>
