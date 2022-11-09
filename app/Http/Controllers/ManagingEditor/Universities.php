@@ -32,7 +32,12 @@ class Universities extends Controller
     }
 
     public function detail($id){
-        return view('user.editor.settings.setting-detail-universities', ['university' => University::find($id)]);
+        $university = University::find($id);
+        if ($university) {
+            return view('user.editor.settings.setting-detail-universities', ['university' => $university]);
+        } else {
+            return redirect('editor/setting/universities')->with('isUniv', 'University not found');
+        }
     }
 
     public function store(Request $request)
