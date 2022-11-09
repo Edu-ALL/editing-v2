@@ -58,7 +58,15 @@ class NewRequestMenu extends Controller
             'attached_of_clients' => 'required|mimes:docx,doc|max:2048',
         ];
 
-        $validator = Validator::make($request->all(), $rules);
+        $messages = [
+            'id_univ.required' => 'The university name is required',
+            'id_clients.required' => 'The student name is required',
+            'attached_of_clients.required' => 'The uploaded file is required',
+            'attached_of_clients.mimes' => 'The uploaded file must be doc / docx',
+            'attached_of_clients.max' => 'The uploaded file size must less than 2Mb' 
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator->messages());
         }

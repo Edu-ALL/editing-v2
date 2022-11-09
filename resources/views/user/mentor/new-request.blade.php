@@ -13,15 +13,6 @@
             <div class="col" style="overflow: auto !important">
                 @include('user.mentor.utama.head')
                 <div class="container main-content m-0">
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
 
                     <form action="{{ route('save-new-request') }}" method="POST" enctype="multipart/form-data">
                         @csrf
@@ -94,7 +85,7 @@
                                     <div class="col new-request d-flex flex-column justify-content-center gap-lg-3 gap-2">
                                         <div class="text-area">
                                             <div class="col-12">
-                                                <h6 class="pb-2">Student Name <sup class="text-danger">*</sup> :</h6>
+                                                <h6 class="pb-2">Student Name<sup class="text-danger">*</sup> :</h6>
                                                 <select class="select-normal" style="width: 96.5%;"
                                                     name="id_clients">
                                                     <option value=""></option>

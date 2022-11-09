@@ -33,6 +33,26 @@
 </head>
 
 <body>
+    @if (session()->has('delete-essay-successful') || session()->has('message'))
+        <div class="modal fade" id="notif" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog d-flex align-items-center justify-content-center">
+                <div class="modal-content border-0 w-75">
+                    <div class="modal-header">
+                        <div class="col d-flex gap-1 align-items-center">
+                            <img src="/assets/info.png" alt="">
+                            <h6 class="modal-title ms-3">Notification</h6>
+                        </div>
+                        <div type="button" data-bs-dismiss="modal" aria-label="Close">
+                            <img src="/assets/close.png" alt="" style="height: 26px">
+                        </div>
+                    </div>
+                    <div class="modal-body text-center px-4 py-4 my-md-3">
+                        <p> {{ session()->get('delete-essay-successful') !== NULL ? session()->get('delete-essay-successful') : session()->get('message') }} <span style="color: var(--red)">*</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
     {{-- @include('menu') --}}
     @yield('content')
     <footer class="container-fluid footer">
@@ -48,8 +68,15 @@
     <script>
         var main = document.getElementById('main');
         let height = window.innerHeight;
-        main.style.minHeight = height + "px";
+        main.style.minHeight = height + "px";            
     </script>
+    @if (session()->has('delete-essay-successful') || session()->has('message'))
+    <script>
+        $(document).ready(function(){
+            $("#notif").modal('show');
+        });
+    </script>
+    @endif
     @yield('js')
     <script src="//js.pusher.com/3.1/pusher.min.js"></script>
     <script>

@@ -87,7 +87,7 @@ class EssaysMenu extends Controller
     public function detailOngoingEssay($id)
     {
         if (!$essay = EssayClients::find($id)) {
-            return Redirect::to('mentor/essay-list/ongoing');
+            return Redirect::to('mentor/essay-list/ongoing')->with('message', 'Essay not found');
         }
         
         return view('user.mentor.essay-list-ongoing-detail', [
