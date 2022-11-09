@@ -47,49 +47,37 @@ class Essays extends Controller
 
     public function detailEssayOngoing($id_essay, Request $request)
     {
-        $editors = Editor::paginate(10);
         $essay = EssayClients::find($id_essay);
+        if ($essay) {
+            $editors = Editor::paginate(10);
+            $essay = EssayClients::find($id_essay);
 
-        if ($essay->status_read_editor == 0) {
-            DB::beginTransaction();
-            $essay->status_read_editor = 1;
-            $essay->save();
-            DB::commit();
-        }
+            if ($essay->status_read_editor == 0) {
+                DB::beginTransaction();
+                $essay->status_read_editor = 1;
+                $essay->save();
+                DB::commit();
+            }
 
-        if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4 || $essay->status_essay_clients == 5) {
-            return view('user.admin.essay-list.essay-ongoing-detail', [
-                'ongoing' => $essay,
-                'editors' => $editors
-            ]);
-        } else if ($essay->status_essay_clients == 1 || $essay->status_essay_clients == 2) {
-            return view('user.admin.essay-list.essay-ongoing-assign', [
-                'essay' => $essay
-            ]);
-        } else if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 6 || $essay->status_essay_clients == 8) {
-            return view('user.admin.essay-list.essay-ongoing-submitted', [
-                'essay' => $essay,
-                'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
-            ]);
+            if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4 || $essay->status_essay_clients == 5) {
+                return view('user.admin.essay-list.essay-ongoing-detail', [
+                    'ongoing' => $essay,
+                    'editors' => $editors
+                ]);
+            } else if ($essay->status_essay_clients == 1 || $essay->status_essay_clients == 2) {
+                return view('user.admin.essay-list.essay-ongoing-assign', [
+                    'essay' => $essay
+                ]);
+            } else if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 6 || $essay->status_essay_clients == 8) {
+                return view('user.admin.essay-list.essay-ongoing-submitted', [
+                    'essay' => $essay,
+                    'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
+                ]);
+            }
+        } else {
+            return redirect('admin/essay-list/ongoing')->with('isEssay', 'Essay not found');
         }
-        // if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4 || $essay->status_essay_clients == 5) {
-        //     return view('user.admin.essay-list.essay-ongoing-detail', [
-        //         'ongoing' => EssayClients::find($id_essay),
-        //         'editors' => $editors
-        //     ]);
-        // } else if ($essay->status_essay_clients == 1) {
-        //     return view('user.admin.essay-list.essay-ongoing-assign', [
-        //         'essay' => EssayClients::find($id_essay)
-        //     ]);
-        // } else if ($essay->status_essay_clients == 2) {
-        //     return view('user.admin.essay-list.essay-ongoing-ongoing', [
-        //         'essay' => EssayClients::find($id_essay)
-        //     ]);
-        // } else if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 6) {
-        //     return view('user.admin.essay-list.essay-ongoing-submitted', [
-        //         'essay' => EssayClients::find($id_essay)
-        //     ]);
-        // }
+        
     }
 
     public function assignEditor($id_essay, Request $request){
@@ -229,18 +217,24 @@ class Essays extends Controller
     }
     public function detailEssayCompleted($id){
         $essay = EssayEditors::where('id_essay_clients', $id)->first();
-        $essay_client = EssayClients::where('id_essay_clients', $id)->first();
-        if ($essay_client->essay_deadline > $essay->uploaded_at) {
-            $status_essay = 'On Time';
-        } else {
-            $status_essay = 'Late';
-        }
+        if ($essay) {
+            $essay = EssayEditors::where('id_essay_clients', $id)->first();
+            $essay_client = EssayClients::where('id_essay_clients', $id)->first();
+            if ($essay_client->essay_deadline > $essay->uploaded_at) {
+                $status_essay = 'On Time';
+            } else {
+                $status_essay = 'Late';
+            }
 
-        return view('user.admin.essay-list.essay-completed-detail', [
-            'essay' => $essay,
-            'tags' => EssayTags::where('id_essay_clients', $id)->get(),
-            'feedback' => EssayFeedbacks::where('id_essay_clients', $id)->first(),
-            'status_essay' => $status_essay
-        ]);
+            return view('user.admin.essay-list.essay-completed-detail', [
+                'essay' => $essay,
+                'tags' => EssayTags::where('id_essay_clients', $id)->get(),
+                'feedback' => EssayFeedbacks::where('id_essay_clients', $id)->first(),
+                'status_essay' => $status_essay
+            ]);
+        } else {
+            return redirect('admin/essay-list/completed')->with('isEssay', 'Essay not found');
+        }
+        
     }
 }

@@ -75,49 +75,55 @@ class Essays extends Controller
 
     public function detailEssay($id_essay, Request $request)
     {
-        $editors = Editor::paginate(10);
         $essay = EssayClients::find($id_essay);
-        $essay_editor = EssayEditors::where('id_essay_clients', $id_essay)->first();
+        if ($essay) {
+            $editors = Editor::paginate(10);
+            $essay = EssayClients::find($id_essay);
+            $essay_editor = EssayEditors::where('id_essay_clients', $id_essay)->first();
 
-        if ($essay_editor->read == 0) {
-            DB::beginTransaction();
-            $essay_editor->read = 1;
-            $essay_editor->save();
-            DB::commit();
-        }
+            if ($essay_editor->read == 0) {
+                DB::beginTransaction();
+                $essay_editor->read = 1;
+                $essay_editor->save();
+                DB::commit();
+            }
 
-        if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4) {
-            return view('user.per-editor.essay-list.essay-list-ongoing-detail', [
-                'essay' => $essay,
-                'editors' => $editors
-            ]);
-        } else if ($essay->status_essay_clients == 1) {
-            return view('user.per-editor.essay-list.essay-list-ongoing-detail', [
-                'essay' => $essay
-            ]);
-        } else if ($essay->status_essay_clients == 2) {
-            return view('user.per-editor.essay-list.essay-list-ongoing-accepted', [
-                'essay' => $essay,
-                'tags' => Tags::get()
-            ]);
-        } else if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 8) {
-            return view('user.per-editor.essay-list.essay-list-ongoing-submitted', [
-                'essay' => $essay,
-                'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
-            ]);
-        } else if ($essay->status_essay_clients == 6) {
-            return view('user.per-editor.essay-list.essay-list-ongoing-revise', [
-                'essay' => $essay,
-                'tags' => EssayTags::where('id_essay_clients', $id_essay)->get(),
-                'list_tags' => Tags::get(),
-                'essay_revise' => EssayRevise::where('id_essay_clients', $id_essay)->get()
-            ]);
-        } else if ($essay->status_essay_clients == 7) {
-            return view('user.per-editor.essay-list.essay-list-completed-detail', [
-                'essay' => $essay_editor,
-                'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
-            ]);
+            if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4) {
+                return view('user.per-editor.essay-list.essay-list-ongoing-detail', [
+                    'essay' => $essay,
+                    'editors' => $editors
+                ]);
+            } else if ($essay->status_essay_clients == 1) {
+                return view('user.per-editor.essay-list.essay-list-ongoing-detail', [
+                    'essay' => $essay
+                ]);
+            } else if ($essay->status_essay_clients == 2) {
+                return view('user.per-editor.essay-list.essay-list-ongoing-accepted', [
+                    'essay' => $essay,
+                    'tags' => Tags::get()
+                ]);
+            } else if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 8) {
+                return view('user.per-editor.essay-list.essay-list-ongoing-submitted', [
+                    'essay' => $essay,
+                    'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
+                ]);
+            } else if ($essay->status_essay_clients == 6) {
+                return view('user.per-editor.essay-list.essay-list-ongoing-revise', [
+                    'essay' => $essay,
+                    'tags' => EssayTags::where('id_essay_clients', $id_essay)->get(),
+                    'list_tags' => Tags::get(),
+                    'essay_revise' => EssayRevise::where('id_essay_clients', $id_essay)->get()
+                ]);
+            } else if ($essay->status_essay_clients == 7) {
+                return view('user.per-editor.essay-list.essay-list-completed-detail', [
+                    'essay' => $essay_editor,
+                    'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
+                ]);
+            }
+        } else {
+            return redirect('editors/essay-list')->with('isEssay', 'Essay not found');
         }
+        
     }
 
     public function accept($id_essay)

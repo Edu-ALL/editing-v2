@@ -28,8 +28,11 @@ class CategoriesTags extends Controller
     public function detail($tag_id, Request $request)
     {
         if (!$tag = Tags::find($tag_id)) {
-            return redirect('editor/setting/categories-tags')->withErrors('Couldn\'t find the tag');
+            return redirect('editor/setting/categories-tags')->with('isTag', 'Categories / Tags not found');
         }
+        // if (!$tag = Tags::find($tag_id)) {
+        //     return redirect('editor/setting/categories-tags')->withErrors('Couldn\'t find the tag');
+        // }
 
         $keyword = $request->get('keyword');
         $tags = Tags::orderBy('topic_name', 'asc')->when($keyword, function($query) use ($keyword) {
