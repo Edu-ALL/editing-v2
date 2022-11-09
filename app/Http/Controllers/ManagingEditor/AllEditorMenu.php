@@ -51,7 +51,7 @@ class AllEditorMenu extends Controller
     }
 
     public function detail($id, Request $request){
-        if (Editor::find($id) != null) {
+        if ($editor = Editor::find($id)) {
             $keyword1 = $request->get('keyword-ongoing');
             $keyword2 = $request->get('keyword-completed');
             $essay_ongoing = EssayClients::with('client_by_id', 'program')->where('id_editors', '=', $id)->where('status_essay_clients', '!=', 0)->where('status_essay_clients', '!=', 4)->where('status_essay_clients', '!=', 5)->where('status_essay_clients', '!=', 7)->when($keyword1, function ($query_) use ($keyword1) {
@@ -77,7 +77,6 @@ class AllEditorMenu extends Controller
                 });
             })->paginate(5);
 
-            $editor = Editor::find($id);
             $count_essay = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', '=', 'tbl_essay_editors.id_essay_clients')->where('editors_mail', $editor->email)->where('essay_rating', '!=', 0)->get();
 
             $rating = 0;
