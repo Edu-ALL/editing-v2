@@ -13,6 +13,16 @@
             <div class="col" style="overflow: auto !important">
                 @include('user.mentor.utama.head')
                 <div class="container main-content m-0">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     <form action="{{ route('save-new-request') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
@@ -47,7 +57,7 @@
                                                 <h6 class="pb-2">Request (Editor) :</h6>
                                                 <select class="select-normal" style="width: 96.5%;"
                                                     name="id_editors">
-                                                    <option value="0"></option>
+                                                    <option value=""></option>
                                                     @foreach ($request_editor->where('status', 1) as $editor)
                                                         @if ($editor->id_editors != '')
                                                             <option value="{{ $editor->id_editors }}">
@@ -56,13 +66,16 @@
                                                         @endif
                                                     @endforeach
                                                 </select>
+                                                @error('id_editors')
+                                                    <small class="alert text-danger fs-10">{{ $message }}</small>
+                                                @enderror
                                             </div>
 
 
                                         </div>
                                         <div class="text-area">
                                             <div class="col-12">
-                                                <h6 class="pb-2">University Name :</h6>
+                                                <h6 class="pb-2">University Name<sup class="text-danger">*</sup> :</h6>
                                                 <select class="select-normal" style="width: 96.5%;" name="id_univ">
                                                     <option value=""></option>
                                                     @foreach ($university as $uni)
@@ -72,13 +85,16 @@
                                                         @endif
                                                     @endforeach
                                                 </select>
+                                                @error('id_univ')
+                                                    <small class="alert text-danger fs-10">{{ $message }}</small>
+                                                @enderror
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col new-request d-flex flex-column justify-content-center gap-lg-3 gap-2">
                                         <div class="text-area">
                                             <div class="col-12">
-                                                <h6 class="pb-2">Student Name :</h6>
+                                                <h6 class="pb-2">Student Name <sup class="text-danger">*</sup> :</h6>
                                                 <select class="select-normal" style="width: 96.5%;"
                                                     name="id_clients">
                                                     <option value=""></option>
@@ -90,11 +106,14 @@
                                                         @endif
                                                     @endforeach
                                                 </select>
+                                                @error('id_clients')
+                                                    <small class="alert text-danger fs-10">{{ $message }}</small>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="text-area">
                                             <div class="col-12">
-                                                <h6 class="pb-2">Number of Words :</h6>
+                                                <h6 class="pb-2">Number of Words<sup class="text-danger">*</sup> :</h6>
                                                 <select class="select-normal" style="width: 96.5%;"
                                                     name="number_of_word">
                                                     <option value=""></option>
@@ -107,11 +126,15 @@
                                                         @endif
                                                     @endforeach
                                                 </select>
+                                                
+                                                @error('number_of_word')
+                                                    <small class="alert text-danger fs-10">{{ $message }}</small>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="text-area">
                                             <div class="col-12">
-                                                <h6 class="pb-2">Essay Type :</h6>
+                                                <h6 class="pb-2">Essay Type<sup class="text-danger">*</sup> :</h6>
                                                 <select class="select-normal" style="width: 96.5%;"
                                                     name="essay_title">
                                                     <option value=""></option>
@@ -123,6 +146,9 @@
                                                     <option value="Digital Team Blog Post">Digital Team Blog Post</option>
                                                     <option value="Common App">Other</option>
                                                 </select>
+                                                @error('essay_title')
+                                                    <small class="alert text-danger fs-10">{{ $message }}</small>
+                                                @enderror
                                             </div>
                                         </div>
                                     </div>
@@ -132,26 +158,35 @@
                                     {{-- Text Area --}}
                                     <div class="col-12 d-flex" style="overflow: auto !important">
                                         <div class="col">
-                                            <h6 class="pb-2">Essay Prompt :</h6>
+                                            <h6 class="pb-2">Essay Prompt<sup class="text-danger">*</sup> :</h6>
                                             <textarea name="essay_prompt" class="textarea" placeholder="Essay Prompt"></textarea>
+                                            @error('essay_prompt')
+                                                <small class="alert text-danger fs-10">{{ $message }}</small>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="row pb-md-0 pb-4 mt-4 gap-3">
                                         <div class="col d-flex flex-column justify-content-center gap-lg-3 gap-2">
                                             <div class="text-area mb-3">
-                                                <h6 class="pb-2">Essay Deadline :</h6>
+                                                <h6 class="pb-2">Essay Deadline<sup class="text-danger">*</sup> :</h6>
                                                 <div class="col">
                                                     <input type="date" id="minEssay" name="essay_deadline"
                                                         class="form-control inputField py-2 px-2" placeholder="Search" onchange="addMinApp()" min="<?= date("Y-m-d", strtotime("+1days")); ?>" style="width: 96.5%;">
+                                                    @error('essay_deadline')
+                                                        <small class="alert text-danger fs-10">{{ $message }}</small>
+                                                    @enderror
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col d-flex flex-column justify-content-center gap-lg-3 gap-2">
                                             <div class="text-area mb-3">
-                                                <h6 class="pb-2">Application Deadline :</h6>
+                                                <h6 class="pb-2">Application Deadline<sup class="text-danger">*</sup> :</h6>
                                                 <div class="col">
                                                     <input type="date" id="minApp" name="application_deadline"
                                                         class="form-control inputField py-2 px-2" placeholder="Search" style="width: 96.5%;">
+                                                    @error('application_deadline')
+                                                        <small class="alert text-danger fs-10">{{ $message }}</small>
+                                                    @enderror
                                                 </div>
                                             </div>
                                         </div>
@@ -161,10 +196,13 @@
                                 <div class="row px-md-5 px-3 mb-4">
                                     <div class="col-md-6 new-request d-flex flex-column justify-content-center gap-lg-3 gap-2">
                                         <div class="text-area mb-3">
-                                            <h6 class="pb-2">File :</h6>
+                                            <h6 class="pb-2">File<sup class="text-danger">*</sup> :</h6>
                                             <div class="col">
                                                 <input type="file" name="attached_of_clients"
                                                     class="form-control inputField py-1 px-2" placeholder="Search" style="width: 95%;">
+                                                @error('attached_of_clients')
+                                                    <small class="alert text-danger fs-10">{{ $message }}</small>
+                                                @enderror
                                             </div>
                                         </div>
                                     </div>

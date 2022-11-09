@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
+use App\Events\StatusEssay;
 
 class NewRequestMenu extends Controller
 {
@@ -44,19 +45,17 @@ class NewRequestMenu extends Controller
 
     public function store(Request $request)
     {
-        $rules = [
-            'id_program' => 'required',
-            'id_univ' => 'required',
-            'id_editors' => 'required',
-            'essay_title' => 'required',
-            'essays_prompt' => 'required',
-            'id_clients' => 'required',
-            'number_of_words' => 'required',
 
-            'essay_deadline' => 'required',
-            'application_deadline' => 'required',
+        $rules = [
+            'id_editors' => 'nullable',
+            'id_univ' => 'required',
+            'id_clients' => 'required',
+            'number_of_word' => 'required',
             'essay_title' => 'required',
-            'file' => 'required|mimes:docx,doc|max:2048'
+            'essay_prompt' => 'required',
+            'essay_deadline' => 'required|date',
+            'application_deadline' => 'required|date|after:essay_deadline',
+            'attached_of_clients' => 'required|mimes:docx,doc|max:2048',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -69,6 +68,7 @@ class NewRequestMenu extends Controller
         $mentee_id =  $request->id_clients;
         
         $client = Client::where('id_clients', '=', $mentee_id)->first();
+
         $fileName = $request->attached_of_clients->getClientOriginalName();
         $fileExt = $request->attached_of_clients->getClientOriginalExtension();
 
@@ -76,6 +76,7 @@ class NewRequestMenu extends Controller
         // $filePath = 'program/essay/mentors/'.$fileName;
         $filePath = 'program/essay/students/'.$cstFileName;
         Storage::disk('public_assets')->put($filePath, file_get_contents($request->attached_of_clients));
+        
 
         DB::beginTransaction();
         try {
@@ -116,7 +117,7 @@ class NewRequestMenu extends Controller
 
         $this->sendEmail('reject', $data);
 
-        return redirect('/mentor/new-request')->with('add-new-request-successful', 'New request has been saved');
+        return redirect('/mentor/essay-list/ongoing')->with('add-new-request-successful', 'New request has been saved');
     }
 
     public function sendEmail($type, $data)

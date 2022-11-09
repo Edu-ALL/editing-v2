@@ -26,7 +26,7 @@
                                 @if ($essay->status_essay_clients != '0' 
                                     || $essay->status_essay_clients != '4' 
                                     || $essay->status_essay_clients != '5' )
-                                    <h6>Editor : {{ $essay->editor->first_name . ' ' . $essay->editor->last_name }}
+                                    <h6>Editor Request : {{ $essay->editor->first_name . ' ' . $essay->editor->last_name }}
                                     </h6>
                                 @endif
                                 {{-- @if ($essay->status_essay_clients == '1' ||

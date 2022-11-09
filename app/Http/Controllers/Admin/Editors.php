@@ -105,7 +105,7 @@ class Editors extends Controller
             $new_editor->major = $request->major;
             $new_editor->address = $request->address;
             $new_editor->position = 1;
-            $new_editor->image = $img;
+            $new_editor->image = isset($img) ? $img : "default.png";
             $new_editor->status = 1;
             $new_editor->password = Hash::make($request->password);
             $new_editor->save();

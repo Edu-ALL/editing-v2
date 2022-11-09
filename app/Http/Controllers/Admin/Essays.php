@@ -31,13 +31,17 @@ class Essays extends Controller
                     $query_by_email->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%')->orWhereHas('mentors', function ($query_mentor_by_email) use ($keyword) {
                         $query_mentor_by_email->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%');
                     });
-                })->orWhereHas('editor', function ($query_editor) use ($keyword) {
-                    $query_editor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%');
+                })->orWhereHas('essay_editors', function ($query_essay_editor) use ($keyword) {
+                    $query_essay_editor->whereHas('editor', function ($query_editor) use ($keyword) {
+                        $query_editor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%');
+                    });
+                // })->orWhereHas('editor', function ($query_editor) use ($keyword) {
+                //     $query_editor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%');
                 })->orWhere('essay_title', 'like', '%'.$keyword.'%')->orWhereHas('status', function ($query_status) use ($keyword) {
                     $query_status->where('status_title', 'like', '%'.$keyword.'%');
                 });
             });
-        })->orderBy('uploaded_at', 'desc')->paginate(10);
+        })->orderBy('essay_deadline', 'asc')->paginate(10);
 
         if ($keyword) 
             $essays->appends(['keyword' => $keyword]);
@@ -203,24 +207,27 @@ class Essays extends Controller
     public function essayCompleted(Request $request)
     {
         $keyword = $request->get('keyword');
-        $essays = EssayEditors::where('status_essay_editors', 7)->when($keyword, function ($query_) use ($keyword) {
+        $essays = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', 'tbl_essay_editors.id_essay_clients')->where('status_essay_editors', 7)->
+        when($keyword, function ($query_) use ($keyword) {
             $query_->where(function ($query) use ($keyword) {
                 $query->whereHas('essay_clients', function ($query_essay) use ($keyword) {
                     $query_essay->whereHas('client_by_id', function ($query_client) use ($keyword) {
                         $query_client->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%')->orWhereHas('mentors', function ($query_mentor) use ($keyword) {
                             $query_mentor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%');
-                        });;
-                    })->orWhereHas('editor', function ($query_editor) use ($keyword) {
-                        $query_editor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%');
+                        });
                     })->orWhereHas('program', function ($query_program) use ($keyword) {
                         $query_program->where('program_name', 'like', '%'.$keyword.'%');
                     })->orWhere('essay_title', 'like', '%'.$keyword.'%')
                     ->orWhereHas('status', function ($query_status) use ($keyword) {
                         $query_status->where('status_title', 'like', '%'.$keyword.'%');
                     });
+                })->orWhereHas('editor', function ($query_editor) use ($keyword) {
+                    $query_editor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%');
                 });
             });
-        })->orderBy('uploaded_at', 'desc')->paginate(10);
+        })->orderBy('essay_deadline', 'desc')->paginate(10);
+
+        // return $essays;
 
         if ($keyword) 
             $essays->appends(['keyword' => $keyword]);

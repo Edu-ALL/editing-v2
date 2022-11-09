@@ -28,11 +28,11 @@ class Export extends Controller
             $f_editor = $request->get('f-editor-name');
             $f_essay_type = $request->get('f-essay-type');
             $f_status = $request->get('f-status');
-            $essay_editors = EssayEditors::with(['essay_clients.client_by_id', 'essay_clients.client_by_email', 'essay_clients.university', 'essay_clients.program', 'status', 'editor'])->where('status_essay_editors', 7)->whereMonth('uploaded_at', $f_month)->whereYear('uploaded_at', $f_year)
+            $essay_editors = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', 'tbl_essay_editors.id_essay_clients')->with(['essay_clients.client_by_id', 'essay_clients.client_by_email', 'essay_clients.university', 'essay_clients.program', 'status', 'editor'])->where('status_essay_editors', 7)->whereMonth('tbl_essay_editors.uploaded_at', $f_month)->whereYear('tbl_essay_editors.uploaded_at', $f_year)
                 ->when($f_status != "all", function($query) use ($f_status) {
-                    $query->where('status_essay_editors', $f_status);
+                    $query->where('status_essay_editors', $f_status)->orWhere('status_essay_clients', $f_status);
                 })->when($f_editor != "all", function($query) use ($f_editor) {
-                    $query->where('editors_mail', $f_editor);
+                    $query->where('tbl_essay_editors.editors_mail', $f_editor);
                 })->when($f_essay_type != "all", function($query) use ($f_essay_type) {
                     $query->whereHas('essay_clients', function ($query1) use ($f_essay_type) {
                         $query1->where('essay_title', 'like', '%'.$f_essay_type.'%');
@@ -119,7 +119,7 @@ class Export extends Controller
         $year = $request->post('f-year');
         $editor = $request->post('f-editor-name');
         $essay_type = $request->post('f-essay-type');
-        $essay_editors = EssayEditors::with(['essay_clients.client_by_id', 'essay_clients.client_by_email', 'essay_clients.program', 'status', 'editor'])->where('status_essay_editors', 7)->whereMonth('uploaded_at', $month)->whereYear('uploaded_at', $year)
+        $essay_editors = EssayEditors::with(['essay_clients.client_by_id', 'essay_clients.client_by_email', 'essay_clients.program', 'status', 'editor'])->where('tbl_essay_editors.status_essay_editors', 7)->whereMonth('tbl_essay_editors.uploaded_at', $month)->whereYear('tbl_essay_editors.uploaded_at', $year)
             ->when($editor != "all", function($query) use ($editor) {
                 $query->where('email', $editor);
             })->when($essay_type != "all", function($query) use ($essay_type) {
