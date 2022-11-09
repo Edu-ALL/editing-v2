@@ -10,20 +10,21 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class StatusEssay
+class MentorNotif implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $roles;
+    public $email;
     public $message;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($roles, $message)
+    public function __construct($email, $message)
     {
-        $this->roles = $roles;
+        $this->email = $email;
         $this->message = $message;
     }
 
@@ -34,6 +35,11 @@ class StatusEssay
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('essay-status');
+        return ['mentor'];
+    }
+
+    public function broadcastAs()
+    {
+        return 'my-event';
     }
 }

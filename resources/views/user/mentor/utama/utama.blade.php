@@ -17,18 +17,20 @@
     @yield('css')
     {{-- Selectize --}}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.6/css/selectize.bootstrap5.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.6/js/standalone/selectize.min.js"></script>
 
     {{-- TinyMCE --}}
-    <script src="https://cdn.tiny.cloud/1/h7t62ozvqkx2ifkeh051fsy3k9irz7axx1g2zitzpbaqfo8m/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.tiny.cloud/1/h7t62ozvqkx2ifkeh051fsy3k9irz7axx1g2zitzpbaqfo8m/tinymce/5/tinymce.min.js"
+        referrerpolicy="origin"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <style>
-        .fs-10 { font-size: 10px; }
+        .fs-10 {
+            font-size: 10px;
+        }
     </style>
 </head>
 
@@ -54,6 +56,10 @@
         </div>
     @endif
     {{-- @include('menu') --}}
+    <audio id="myAudio">
+        <source src="{{ asset('assets/sound/notify.mp3') }}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
     @yield('content')
     <footer class="container-fluid footer">
         <div class="col-md-5 mx-auto text-center py-2 copyright">
@@ -78,22 +84,29 @@
     </script>
     @endif
     @yield('js')
-    <script src="//js.pusher.com/3.1/pusher.min.js"></script>
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+    <script src="/js/toast.js"></script>
     <script>
-        // Initiate the Pusher JS library
+        // Pusher.logToConsole = true;
         var pusher = new Pusher('174254d6ea94361b0744', {
+            cluster: 'ap1',
             encrypted: true
         });
 
         // Subscribe to the channel we specified in our Laravel Event
-        var channel = pusher.subscribe('essay-status');
+        var channel = pusher.subscribe('mentor');
 
         // Bind a function to a Event (the full Laravel class)
-        channel.bind('App\\Events\\EssayStatus', function(data) {
-            // this is called when the event notification is received...
-            alert(data)
+        channel.bind('my-event', function(data) {
+            let authEmail = '{{ Auth::guard('web-mentor')->user()->email }}'
+            if (data.email == authEmail) {
+                Notif(data.message)
+                var x = document.getElementById("myAudio");
+                x.play();
+            }
         });
     </script>
+
 </body>
 
 </html>

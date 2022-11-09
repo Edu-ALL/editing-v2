@@ -2,7 +2,10 @@
 @section('css')
     <link rel="stylesheet" href="/css/mentor/new-request.css">
     <style>
-        .alert {font-size: 14px; margin: 0 0px 16px 0px}
+        .alert {
+            font-size: 14px;
+            margin: 0 0px 16px 0px
+        }
     </style>
 @endsection
 @section('content')
@@ -13,15 +16,16 @@
             <div class="col" style="overflow: auto !important">
                 @include('user.mentor.utama.head')
                 <div class="container main-content m-0">
-
                     <form action="{{ route('save-new-request') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <div class="row">
-                            @if(session()->has('add-new-request-successful'))
-                                <div class="row alert alert-success fade show d-flex justify-content-between" role="alert">
-                                {{ session()->get('add-new-request-successful') }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            @if (session()->has('add-new-request-successful'))
+                                <div class="row alert alert-success fade show d-flex justify-content-between"
+                                    role="alert">
+                                    {{ session()->get('add-new-request-successful') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
                                 </div>
                             @endif
 
@@ -37,8 +41,9 @@
                                         <div class="col-12 d-flex">
                                             <div class="col-12">
                                                 <h6 class="pb-2">Essay Title :</h6>
-                                                <input type="text" value="Essay Editing"
-                                                    class="form-control inputField" name="essay_title" disabled readonly style="width: 96.5%; font-size: 13px; padding: 0.375rem 0.75rem; border-radius: .25rem;">
+                                                <input type="text" value="Essay Editing" class="form-control inputField"
+                                                    name="essay_title" disabled readonly
+                                                    style="width: 96.5%; font-size: 13px; padding: 0.375rem 0.75rem; border-radius: .25rem;">
                                             </div>
                                         </div>
 
@@ -46,13 +51,12 @@
 
                                             <div class="col-12">
                                                 <h6 class="pb-2">Request (Editor) :</h6>
-                                                <select class="select-normal" style="width: 96.5%;"
-                                                    name="id_editors">
+                                                <select class="select-normal" style="width: 96.5%;" name="id_editors">
                                                     <option value=""></option>
                                                     @foreach ($request_editor->where('status', 1) as $editor)
                                                         @if ($editor->id_editors != '')
                                                             <option value="{{ $editor->id_editors }}">
-                                                                {{ $editor->first_name.' '.$editor->last_name }}
+                                                                {{ $editor->first_name . ' ' . $editor->last_name }}
                                                             </option>
                                                         @endif
                                                     @endforeach
@@ -61,7 +65,6 @@
                                                     <small class="alert text-danger fs-10">{{ $message }}</small>
                                                 @enderror
                                             </div>
-
 
                                         </div>
                                         <div class="text-area">
@@ -85,9 +88,8 @@
                                     <div class="col new-request d-flex flex-column justify-content-center gap-lg-3 gap-2">
                                         <div class="text-area">
                                             <div class="col-12">
-                                                <h6 class="pb-2">Student Name<sup class="text-danger">*</sup> :</h6>
-                                                <select class="select-normal" style="width: 96.5%;"
-                                                    name="id_clients">
+                                                <h6 class="pb-2">Student Name <sup class="text-danger">*</sup> :</h6>
+                                                <select class="select-normal" style="width: 96.5%;" name="id_clients">
                                                     <option value=""></option>
                                                     @foreach ($clients as $client)
                                                         @if ($client->id_clients != '')
@@ -105,8 +107,7 @@
                                         <div class="text-area">
                                             <div class="col-12">
                                                 <h6 class="pb-2">Number of Words<sup class="text-danger">*</sup> :</h6>
-                                                <select class="select-normal" style="width: 96.5%;"
-                                                    name="number_of_word">
+                                                <select class="select-normal" style="width: 96.5%;" name="number_of_word">
                                                     <option value=""></option>
                                                     @foreach ($program as $word)
                                                         @if ($word->id_program != '')
@@ -117,7 +118,7 @@
                                                         @endif
                                                     @endforeach
                                                 </select>
-                                                
+
                                                 @error('number_of_word')
                                                     <small class="alert text-danger fs-10">{{ $message }}</small>
                                                 @enderror
@@ -126,8 +127,7 @@
                                         <div class="text-area">
                                             <div class="col-12">
                                                 <h6 class="pb-2">Essay Type<sup class="text-danger">*</sup> :</h6>
-                                                <select class="select-normal" style="width: 96.5%;"
-                                                    name="essay_title">
+                                                <select class="select-normal" style="width: 96.5%;" name="essay_title">
                                                     <option value=""></option>
                                                     <option value="Common App">Common App</option>
                                                     <option value="Coalition App">Coalition App</option>
@@ -162,7 +162,10 @@
                                                 <h6 class="pb-2">Essay Deadline<sup class="text-danger">*</sup> :</h6>
                                                 <div class="col">
                                                     <input type="date" id="minEssay" name="essay_deadline"
-                                                        class="form-control inputField py-2 px-2" placeholder="Search" onchange="addMinApp()" min="<?= date("Y-m-d", strtotime("+1days")); ?>" style="width: 96.5%;">
+                                                        class="form-control inputField py-2 px-2" placeholder="Search"
+                                                        onchange="addMinApp()"
+                                                        min="<?= date('Y-m-d', strtotime('+1days')) ?>"
+                                                        style="width: 96.5%;">
                                                     @error('essay_deadline')
                                                         <small class="alert text-danger fs-10">{{ $message }}</small>
                                                     @enderror
@@ -171,10 +174,12 @@
                                         </div>
                                         <div class="col d-flex flex-column justify-content-center gap-lg-3 gap-2">
                                             <div class="text-area mb-3">
-                                                <h6 class="pb-2">Application Deadline<sup class="text-danger">*</sup> :</h6>
+                                                <h6 class="pb-2">Application Deadline<sup class="text-danger">*</sup> :
+                                                </h6>
                                                 <div class="col">
                                                     <input type="date" id="minApp" name="application_deadline"
-                                                        class="form-control inputField py-2 px-2" placeholder="Search" style="width: 96.5%;">
+                                                        class="form-control inputField py-2 px-2" placeholder="Search"
+                                                        style="width: 96.5%;">
                                                     @error('application_deadline')
                                                         <small class="alert text-danger fs-10">{{ $message }}</small>
                                                     @enderror
@@ -185,12 +190,14 @@
                                     {{-- End Text Area --}}
                                 </div>
                                 <div class="row px-md-5 px-3 mb-4">
-                                    <div class="col-md-6 new-request d-flex flex-column justify-content-center gap-lg-3 gap-2">
+                                    <div
+                                        class="col-md-6 new-request d-flex flex-column justify-content-center gap-lg-3 gap-2">
                                         <div class="text-area mb-3">
                                             <h6 class="pb-2">File<sup class="text-danger">*</sup> :</h6>
                                             <div class="col">
                                                 <input type="file" name="attached_of_clients"
-                                                    class="form-control inputField py-1 px-2" placeholder="Search" style="width: 95%;">
+                                                    class="form-control inputField py-1 px-2" placeholder="Search"
+                                                    style="width: 95%;">
                                                 @error('attached_of_clients')
                                                     <small class="alert text-danger fs-10">{{ $message }}</small>
                                                 @enderror
@@ -217,9 +224,9 @@
             function incrementDate(date_str, incrementor) {
                 var parts = date_str.split("-");
                 var dt = new Date(
-                    parseInt(parts[0], 10),      // year
-                    parseInt(parts[1], 10) - 1,  // month (starts with 0)
-                    parseInt(parts[2], 10)       // date
+                    parseInt(parts[0], 10), // year
+                    parseInt(parts[1], 10) - 1, // month (starts with 0)
+                    parseInt(parts[2], 10) // date
                 );
                 dt.setTime(dt.getTime() + incrementor * 86400000);
                 parts[0] = "" + dt.getFullYear();
@@ -233,7 +240,8 @@
                 }
                 return parts.join("-");
             };
-            function addMinApp(){
+
+            function addMinApp() {
                 var minEssay = document.getElementById('minEssay').value;
                 var minApp = document.getElementById('minApp');
                 minApp.min = incrementDate(minEssay, 1);

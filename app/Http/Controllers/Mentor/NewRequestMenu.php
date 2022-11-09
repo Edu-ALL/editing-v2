@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Mentor;
 
+use App\Events\ManagingNotif;
 use App\Http\Controllers\Admin\Program;
 use App\Http\Controllers\Controller;
 use App\Models\Client;
@@ -23,7 +24,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
-use App\Events\StatusEssay;
 
 class NewRequestMenu extends Controller
 {
@@ -45,7 +45,6 @@ class NewRequestMenu extends Controller
 
     public function store(Request $request)
     {
-
         $rules = [
             'id_editors' => 'nullable',
             'id_univ' => 'required',
@@ -70,21 +69,21 @@ class NewRequestMenu extends Controller
         if ($validator->fails()) {
             return Redirect::back()->withErrors($validator->messages());
         }
-        
+
         $id_transaksi = '0';
         $mentor = Auth::guard('web-mentor')->user();
         $mentee_id =  $request->id_clients;
-        
+
         $client = Client::where('id_clients', '=', $mentee_id)->first();
 
         $fileName = $request->attached_of_clients->getClientOriginalName();
         $fileExt = $request->attached_of_clients->getClientOriginalExtension();
 
-        $cstFileName = $client->first_name.'_Essay_by_'.$mentor->first_name.'('.date('d-m-Y').').'.$fileExt;
+        $cstFileName = $client->first_name . '_Essay_by_' . $mentor->first_name . '(' . date('d-m-Y') . ').' . $fileExt;
         // $filePath = 'program/essay/mentors/'.$fileName;
-        $filePath = 'program/essay/students/'.$cstFileName;
+        $filePath = 'program/essay/students/' . $cstFileName;
         Storage::disk('public_assets')->put($filePath, file_get_contents($request->attached_of_clients));
-        
+
 
         DB::beginTransaction();
         try {
@@ -100,7 +99,7 @@ class NewRequestMenu extends Controller
             $new_request->mentors_mail          = $client->mentors->email;
             $new_request->essay_deadline        = $request->essay_deadline;
             $new_request->application_deadline  = $request->application_deadline;
-            
+
             $new_request->attached_of_clients   = $cstFileName;
             $new_request->status_essay_clients  = 0;
             $new_request->status_read           = 0;
@@ -123,7 +122,10 @@ class NewRequestMenu extends Controller
             'essay_prompt' => $request->essay_prompt
         ];
 
-        $this->sendEmail('reject', $data);
+        // Pusher 
+        event(new ManagingNotif('Mentor has uploaded the essay.'));
+
+        $this->sendEmail('new-request', $data);
 
         return redirect('/mentor/essay-list/ongoing')->with('add-new-request-successful', 'New request has been saved');
     }
