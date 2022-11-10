@@ -22,9 +22,7 @@ class EssaysMenu extends Controller
         $keyword = $request->get('keyword');
 
         $essays = EssayClients::where('status_essay_clients', '!=', 7)->
-        whereHas('client_by_id', function ($query) use ($mentor) {
-            $query->where('id_mentor', $mentor->id_mentors);
-        })->when($keyword, function ($query) use ($keyword) {
+        where('mentors_mail', $mentor->email)->when($keyword, function ($query) use ($keyword) {
             $query->where(function($query1) use ($keyword) {
                 $query1->whereHas('client_by_id', function ($query_client) use ($keyword) {
                     $query_client->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%')
