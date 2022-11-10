@@ -160,7 +160,7 @@ img.img-word {
 }
 
 /* Button */
-.btn, .btn:hover {
+.btn, .btn:hover, .btn:focus {
   color: var(--white);
   background-color: var(--blue);
   border: 0;
@@ -180,7 +180,7 @@ img.img-word {
   width: 18px;
   height: 18px;
 }
-.btn-download, .btn-download:hover {
+.btn-download, .btn-download:hover, .btn-download:focus {
   color: var(--white);
   background-color: var(--green);
   border: 0;

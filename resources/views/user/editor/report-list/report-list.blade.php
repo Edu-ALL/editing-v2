@@ -41,10 +41,15 @@
                                         <div class="col">
                                             <h6 class="pb-2">Editor Name</h6>
                                             <select class="select-normal" style="width: 96.5%;" name="f-editor-name">
-                                                <option value="all">All Editors</option>
+                                                {{-- <option value="all">All Editors</option>
                                                 @foreach ($editors as $editor)
                                                     <option value="{{ $editor->email }}">
                                                         {{ $editor->first_name . ' ' . $editor->last_name }}</option>
+                                                @endforeach --}}
+
+                                                <option value="all" {{ $request->get('f-editor-name') == 'all' ? 'selected' : null }}>All Editors</option>
+                                                @foreach ($editors as $editor)
+                                                    <option value="{{ $editor->email }}" {{ $request->get('f-editor-name') == $editor->email ? "selected" : null }}>{{ $editor->first_name.' '.$editor->last_name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -53,25 +58,29 @@
                                         <div class="col-6">
                                             <h6 class="pb-2">Month</h6>
                                             <select class="select-date inputField" name="f-month">
-                                                <option value="01">January</option>
-                                                <option value="02">February</option>
-                                                <option value="03">March</option>
-                                                <option value="04">April</option>
-                                                <option value="05">May</option>
-                                                <option value="06">June</option>
-                                                <option value="07">July</option>
-                                                <option value="08">August</option>
-                                                <option value="09">September</option>
-                                                <option value="10">October</option>
-                                                <option value="11">November</option>
-                                                <option value="12">December</option>
+                                                <option value="01" {{ $request->get('f-month') == '01' ? 'selected' : null }}>January</option>
+                                                <option value="02" {{ $request->get('f-month') == '02' ? 'selected' : null }}>February</option>
+                                                <option value="03" {{ $request->get('f-month') == '03' ? 'selected' : null }}>March</option>
+                                                <option value="04" {{ $request->get('f-month') == '04' ? 'selected' : null }}>April</option>
+                                                <option value="05" {{ $request->get('f-month') == '05' ? 'selected' : null }}>May</option>
+                                                <option value="06" {{ $request->get('f-month') == '06' ? 'selected' : null }}>June</option>
+                                                <option value="07" {{ $request->get('f-month') == '07' ? 'selected' : null }}>July</option>
+                                                <option value="08" {{ $request->get('f-month') == '08' ? 'selected' : null }}>August</option>
+                                                <option value="09" {{ $request->get('f-month') == '09' ? 'selected' : null }}>September</option>
+                                                <option value="10" {{ $request->get('f-month') == '10' ? 'selected' : null }}>October</option>
+                                                <option value="11" {{ $request->get('f-month') == '11' ? 'selected' : null }}>November</option>
+                                                <option value="12" {{ $request->get('f-month') == '12' ? 'selected' : null }}>December</option>
                                             </select>
                                         </div>
                                         <div class="col-6">
                                             <h6 class="pb-2">Year</h6>
                                             <select class="select-date inputField" name="f-year">
-                                                @for ($i = date('Y'); $i >= 2016; $i--)
+                                                {{-- @for ($i = date('Y'); $i >= 2016; $i--)
                                                     <option value="{{ $i }}">{{ $i }}</option>
+                                                @endfor --}}
+
+                                                @for ($i = date('Y') ; $i >= 2016  ; $i--)
+                                                    <option value="{{ $i }}" {{ $request->get('f-year') == $i ? 'selected' : null }}>{{ $i }}</option>
                                                 @endfor
                                             </select>
                                         </div>
@@ -80,19 +89,32 @@
                                         <div class="col-8">
                                             <h6 class="pb-2">Essay Type</h6>
                                             <select class="select-normal" style="width: 94.5%;" name="f-essay-type">
-                                                <option value="all">All Essay Type</option>
+                                                {{-- <option value="all">All Essay Type</option>
                                                 @for ($i = 0; $i < count($essay_type); $i++)
                                                     <option value="{{ $essay_type[$i] }}">{{ $essay_type[$i] }}</option>
+                                                @endfor --}}
+
+                                                <option value="all" {{ $request->get('f-essay-type') == 'all' ? 'selected' : null }}>All Essay Type</option>
+                                                @for ($i = 0 ; $i < count($essay_type) ; $i++)
+                                                    <option value="{{ $essay_type[$i] }}"
+                                                    {{ $request->get('f-essay-type') == $essay_type[$i] ? 'selected' : null }}
+                                                    >{{ $essay_type[$i] }}</option>
                                                 @endfor
                                             </select>
                                         </div>
                                         <div class="col-4">
                                             <h6 class="pb-2">Status</h6>
                                             <select class="select-normal" style="width: 90%;" name="f-status">
-                                                <option value="all">All Status</option>
+                                                {{-- <option value="all">All Status</option>
                                                 @foreach ($status as $_status)
                                                     <option value="{{ $_status->id }}">{{ $_status->status_title }}
                                                     </option>
+                                                @endforeach --}}
+
+                                                <option value="all" {{ $request->get('f-status') == null || $request->get('f-status') == "all" ? 'selected' : null }}>All Status</option>
+                                                @foreach ($status as $_status)
+                                                    <option value="{{ $_status->id }}" 
+                                                    {{ $request->get('f-status') != null && $request->get('f-status') != "all" && $request->get('f-status') == $_status->id ? 'selected' : null }}>{{ $_status->status_title }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

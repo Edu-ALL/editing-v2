@@ -162,7 +162,7 @@
 
 {{-- Modal Select Editor --}}
 <div class="modal fade" id="selectEditor" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog" style="max-width: 80% !important">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 80%; height: 100vh; margin: 0 auto !important">
     <div class="modal-content border-0">
       <div class="modal-header" style="border-bottom: 0px">
         <div class="col d-flex gap-1 align-items-center">
@@ -176,7 +176,7 @@
       <div class="modal-body p-0">
         <form action="{{ route('assign-editor', ['id_essay' => $essay->id_essay_clients]) }}" method="POST">
           @csrf
-          <div class="container text-center p-0" style="overflow-x: auto !important">
+          <div class="col text-center p-0 m-0" style="max-height: 70vh; overflow-y: auto">
             <table class="table table-bordered m-0">
               <thead>
                 <tr>
@@ -191,7 +191,7 @@
                 </tr>
               </thead>
               <tbody>
-                <?php $i = ($editors->currentpage()-1)* $editors->perpage() + 1;?>
+                <?php $i = 1;?>
                 @foreach ($editors as $editor)
                 <tr style="cursor: pointer" onclick="select_row(this)">
                   <th scope="row">{{ $i++ }}</th>
@@ -217,8 +217,7 @@
               </tbody>
             </table>
           </div>
-          <div class="col d-flex align-items-center justify-content-between py-md-3 px-md-3 px-3 py-3 gap-2">
-            {{ $editors->links() }}
+          <div class="col d-flex align-items-center justify-content-end py-md-3 px-md-3 px-3 py-3 gap-2">
             <button class="btn btn-download d-flex align-items-center justify-content-center gap-2" data-bs-toggle="modal" data-bs-target="#selectEditor" style="background-color: var(--yellow); color: var(--white)">
               <img src="/assets/assign-list.png" alt="">
               <h6 class="my-auto">Select Editor</h6>

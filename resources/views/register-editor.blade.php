@@ -13,6 +13,9 @@
       visibility: hidden;
       position: absolute;
     }
+    .fs-10 {
+      font-size: 10px
+    }
   </style>
 </head>
 <body> 
@@ -32,11 +35,11 @@
           <h5 class="pt-2">Complete your data</h5>
       </div>
     </div>
-    @if($errors->any())
+    {{-- @if($errors->any())
       <div class="row">
         {!! implode('', $errors->all('<div class="alert alert-danger" role="alert">:message</div>')) !!}
       </div>
-    @endif
+    @endif --}}
 
     <div class="row mt-4 justify-content-center gap-3">
         <div class="col col-md-8 mt-3">
@@ -50,6 +53,9 @@
                       <div id="msg"></div>
                       {{-- <form method="post" id="image-form"> --}}
                         <input type="file" name="img" class="file" accept="image/*">
+                        @error('img')
+                            <small class="alert text-danger fs-10">{{ $message }}</small>
+                        @enderror
                         <div class="input-group my-3">
                           <input type="text" class="form-control" disabled placeholder="Upload File" id="file">
                           <div class="input-group-append">
@@ -68,10 +74,16 @@
                             <div class="me-3 col">
                                 <label for="firstName" class="form-label">First name <i class="text-danger">*</i></label>
                                 <input type="text" class="form-control" aria-describedby="firstName" name="first_name">
+                                @error('first_name')
+                                    <div class="alert text-danger fs-10">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col">
                                 <label for="lastName" class="form-label">Last name</label>
                                 <input type="text" class="form-control" aria-describedby="lastName" name="last_name">
+                                @error('last_name')
+                                    <div class="alert text-danger fs-10">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -80,10 +92,16 @@
                             <div class="me-3 col">
                                 <label for="email" class="form-label">Email <i class="text-danger">*</i></label>
                                 <input type="email" class="form-control" value="{{ $request->get('email') }}" autocomplete="off" name="email" readonly>
+                                @error('email')
+                                    <div class="alert text-danger fs-10">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col">
                                 <label for="phone" class="form-label">Phone <i class="text-danger">*</i></label>
                                 <input type="text" class="form-control" name="phone">
+                                @error('phone')
+                                    <div class="alert text-danger fs-10">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -92,16 +110,25 @@
                             <div class="me-3 col">
                                 <label for="graduatedFrom" class="form-label">Graduated From <i class="text-danger">*</i></label>
                                 <input type="text" class="form-control" name="graduated_from">
+                                @error('graduated_from')
+                                    <div class="alert text-danger fs-10">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col">
                                 <label for="major" class="form-label">Major <i class="text-danger">*</i></label>
                                 <input type="text" class="form-control" autocomplete="off" name="major" readonly onfocus="this.removeAttribute('readonly')">
+                                @error('major')
+                                    <div class="alert text-danger fs-10">{{ $message }}</div>
+                                @enderror
                           </div>
                         </div>
                     </div>
                     <div class="mb-3">
                         <label for="address" class="form-label">Address <i class="text-danger">*</i></label>
                         <textarea id="textarea" name="address" cols="30" rows="10" class="form-control"></textarea>
+                        @error('address')
+                            <div class="alert text-danger fs-10">{{ $message }}</div>
+                        @enderror
                         {{-- <input type="text" class="form-control" autocomplete="off" readonly onfocus="this.removeAttribute('readonly')"> --}}
                     </div>
                     <div class="mb-3">
@@ -109,10 +136,16 @@
                           <div class="me-3 col">
                               <label for="password" class="form-label">Password <i class="text-danger">*</i></label>
                               <input type="password" class="form-control" autocomplete="off" name="password" readonly onfocus="this.removeAttribute('readonly')">
+                              @error('password')
+                                  <div class="alert text-danger fs-10">{{ $message }}</div>
+                              @enderror
                           </div>
                           <div class="col">
                               <label for="confirmationPassword" class="form-label">Confirmation Password <i class="text-danger">*</i></label>
                               <input type="password" class="form-control" name="password_confirmation" readonly onfocus="this.removeAttribute('readonly')">
+                              @error('password_confirmation')
+                                  <div class="alert text-danger fs-10">{{ $message }}</div>
+                              @enderror
                         </div>
                       </div>
                   </div>
