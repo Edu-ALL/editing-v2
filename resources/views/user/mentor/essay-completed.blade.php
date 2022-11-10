@@ -72,6 +72,10 @@
                                     </tbody>
 
                                 </table>
+
+                                <div class="d-flex justify-content-center">
+                                    {{ $essays->links() }}
+                                </div>
                             </div>
                         </div>
                     </div>

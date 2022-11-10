@@ -55,9 +55,7 @@ class EssaysMenu extends Controller
 
         $essays = EssayEditors::where('status_essay_editors', 7)
         ->whereHas('essay_clients', function ($query) use ($mentor) {
-            $query->whereHas('client_by_id', function ($query) use ($mentor) {
-                $query->where('id_mentor', $mentor->id_mentors);
-            });
+            $query->where('mentors_mail', $mentor->email);
         })->when($keyword, function ($query) use ($keyword) {
             $query->whereHas('essay_clients', function ($query) use ($keyword) {
                 $query->whereHas('client_by_id', function ($query) use ($keyword) {
