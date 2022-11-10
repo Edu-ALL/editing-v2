@@ -49,17 +49,10 @@
                                                 onclick="window.location='/mentor/essay-list/ongoing/detail/{{ $essay->id_essay_clients }}'">
                                                 <th scope="row">{{ $i++ }}</th>
 
-                                                @if ($essay->client_by_id)
-                                                    <td>{{ $essay->client_by_id->first_name . ' ' . $essay->client_by_id->last_name }}
-                                                    </td>
-                                                    <td>{{ $essay->client_by_id->mentors->first_name . ' ' . $essay->client_by_id->mentors->last_name }}
-                                                    </td>
-                                                @elseif ($essay->client_by_email)
-                                                    <td>{{ $essay->client_by_email->first_name . ' ' . $essay->client_by_email->last_name }}
-                                                    </td>
-                                                    <td>{{ $essay->client_by_email->mentors->first_name . ' ' . $essay->client_by_email->mentors->last_name }}
-                                                    </td>
-                                                @endif
+                                                <td>{{ isset($essay->client_by_id) ? $essay->client_by_id->first_name . ' ' . $essay->client_by_id->last_name : $essay->client_by_email->first_name . ' ' . $essay->client_by_email->last_name }}
+                                                </td>
+                                                <td>{{ $essay->mentor->first_name . ' ' . $essay->mentor->last_name }}
+                                                </td>
 
                                                 <td><?php echo $essay->editor ? $essay->editor->first_name . ' ' . $essay->editor->last_name : '-'; ?></td>
                                                 <td>{{ $essay->essay_title }}</td>

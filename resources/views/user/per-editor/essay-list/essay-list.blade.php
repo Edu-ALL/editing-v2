@@ -71,7 +71,7 @@
                                                         {{ $essay->essay_clients->client_by_id->first_name . ' ' . $essay->essay_clients->client_by_id->last_name }}
                                                     </td>
                                                     <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->essay_clients->client_by_id->mentors->first_name . ' ' . $essay->essay_clients->client_by_id->mentors->last_name }}
+                                                        {{ $essay->essay_clients->mentor->first_name . ' ' . $essay->essay_clients->mentor->last_name }}
                                                     </td>
                                                     <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
                                                         {{ $essay->editor ? $essay->editor->first_name . ' ' . $essay->editor->last_name : '-' }}
@@ -149,7 +149,7 @@
                                                         {{ $essay->essay_clients->client_by_id->first_name . ' ' . $essay->essay_clients->client_by_id->last_name }}
                                                     </td>
                                                     <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->essay_clients->client_by_id->mentors->first_name . ' ' . $essay->essay_clients->client_by_id->mentors->last_name }}
+                                                        {{ $essay->essay_clients->mentor->first_name . ' ' . $essay->essay_clients->mentor->last_name }}
                                                     </td>
                                                     <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
                                                         {{ $essay->editor ? $essay->editor->first_name . ' ' . $essay->editor->last_name : '-' }}
