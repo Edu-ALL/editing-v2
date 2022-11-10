@@ -127,7 +127,7 @@ class NewRequestMenu extends Controller
 
         $this->sendEmail('new-request', $data);
 
-        return redirect('/mentor/essay-list/ongoing')->with('add-new-request-successful', 'New request has been saved');
+        return redirect('/mentor/essay-list/ongoing')->with('message', 'New request has been saved');
     }
 
     public function sendEmail($type, $data)
