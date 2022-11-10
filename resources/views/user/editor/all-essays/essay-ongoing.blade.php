@@ -69,7 +69,9 @@
 
                                                 <td>{{ isset($essay->essay_clients->client_by_id) ? $essay->essay_clients->client_by_id->first_name . ' ' . $essay->essay_clients->client_by_id->last_name : $essay->essay_clients->client_by_email->first_name . ' ' . $essay->essay_clients->client_by_email->last_name }}
                                                 </td>
-                                                <td>{{ isset($essay->essay_clients->client_by_id) ? $essay->essay_clients->client_by_id->mentors->first_name . ' ' . $essay->essay_clients->client_by_id->mentors->last_name : $essay->essay_clients->client_by_email->mentors->first_name . ' ' . $essay->essay_clients->client_by_email->mentors->last_name }}
+                                                <td>
+                                                    {{ $essay->essay_clients->mentors->first_name.' '.$essay->essay_clients->mentors->last_name }}
+                                                    {{-- {{ isset($essay->essay_clients->client_by_id) ? $essay->essay_clients->client_by_id->mentors->first_name . ' ' . $essay->essay_clients->client_by_id->mentors->last_name : $essay->essay_clients->client_by_email->mentors->first_name . ' ' . $essay->essay_clients->client_by_email->mentors->last_name }} --}}
                                                 </td>
                                                 <td>{{ isset($essay->editor) ? $essay->editor->first_name . ' ' . $essay->editor->last_name : '-' }}</td>
                                                 <td>{{ isset($essay->essay_clients->editor) ? $essay->essay_clients->editor->first_name.' '.$essay->essay_clients->editor->last_name : '-'}}</td>

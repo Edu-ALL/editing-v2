@@ -43,6 +43,11 @@ class EssayClients extends Model
         return $this->belongsTo(Editor::class, 'id_editors', 'id_editors');
     }
 
+    public function mentor()
+    {
+        return $this->belongsTo(Mentor::class, 'mentors_mail', 'email');
+    }
+
     public function university()
     {
         return $this->belongsTo(University::class, 'id_univ', 'id_univ');
