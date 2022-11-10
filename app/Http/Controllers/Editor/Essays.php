@@ -384,7 +384,7 @@ class Essays extends Controller
         ];
 
         // Pusher 
-        event(new ManagingNotif('Your essay has been uploaded, Please waiting to verified.'));
+        event(new ManagingNotif('The Editor has been submitted, Please verify his/her essay.'));
 
         $this->sendEmail('uploadEssay', $data);
 
@@ -496,7 +496,7 @@ class Essays extends Controller
         ];
 
         // Pusher 
-        event(new ManagingNotif('Your essay has been uploaded, Please waiting to verified.'));
+        event(new ManagingNotif('The Editor has been revised, Please verify his/her essay.'));
 
         $this->sendEmail('uploadRevise', $data);
 
