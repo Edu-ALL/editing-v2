@@ -2,6 +2,11 @@
 @section('css')
   <link rel="stylesheet" href="/css/admin/essay-ongoing-detail.css">
   <link rel="stylesheet" href="/css/per-editor/dashboard.css">
+  <style>
+    .fs-10 {
+      font-size: 10px
+    }
+  </style>
 @endsection
 
 @section('content')
@@ -128,11 +133,29 @@
                       <img class="img-word" src="/assets/logo-word.png" alt="">
                     </div>
                     <div class="col d-flex align-items-center justify-content-center pb-md-0 pb-3">
-                      <a class="btn btn-download d-flex align-items-center gap-2" 
+                      {{-- <a class="btn btn-download d-flex align-items-center gap-2" 
                       href={{ $essay->status_essay_clients == 6 || $essay->status_essay_clients == 8 ? asset('uploaded_files/program/essay/revised/'.$essay->essay_editors->attached_of_editors) : asset('uploaded_files/program/essay/editors/'.$essay->essay_editors->attached_of_editors) }}>
                         <img src="/assets/download.png" alt="">
                         <h6>Download</h6>
-                      </a>
+                      </a> --}}
+                      @if ($essay->essay_editors->managing_file)
+                        <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/revised/'.$essay->essay_editors->managing_file) }}>
+                          <img src="/assets/download.png" alt="">
+                          <h6>Download</h6>
+                        </a>
+                      @else
+                        @if (str_contains($essay->essay_editors->attached_of_editors, 'Revised'))
+                          <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/revised/'.$essay->essay_editors->attached_of_editors) }}>
+                            <img src="/assets/download.png" alt="">
+                            <h6>Download</h6>
+                          </a>
+                        @else
+                          <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/editors/'.$essay->essay_editors->attached_of_editors) }}>
+                            <img src="/assets/download.png" alt="">
+                            <h6>Download</h6>
+                          </a>
+                        @endif
+                      @endif
                     </div>
                   </div>
                   <div class="col p-0 mb-3">
@@ -216,7 +239,7 @@
                 </div>
                 <div class="col">
                   <div class="d-none h-auto p-0" id="inputField">
-                    <input class="form-control ps-2 inputField h-100 w-100" name="uploaded_acc_file" form="form-accept" type="file" style="box-shadow: none; padding: 6px 12px">
+                    <input class="form-control ps-2 inputField h-100 w-100" id="uploadAcc" name="uploaded_acc_file" form="form-accept" type="file" style="box-shadow: none; padding: 6px 12px">
                   </div>
                 </div>
               </div>
@@ -249,10 +272,13 @@
     function checkUpload(){
       var check = document.getElementById('myCheck');
       var input = document.getElementById('inputField');
+      var upload = document.getElementById('uploadAcc');
       if (check.checked == true){
         input.classList.remove("d-none");
+        upload.required = true;
       } else {
         input.classList.add("d-none");
+        upload.required = false;
       }
     }
   </script>

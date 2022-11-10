@@ -502,18 +502,19 @@ class EssayListMenu extends Controller
             });
         } else if ($type == 'accept') { # to mentor cc managing
             $email_mentor = $data['mentor']->email;
-            Mail::send('mail.per-editor.accept-assign', $data, function($mail) use ($email_mentor) {
+            Mail::send('mail.per-editor.accept-assign', $data, function($mail) use ($email, $email_mentor) {
                 $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
                 $mail->to($email_mentor);
-                $mail->cc('essay@all-inedu.com');
+                $mail->cc($email);
                 $mail->subject('Assignment Accepted');
             });
-        } else if ($type == 'uploadEssay') {
+        } else if ($type == 'uploadEssay') { # to managing cc mentor
             $editor = $data['editor']->first_name.' '.$data['editor']->last_name;
-            Mail::send('mail.per-editor.editor-upload', $data, function($mail) use ($email, $editor) {
+            $email_mentor = $data['mentor']->email;
+            Mail::send('mail.per-editor.editor-upload', $data, function($mail) use ($email, $editor, $email_mentor) {
                 $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
                 $mail->to($email);
-                $mail->cc('essay@all-inedu.com');
+                $mail->cc($email_mentor);
                 $mail->subject($editor.' has submitted an essay!');
             });
         } else if ($type == 'uploadRevise') {

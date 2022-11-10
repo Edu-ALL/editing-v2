@@ -531,8 +531,8 @@
 
                                                                 <div class="text-white-m-center"
                                                                     style="color:#ffffff; font-family:Arial,sans-serif; font-size:12px; line-height:20px; text-align:left">
-                                                                    Jl. Panjang No. 36 5th Fl​, Kebon Jeruk
-                                                                    <br> Jakarta Barat, 11530</div>
+                                                                    Jl Jeruk Kembar Blok Q9 No. 15 Srengseng, Kembangan
+                                                                    <br> Jakarta Barat, 11630</div>
                                                                 <div style="font-size:0pt; line-height:0pt;"
                                                                     class="mobile-br-15"></div>
 
@@ -573,12 +573,12 @@
                                                                         style="color:#ffffff; text-decoration:none"><span
                                                                             class="link-white"
                                                                             style="color:#ffffff; text-decoration:none">info@all-inedu.com</span></a>
-                                                                    <br />Phone: <a href="tel:+1123456789"
+                                                                    {{-- <br />Phone: <a href="tel:+1123456789"
                                                                         target="_blank" class="link-white"
                                                                         style="color:#ffffff; text-decoration:none"><span
                                                                             class="link-white"
                                                                             style="color:#ffffff; text-decoration:none">+1
-                                                                            (123) 456-789</span></a>
+                                                                            (123) 456-789</span></a> --}}
                                                                 </div>
                                                                 <div style="font-size:0pt; line-height:0pt;"
                                                                     class="mobile-br-15"></div>

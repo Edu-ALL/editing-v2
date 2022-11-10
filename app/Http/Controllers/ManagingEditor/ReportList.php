@@ -53,6 +53,7 @@ class ReportList extends Controller
             'editors' => $editors,
             'status' => $status,
             'results' => $essay_editors != NULL ? $essay_editors : NULL,
+            'request' => $request
         ];
 
         return view('user.editor.report-list.report-list', $response);

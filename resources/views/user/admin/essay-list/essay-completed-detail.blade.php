@@ -46,7 +46,7 @@
             </div>
             <div class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
               @if ($essay->managing_file)
-                <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/managing/'.$essay->managing_file) }}>
+                <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/revised/'.$essay->managing_file) }}>
                   <img src="/assets/download.png" alt="">
                   <h6>Download</h6>
                 </a>

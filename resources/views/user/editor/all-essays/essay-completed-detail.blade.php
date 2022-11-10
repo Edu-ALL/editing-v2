@@ -1,6 +1,7 @@
 @extends('user.editor.utama.utama')
 @section('css')
   <link rel="stylesheet" href="/css/admin/essay-completed-detail.css">
+  <link rel="stylesheet" href="/css/per-editor/dashboard.css">
 @endsection
 
 @section('content')
@@ -46,7 +47,7 @@
             </div>
             <div class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
               @if ($essay->managing_file)
-                <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/managing/'.$essay->managing_file) }}>
+                <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/revised/'.$essay->managing_file) }}>
                   <img src="/assets/download.png" alt="">
                   <h6>Download</h6>
                 </a>
@@ -104,7 +105,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{{ $essay->essay_clients->client_by_id->first_name.' '.$essay->essay_clients->client_by_id->last_name }}</p>
+                    <p>{{ isset($essay->essay_clients->client_by_id) ? $essay->essay_clients->client_by_id->first_name.' '.$essay->essay_clients->client_by_id->last_name : $essay->essay_clients->client_by_email->first_name.' '.$essay->essay_clients->client_by_email->last_name }}</p>
                   </div>
                 </div>
                 <div class="row d-flex align-items-center">
@@ -113,7 +114,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{{ $essay->essay_clients->client_by_id->email ? $essay->essay_clients->client_by_id->email : '-' }}</p>
+                    <p>{{ isset($essay->essay_clients->client_by_id) ? $essay->essay_clients->client_by_id->email : $essay->essay_clients->client_by_email->email }}</p>
                   </div>
                 </div>
                 <div class="row d-flex align-items-center">
@@ -122,7 +123,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{!! $essay->essay_clients->client_by_id->address ? $essay->essay_clients->client_by_id->address : '-' !!}</p>
+                    <p>{!! isset($essay->essay_clients->client_by_id) ? $essay->essay_clients->client_by_id->address : $essay->essay_clients->client_by_email->address !!}</p>
                   </div>
                 </div>
                 

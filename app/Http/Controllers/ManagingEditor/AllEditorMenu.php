@@ -153,7 +153,7 @@ class AllEditorMenu extends Controller
             DB::rollBack();
             return Redirect::back()->withErrors($e->getMessage());
         }
-        return redirect('editor/list');
+        return redirect('editor/list')->with('deactive-editor-successful', $editor->first_name.' has been deactive');
     }
 
     public function activate($id_editors){
@@ -168,7 +168,7 @@ class AllEditorMenu extends Controller
             DB::rollBack();
             return Redirect::back()->withErrors($e->getMessage());
         }
-        return redirect('editor/list');
+        return redirect('editor/list')->with('active-editor-successful', $editor->first_name.' has been active');
     }
 
 }

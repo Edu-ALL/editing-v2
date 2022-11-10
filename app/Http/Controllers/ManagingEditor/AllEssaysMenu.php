@@ -168,7 +168,7 @@ class AllEssaysMenu extends Controller
     {
         $essay = EssayClients::find($id_essay);
         if ($essay) {
-            $editors = Editor::paginate(10);
+            $editors = Editor::get();
             // $essay = EssayClients::find($id_essay);
             $essay_editor = EssayEditors::where('id_essay_clients', $id_essay)->first();
 
@@ -357,7 +357,6 @@ class AllEssaysMenu extends Controller
 
         $validator = Validator::make($request->all() + ['id_essay_clients' => $id_essay], $rules);
         if ($validator->fails()) {
-            dd($validator->messages());
             return Redirect::back()->withErrors($validator->messages());
         }
 
@@ -384,10 +383,8 @@ class AllEssaysMenu extends Controller
                 $file_name = 'Revised_by_' . $editor->first_name . '_' . $editor->last_name . '(' . date('d-m-Y') . ')';
                 // $file_name = str_replace(' ', '-', $file_name);
                 $file_format = $request->file('uploaded_acc_file')->getClientOriginalExtension();
-                // $med_file_path = $request->file('uploaded_acc_file')->storeAs('program/essay/managing', $file_name.'.'.$file_format, ['disk' => 'public_assets']);
-                $med_file_path = $request->file('uploaded_acc_file')->storeAs('program/essay/revised', $file_name . '.' . $file_format, ['disk' => 'public_assets']);
-
-                $essay_editor->managing_file = $file_name . '.' . $file_format;
+                $med_file_path = $request->file('uploaded_acc_file')->storeAs('program/essay/revised', $file_name.'.'.$file_format, ['disk' => 'public_assets']);
+                $essay_editor->managing_file = $file_name.'.'.$file_format;
             }
             $essay_editor->save();
 
@@ -537,6 +534,10 @@ class AllEssaysMenu extends Controller
 
             // Pusher 
             event(new EditorNotif($essay_editor->editors_mail, 'Please, revise your essay.'));
+            if (EssayFeedbacks::find($id_essay)) {
+                EssayFeedbacks::find($id_essay)->delete();
+            }
+            
 
             DB::commit();
         } catch (Exception $e) {

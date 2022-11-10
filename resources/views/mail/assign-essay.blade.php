@@ -523,7 +523,7 @@
 
                                                                 <div class="text-white-m-center"
                                                                     style="color:#ffffff; font-family:Arial,sans-serif; font-size:12px; line-height:20px; text-align:left">
-                                                                    Jl. Jeruk Kembar Blok Q9 no. 15
+                                                                    Jl Jeruk Kembar Blok Q9 No. 15 Srengseng, Kembangan
                                                                     <br> Jakarta Barat, 11630</div>
                                                                 <div style="font-size:0pt; line-height:0pt;"
                                                                     class="mobile-br-15"></div>

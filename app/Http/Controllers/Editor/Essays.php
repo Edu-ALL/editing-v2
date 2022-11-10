@@ -116,7 +116,28 @@ class Essays extends Controller
                     'list_tags' => Tags::get(),
                     'essay_revise' => EssayRevise::where('id_essay_clients', $id_essay)->get()
                 ]);
-            } else if ($essay->status_essay_clients == 7) {
+            }
+        } else {
+            return redirect('editors/essay-list')->with('isEssay', 'Essay not found');
+        }
+        
+    }
+
+    public function detailEssayCompleted($id_essay, Request $request)
+    {
+        $essay_editor = EssayEditors::where('id_essay_clients', $id_essay)->first();
+        if ($essay_editor) {
+            // $essay = EssayClients::find($id_essay);
+            $essay_editor = EssayEditors::where('id_essay_clients', $id_essay)->first();
+
+            if ($essay_editor->read == 0) {
+                DB::beginTransaction();
+                $essay_editor->read = 1;
+                $essay_editor->save();
+                DB::commit();
+            }
+
+            if ($essay_editor->status_essay_editors == 7) {
                 return view('user.per-editor.essay-list.essay-list-completed-detail', [
                     'essay' => $essay_editor,
                     'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()

@@ -54,7 +54,7 @@ class Export extends Controller
             'editors' => $editors,
             'status' => $status,
             'results' => $essay_editors != NULL ? $essay_editors : NULL,
-            'request' => $request
+            'request' => $request   
         ];
 
         // download excel
