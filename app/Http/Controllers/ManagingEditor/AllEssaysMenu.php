@@ -400,6 +400,7 @@ class AllEssaysMenu extends Controller
         $email = $essay_editor->editors_mail;
         $data = [];
 
+        $this->send_email($id_essay);
         $this->sendEmail('verify', $email, $data);
 
         return redirect('editor/all-essays/completed/detail/' . $id_essay);
