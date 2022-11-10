@@ -59,13 +59,13 @@
                                                         class="{{ isset($essay->essay_editors) && $essay->essay_editors->read == 0 ? 'unread' : '' }}">
                                                         {{ $i++ }}</th>
                                                     <td class="{{ isset($essay->essay_editors) && $essay->essay_editors->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->client_by_id->first_name . ' ' . $essay->client_by_id->last_name }}
+                                                        {{ isset($essay->client_by_id) ? $essay->client_by_id->first_name . ' ' . $essay->client_by_id->last_name : $essay->client_by_email->first_name . ' ' . $essay->client_by_email->last_name }}
                                                     </td>
                                                     <td class="{{ isset($essay->essay_editors) && $essay->essay_editors->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->client_by_id->mentors->first_name . ' ' . $essay->client_by_id->mentors->last_name }}
+                                                        {{ isset($essay->client_by_id) ? $essay->client_by_id->mentors->first_name . ' ' . $essay->client_by_id->mentors->last_name : $essay->client_by_email->mentors->first_name . ' ' . $essay->client_by_email->mentors->last_name }}
                                                     </td>
                                                     <td class="{{ isset($essay->essay_editors) && $essay->essay_editors->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->editor ? $essay->editor->first_name . ' ' . $essay->editor->last_name : '-' }}
+                                                        {{ isset($essay->editor) ? $essay->editor->first_name . ' ' . $essay->editor->last_name : '-' }}
                                                     </td>
                                                     <td class="{{ isset($essay->essay_editors) && $essay->essay_editors->read == 0 ? 'unread' : '' }}">
                                                         {{ $essay->program->program_name }}</td>
