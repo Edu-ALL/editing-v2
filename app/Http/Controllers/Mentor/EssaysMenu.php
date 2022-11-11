@@ -36,7 +36,7 @@ class EssaysMenu extends Controller
                 })->orWhere('essay_title', 'like', '%'.$keyword.'%')
                 ->orWhereHas('status', function ($query_status) use ($keyword) {
                     $query_status->where('status_title', 'like', '%'.$keyword.'%');
-                });
+                })->orWhere('mentors_mail', 'like', '%'.$keyword.'%');
             });
         })->orderBy('uploaded_at', 'desc')->paginate(10);
         
@@ -68,7 +68,7 @@ class EssaysMenu extends Controller
                 })->orWhere('essay_title', 'like', '%'.$keyword.'%')
                 ->orWhereHas('status', function ($query_status) use ($keyword) {
                     $query_status->where('status_title', 'like', '%'.$keyword.'%');
-                });
+                })->orWhere('mentors_mail', 'like', '%'.$keyword.'%');
             });
         })->orderBy('uploaded_at', 'desc')->paginate(10);
 

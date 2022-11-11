@@ -251,14 +251,14 @@ class AllEssaysMenu extends Controller
 
             # update table essay clients
             $essay = EssayClients::find($id_essay);
-            $essay->id_editors = $request->id_editors;
+            // $essay->id_editors = $request->id_editors;
             $essay->status_essay_clients = 1;
             $essay->save();
 
             # insert into table essay editor
             $essay_editor = new EssayEditors;
             $essay_editor->id_essay_clients = $essay->id_essay_clients;
-            $essay_editor->editors_mail = $essay->editor->email;
+            $essay_editor->editors_mail = $request->id_editors;
             $essay_editor->status_essay_editors = 1;
             $essay_editor->save();
 

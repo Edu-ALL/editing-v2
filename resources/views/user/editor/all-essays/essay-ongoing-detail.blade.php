@@ -203,7 +203,7 @@
                   <td>{{ $completedEssay->where('editors_mail', $editor->email)->count() }} Essays</td>
                   <td class="d-flex align-items-center justify-content-center">
                     <div class="form-check d-flex align-items-center justify-content-center">
-                      <input class="form-check-input" type="radio" name="id_editors" id="flexRadioDefault1" value="{{ $editor->id_editors }}">
+                      <input class="form-check-input" type="radio" name="id_editors" id="flexRadioDefault1" value="{{ $editor->email }}">
                     </div>
                   </td>
                 </tr>

@@ -16,7 +16,7 @@ class Clients extends Controller
     {
         $mentor = Auth::guard('web-mentor')->user();
         $keyword = $request->get('keyword');
-        $clients = Client::with('mentors')->where('id_mentor' || 'id_mentor_2', '=', $mentor)->when($keyword, function($query) use ($keyword) {
+        $clients = Client::with('mentors')->where('id_mentor', '=', $mentor->id_mentors)->orWhere('id_mentor_2', '=', $mentor->id_mentors)->when($keyword, function($query) use ($keyword) {
             // $query->where('first_name', 'like', '%'.$keyword.'%');
             $query->where(DB::raw("CONCAT(`first_name`,`last_name`)"), 'like', '%'.$keyword.'%')->orWhereHas('mentors', function ($querym) use ($keyword) {
                 $querym->where(DB::raw("CONCAT(`first_name`,`last_name`)"), 'like', '%'.$keyword.'%');

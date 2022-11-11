@@ -56,6 +56,11 @@ class Client extends Model
         return $this->belongsTo(Mentor::class, 'id_mentor', 'id_mentors');
     }
 
+    public function mentors2()
+    {
+        return $this->belongsTo(Mentor::class, 'id_mentor_2', 'id_mentors');
+    }
+
     public function essay_clients_by_id()
     {
         return $this->hasMany(EssayClients::class, 'id_clients', 'id_clients');

@@ -17,7 +17,7 @@ class Dashboard extends Controller
 
         $ongoing_essay = EssayClients::where('mentors_mail', '=', $mentor->email)->where('status_essay_clients', '!=', 7);
         $completed_essay = EssayClients::where('mentors_mail', '=', $mentor->email)->where('status_essay_clients', '=', 7);
-        $clients = Client::where('id_mentor', '=', $mentor->id_mentors);
+        $clients = Client::where('id_mentor', '=', $mentor->id_mentors)->orWhere('id_mentor_2', '=', $mentor->id_mentors);
         $new_request = EssayClients::where('status_essay_clients', '=', 0);
 
         return view('user.mentor.dashboard', [

@@ -35,6 +35,11 @@ class Mentor extends Authenticatable
         return $this->hasMany(Client::class, 'id_mentor', 'id_mentors');
     }
 
+    public function mentees2()
+    {
+        return $this->hasMany(Client::class, 'id_mentor_2', 'id_mentors');
+    }
+
     public function essay_clients()
     {
         return $this->hasMany(EssayClients::class, 'mentors_mail', 'email');

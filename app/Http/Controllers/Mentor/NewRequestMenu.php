@@ -30,7 +30,7 @@ class NewRequestMenu extends Controller
     public function index()
     {
         $mentor = Auth::guard('web-mentor')->user();
-        $clients = Client::where('id_mentor', '=', $mentor->id_mentors)->with('mentors')->get();
+        $clients = Client::where('id_mentor', '=', $mentor->id_mentors)->orWhere('id_mentor_2', '=', $mentor->id_mentors)->with('mentors')->get();
         $request_editor = Editor::where('status', '=', '1')->get();
         $university = University::get();
         $program = Programs::where('program_name', '=', 'Essay Editing')->orderBy('program_name', 'asc')->get();

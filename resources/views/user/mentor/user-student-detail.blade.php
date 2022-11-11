@@ -88,6 +88,17 @@
                                             <p>{{ $client->mentors->first_name . ' ' . $client->mentors->last_name }}</p>
                                         </div>
                                     </div>
+                                    <div class="row d-flex align-items-center">
+                                        <div class="col-md-3 col-4">
+                                            <h6>Backup Mentor</h6>
+                                        </div>
+                                        <div class="col-1 titik2">
+                                            <p>:</p>
+                                        </div>
+                                        <div class="col-7">
+                                            <p>{{ isset($client->mentors2) ? $client->mentors2->first_name . ' ' . $client->mentors2->last_name : '-' }}</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 

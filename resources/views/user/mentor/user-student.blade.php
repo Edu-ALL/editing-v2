@@ -54,6 +54,7 @@
                                             <th>No</th>
                                             <th>Student Name</th>
                                             <th>Mentor Name</th>
+                                            <th>Backup Mentor</th>
                                             <th>Email</th>
                                             <th>Phone</th>
                                             <th>City</th>
@@ -68,6 +69,7 @@
                                                 <td>{{ $client->first_name . ' ' . $client->last_name }}</td>
                                                 <td>{{ $client->mentors->first_name . ' ' . $client->mentors->last_name }}
                                                 </td>
+                                                <td>{{ isset($client->mentors2) ? $client->mentors2->first_name.' '.$client->mentors2->last_name : '-' }}</td>
                                                 <td>{{ $client->email ? $client->email : '-' }}</td>
                                                 <td>{{ $client->phone ? $client->phone : '-' }}</td>
                                                 <td>{{ $client->address ? strip_tags($client->address) : '-' }}</td>

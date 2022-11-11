@@ -22,11 +22,14 @@ class StudentsMenu extends Controller
         $mentor = Auth::guard('web-mentor')->user();
         $keyword = $request->get('keyword');
 
-        $clients = Client::where('id_mentor', $mentor->id_mentors)
+        $clients = Client::where('id_mentor', '=', $mentor->id_mentors)->orWhere('id_mentor_2', '=', $mentor->id_mentors)
         ->when($keyword, function ($query) use ($keyword) {
             $query->where(function($query_) use ($keyword) {
                 $query_->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%')
                 ->orWhereHas('mentors', function ($query_mentor) use ($keyword) {
+                    $query_mentor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%');
+                })->orWhere('email', 'like', '%'.$keyword.'%')
+                ->orWhereHas('mentors2', function ($query_mentor) use ($keyword) {
                     $query_mentor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%');
                 })->orWhere('email', 'like', '%'.$keyword.'%')
                 ->orWhere('phone', 'like', '%'.$keyword.'%')
