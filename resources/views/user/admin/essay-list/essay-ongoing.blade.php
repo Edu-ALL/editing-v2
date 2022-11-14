@@ -61,7 +61,7 @@
                       @if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4 || $essay->status_essay_clients == 5)
                           -
                       @else
-                        {{ $essay->editor->first_name.' '.$essay->editor->last_name }}
+                        {{ isset ($essay->editor) ? $essay->editor->first_name.' '.$essay->editor->last_name : "-"}}
                         {{-- {{ $essay->essay_editors->editor->first_name.' '.$essay->essay_editors->editor->last_name }} --}}
                       @endif
                     </td>
