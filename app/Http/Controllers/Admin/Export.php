@@ -29,7 +29,7 @@ class Export extends Controller
             $f_editor = $request->get('f-editor-name');
             $f_essay_type = $request->get('f-essay-type');
             $f_status = $request->get('f-status');
-            $essay_editors = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', 'tbl_essay_editors.id_essay_clients')->with(['essay_clients.client_by_id', 'essay_clients.client_by_email', 'essay_clients.university', 'essay_clients.program', 'status', 'editor'])->where('status_essay_editors', 7)->whereMonth('tbl_essay_editors.uploaded_at', $f_month)->whereYear('tbl_essay_editors.uploaded_at', $f_year)
+            $essay_editors = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', 'tbl_essay_editors.id_essay_clients')->with(['essay_clients.client_by_id', 'essay_clients.client_by_email', 'essay_clients.university', 'essay_clients.program', 'status', 'editor'])->whereMonth('tbl_essay_editors.uploaded_at', $f_month)->whereYear('tbl_essay_editors.uploaded_at', $f_year)
                 ->when($f_status != "all", function($query) use ($f_status) {
                     $query->where('status_essay_editors', $f_status)->orWhere('status_essay_clients', $f_status);
                 })->when($f_editor != "all", function($query) use ($f_editor) {

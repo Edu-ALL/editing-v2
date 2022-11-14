@@ -27,16 +27,16 @@ class ReportList extends Controller
             $f_editor = $request->get('f-editor-name');
             $f_essay_type = $request->get('f-essay-type');
             $f_status = $request->get('f-status');
-            $essay_editors = EssayEditors::with(['essay_clients.client_by_id', 'essay_clients.client_by_email', 'essay_clients.university', 'essay_clients.program', 'status', 'editor'])->whereMonth('uploaded_at', $f_month)->whereYear('uploaded_at', $f_year)
+            $essay_editors = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', 'tbl_essay_editors.id_essay_clients')->with(['essay_clients.client_by_id', 'essay_clients.client_by_email', 'essay_clients.university', 'essay_clients.program', 'status', 'editor'])->whereMonth('tbl_essay_editors.uploaded_at', $f_month)->whereYear('tbl_essay_editors.uploaded_at', $f_year)
                 ->when($f_status != "all", function($query) use ($f_status) {
-                    $query->where('status_essay_editors', $f_status);
+                    $query->where('status_essay_editors', $f_status)->orWhere('status_essay_clients', $f_status);
                 })->when($f_editor != "all", function($query) use ($f_editor) {
-                    $query->where('editors_mail', $f_editor);
+                    $query->where('tbl_essay_editors.editors_mail', $f_editor);
                 })->when($f_essay_type != "all", function($query) use ($f_essay_type) {
                     $query->whereHas('essay_clients', function ($query1) use ($f_essay_type) {
                         $query1->where('essay_title', 'like', '%'.$f_essay_type.'%');
-                    })->orderBy('completed_at', 'asc');
-                });
+                    });
+                })->orderBy('tbl_essay_editors.uploaded_at', 'desc');
 
             $essay_editors = $request->get('f-download') != 1 
             ? $essay_editors->paginate(10)->appends([
