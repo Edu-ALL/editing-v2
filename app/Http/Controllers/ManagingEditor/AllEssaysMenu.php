@@ -120,7 +120,7 @@ class AllEssaysMenu extends Controller
                     });
                 });
             // })->orderBy('uploaded_at', 'desc')->paginate(10);
-            })->orderBy('essay_deadline', 'asc')->orderBy('application_deadline', 'asc')->paginate(10);
+            })->orderBy('tbl_essay_clients.essay_deadline', 'asc')->orderBy('tbl_essay_clients.application_deadline', 'asc')->paginate(10);
 
         if ($keyword)
             $essays->appends(['keyword' => $keyword]);
