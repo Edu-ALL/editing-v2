@@ -54,7 +54,7 @@
                     <th scope="row">{{ $i++ }}</th>
 
                     <td>{{ isset($essay->client_by_id) ? $essay->client_by_id->first_name.' '.$essay->client_by_id->last_name : $essay->client_by_email->first_name.' '.$essay->client_by_email->last_name }}</td>
-                    <td>{{ isset($essay->client_by_id) ? $essay->client_by_id->mentors->first_name.' '.$essay->client_by_id->mentors->last_name : $essay->client_by_email->mentors->first_name.' '.$essay->client_by_email->mentors->last_name }}</td>
+                    <td>{{ isset($essay->mentors) ? $essay->mentors->first_name.' '.$essay->mentors->last_name : '-' }}</td>
                     
                     {{-- <td>{{ $essay->status_essay_clients == 0 ? '-' : $essay->editor->first_name.' '.$essay->editor->last_name }}</td> --}}
                     <td>
