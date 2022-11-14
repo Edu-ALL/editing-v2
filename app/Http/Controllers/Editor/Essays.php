@@ -50,7 +50,7 @@ class Essays extends Controller
         //             });
         //     });
         // })->orderBy('uploaded_at', 'asc')->paginate(10);
-        $ongoing_essay = EssayEditors::where('editors_mail', $editor->email)->where('status_essay_editors', '!=', 7)->when($keyword2, function ($query_) use ($keyword2) {
+        $ongoing_essay = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', 'tbl_essay_editors.id_essay_clients')->where('editors_mail', $editor->email)->where('status_essay_editors', '!=', 7)->when($keyword2, function ($query_) use ($keyword2) {
             $query_->where(function ($query) use ($keyword2) {
                 $query->whereHas('essay_clients', function ($query_essay) use ($keyword2) {
                     $query_essay->whereHas('client_by_id', function ($query_client) use ($keyword2) {
@@ -68,7 +68,7 @@ class Essays extends Controller
                 });
             });
         // })->orderBy('read', 'asc')->orderBy('uploaded_at', 'desc')->paginate(10);
-        })->orderBy('read', 'asc')->orderBy('essay_deadline', 'asc')->orderBy('application_deadline', 'asc')->paginate(10);
+        })->orderBy('read', 'asc')->orderBy('tbl_essay_clients.essay_deadline', 'asc')->orderBy('tbl_essay_clients.application_deadline', 'asc')->paginate(10);
         $completed_essay = EssayEditors::where('editors_mail', $editor->email)->where('status_essay_editors', '=', 7)->when($keyword2, function ($query_) use ($keyword2) {
             $query_->where(function ($query) use ($keyword2) {
                 $query->whereHas('essay_clients', function ($query_essay) use ($keyword2) {
