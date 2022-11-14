@@ -69,7 +69,7 @@
 
                                                 <td>{{ isset($essay->client_by_id) ? $essay->client_by_id->first_name . ' ' . $essay->client_by_id->last_name : $essay->client_by_email->first_name . ' ' . $essay->client_by_email->last_name }}
                                                 </td>
-                                                <td>{{ isset($essay->mentors) ? $essay->mentors->first_name . ' ' . $essay->mentors->last_name : '-' }}
+                                                <td>{{ isset($essay->mentor) ? $essay->mentor->first_name . ' ' . $essay->mentor->last_name : '-' }}
                                                 </td>
 
                                                 <td>{{ $essay->status_essay_clients == 0 || $essay->status_essay_clients == 4 || $essay->status_essay_clients == 5 ? '-' : $essay->editor->first_name . ' ' . $essay->editor->last_name }}
