@@ -61,7 +61,8 @@ class AllEssaysMenu extends Controller
                         });
                 });
             });
-        })->orderBy('uploaded_at', 'desc')->paginate(10);
+        // })->orderBy('uploaded_at', 'desc')->paginate(10);
+        })->orderBy('essay_deadline', 'asc')->orderBy('application_deadline', 'asc')->paginate(10);
 
         if ($keyword)
             $essays->appends(['keyword' => $keyword]);
@@ -88,7 +89,8 @@ class AllEssaysMenu extends Controller
                             $query_status->where('status_title', 'like', '%' . $keyword . '%');
                         });
                 });
-            })->orderBy('uploaded_at', 'desc')->paginate(10);
+            // })->orderBy('uploaded_at', 'desc')->paginate(10);
+            })->orderBy('essay_deadline', 'asc')->orderBy('application_deadline', 'asc')->paginate(10);
 
         if ($keyword)
             $essays->appends(['keyword' => $keyword]);
@@ -117,7 +119,8 @@ class AllEssaysMenu extends Controller
                             });
                     });
                 });
-            })->orderBy('uploaded_at', 'desc')->paginate(10);
+            // })->orderBy('uploaded_at', 'desc')->paginate(10);
+            })->orderBy('essay_deadline', 'asc')->orderBy('application_deadline', 'asc')->paginate(10);
 
         if ($keyword)
             $essays->appends(['keyword' => $keyword]);

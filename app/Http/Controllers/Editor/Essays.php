@@ -67,7 +67,8 @@ class Essays extends Controller
                     });
                 });
             });
-        })->orderBy('read', 'asc')->orderBy('uploaded_at', 'desc')->paginate(10);
+        // })->orderBy('read', 'asc')->orderBy('uploaded_at', 'desc')->paginate(10);
+        })->orderBy('read', 'asc')->orderBy('essay_deadline', 'asc')->orderBy('application_deadline', 'asc')->paginate(10);
         $completed_essay = EssayEditors::where('editors_mail', $editor->email)->where('status_essay_editors', '=', 7)->when($keyword2, function ($query_) use ($keyword2) {
             $query_->where(function ($query) use ($keyword2) {
                 $query->whereHas('essay_clients', function ($query_essay) use ($keyword2) {
