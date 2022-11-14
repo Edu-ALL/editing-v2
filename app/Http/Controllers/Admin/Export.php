@@ -37,7 +37,7 @@ class Export extends Controller
                 })->when($f_essay_type != "all", function($query) use ($f_essay_type) {
                     $query->whereHas('essay_clients', function ($query1) use ($f_essay_type) {
                         $query1->where('essay_title', 'like', '%'.$f_essay_type.'%');
-                    })->orderBy('completed_at', 'asc');
+                    })->orderBy('completed_at', 'desc');
                 });
 
             $essay_editors = $request->get('f-download') != 1 ? $essay_editors->paginate(10)->appends([
