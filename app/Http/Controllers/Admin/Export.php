@@ -38,7 +38,7 @@ class Export extends Controller
                     $query->whereHas('essay_clients', function ($query1) use ($f_essay_type) {
                         $query1->where('essay_title', 'like', '%'.$f_essay_type.'%');
                     });
-                })->orderBy('uploaded_at', 'desc');
+                })->orderBy('tbl_essay_editors.uploaded_at', 'desc');
 
             $essay_editors = $request->get('f-download') != 1 ? $essay_editors->paginate(10)->appends([
                                                                     '_token' => $f_token,
