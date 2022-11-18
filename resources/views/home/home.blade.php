@@ -97,9 +97,9 @@
       </div>
       <div class="col-md-3 opening mb-3">
         <h5 class="mb-4">Opening Times</h5>
-        <p>Monday - Saturday</p>
-        <p>08.00 - 17.00</p>
-        <p>Address : Jl. Panjang No. 36 Kebon Jeruk Jakarta Barat</p>
+        <p>Monday - Friday</p>
+        <p>09.00 - 17.00</p>
+        <!--<p>Address : Jl. Panjang No. 36 Kebon Jeruk Jakarta Barat</p>-->
       </div>
       <div class="col-md-3 contact">
         <h5 class="mb-4">Contact Us</h5>

@@ -54,6 +54,7 @@ use App\Models\EssayEditors;
 
 Route::post('register/editor', [Editors::class, 'selfAddEditor'])->name('self-add-editor');
 Route::post('invite-editor', [Editors::class, 'invite'])->name('invite-editor');
+Route::get('joined-editor', [Editors::class, 'join_editor'])->name('join-editor');
 
 // Login
 Route::middleware('check.login')->group(function () {

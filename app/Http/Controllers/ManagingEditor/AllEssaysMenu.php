@@ -245,8 +245,9 @@ class AllEssaysMenu extends Controller
         # managing editor data
         $managing_name = Auth::guard('web-editor')->user()->first_name . ' ' . Auth::guard('web-editor')->user()->last_name;
 
+
         # get associate editor data
-        $editor = Editor::find($request->id_editors);
+        $editor = Editor::where('email', $request->id_editors)->first();
 
 
         DB::beginTransaction();
@@ -279,7 +280,7 @@ class AllEssaysMenu extends Controller
         }
 
 
-        $editors_mail = $essay->editor->email;
+        $editors_mail = $essay->essay_editors->editor->email;
 
         $user_token = [
             'email' => $editors_mail,
@@ -467,7 +468,8 @@ class AllEssaysMenu extends Controller
 
         $email = $essay_editor->editors_mail;
         $essay = EssayClients::find($id_essay);
-        $editor = Editor::where('id_editors', $essay->id_editors)->first();
+        // $editor = Editor::where('id_editors', $essay->id_editors)->first();
+        $editor = Editor::where('id_editors', $essay->essay_editors->editor->id_editors)->first();
         $client = Client::where('id_clients', $essay->id_clients)->first();
 
         $data = [

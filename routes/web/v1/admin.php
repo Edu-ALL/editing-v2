@@ -54,4 +54,4 @@ Route::post('essay-list/ongoing/cancel/{id_essay}', [Essays::class, 'cancel'])->
 // Route::post('essay-list/ongoing/verify/{id_essay}', [Essays::class, 'verifyEssay'])->name('verify-essay');
 // Route::post('essay-list/ongoing/revise/{id_essay}', [Essays::class, 'reviseEssay'])->name('revise-essay');
 
-Route::get('joined-editor', [Editors::class, 'join_editor'])->name('join-editor');
+

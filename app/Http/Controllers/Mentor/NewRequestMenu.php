@@ -79,7 +79,7 @@ class NewRequestMenu extends Controller
         $fileName = $request->attached_of_clients->getClientOriginalName();
         $fileExt = $request->attached_of_clients->getClientOriginalExtension();
 
-        $cstFileName = $client->first_name . '_Essay_by_' . $mentor->first_name . '(' . date('d-m-Y') . ').' . $fileExt;
+        $cstFileName = str_replace(' ', '', $client->first_name) . '_Essay_by_' . str_replace(' ', '', $mentor->first_name) . '(' . date('d-m-Y') . ').' . $fileExt;
         // $filePath = 'program/essay/mentors/'.$fileName;
         $filePath = 'program/essay/students/' . $cstFileName;
         Storage::disk('public_assets')->put($filePath, file_get_contents($request->attached_of_clients));
