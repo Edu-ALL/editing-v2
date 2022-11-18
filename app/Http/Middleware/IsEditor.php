@@ -21,6 +21,6 @@ class IsEditor
             return $next($request);
         }
 
-        return redirect('home')->with('error', 'You don\'t have editor access.');
+        return redirect('/')->with('error', 'You don\'t have editor access.');
     }
 }

@@ -357,7 +357,7 @@ class Essays extends Controller
                         File::delete($file_path);
                     }
                 }
-                $file_name = 'Editing-' . $essay->client_by_id->first_name . '-' . $essay->client_by_id->last_name . '-Essays-by-' . $essay->editor->first_name . '(' . date('d-m-Y') . ')';
+                $file_name = 'Editing-' . $essay->client_by_id->first_name . '-' . $essay->client_by_id->last_name . '-Essays-by-' . $essay->essay_editors->editor->first_name . '(' . date('d-m-Y') . ')';
                 $file_name = str_replace(' ', '-', $file_name);
                 $file_format = $request->file('uploaded_file')->getClientOriginalExtension();
                 $med_file_path = $request->file('uploaded_file')->storeAs('program/essay/editors', $file_name . '.' . $file_format, ['disk' => 'public_assets']);
@@ -467,7 +467,7 @@ class Essays extends Controller
                         File::delete($file_path);
                     }
                 }
-                $file_name = 'Revised_by_' . $essay->editor->first_name . '_' . $essay->editor->last_name . '(' . date('d-m-Y') . ')';
+                $file_name = 'Revised_by_' . $essay->essay_editors->editor->first_name . '_' . $essay->essay_editors->editor->last_name . '(' . date('d-m-Y') . ')';
                 $file_name = str_replace(' ', '_', $file_name);
                 $file_format = $request->file('uploaded_file')->getClientOriginalExtension();
                 $med_file_path = $request->file('uploaded_file')->storeAs('program/essay/revised', $file_name . '.' . $file_format, ['disk' => 'public_assets']);
