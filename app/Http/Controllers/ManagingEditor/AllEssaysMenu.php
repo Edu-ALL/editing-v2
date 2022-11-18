@@ -420,7 +420,7 @@ class AllEssaysMenu extends Controller
 
         $validator = Validator::make($request->all() + ['id_essay_clients' => $id_essay], $rules);
         if ($validator->fails()) {
-            dd($validator->messages());
+            // dd($validator->messages());
             return Redirect::back()->withErrors($validator->messages());
         }
 
