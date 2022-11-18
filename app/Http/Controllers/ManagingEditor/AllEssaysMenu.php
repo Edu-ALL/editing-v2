@@ -246,7 +246,7 @@ class AllEssaysMenu extends Controller
         $managing_name = Auth::guard('web-editor')->user()->first_name . ' ' . Auth::guard('web-editor')->user()->last_name;
 
         # get associate editor data
-        $editor = Editor::find($request->id_editors);
+        $editor = Editor::where('email', $request->id_editors)->first();
 
 
         DB::beginTransaction();
