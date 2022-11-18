@@ -49,7 +49,8 @@
                         </div>
                     </div>
                     <div class="modal-body text-center px-4 py-4 my-md-3">
-                        <p> {{ session()->get('delete-essay-successful') !== NULL ? session()->get('delete-essay-successful') : session()->get('message') }} <span style="color: var(--red)">*</span></p>
+                        <p> {{ session()->get('delete-essay-successful') !== null ? session()->get('delete-essay-successful') : session()->get('message') }}
+                            <span style="color: var(--red)">*</span></p>
                     </div>
                 </div>
             </div>
@@ -74,16 +75,17 @@
     <script>
         var main = document.getElementById('main');
         let height = window.innerHeight;
-        main.style.minHeight = height + "px";            
+        main.style.minHeight = height + "px";
     </script>
     @if (session()->has('delete-essay-successful') || session()->has('message'))
-    <script>
-        $(document).ready(function(){
-            $("#notif").modal('show');
-        });
-    </script>
+        <script>
+            $(document).ready(function() {
+                $("#notif").modal('show');
+            });
+        </script>
     @endif
     @yield('js')
+    @include('component.loading')
     <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
     <script src="/js/toast.js"></script>
     <script>
