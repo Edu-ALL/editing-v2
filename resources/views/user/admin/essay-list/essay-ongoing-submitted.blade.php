@@ -43,7 +43,7 @@
               <h6>Assignment</h6>
             </div>
             <div class="col d-flex flex-column px-3 pt-md-4 pt-4 pb-4 text-center justify-content-center" style="color: var(--black)">
-              <h6 style="font-size: 14px; font-weight: 400">{{ $essay->editor->first_name.' '.$essay->editor->last_name }}</h6>
+              <h6 style="font-size: 14px; font-weight: 400">{{ $essay->essay_editors->editor->first_name.' '.$essay->essay_editors->editor->last_name }}</h6>
             </div>
             <div class="headline d-flex align-items-center gap-3" style="background-color: var(--yellow)">
               <img src="/assets/file.png" alt="">
