@@ -96,7 +96,8 @@ class NewRequestMenu extends Controller
             $new_request->essay_prompt          = $request->essay_prompt;
             $new_request->id_clients            = $request->id_clients;
             $new_request->email                 = $client->email;
-            $new_request->mentors_mail          = $client->mentors->email;
+            // $new_request->mentors_mail          = $client->mentors->email;
+            $new_request->mentors_mail          = $mentor->email;
             $new_request->essay_deadline        = $request->essay_deadline;
             $new_request->application_deadline  = $request->application_deadline;
 

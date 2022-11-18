@@ -357,7 +357,13 @@ class Essays extends Controller
                         File::delete($file_path);
                     }
                 }
-                $file_name = 'Editing-' . $essay->client_by_id->first_name . '-' . $essay->client_by_id->last_name . '-Essays-by-' . $essay->essay_editors->editor->first_name . '(' . date('d-m-Y') . ')';
+                if (isset($essay->client_by_id)) {
+
+                    $file_name = 'Editing-' . $essay->client_by_id->first_name . '-' . $essay->client_by_id->last_name . '-Essays-by-' . $essay->essay_editors->editor->first_name . '(' . date('d-m-Y') . ')';
+                } else if (isset($essay->client_by_email)) {
+
+                    $file_name = 'Editing-' . $essay->client_by_email->first_name . '-' . $essay->client_by_email->last_name . '-Essays-by-' . $essay->essay_editors->editor->first_name . '(' . date('d-m-Y') . ')';
+                }
                 $file_name = str_replace(' ', '-', $file_name);
                 $file_format = $request->file('uploaded_file')->getClientOriginalExtension();
                 $med_file_path = $request->file('uploaded_file')->storeAs('program/essay/editors', $file_name . '.' . $file_format, ['disk' => 'public_assets']);
