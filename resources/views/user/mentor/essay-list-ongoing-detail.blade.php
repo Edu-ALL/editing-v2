@@ -152,14 +152,14 @@
                                         </div>
                                         <div class="col-7">
                                             <p>
-                                                @if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 5)
+                                                @if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4 || $essay->status_essay_clients == 5)
                                                     @if ($essay->editor != null)
                                                         {{ $essay->editor->first_name.' '.$essay->editor->last_name }}
                                                     @else
                                                         -
                                                     @endif
                                                 @else
-                                                    {{ $essay->editor->first_name.' '.$essay->editor->last_name }}
+                                                    {{ $essay->essay_editors->editor->first_name.' '.$essay->essay_editors->editor->last_name }}
                                                 @endif
                                             </p>
                                             {{-- <p>{{ $essay->editor->first_name . ' ' . $essay->editor->last_name }}</p> --}}
