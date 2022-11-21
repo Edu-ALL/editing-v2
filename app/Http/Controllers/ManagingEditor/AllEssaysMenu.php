@@ -369,6 +369,10 @@ class AllEssaysMenu extends Controller
             $essay = EssayClients::find($id_essay);
             $essay->status_essay_clients = 7;
             $essay->completed_at = date('Y-m-d H:i:s');
+
+            # update status read
+            $essay->status_read = 0;
+
             $essay->save();
             // Pusher 
             event(new MentorNotif($essay->mentors_mail, 'Congratulations, your essay has been completed.'));
@@ -428,6 +432,8 @@ class AllEssaysMenu extends Controller
         try {
             $essay = EssayClients::find($id_essay);
             $essay->status_essay_clients = 6;
+            # update status read editor
+            $essay->status_read_editor = 1;
             $essay->save();
 
             $essay_status = new EssayStatus;

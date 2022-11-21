@@ -85,6 +85,12 @@ class EssaysMenu extends Controller
         if (!$essay = EssayClients::find($id)) {
             return Redirect::to('mentor/essay-list/ongoing')->with('message', 'Essay not found');
         }
+
+        # update status read
+        if ($essay->status_read == 0) {
+            $essay->status_read = 1;
+            $essay->save();
+        }
         
         return view('user.mentor.essay-list-ongoing-detail', [
             'essay' => $essay
@@ -94,16 +100,22 @@ class EssaysMenu extends Controller
 
     public function detailCompletedEssay($id)
     {
-
+        
         if (!$essay = EssayEditors::where('id_essay_clients', $id)->first()) {
             return Redirect::to('mentor/essay-list/completed');
         }
-        
+
         $essay_client = EssayClients::where('id_essay_clients', $id)->first();
         if ($essay_client->essay_deadline > $essay->uploaded_at) {
             $status_essay = 'On Time';
         } else {
             $status_essay = 'Late';
+        }
+
+        # update status read
+        if ($essay_client->status_read == 0) {
+            $essay_client->status_read = 1;
+            $essay_client->save();
         }
         
         return view('user.mentor.essay-list-completed-detail', [
@@ -164,6 +176,8 @@ class EssaysMenu extends Controller
 
             $essay = EssayClients::find($id);
             $essay->essay_rating = ($rate_1 + $rate_2 + $rate_3 + $rate_4 + $rate_5 + $rate_6)/6;
+            # update status read editor
+            $essay->status_read_editor = 0;
             $essay->save();
 
             DB::commit();

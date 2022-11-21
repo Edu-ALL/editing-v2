@@ -173,6 +173,8 @@ class Essays extends Controller
         try {
             $essay = EssayClients::find($id_essay);
             $essay->status_essay_clients = 2;
+            # update status read editor
+            $essay->status_read_editor = 0;
             $essay->save();
 
             $essay_editor = EssayEditors::where('id_essay_clients', '=', $id_essay)->first();
@@ -215,6 +217,8 @@ class Essays extends Controller
         try {
             $essay = EssayClients::find($id_essay);
             $essay->status_essay_clients = 5;
+            # update status read editor
+            $essay->status_read_editor = 0;
             $essay->id_editors = '';
             $essay->save();
 
@@ -344,7 +348,10 @@ class Essays extends Controller
         try {
             $essay = EssayClients::find($id_essay);
             $essay->status_essay_clients = 3;
+            # update status read editor
+            $essay->status_read_editor = 0;
             $essay->save();
+            
 
             $essay_editor = EssayEditors::where('id_essay_clients', '=', $id_essay)->first();
             $essay_editor->status_essay_editors = 3;
@@ -421,6 +428,12 @@ class Essays extends Controller
         $editor = Auth::guard('web-editor')->user();
         DB::beginTransaction();
         try {
+
+            # update status read editor
+            $essay = EssayClients::find($id_essay);
+            $essay->status_read_editor = 0;
+            $essay->save();
+
             $essay_revise = new EssayRevise;
             $essay_revise->id_essay_clients = $id_essay;
             $essay_revise->editors_mail = $editor->email;
@@ -428,6 +441,7 @@ class Essays extends Controller
             $essay_revise->notes = $request->comment;
             $essay_revise->created_at = date('Y-m-d H:i:s');
             $essay_revise->save();
+
 
             DB::commit();
         } catch (Exception $e) {
@@ -460,6 +474,8 @@ class Essays extends Controller
         try {
             $essay = EssayClients::find($id_essay);
             $essay->status_essay_clients = 8;
+            # update status read editor
+            $essay->status_read_editor = 0;
             $essay->save();
 
             $essay_editor = EssayEditors::where('id_essay_clients', '=', $id_essay)->first();

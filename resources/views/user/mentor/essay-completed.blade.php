@@ -56,21 +56,32 @@
                                     <tbody>
                                         <?php $i = ($essays->currentpage() - 1) * $essays->perpage() + 1; ?>
                                         @foreach ($essays as $essay)
+                                            @if($essay->essay_clients->status_read == 0)
+                                                @php 
+                                                $read = "text-dark fw-bold";
+                                                $title = "Unread";
+                                                @endphp
+                                            @else
+                                                @php
+                                                $read = "";
+                                                $title = "Read";
+                                                @endphp
+                                            @endif
                                             <tr
                                                 onclick="window.location='/mentor/essay-list/completed/detail/{{ $essay->id_essay_clients }}'">
-                                                <th scope="row">{{ $i++ }}</th>
+                                                <th scope="row" class="{{ $read }}" title="{{ $title }}">{{ $i++ }}</th>
 
-                                                <td>{{ isset($essay->essay_clients->client_by_id) ? $essay->essay_clients->client_by_id->first_name . ' ' . $essay->essay_clients->client_by_id->last_name : $essay->essay_clients->client_by_email->first_name . ' ' . $essay->essay_clients->client_by_email->last_name }}
+                                                <td class="{{ $read }}" title="{{ $title }}">{{ isset($essay->essay_clients->client_by_id) ? $essay->essay_clients->client_by_id->first_name . ' ' . $essay->essay_clients->client_by_id->last_name : $essay->essay_clients->client_by_email->first_name . ' ' . $essay->essay_clients->client_by_email->last_name }}
                                                 </td>
-                                                <td>{{ $essay->essay_clients->mentor->first_name . ' ' . $essay->essay_clients->mentor->last_name }}
+                                                <td class="{{ $read }}" title="{{ $title }}">{{ $essay->essay_clients->mentor->first_name . ' ' . $essay->essay_clients->mentor->last_name }}
                                                 </td>
 
-                                                <td>{{ $essay->editor ? $essay->editor->first_name . ' ' . $essay->editor->last_name : '-' }}
+                                                <td class="{{ $read }}" title="{{ $title }}">{{ $essay->editor ? $essay->editor->first_name . ' ' . $essay->editor->last_name : '-' }}
                                                 </td>
-                                                <td>{{ $essay->essay_clients->essay_title }}</td>
-                                                <td>{{ date('D, d M Y', strtotime($essay->essay_clients->essay_deadline)) }}
+                                                <td class="{{ $read }}" title="{{ $title }}">{{ $essay->essay_clients->essay_title }}</td>
+                                                <td class="{{ $read }}" title="{{ $title }}">{{ date('D, d M Y', strtotime($essay->essay_clients->essay_deadline)) }}
                                                 </td>
-                                                <td style="color: var(--green)">{{ $essay->status->status_title }}</td>
+                                                <td style="color: var(--green)" class="{{ $read }}" title="{{ $title }}">{{ $essay->status->status_title }}</td>
                                             </tr>
                                         @endforeach
 

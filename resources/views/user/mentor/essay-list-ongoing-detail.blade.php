@@ -27,7 +27,7 @@
                                     || $essay->status_essay_clients != '4' 
                                     || $essay->status_essay_clients != '5' )
                                     <h6>Editor Request : 
-                                        @if (isset($essay->editor)
+                                        @if (isset($essay->editor))
                                             {{ $essay->editor->first_name.' '.$essay->editor->last_name }}
                                         @elseif (isset($essay->essay_editors->editor))
                                             {{ $essay->essay_editors->editor->first_name.' '.$essay->essay_editors->editor->last_name }}
