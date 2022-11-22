@@ -247,7 +247,7 @@ class AllEssaysMenu extends Controller
 
 
         # get associate editor data
-        $editor = Editor::where('email', $request->id_editors)->first();
+        $editor = Editor::where('email', $request->id_editors)->where('status', 1)->first();
 
 
         DB::beginTransaction();
