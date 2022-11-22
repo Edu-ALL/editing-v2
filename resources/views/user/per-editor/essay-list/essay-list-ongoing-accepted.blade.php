@@ -133,6 +133,12 @@
                 <h6>Upload Your File</h6>
               </div>
             </div>
+            
+            <div>
+              @if ($errors->any())
+                  {!! implode('', $errors->all('<div class="alert alert-danger" role="alert">:message</div>')) !!}
+              @endif
+            </div>
             <form action="{{ route('upload-essay', ['id_essay' => $essay->id_essay_clients]) }}" class="p-0" id="form-essay" enctype="multipart/form-data" method="POST">
               @csrf
               <div class="row field px-2 py-md-4 py-4" style="overflow: auto !important">
@@ -223,7 +229,7 @@
 </div>
 
 {{-- Modal Info --}}
-<div class="modal fade" id="info" tabindex="-1" aria-hidden="true">
+{{-- <div class="modal fade" id="info" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog d-flex align-items-center justify-content-center">
     <div class="modal-content border-0 w-75">
       <div class="modal-header" style="background-color: var(--blue)">
@@ -240,7 +246,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> --}}
 @endsection
 
 @section('js')

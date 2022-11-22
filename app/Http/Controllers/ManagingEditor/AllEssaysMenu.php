@@ -388,7 +388,7 @@ class AllEssaysMenu extends Controller
             $essay_editor->status_essay_editors = 7;
             // Upload Acc File
             if ($request->hasFile('uploaded_acc_file')) {
-                $file_name = 'Revised_by_' . $editor->first_name . '_' . $editor->last_name . '(' . date('d-m-Y_H:i:s') . ')';
+                $file_name = 'Revised_by_' . $editor->first_name . '_' . $editor->last_name . '(' . date('d-m-Y_His') . ')';
                 // $file_name = str_replace(' ', '-', $file_name);
                 $file_format = $request->file('uploaded_acc_file')->getClientOriginalExtension();
                 $med_file_path = $request->file('uploaded_acc_file')->storeAs('program/essay/revised', $file_name.'.'.$file_format, ['disk' => 'public_assets']);
@@ -454,7 +454,7 @@ class AllEssaysMenu extends Controller
             $essay_revise->notes = $request->notes;
             // Upload Revise File
             if ($request->hasFile('uploaded_revise_file')) {
-                $file_name = 'Revise-' . date('d-m-Y_H:i:s');
+                $file_name = 'Revise-' . date('d-m-Y_His');
                 $file_name = str_replace(' ', '-', $file_name);
                 $file_format = $request->file('uploaded_revise_file')->getClientOriginalExtension();
                 $med_file_path = $request->file('uploaded_revise_file')->storeAs('program/essay/revise', $file_name . '.' . $file_format, ['disk' => 'public_assets']);

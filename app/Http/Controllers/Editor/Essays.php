@@ -25,6 +25,7 @@ use Exception;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class Essays extends Controller
@@ -347,8 +348,8 @@ class Essays extends Controller
             return Redirect::back()->withErrors($validator->messages());
         }
 
-        DB::beginTransaction();
-        try {
+        // DB::beginTransaction();
+        // try {
             $essay = EssayClients::find($id_essay);
             $essay->status_essay_clients = 3;
             # update status read editor
@@ -369,10 +370,10 @@ class Essays extends Controller
                 }
                 if (isset($essay->client_by_id)) {
 
-                    $file_name = 'Editing-' . $essay->client_by_id->first_name . '-' . $essay->client_by_id->last_name . '-Essays-by-' . $essay->essay_editors->editor->first_name . '(' . date('d-m-Y_H:i:s') . ')';
+                    $file_name = 'Editing-' . $essay->client_by_id->first_name . '-' . $essay->client_by_id->last_name . '-Essays-by-' . $essay->essay_editors->editor->first_name . '(' . date('d-m-Y_His') . ')';
                 } else if (isset($essay->client_by_email)) {
 
-                    $file_name = 'Editing-' . $essay->client_by_email->first_name . '-' . $essay->client_by_email->last_name . '-Essays-by-' . $essay->essay_editors->editor->first_name . '(' . date('d-m-Y_H:i:s') . ')';
+                    $file_name = 'Editing-' . $essay->client_by_email->first_name . '-' . $essay->client_by_email->last_name . '-Essays-by-' . $essay->essay_editors->editor->first_name . '(' . date('d-m-Y_His') . ')';
                 }
                 $file_name = str_replace(' ', '-', $file_name);
                 $file_format = $request->file('uploaded_file')->getClientOriginalExtension();
@@ -401,11 +402,12 @@ class Essays extends Controller
             $work_duration->duration = $essay_editor->work_duration;
             $work_duration->save();
 
-            DB::commit();
-        } catch (Exception $e) {
-            DB::rollBack();
-            return Redirect::back()->withErrors($e->getMessage());
-        }
+            // DB::commit();
+        // } catch (Exception $e) {
+        //     DB::rollBack();
+        //     Log::error($e->getMessage());
+        //     return Redirect::back()->withErrors($e->getMessage());
+        // }
 
         $editor = Auth::guard('web-editor')->user();
         $client = Client::where('id_clients', $essay->id_clients)->first();
@@ -495,7 +497,7 @@ class Essays extends Controller
                         File::delete($file_path);
                     }
                 }
-                $file_name = 'Revised_by_' . $essay->essay_editors->editor->first_name . '_' . $essay->essay_editors->editor->last_name . '(' . date('d-m-Y_H:i:s') . ')';
+                $file_name = 'Revised_by_' . $essay->essay_editors->editor->first_name . '_' . $essay->essay_editors->editor->last_name . '(' . date('d-m-Y_His') . ')';
                 $file_name = str_replace(' ', '_', $file_name);
                 $file_format = $request->file('uploaded_file')->getClientOriginalExtension();
                 $med_file_path = $request->file('uploaded_file')->storeAs('program/essay/revised', $file_name . '.' . $file_format, ['disk' => 'public_assets']);
