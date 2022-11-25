@@ -4,6 +4,8 @@
         .unread {
             font-weight: 600
         }
+        .pagination { margin: 15px 0}
+        .pagination .page-item .page-link { padding: 10px 15px; font-size: 12px; }
     </style>
 @endsection
 @section('content')
