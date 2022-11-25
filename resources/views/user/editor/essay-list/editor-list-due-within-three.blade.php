@@ -58,8 +58,8 @@
                                             <td class="{{ $essay->read == 0 ? 'unread' : '' }}">{{ $essay->essay_clients->client_by_id->first_name.' '.$essay->essay_clients->client_by_id->last_name }}</td>
                                             <td class="{{ $essay->read == 0 ? 'unread' : '' }}">{{ $essay->essay_clients->client_by_id->mentors->first_name.' '.$essay->essay_clients->client_by_id->mentors->last_name  }}</td>
                                             <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                @if ($essay->editor != null)
-                                                    {{ $essay->editor->first_name.' '.$essay->editor->last_name }}
+                                                @if ($essay->essay_editors->editor != null)
+                                                    {{ $essay->essay_editors->editor->first_name.' '.$essay->essay_editors->editor->last_name }}
                                                 @elseif ($essay->status_essay_clients == 0 || $essay->editor == null)
                                                     -
                                                 @endif

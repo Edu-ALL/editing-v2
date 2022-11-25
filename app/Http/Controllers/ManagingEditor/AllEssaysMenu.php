@@ -156,22 +156,22 @@ class AllEssaysMenu extends Controller
         return view('user.editor.all-essays.essay-completed', ['essays' => $essays]);
     }
 
-    public function dueEssayEditor($start, $num)
+    public function dueEssayEditor($start, $num, $email)
     {
         $today = date('Y-m-d');
         $start = date('Y-m-d', strtotime('+' . $start . ' days', strtotime($today)));
         $dueDate = date('Y-m-d', strtotime('+' . $num . ' days', strtotime($today)));
-        $essay = EssayClients::where('status_essay_clients', '!=', 0)->where('status_essay_clients', '!=', 4)->where('status_essay_clients', '!=', 5)->where('status_essay_clients', '!=', 7);
-        $essay->where('essay_deadline', '>', $start);
-        $essay->where('essay_deadline', '<=', $dueDate);
-        return $essay->get();
+        $essay = EssayEditors::whereHas('essay_clients', function ($query) use ($start, $dueDate, $email) {
+            $query->whereBetween('essay_deadline', [$start, $dueDate]);
+        })->whereIn('status_essay_editors', ['1', '2', '3', '6', '8'])->where('editors_mail', $email)->count();
+        return $essay;
     }
 
     public function detailEssayManaging($id_essay, Request $request)
     {
         $essay = EssayClients::find($id_essay);
         if ($essay) {
-            $editors = Editor::get();
+            $editors = Editor::all();
             // $essay = EssayClients::find($id_essay);
             $essay_editor = EssayEditors::where('id_essay_clients', $id_essay)->first();
 
@@ -187,14 +187,17 @@ class AllEssaysMenu extends Controller
                 $essay->save();
                 DB::commit();
             }
+            
+            $editors->map(function($data) {
+                $data['dueTomorrow'] = $this->dueEssayEditor('0', '1', $data['email']);
+                $data['dueThree'] = $this->dueEssayEditor('2', '3', $data['email']);
+                $data['dueFive'] = $this->dueEssayEditor('4', '5', $data['email']);
+            });
 
             if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4 || $essay->status_essay_clients == 5) {
                 return view('user.editor.all-essays.essay-ongoing-detail', [
                     'essay' => $essay,
                     'editors' => $editors,
-                    'dueTomorrow' => $this->dueEssayEditor('0', '1'),
-                    'dueThree' => $this->dueEssayEditor('1', '3'),
-                    'dueFive' => $this->dueEssayEditor('3', '5'),
                     'completedEssay' => EssayEditors::where('status_essay_editors', 7)->get()
                 ]);
             } else if ($essay->status_essay_clients == 1) {
@@ -337,7 +340,7 @@ class AllEssaysMenu extends Controller
         $managing = Auth::guard('web-editor')->user();
         $client = Client::where('id_clients', $essay->id_clients)->first();
         $editor = Editor::where('id_editors', $essay->id_editors)->first();
-        $email = $essay->editor->email;
+        $email = $essay->essay_editors->editor->email;
 
         $data = [
             'managing' => $managing,
