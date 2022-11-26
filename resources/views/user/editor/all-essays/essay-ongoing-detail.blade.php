@@ -197,9 +197,9 @@
                   <th scope="row">{{ $i++ }}</th>
                   <td>{{ $editor->first_name.' '.$editor->last_name }}</td>
                   <td>{{ $editor->graduated_from }}</td>
-                  <td>{{ $dueTomorrow->where('id_editors', $editor->id_editors)->count() }} Essays</td>
-                  <td>{{ $dueThree->where('id_editors', $editor->id_editors)->count() }} Essays</td>
-                  <td>{{ $dueFive->where('id_editors', $editor->id_editors)->count() }} Essays</td>
+                  <td>{{ $editor->dueTomorrow }} Essays</td>
+                  <td>{{ $editor->dueThree }} Essays</td>
+                  <td>{{ $editor->dueFive }} Essays</td>
                   <td>{{ $completedEssay->where('editors_mail', $editor->email)->count() }} Essays</td>
                   <td class="d-flex align-items-center justify-content-center">
                     <div class="form-check d-flex align-items-center justify-content-center">
