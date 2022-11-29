@@ -164,7 +164,7 @@
                                                     <input type="date" id="minEssay" name="essay_deadline"
                                                         class="form-control inputField py-2 px-2" placeholder="Search"
                                                         onchange="addMinApp()"
-                                                        min="<?= date('Y-m-d', strtotime('+1days')) ?>"
+                                                        min="<?= date('Y-m-d', strtotime('+0days')) ?>"
                                                         style="width: 96.5%;">
                                                     @error('essay_deadline')
                                                         <small class="alert text-danger fs-10">{{ $message }}</small>
