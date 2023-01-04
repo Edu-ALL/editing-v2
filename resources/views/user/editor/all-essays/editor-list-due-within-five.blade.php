@@ -60,7 +60,7 @@
                                             <td class="{{ $essay->status_read_editor == 0 ? 'unread' : '' }}">{{ $essay->client_by_id->mentors->first_name.' '.$essay->client_by_id->mentors->last_name  }}</td>
                                             {{-- <td class="{{ $essay->status_read_editor == 0 ? 'unread' : '' }}">{{ $essay->status_essay_clients == 0 ? '-' : $essay->editor->first_name.' '.$essay->editor->last_name }}</td> --}}
                                             <td class="{{ $essay->status_read_editor == 0 ? 'unread' : '' }}">
-                                                @if ($essay->essay_editors->editor != null)
+                                                @if ($essay->essay_editors && $essay->essay_editors->editor != null)
                                                     {{ $essay->essay_editors->editor->first_name.' '.$essay->essay_editors->editor->last_name }}
                                                 @elseif ($essay->status_essay_clients == 0 || $essay->editor == null)
                                                     -
