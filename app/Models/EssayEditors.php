@@ -22,6 +22,7 @@ class EssayEditors extends Model
         'managing_file',
         'work_duration',
         'notes_editors',
+        'notes_managing',
         'status_essay_editors',
         'read',
         'uploaded_at',

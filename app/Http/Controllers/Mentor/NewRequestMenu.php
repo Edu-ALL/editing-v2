@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\DB;
 // use Illuminate\Support\Facades\File; 
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class NewRequestMenu extends Controller
@@ -110,6 +111,7 @@ class NewRequestMenu extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
 
@@ -123,8 +125,16 @@ class NewRequestMenu extends Controller
             'essay_prompt' => $request->essay_prompt
         ];
 
-        // Pusher 
-        event(new ManagingNotif('Mentor has uploaded the essay.'));
+        try {
+            
+            // Pusher 
+            event(new ManagingNotif('Mentor has uploaded the essay.'));
+        } catch (Exception $e) {
+
+            Log::error('Pusher store new request from mentor : '.$e->getMessage());
+
+        }
+
 
         $this->sendEmail('new-request', $data);
 

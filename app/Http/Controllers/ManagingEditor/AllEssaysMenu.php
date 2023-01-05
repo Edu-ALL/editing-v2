@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Redirect;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
@@ -279,6 +280,7 @@ class AllEssaysMenu extends Controller
             $essay_status->save();
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
 
@@ -397,6 +399,7 @@ class AllEssaysMenu extends Controller
                 $med_file_path = $request->file('uploaded_acc_file')->storeAs('program/essay/revised', $file_name.'.'.$file_format, ['disk' => 'public_assets']);
                 $essay_editor->managing_file = $file_name.'.'.$file_format;
             }
+            $essay_editor->notes_managing = $request->notes_managing;
             $essay_editor->save();
 
             // Pusher 
@@ -405,6 +408,7 @@ class AllEssaysMenu extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
 
@@ -467,7 +471,7 @@ class AllEssaysMenu extends Controller
             $essay_revise->save();
 
             // Pusher 
-            event(new EditorNotif($essay_editor->editors_mail, 'Please, revise your essay.'));
+            // event(new EditorNotif($essay_editor->editors_mail, 'Please, revise your essay.'));
 
             DB::commit();
         } catch (Exception $e) {

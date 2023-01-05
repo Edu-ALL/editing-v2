@@ -198,10 +198,13 @@ class EssayListMenu extends Controller
                 DB::commit();
             }
 
+            # accept / reject page
             if ($essay->status_essay_clients == 1) {
                 return view('user.editor.essay-list.editor-essay-list-ongoing', [
                     'essay' => $essay
                 ]);
+
+            # first page that editor should upload the essay
             } else if ($essay->status_essay_clients == 2) {
                 return view('user.editor.essay-list.editor-essay-list-accepted', [
                     'essay' => $essay,

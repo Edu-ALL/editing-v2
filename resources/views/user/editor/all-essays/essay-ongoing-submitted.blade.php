@@ -43,6 +43,29 @@
                 <h6>Download</h6>
               </a>
             </div>
+            @if (isset($essay->essay_editors->notes_editors))
+              <div class="headline d-flex align-items-center gap-3">
+                <img src="/assets/download.png" alt="">
+                <h6>Notes</h6>
+              </div>
+              <div class="col d-flex flex-column px-3 py-md-4 py-4 my-md-1 countEssay text-center justify-content-center" style="color: var(--black)">
+                <div class="col d-flex flex-row flex-wrap gap-2 justify-content-center">
+                    {!! $essay->essay_editors->notes_editors !!}
+                </div>
+              </div>
+            @endif
+            {{-- @if ($essay->editors->notes_managing !== NULL)
+            <div class="headline d-flex align-items-center gap-3">
+              <img src="/assets/download.png" alt="">
+              <h6>Notes</h6>
+            </div>
+            <div class="col d-flex flex-column px-3 py-md-4 py-4 my-md-1 countEssay text-center justify-content-center" style="color: var(--black)">
+              <div class="col d-flex flex-row flex-wrap gap-2 justify-content-center">
+                @if (($essay->editors->managing_file != "") || ($essay->editors->managing_file != NULL) )
+                  {!! $essay->editors->notes_managing !!}
+              </div>
+            </div>
+            @endif --}}
             
           </div>
           
@@ -171,7 +194,7 @@
                 </div>
                 <div class="col-lg-7 col">
                   <div class="col">
-                    <h6 class="pb-2">Notes :</h6>
+                    <h6 class="pb-2">Comments :</h6>
                     <div class="chat-messages p-3 w-100">
                       @foreach ($essay_revise->reverse() as $revise)
                         @if ($revise->role == 'managing_editor')
@@ -243,6 +266,13 @@
                   </div>
                 </div>
               </div>
+              <div class="col-12 d-none" id="notesField">
+                <div class="h-auto pb-3">
+                  <h6 class="pb-2">Notes :</h6>
+                  {{-- <input type="text" class="form-control inputField py-2 px-3" disabled value="{{ date('D, d M Y', strtotime($essay->essay_deadline)) }}"> --}}
+                  <textarea name="notes_managing" form="form-accept" class="textarea" id="" cols="30" rows="10"></textarea>
+                </div>
+              </div>
               <div class="col-12 d-flex justify-content-center pt-3" style="border-top: 1px solid var(--light-grey)">
                 <form action="{{ route('verify-editor-essay', ['id_essay' => $essay->id_essay_clients]) }}" enctype="multipart/form-data" method="POST" id="form-accept" class="p-0">
                   @csrf
@@ -272,12 +302,15 @@
     function checkUpload(){
       var check = document.getElementById('myCheck');
       var input = document.getElementById('inputField');
+      var notes = document.getElementById('notesField');
       var upload = document.getElementById('uploadAcc');
       if (check.checked == true){
         input.classList.remove("d-none");
+        notes.classList.remove("d-none");
         upload.required = true;
       } else {
         input.classList.add("d-none");
+        notes.classList.add("d-none");
         upload.required = false;
       }
     }
