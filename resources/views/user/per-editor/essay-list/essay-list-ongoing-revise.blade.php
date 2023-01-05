@@ -257,7 +257,8 @@
                     <select class="select-state" name="tag[]" id="tag">
                       <option value=""></option>
                       @foreach ($list_tags as $tags)
-                        <option value="{{ $tags->id_topic }}">{{ $tags->topic_name }}</option>
+                        <option value="{{ $tags->id_topic }}"
+                          >{{ $tags->topic_name }}</option>
                       @endforeach
                     </select>
                     @error('tag')
