@@ -115,8 +115,15 @@
                 </div>
                 <div class="col-12 d-flex mb-4" style="overflow: auto !important">
                   <div class="col">
-                    <h6 class="pb-2">Essay Prompt :</h6>
+                    <h6 class="pb-2">Concern :</h6>
                     <textarea name="" class="textarea" style="overflow: auto !important">{{ $essay->essay_prompt }}</textarea>
+                  </div>
+                </div>
+                <div class="col-12 d-flex mb-4" style="overflow: auto !important">
+                  <div class="col">
+                    <h6 class="pb-2">Notes :</h6>
+                    <div style="font-size:12px">{!! $essay->essay_notes !!}</div>
+                    {{-- <textarea name="" class="textarea" style="overflow: auto !important">{{ $essay->essay_prompt }}</textarea> --}}
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-3">

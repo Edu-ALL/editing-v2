@@ -170,8 +170,14 @@
               </div>
               <div class="col-12 d-flex mb-4" style="overflow: auto !important">
                 <div class="col">
-                  <h6 class="pb-2">Essay Prompt :</h6>
+                  <h6 class="pb-2">Concern :</h6>
                   <textarea name="" class="textarea" style="overflow: auto !important">{{ $essay->essay_clients->essay_prompt }}</textarea>
+                </div>
+              </div>
+              <div class="col-12 d-flex mb-4" style="overflow: auto !important">
+                <div class="col">
+                  <h6 class="pb-2">Notes :</h6>
+                  <div style="font-size: 12px">{!! $essay->essay_clients->essay_notes !!}</div>
                 </div>
               </div>
               <div class="col-12 d-flex flex-lg-row flex-column mb-3">

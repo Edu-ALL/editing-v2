@@ -53,6 +53,7 @@ class NewRequestMenu extends Controller
             'number_of_word' => 'required',
             'essay_title' => 'required',
             'essay_prompt' => 'required',
+            'essay_notes' => 'nullable',
             'essay_deadline' => 'required|date',
             'application_deadline' => 'required|date|after:essay_deadline',
             'attached_of_clients' => 'required|mimes:docx,doc|max:2048',
@@ -95,6 +96,7 @@ class NewRequestMenu extends Controller
             $new_request->id_editors            = $request->id_editors;
             $new_request->essay_title           = $request->essay_title;
             $new_request->essay_prompt          = $request->essay_prompt;
+            $new_request->essay_notes           = $request->essay_notes;
             $new_request->id_clients            = $request->id_clients;
             $new_request->email                 = $client->email;
             // $new_request->mentors_mail          = $client->mentors->email;
@@ -122,7 +124,8 @@ class NewRequestMenu extends Controller
             'essay_deadline' => $request->essay_deadline,
             'application_deadline' => $request->application_deadline,
             'university' => University::where('id_univ', $request->id_univ)->first(),
-            'essay_prompt' => $request->essay_prompt
+            'essay_prompt' => $request->essay_prompt,
+            'essay_notes' => $request->essay_notes,
         ];
 
         try {
