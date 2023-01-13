@@ -158,7 +158,7 @@
                                     </div>
                                     <div class="col-12 pt-3 d-flex" style="overflow: auto !important">
                                         <div class="col">
-                                            <h6 class="pb-2">Notes <sup class="text-danger">*</sup> :</h6>
+                                            <h6 class="pb-2">Notes :</h6>
                                             <textarea name="essay_notes" class="textarea" placeholder="How many essays are in this document?"></textarea>
                                             @error('essay_notes')
                                                 <small class="alert text-danger fs-10">{{ $message }}</small>

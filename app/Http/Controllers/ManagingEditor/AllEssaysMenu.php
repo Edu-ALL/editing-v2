@@ -326,7 +326,11 @@ class AllEssaysMenu extends Controller
             $essay->status_essay_clients = 4;
             $essay->save();
 
-            EssayEditors::where('id_essay_clients', '=', $essay->id_essay_clients)->delete();
+            $editors_mail = null;
+            if (isset($essay->essay_editors)) {
+                $editors_mail = $essay->essay_editors->editor->email;
+                EssayEditors::where('id_essay_clients', '=', $essay->id_essay_clients)->delete();
+            }
 
             $essay_status = new EssayStatus;
             $essay_status->id_essay_clients = $essay->id_essay_clients;
@@ -342,7 +346,9 @@ class AllEssaysMenu extends Controller
         $managing = Auth::guard('web-editor')->user();
         $client = Client::where('id_clients', $essay->id_clients)->first();
         $editor = Editor::where('id_editors', $essay->id_editors)->first();
-        $email = $essay->essay_editors->editor->email;
+
+        // $email = $essay->essay_editors->editor->email;
+        $email = $editors_mail;
 
         $data = [
             'managing' => $managing,
@@ -351,7 +357,8 @@ class AllEssaysMenu extends Controller
             'editor' => $editor
         ];
 
-        $this->sendEmail('cancel', $email, $data);
+        if ($email && $data)
+            $this->sendEmail('cancel', $email, $data);
 
         return redirect('editor/all-essays/ongoing/detail/' . $id_essay);
     }
