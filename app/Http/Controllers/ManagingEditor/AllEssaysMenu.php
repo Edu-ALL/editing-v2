@@ -387,7 +387,7 @@ class AllEssaysMenu extends Controller
 
             $essay->save();
             // Pusher 
-            event(new MentorNotif($essay->mentors_mail, 'Congratulations, your essay has been completed.'));
+            // event(new MentorNotif($essay->mentors_mail, 'Congratulations, your essay has been completed.'));
 
 
             $essay_status = new EssayStatus;
@@ -410,7 +410,7 @@ class AllEssaysMenu extends Controller
             $essay_editor->save();
 
             // Pusher 
-            event(new EditorNotif($essay_editor->editors_mail, 'Congratulations, your essay has been completed.'));
+            // event(new EditorNotif($essay_editor->editors_mail, 'Congratulations, your essay has been completed.'));
 
             DB::commit();
         } catch (Exception $e) {
