@@ -85,7 +85,7 @@
                 @endforeach
               </div>
             </div>
-            {{-- @if ($essay->notes_managing !== NULL)
+            @if ($essay->notes_managing !== NULL)
             <div class="headline d-flex align-items-center gap-3">
               <img src="/assets/download.png" alt="">
               <h6>Notes</h6>
@@ -97,7 +97,7 @@
                 @endif
               </div>
             </div>
-            @endif --}}
+            @endif
             @if ($essay->notes_editors !== NULL)
             <div class="headline d-flex align-items-center gap-3">
               <img src="/assets/download.png" alt="">
