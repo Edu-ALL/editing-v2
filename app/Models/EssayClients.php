@@ -40,10 +40,9 @@ class EssayClients extends Model
         'completed_at'
     ];
 
-    protected function essayNotes(): Attribute
+    public function getEssayNotesAttribute($value)
     {
-
-        return new Attribute(get: fn($value) => $value != NULL ? $value : 'There\'s no notes');
+        return $value != NULL ? $value : "There's no essay notes";
     }
 
     public function editor()
