@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\DB;
 // use Illuminate\Support\Facades\File; 
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class NewRequestMenu extends Controller
@@ -52,6 +53,7 @@ class NewRequestMenu extends Controller
             'number_of_word' => 'required',
             'essay_title' => 'required',
             'essay_prompt' => 'required',
+            'essay_notes' => 'nullable',
             'essay_deadline' => 'required|date',
             'application_deadline' => 'required|date|after:essay_deadline',
             'attached_of_clients' => 'required|mimes:docx,doc|max:2048',
@@ -75,11 +77,11 @@ class NewRequestMenu extends Controller
         $mentee_id =  $request->id_clients;
 
         $client = Client::where('id_clients', '=', $mentee_id)->first();
-
+        
         $fileName = $request->attached_of_clients->getClientOriginalName();
         $fileExt = $request->attached_of_clients->getClientOriginalExtension();
 
-        $cstFileName = str_replace(' ', '', $client->first_name) . '_Essay_by_' . str_replace(' ', '', $mentor->first_name) . '(' . date('d-m-Y') . ').' . $fileExt;
+        $cstFileName = str_replace(' ', '', $client->first_name) . '_Essay_by_' . str_replace(' ', '', $mentor->first_name) . '(' . date('d-m-Y_His') . ').' . $fileExt;
         // $filePath = 'program/essay/mentors/'.$fileName;
         $filePath = 'program/essay/students/' . $cstFileName;
         Storage::disk('public_assets')->put($filePath, file_get_contents($request->attached_of_clients));
@@ -94,9 +96,11 @@ class NewRequestMenu extends Controller
             $new_request->id_editors            = $request->id_editors;
             $new_request->essay_title           = $request->essay_title;
             $new_request->essay_prompt          = $request->essay_prompt;
+            $new_request->essay_notes           = $request->essay_notes;
             $new_request->id_clients            = $request->id_clients;
             $new_request->email                 = $client->email;
-            $new_request->mentors_mail          = $client->mentors->email;
+            // $new_request->mentors_mail          = $client->mentors->email;
+            $new_request->mentors_mail          = $mentor->email;
             $new_request->essay_deadline        = $request->essay_deadline;
             $new_request->application_deadline  = $request->application_deadline;
 
@@ -109,6 +113,7 @@ class NewRequestMenu extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
 
@@ -119,11 +124,20 @@ class NewRequestMenu extends Controller
             'essay_deadline' => $request->essay_deadline,
             'application_deadline' => $request->application_deadline,
             'university' => University::where('id_univ', $request->id_univ)->first(),
-            'essay_prompt' => $request->essay_prompt
+            'essay_prompt' => $request->essay_prompt,
+            'essay_notes' => $request->essay_notes,
         ];
 
-        // Pusher 
-        event(new ManagingNotif('Mentor has uploaded the essay.'));
+        try {
+            
+            // Pusher 
+            event(new ManagingNotif('Mentor has uploaded the essay.'));
+        } catch (Exception $e) {
+
+            Log::error('Pusher store new request from mentor : '.$e->getMessage());
+
+        }
+
 
         $this->sendEmail('new-request', $data);
 

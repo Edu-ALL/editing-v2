@@ -79,9 +79,12 @@
                                                 <th scope="row">{{ $i++ }}</th>
                                                 <td>{{ $editor->first_name . ' ' . $editor->last_name }}</td>
                                                 <td>{{ $editor->email }}</td>
-                                                <td>{{ $dueTomorrow->where('id_editors', $editor->id_editors)->count() }} Essays</td>
+                                                {{-- <td>{{ $dueTomorrow->where('id_editors', $editor->id_editors)->count() }} Essays</td>
                                                 <td>{{ $dueThree->where('id_editors', $editor->id_editors)->count() }} Essays</td>
-                                                <td>{{ $dueFive->where('id_editors', $editor->id_editors)->count() }} Essays</td>
+                                                <td>{{ $dueFive->where('id_editors', $editor->id_editors)->count() }} Essays</td> --}}
+                                                <td>{{ $editor->dueTomorrow }} Essays</td>
+                                                <td>{{ $editor->dueThree }} Essays</td>
+                                                <td>{{ $editor->dueFive }} Essays</td>
                                                 @if ($editor->position == 1)
                                                     <td>Associate</td>
                                                 @elseif ($editor->position == 2)

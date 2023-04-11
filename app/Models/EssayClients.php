@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,6 +23,7 @@ class EssayClients extends Model
         'id_editors',
         'essay_title',
         'essay_prompt',
+        'essay_notes',
         'id_clients',
         'email',
         'mentors_mail',
@@ -37,6 +39,11 @@ class EssayClients extends Model
         'uploaded_at',
         'completed_at'
     ];
+
+    public function getEssayNotesAttribute($value)
+    {
+        return $value != NULL ? $value : "There's no essay notes";
+    }
 
     public function editor()
     {

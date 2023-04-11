@@ -28,26 +28,39 @@ class AllEditorMenu extends Controller
         if ($keyword) 
             $editors->appends(['keyword' => $keyword]);
 
-        $dueTomorrow = $this->dueEssay('0', '1');
-        $dueThree = $this->dueEssay('1', '3');
-        $dueFive = $this->dueEssay('3', '5');
+        // $dueTomorrow = $this->dueEssay('0', '1');
+        // $dueThree = $this->dueEssay('1', '3');
+        // $dueFive = $this->dueEssay('3', '5');
+
+        $editors->map(function($data) {
+            $data['dueTomorrow'] = $this->dueEssay('0', '1', $data['email']);
+            $data['dueThree'] = $this->dueEssay('2', '3', $data['email']);
+            $data['dueFive'] = $this->dueEssay('4', '5', $data['email']);
+        });
 
         return view('user.editor.editor-list.editor-list', [
             'editors' => $editors,
-            'dueTomorrow' => $dueTomorrow,
-            'dueThree' => $dueThree,
-            'dueFive' => $dueFive,
+            // 'dueTomorrow' => $editors->dueTomorrow,
+            // 'dueThree' => $editors->dueThree,
+            // 'dueFive' => $editors->dueFive,
         ]);
     }
 
-    public function dueEssay($start, $num){
+    public function dueEssay($start, $num, $email){
         $today = date('Y-m-d');
-        $start = date('Y-m-d', strtotime('+'.$start.' days', strtotime($today)));
-        $dueDate = date('Y-m-d', strtotime('+'.$num.' days', strtotime($today)));
-        $essay = EssayClients::where('status_essay_clients', '!=', 0)->where('status_essay_clients', '!=', 4)->where('status_essay_clients', '!=', 5)->where('status_essay_clients', '!=', 7);
-        $essay->where('essay_deadline', '>', $start);
-        $essay->where('essay_deadline', '<=', $dueDate);
-        return $essay->get();
+        $start = date('Y-m-d', strtotime('+' . $start . ' days', strtotime($today)));
+        $dueDate = date('Y-m-d', strtotime('+' . $num . ' days', strtotime($today)));
+        $essay = EssayEditors::whereHas('essay_clients', function ($query) use ($start, $dueDate, $email) {
+            $query->whereBetween('essay_deadline', [$start, $dueDate]);
+        })->whereIn('status_essay_editors', ['1', '2', '3', '6', '8'])->where('editors_mail', $email)->count();
+        return $essay;
+        // $today = date('Y-m-d');
+        // $start = date('Y-m-d', strtotime('+'.$start.' days', strtotime($today)));
+        // $dueDate = date('Y-m-d', strtotime('+'.$num.' days', strtotime($today)));
+        // $essay = EssayClients::where('status_essay_clients', '!=', 0)->where('status_essay_clients', '!=', 4)->where('status_essay_clients', '!=', 5)->where('status_essay_clients', '!=', 7);
+        // $essay->where('essay_deadline', '>', $start);
+        // $essay->where('essay_deadline', '<=', $dueDate);
+        // return $essay;
     }
 
     public function detail($id, Request $request){

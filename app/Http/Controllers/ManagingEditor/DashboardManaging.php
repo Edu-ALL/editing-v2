@@ -19,12 +19,12 @@ class DashboardManaging extends Controller
         $your_essay_completed = EssayEditors::where('editors_mail', $editor->email)->where('status_essay_editors', '=', 7);
 
         $duetomorrow = $this->essayDeadline('0', '1');
-        $duethree = $this->essayDeadline('1', '3');
-        $duefive = $this->essayDeadline('3', '5');
+        $duethree = $this->essayDeadline('2', '3');
+        $duefive = $this->essayDeadline('4', '5');
 
         $allduetomorrow = $this->allEssayDeadline('0', '1');
-        $allduethree = $this->allEssayDeadline('1', '3');
-        $allduefive = $this->allEssayDeadline('3', '5');
+        $allduethree = $this->allEssayDeadline('2', '3');
+        $allduefive = $this->allEssayDeadline('4', '5');
 
         return view('user.editor.dashboard', [
             'ongoing_essay' => $ongoing_essay->count(),
@@ -47,7 +47,7 @@ class DashboardManaging extends Controller
         $editor = Auth::guard('web-editor')->user();
         $essay = EssayEditors::where('editors_mail', '=', $editor->email)->where('status_essay_editors', '!=', 0)->where('status_essay_editors', '!=', 4)->where('status_essay_editors', '!=', 5)->where('status_essay_editors', '!=', 7);
         $essay->whereHas('essay_clients', function ($query) use ($start, $dueDate) {
-            $query->where('essay_deadline', '>', $start)->where('essay_deadline', '<=', $dueDate);
+            $query->whereBetween('essay_deadline', [$start, $dueDate]);
         });
         return $essay;
     }
@@ -57,9 +57,10 @@ class DashboardManaging extends Controller
         $today = date('Y-m-d');
         $start = date('Y-m-d', strtotime('+'.$start.' days', strtotime($today)));
         $dueDate = date('Y-m-d', strtotime('+'.$num.' days', strtotime($today)));
-        $essay = EssayClients::where('status_essay_clients', '!=', 7);
-        $essay->where('essay_deadline', '>', $start);
-        $essay->where('essay_deadline', '<=', $dueDate);
+        $essay = EssayEditors::where('status_essay_editors', '!=', 0)->where('status_essay_editors', '!=', 4)->where('status_essay_editors', '!=', 5)->where('status_essay_editors', '!=', 7);
+        $essay->whereHas('essay_clients', function ($query) use ($start, $dueDate) {
+            $query->whereBetween('essay_deadline', [$start, $dueDate]);
+        });
         return $essay;
     }
 }

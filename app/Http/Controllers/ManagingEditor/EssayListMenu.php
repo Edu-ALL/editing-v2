@@ -198,10 +198,13 @@ class EssayListMenu extends Controller
                 DB::commit();
             }
 
+            # accept / reject page
             if ($essay->status_essay_clients == 1) {
                 return view('user.editor.essay-list.editor-essay-list-ongoing', [
                     'essay' => $essay
                 ]);
+
+            # first page that editor should upload the essay
             } else if ($essay->status_essay_clients == 2) {
                 return view('user.editor.essay-list.editor-essay-list-accepted', [
                     'essay' => $essay,
@@ -316,7 +319,10 @@ class EssayListMenu extends Controller
 
     public function uploadEssay($id_essay, Request $request){
         $rules = [
-            'uploaded_file' => 'mimes:doc,docx|max:2048'
+            'uploaded_file' => 'required|mimes:doc,docx|max:2048',
+            'work_duration' => 'required',
+            'tag' => 'required',
+            'description' => '',
         ];
 
         $validator = Validator::make($request->all() + ['id_essay_clients' => $id_essay], $rules);
@@ -344,10 +350,10 @@ class EssayListMenu extends Controller
                 
                 if (isset($essay->client_by_id)) {
                     
-                    $file_name = 'Editing-'.$essay->client_by_id->first_name.'-'.$essay->client_by_id->last_name.'-Essays-by-'.$essay->essay_editors->editor->first_name.'('.date('d-m-Y').')';
+                    $file_name = 'Editing-'.$essay->client_by_id->first_name.'-'.$essay->client_by_id->last_name.'-Essays-by-'.$essay->essay_editors->editor->first_name.'('.date('d-m-Y_His').')';
                 } elseif (isset($essay->client_by_email)) {
                     
-                    $file_name = 'Editing-'.$essay->client_by_email->first_name.'-'.$essay->client_by_email->last_name.'-Essays-by-'.$essay->essay_editors->editor->first_name.'('.date('d-m-Y').')';
+                    $file_name = 'Editing-'.$essay->client_by_email->first_name.'-'.$essay->client_by_email->last_name.'-Essays-by-'.$essay->essay_editors->editor->first_name.'('.date('d-m-Y_His').')';
                 }
                 
                 // $file_name = 'Editing-'.$essay->client_by_id->first_name.'-'.$essay->client_by_id->last_name.'-Essays-by-'.$essay->editor->first_name.'('.date('d-m-Y').')';
@@ -455,7 +461,7 @@ class EssayListMenu extends Controller
                         File::delete($file_path);
                     }
                 }
-                $file_name = 'Revised_by_'.$essay->essay_editors->editor->first_name.'_'.$essay->essay_editors->editor->last_name.'('.date('d-m-Y').')';
+                $file_name = 'Revised_by_'.$essay->essay_editors->editor->first_name.'_'.$essay->essay_editors->editor->last_name.'('.date('d-m-Y_His').')';
                 $file_name = str_replace(' ', '_', $file_name);
                 $file_format = $request->file('uploaded_file')->getClientOriginalExtension();
                 $med_file_path = $request->file('uploaded_file')->storeAs('program/essay/revised', $file_name.'.'.$file_format, ['disk' => 'public_assets']);
