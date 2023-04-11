@@ -43,7 +43,7 @@
               <h6>Assignment</h6>
             </div>
             <div class="col d-flex flex-column px-3 pt-md-4 pt-4 pb-4 text-center justify-content-center" style="color: var(--black)">
-              <h6 style="font-size: 14px; font-weight: 400">{{ $essay->editor->first_name.' '.$essay->editor->last_name }}</h6>
+              <h6 style="font-size: 14px; font-weight: 400">{{ $essay->essay_editors->editor->first_name.' '.$essay->essay_editors->editor->last_name }}</h6>
             </div>
             <div class="headline d-flex align-items-center gap-3" style="background-color: var(--yellow)">
               <img src="/assets/file.png" alt="">
@@ -69,6 +69,28 @@
                 <h6>Download</h6>
               </a> --}}
             </div>
+            @if (isset($essay->essay_editors->notes_editors))
+              <div class="headline d-flex align-items-center gap-3">
+                <img src="/assets/download.png" alt="">
+                <h6>Notes</h6>
+              </div>
+              <div class="col d-flex flex-column px-3 py-md-4 py-4 my-md-1 countEssay text-center justify-content-center" style="color: var(--black)">
+                <div class="col d-flex flex-row flex-wrap gap-2 justify-content-center" style="font-size:12px">
+                    {!! $essay->essay_editors->notes_editors !!}
+                </div>
+              </div>
+            @endif
+            @if (isset($essay->essay_editors->managing_file) && $essay->essay_editors->managing_file != "")
+            <div class="headline d-flex align-items-center gap-3">
+              <img src="/assets/download.png" alt="">
+              <h6>Notes</h6>
+            </div>
+            <div class="col d-flex flex-column px-3 py-md-4 py-4 my-md-1 countEssay text-center justify-content-center" style="color: var(--black)">
+              <div class="col d-flex flex-row flex-wrap gap-2 justify-content-center" style="font-size:12px">
+                  {!! $essay->essay_editors->notes_managing !!}
+              </div>
+            </div>
+            @endif
           </div>
           
           <div class="col-md-8 col-12 p-0 userCard">
@@ -132,8 +154,16 @@
               </div>
               <div class="col-12 d-flex mb-4" style="overflow: auto !important">
                 <div class="col">
-                  <h6 class="pb-2">Essay Prompt :</h6>
+                  <h6 class="pb-2">Concern :</h6>
                   <textarea name="" class="textarea" style="overflow: auto !important">{{ $essay->essay_prompt }}</textarea>
+                </div>
+              </div>
+              <div class="col-12 d-flex mb-4" style="overflow: auto !important">
+                <div class="col">
+                  <h6 class="pb-2">Notes :</h6>
+                  <div style="font-size: 12px">
+                    {!! $essay->essay_notes !!}
+                  </div>
                 </div>
               </div>
               <div class="col-12 d-flex mb-3">

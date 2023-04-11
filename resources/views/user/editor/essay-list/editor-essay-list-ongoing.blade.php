@@ -107,13 +107,23 @@
                 </div>
                 <div class="row d-flex align-items-center">
                   <div class="col-md-3 col-4">
-                    <h6>Essay Prompt</h6>
+                    <h6>Concern</h6>
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
                     <p>{!! $essay->essay_prompt ? $essay->essay_prompt : '-' !!}</p>
                   </div>
                 </div>
+                <div class="row d-flex align-items-center">
+                  <div class="col-md-3 col-4">
+                    <h6>Notes</h6>
+                  </div>
+                  <div class="col-1 titik2"><p>:</p></div>
+                  <div class="col-7">
+                    <p>{!! $essay->essay_notes ? $essay->essay_notes : '-' !!}</p>
+                  </div>
+                </div>
+
                 <div class="row d-flex">
                   <div class="col-md-3 col-4">
                     <h6>Date</h6>

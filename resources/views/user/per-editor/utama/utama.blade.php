@@ -50,6 +50,8 @@
         main.style.minHeight = height + "px";
     </script>
     @yield('js')
+    @include('component.loading')
+
     <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
     <script src="/js/toast.js"></script>
     <script>

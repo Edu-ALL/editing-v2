@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Redirect;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
@@ -156,22 +157,22 @@ class AllEssaysMenu extends Controller
         return view('user.editor.all-essays.essay-completed', ['essays' => $essays]);
     }
 
-    public function dueEssayEditor($start, $num)
+    public function dueEssayEditor($start, $num, $email)
     {
         $today = date('Y-m-d');
         $start = date('Y-m-d', strtotime('+' . $start . ' days', strtotime($today)));
         $dueDate = date('Y-m-d', strtotime('+' . $num . ' days', strtotime($today)));
-        $essay = EssayClients::where('status_essay_clients', '!=', 0)->where('status_essay_clients', '!=', 4)->where('status_essay_clients', '!=', 5)->where('status_essay_clients', '!=', 7);
-        $essay->where('essay_deadline', '>', $start);
-        $essay->where('essay_deadline', '<=', $dueDate);
-        return $essay->get();
+        $essay = EssayEditors::whereHas('essay_clients', function ($query) use ($start, $dueDate, $email) {
+            $query->whereBetween('essay_deadline', [$start, $dueDate]);
+        })->whereIn('status_essay_editors', ['1', '2', '3', '6', '8'])->where('editors_mail', $email)->count();
+        return $essay;
     }
 
     public function detailEssayManaging($id_essay, Request $request)
     {
         $essay = EssayClients::find($id_essay);
         if ($essay) {
-            $editors = Editor::get();
+            $editors = Editor::all();
             // $essay = EssayClients::find($id_essay);
             $essay_editor = EssayEditors::where('id_essay_clients', $id_essay)->first();
 
@@ -187,14 +188,17 @@ class AllEssaysMenu extends Controller
                 $essay->save();
                 DB::commit();
             }
+            
+            $editors->map(function($data) {
+                $data['dueTomorrow'] = $this->dueEssayEditor('0', '1', $data['email']);
+                $data['dueThree'] = $this->dueEssayEditor('2', '3', $data['email']);
+                $data['dueFive'] = $this->dueEssayEditor('4', '5', $data['email']);
+            });
 
             if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4 || $essay->status_essay_clients == 5) {
                 return view('user.editor.all-essays.essay-ongoing-detail', [
                     'essay' => $essay,
                     'editors' => $editors,
-                    'dueTomorrow' => $this->dueEssayEditor('0', '1'),
-                    'dueThree' => $this->dueEssayEditor('1', '3'),
-                    'dueFive' => $this->dueEssayEditor('3', '5'),
                     'completedEssay' => EssayEditors::where('status_essay_editors', 7)->get()
                 ]);
             } else if ($essay->status_essay_clients == 1) {
@@ -247,7 +251,7 @@ class AllEssaysMenu extends Controller
 
 
         # get associate editor data
-        $editor = Editor::where('email', $request->id_editors)->first();
+        $editor = Editor::where('email', $request->id_editors)->where('status', 1)->first();
 
 
         DB::beginTransaction();
@@ -276,6 +280,7 @@ class AllEssaysMenu extends Controller
             $essay_status->save();
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
 
@@ -321,7 +326,11 @@ class AllEssaysMenu extends Controller
             $essay->status_essay_clients = 4;
             $essay->save();
 
-            EssayEditors::where('id_essay_clients', '=', $essay->id_essay_clients)->delete();
+            $editors_mail = null;
+            if (isset($essay->essay_editors)) {
+                $editors_mail = $essay->essay_editors->editor->email;
+                EssayEditors::where('id_essay_clients', '=', $essay->id_essay_clients)->delete();
+            }
 
             $essay_status = new EssayStatus;
             $essay_status->id_essay_clients = $essay->id_essay_clients;
@@ -337,7 +346,9 @@ class AllEssaysMenu extends Controller
         $managing = Auth::guard('web-editor')->user();
         $client = Client::where('id_clients', $essay->id_clients)->first();
         $editor = Editor::where('id_editors', $essay->id_editors)->first();
-        $email = $essay->editor->email;
+
+        // $email = $essay->essay_editors->editor->email;
+        $email = $editors_mail;
 
         $data = [
             'managing' => $managing,
@@ -346,7 +357,8 @@ class AllEssaysMenu extends Controller
             'editor' => $editor
         ];
 
-        $this->sendEmail('cancel', $email, $data);
+        if ($email && $data)
+            $this->sendEmail('cancel', $email, $data);
 
         return redirect('editor/all-essays/ongoing/detail/' . $id_essay);
     }
@@ -369,6 +381,10 @@ class AllEssaysMenu extends Controller
             $essay = EssayClients::find($id_essay);
             $essay->status_essay_clients = 7;
             $essay->completed_at = date('Y-m-d H:i:s');
+
+            # update status read
+            $essay->status_read = 0;
+
             $essay->save();
             // Pusher 
             event(new MentorNotif($essay->mentors_mail, 'Congratulations, your essay has been completed.'));
@@ -384,12 +400,13 @@ class AllEssaysMenu extends Controller
             $essay_editor->status_essay_editors = 7;
             // Upload Acc File
             if ($request->hasFile('uploaded_acc_file')) {
-                $file_name = 'Revised_by_' . $editor->first_name . '_' . $editor->last_name . '(' . date('d-m-Y') . ')';
+                $file_name = 'Revised_by_' . $editor->first_name . '_' . $editor->last_name . '(' . date('d-m-Y_His') . ')';
                 // $file_name = str_replace(' ', '-', $file_name);
                 $file_format = $request->file('uploaded_acc_file')->getClientOriginalExtension();
                 $med_file_path = $request->file('uploaded_acc_file')->storeAs('program/essay/revised', $file_name.'.'.$file_format, ['disk' => 'public_assets']);
                 $essay_editor->managing_file = $file_name.'.'.$file_format;
             }
+            $essay_editor->notes_managing = $request->notes_managing;
             $essay_editor->save();
 
             // Pusher 
@@ -398,6 +415,7 @@ class AllEssaysMenu extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
 
@@ -420,7 +438,7 @@ class AllEssaysMenu extends Controller
 
         $validator = Validator::make($request->all() + ['id_essay_clients' => $id_essay], $rules);
         if ($validator->fails()) {
-            dd($validator->messages());
+            // dd($validator->messages());
             return Redirect::back()->withErrors($validator->messages());
         }
 
@@ -428,6 +446,8 @@ class AllEssaysMenu extends Controller
         try {
             $essay = EssayClients::find($id_essay);
             $essay->status_essay_clients = 6;
+            # update status read editor
+            $essay->status_read_editor = 1;
             $essay->save();
 
             $essay_status = new EssayStatus;
@@ -448,7 +468,7 @@ class AllEssaysMenu extends Controller
             $essay_revise->notes = $request->notes;
             // Upload Revise File
             if ($request->hasFile('uploaded_revise_file')) {
-                $file_name = 'Revise-' . date('d-m-Y');
+                $file_name = 'Revise-' . date('d-m-Y_His');
                 $file_name = str_replace(' ', '-', $file_name);
                 $file_format = $request->file('uploaded_revise_file')->getClientOriginalExtension();
                 $med_file_path = $request->file('uploaded_revise_file')->storeAs('program/essay/revise', $file_name . '.' . $file_format, ['disk' => 'public_assets']);
@@ -458,7 +478,7 @@ class AllEssaysMenu extends Controller
             $essay_revise->save();
 
             // Pusher 
-            event(new EditorNotif($essay_editor->editors_mail, 'Please, revise your essay.'));
+            // event(new EditorNotif($essay_editor->editors_mail, 'Please, revise your essay.'));
 
             DB::commit();
         } catch (Exception $e) {
@@ -608,8 +628,10 @@ class AllEssaysMenu extends Controller
         $start = date('Y-m-d', strtotime('+' . $start . ' days', strtotime($today)));
         $dueDate = date('Y-m-d', strtotime('+' . $num . ' days', strtotime($today)));
         $essay = EssayClients::where('status_essay_clients', '!=', 7);
-        $essay->where('essay_deadline', '>', $start);
-        $essay->where('essay_deadline', '<=', $dueDate);
+        // $essay->where('essay_deadline', '>=', $start);
+        // $essay->where('essay_deadline', '<=', $dueDate);
+        $essay->whereBetween('essay_deadline', [$start, $dueDate]);
+        
         return $essay;
     }
     public function dueTomorrow(Request $request)
@@ -639,7 +661,7 @@ class AllEssaysMenu extends Controller
     public function dueThree(Request $request)
     {
         $keyword = $request->get('keyword');
-        $essays = $this->allEssayDeadline('1', '3')->when($keyword, function ($query_) use ($keyword) {
+        $essays = $this->allEssayDeadline('2', '3')->when($keyword, function ($query_) use ($keyword) {
             $query_->where(function ($query) use ($keyword) {
                 $query->whereHas('client_by_id', function ($query_by_id) use ($keyword) {
                     $query_by_id->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%' . $keyword . '%')->orWhereHas('mentors', function ($query_mentor_by_id) use ($keyword) {
@@ -663,7 +685,7 @@ class AllEssaysMenu extends Controller
     public function dueFive(Request $request)
     {
         $keyword = $request->get('keyword');
-        $essays = $this->allEssayDeadline('3', '5')->when($keyword, function ($query_) use ($keyword) {
+        $essays = $this->allEssayDeadline('4', '5')->when($keyword, function ($query_) use ($keyword) {
             $query_->where(function ($query) use ($keyword) {
                 $query->whereHas('client_by_id', function ($query_by_id) use ($keyword) {
                     $query_by_id->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%' . $keyword . '%')->orWhereHas('mentors', function ($query_mentor_by_id) use ($keyword) {

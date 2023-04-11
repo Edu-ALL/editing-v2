@@ -107,11 +107,20 @@
                 </div>
                 <div class="row d-flex align-items-center">
                   <div class="col-md-3 col-4">
-                    <h6>Essay Prompt</h6>
+                    <h6>Concern</h6>
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
                     <p>{!! $essay->essay_prompt !!}</p>
+                  </div>
+                </div>
+                <div class="row d-flex align-items-center">
+                  <div class="col-md-3 col-4">
+                    <h6>Notes</h6>
+                  </div>
+                  <div class="col-1 titik2"><p>:</p></div>
+                  <div class="col-7">
+                    <p>{!! $essay->essay_notes !!}</p>
                   </div>
                 </div>
                 <div class="row d-flex">
@@ -228,6 +237,9 @@
                       <div class="h-100 p-0">
                         <input class="form-control p-1 ps-2 inputField h-100" id="formFileSm" name="uploaded_file" form="form-revise" type="file">
                       </div>
+                      @error('uploaded_file')
+                        <div class="pt-1 text-danger" style="font-size: 10px">{{ $message }}</div>
+                      @enderror
                       <h6 class="pt-2" style="font-size: 10px; color: var(--red)">* Upload your essay with the '.docx' format</h6>
                     </div>
                   </div>
@@ -239,23 +251,39 @@
                         <span class="input-group-text py-2 px-2" id="basic-addon1">Minutes</span>
                       </div>
                     </div>
+                    @error('work_duration')
+                      <div class="pt-1 text-danger" style="font-size: 10px">{{ $message }}</div>
+                    @enderror
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-3">
                   <div class="col">
                     <h6 class="pb-2">Tags :</h6>
-                    <select class="select-state" name="tag[]" id="tag">
+                    @php
+                      $choosen_tags = $tags->pluck('id_topic')->toArray();
+                    @endphp
+                    <select class="select-state" name="tag[]" id="tag" multiple>
                       <option value=""></option>
                       @foreach ($list_tags as $tags)
-                        <option value="{{ $tags->id_topic }}">{{ $tags->topic_name }}</option>
+                        <option value="{{ $tags->id_topic }}"
+                          @if (in_array($tags->id_topic, $choosen_tags))
+                            {{ "selected" }}
+                          @endif
+                          >{{ $tags->topic_name }}</option>
                       @endforeach
                     </select>
+                    @error('tag')
+                      <div class="pt-1 text-danger" style="font-size: 10px">{{ $message }}</div>
+                    @enderror
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-2" style="overflow: auto !important">
                   <div class="col">
                     <h6 class="pb-2">Descriptions :</h6>
-                    <textarea name="description" class="textarea" placeholder="Descriptions"></textarea>
+                    <textarea name="description" class="textarea" placeholder="Descriptions">{{ $essay->essay_editors->notes_editors }}</textarea>
+                    @error('description')
+                      <div class="pt-1 text-danger" style="font-size: 10px">{{ $message }}</div>
+                    @enderror
                   </div>
                 </div>
               </div>

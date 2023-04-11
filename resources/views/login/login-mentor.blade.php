@@ -59,6 +59,7 @@
     </div>
 
     {{-- End Content --}}
+    @include('component.loading')
 </body>
 
 </html>

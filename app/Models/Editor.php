@@ -50,4 +50,9 @@ class Editor extends Authenticatable
     {
         return $this->hasMany(EssayEditors::class, 'editors_mail', 'email');
     }
+
+    public function scopeWithAndWhereHas($query, $relation, $constraint){
+        return $query->whereHas($relation, $constraint)
+                     ->with([$relation => $constraint]);
+    }
 }

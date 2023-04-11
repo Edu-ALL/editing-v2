@@ -115,8 +115,15 @@
                 </div>
                 <div class="col-12 d-flex mb-4" style="overflow: auto !important">
                   <div class="col">
-                    <h6 class="pb-2">Essay Prompt :</h6>
+                    <h6 class="pb-2">Concern :</h6>
                     <textarea name="" class="textarea" style="overflow: auto !important">{{ $essay->essay_prompt }}</textarea>
+                  </div>
+                </div>
+                <div class="col-12 d-flex mb-4" style="overflow: auto !important">
+                  <div class="col">
+                    <h6 class="pb-2">Notes :</h6>
+                    <div style="font-size:12px">{!! $essay->essay_notes !!}</div>
+                    {{-- <textarea name="" class="textarea" style="overflow: auto !important">{{ $essay->essay_prompt }}</textarea> --}}
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-3">
@@ -197,9 +204,9 @@
                   <th scope="row">{{ $i++ }}</th>
                   <td>{{ $editor->first_name.' '.$editor->last_name }}</td>
                   <td>{{ $editor->graduated_from }}</td>
-                  <td>{{ $dueTomorrow->where('id_editors', $editor->id_editors)->count() }} Essays</td>
-                  <td>{{ $dueThree->where('id_editors', $editor->id_editors)->count() }} Essays</td>
-                  <td>{{ $dueFive->where('id_editors', $editor->id_editors)->count() }} Essays</td>
+                  <td>{{ $editor->dueTomorrow }} Essays</td>
+                  <td>{{ $editor->dueThree }} Essays</td>
+                  <td>{{ $editor->dueFive }} Essays</td>
                   <td>{{ $completedEssay->where('editors_mail', $editor->email)->count() }} Essays</td>
                   <td class="d-flex align-items-center justify-content-center">
                     <div class="form-check d-flex align-items-center justify-content-center">
