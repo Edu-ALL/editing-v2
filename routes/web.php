@@ -92,7 +92,7 @@ Route::middleware('is_admin')->group(function () {
         return view('user.admin.help.help');
     });
     // Dashboard
-    Route::get('/admin/dashboard', [AdminDashboard::class, 'index']);
+    Route::get('/admin/dashboard', [AdminDashboard::class, 'index'])->name('admin-dashboard');
 
     // Student
     Route::get('/admin/user/student', [Clients::class, 'index'])->name('list-client');
