@@ -20,7 +20,7 @@
                         </div>
                     @endif
                     <div class="row gap-4">
-                        <div class="col-md col-12">
+                        <div class="col-md col-12 mb-0">
                             {{-- User List --}}
                             <div class="row gap-2">
                                 <a class="col-md col-12 p-0 userCard" href="/admin/user/student">
@@ -84,7 +84,7 @@
                             {{-- End User List --}}
 
                             {{-- Essay --}}
-                            <div class="row gap-2 my-2">
+                            <div class="row gap-2 mt-2">
                                 <a class="col-md col-12 p-0 userCard" href="/admin/essay-list/ongoing">
                                     <div class="headline d-flex align-items-center gap-3">
                                         <img src="/assets/ongoing-essay.png" alt="">
@@ -123,126 +123,136 @@
                         {{-- Active Editor --}}
                         <div class="col-md col-12">
                             {{-- Table Student --}}
-                            <div class="row card">
-                                <div class="col-md col-12 p-0 studentList">
-                                    <div class="headline d-flex justify-content-between align-items-center">
-                                        <div class="col-md-6 col-7 d-flex align-items-center gap-md-3 gap-2">
-                                            <h6 class="mb-0">Editor Active + Hour</h6>
-                                        </div>
-                                        <div class="col-6 col-4 d-flex align-items-center justify-content-end">
-                                            <div class="input-group">
-                                                <form id="form-dashboard-filter" action="{{ route('admin-dashboard') }}"
-                                                    method="GET" class="w-100">
-                                                    <div class="row g-2">
-                                                        <div class="col-md">
-                                                            <div class="form-floating">
-                                                                <select class="form-select" id="floatingSelectGrid"
-                                                                    aria-label="Floating label select example"
-                                                                    name="active-month">
-                                                                    <?php
-                                                                    $months = [
-                                                                        1 => 'January',
-                                                                        2 => 'February',
-                                                                        3 => 'March',
-                                                                        4 => 'April',
-                                                                        5 => 'May',
-                                                                        6 => 'June',
-                                                                        7 => 'July',
-                                                                        8 => 'August',
-                                                                        9 => 'September',
-                                                                        10 => 'October',
-                                                                        11 => 'November',
-                                                                        12 => 'December',
-                                                                    ];
-                                                                    ?>
-                                                                    @dump($date['month'])
-                                                                    @foreach ($months as $month => $monthName)
-                                                                        @if ($month == (int) $date['month'])
-                                                                            <option selected value="{{ $month }}">
-                                                                                {{ $monthName }}
-                                                                            </option>
-                                                                        @else
-                                                                            <option value="{{ $month }}">
-                                                                                {{ $monthName }}
-                                                                            </option>
-                                                                        @endif
-                                                                    @endforeach
-                                                                </select>
-                                                                <label for="floatingSelectGrid"
-                                                                    class="text-dark">Month</label>
+                            <div class="row card h-100">
+                                <div class="col-md col-12 p-0 d-flex flex-column justify-content-between overflow-hidden">
+                                    <div>
+                                        <div class="headline d-flex justify-content-between align-items-center">
+                                            <div class="col-md-6 col d-flex align-items-center gap-md-3 gap-2">
+                                                <h6 class="mb-0">Editor Active + Duration</h6>
+                                            </div>
+                                            <div class="col-md-6 col d-flex align-items-center justify-content-end">
+                                                <div class="input-group">
+                                                    <form id="form-dashboard-filter" action="{{ route('admin-dashboard') }}"
+                                                        method="GET">
+                                                        <div class="row g-2">
+                                                            <div class="col-md">
+                                                                <div class="form-floating">
+                                                                    <select class="form-select" id="floatingSelectGrid"
+                                                                        aria-label="Floating label select example"
+                                                                        name="active-month">
+                                                                        <?php
+                                                                        $months = [
+                                                                            1 => 'January',
+                                                                            2 => 'February',
+                                                                            3 => 'March',
+                                                                            4 => 'April',
+                                                                            5 => 'May',
+                                                                            6 => 'June',
+                                                                            7 => 'July',
+                                                                            8 => 'August',
+                                                                            9 => 'September',
+                                                                            10 => 'October',
+                                                                            11 => 'November',
+                                                                            12 => 'December',
+                                                                        ];
+                                                                        ?>
+                                                                        @dump($date['month'])
+                                                                        @foreach ($months as $month => $monthName)
+                                                                            @if ($month == (int) $date['month'])
+                                                                                <option selected
+                                                                                    value="{{ $month }}">
+                                                                                    {{ $monthName }}
+                                                                                </option>
+                                                                            @else
+                                                                                <option value="{{ $month }}">
+                                                                                    {{ $monthName }}
+                                                                                </option>
+                                                                            @endif
+                                                                        @endforeach
+                                                                    </select>
+                                                                    <label for="floatingSelectGrid"
+                                                                        class="text-dark">Month</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md">
+                                                                <div class="form-floating">
+                                                                    <select class="form-select" id="floatingSelectGrid"
+                                                                        aria-label="Floating label select example"
+                                                                        name="active-year">
+                                                                        @for ($year = 2016; $year <= Carbon\Carbon::now()->year; $year++)
+                                                                            @if ($year == $date['year'])
+                                                                                <option selected
+                                                                                    value="{{ $year }}">
+                                                                                    {{ $year }}
+                                                                                </option>
+                                                                            @else
+                                                                                <option value="{{ $year }}">
+                                                                                    {{ $year }}
+                                                                                </option>
+                                                                            @endif
+                                                                        @endfor
+                                                                    </select>
+                                                                    <label for="floatingSelectGrid"
+                                                                        class="text-dark">Year</label>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md">
-                                                            <div class="form-floating">
-                                                                <select class="form-select" id="floatingSelectGrid"
-                                                                    aria-label="Floating label select example"
-                                                                    name="active-year">
-                                                                    @for ($year = 2016; $year <= Carbon\Carbon::now()->year; $year++)
-                                                                        @if ($year == $date['year'])
-                                                                            <option selected value="{{ $year }}">
-                                                                                {{ $year }}
-                                                                            </option>
-                                                                        @else
-                                                                            <option value="{{ $year }}">
-                                                                                {{ $year }}
-                                                                            </option>
-                                                                        @endif
-                                                                    @endfor
-                                                                </select>
-                                                                <label for="floatingSelectGrid"
-                                                                    class="text-dark">Year</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </form>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="container text-center pt-3" style="overflow-x: auto !important">
-                                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Editor Name</th>
-                                                    <th>Position</th>
-                                                    <th>Completed Essay</th>
-                                                    <th>Total Duration</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php $i = ($editors_active->currentpage() - 1) * $editors_active->perpage() + 1; ?>
-                                                @foreach ($editors_active as $editor)
+                                        <div class="container text-center pt-3" style="overflow-x: auto !important">
+                                            <table class="table table-bordered">
+                                                <thead>
                                                     <tr>
-                                                        <th scope="row">{{ $i++ }}</th>
-                                                        <td>
-                                                            {{ $editor->first_name . ' ' . $editor->last_name }}
-                                                        </td>
-                                                        @if ($editor->position == 1)
-                                                            <td>Associate</td>
-                                                        @elseif ($editor->position == 2)
-                                                            <td>Senior</td>
-                                                        @elseif ($editor->position == 3)
-                                                            <td>Managing</td>
-                                                        @endif
-                                                        <td>
-                                                            {{ $editor->completed_essay }}
-                                                        </td>
-                                                        <td>
-                                                            {{ $editor->total_duration }}
-                                                        </td>
+                                                        <th>No</th>
+                                                        <th>Editor Name</th>
+                                                        <th>Position</th>
+                                                        <th>Completed Essay</th>
+                                                        <th>Total Duration</th>
                                                     </tr>
-                                                @endforeach
+                                                </thead>
+                                                <tbody>
+                                                    <?php $i = 1; ?>
+                                                    @foreach ($editors_active as $editor)
+                                                        <tr>
+                                                            <th scope="row">{{ $i++ }}</th>
+                                                            <td>
+                                                                {{ $editor->first_name . ' ' . $editor->last_name }}
+                                                            </td>
+                                                            @if ($editor->position == 1)
+                                                                <td>Associate</td>
+                                                            @elseif ($editor->position == 2)
+                                                                <td>Senior</td>
+                                                            @elseif ($editor->position == 3)
+                                                                <td>Managing</td>
+                                                            @endif
+                                                            <td>
+                                                                {{ $editor->completed_essay }}
+                                                            </td>
+                                                            <td>
+                                                                {{ $editor->total_duration }}
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
 
-                                                @unless (count($editors_active))
-                                                    <tr>
-                                                        <td colspan="7">No data</td>
-                                                    </tr>
-                                                @endunless
-                                            </tbody>
-                                        </table>
-                                        {{-- Pagination --}}
-                                        <div class="d-flex justify-content-center">
-                                            {{ $editors_active->links() }}
+                                                    @unless (count($editors_active))
+                                                        <tr>
+                                                            <td colspan="7">No data</td>
+                                                        </tr>
+                                                    @endunless
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <hr>
+                                        <div class="detailCard d-flex justify-content-between align-items-center px-3 pb-2">
+                                            <h6 class="fs-6">{{ $essay_per_month }} Essay Total (in
+                                                {{ DateTime::createFromFormat('!m', $date['month'])->format('F') }}
+                                                {{ $date['year'] }})</h6>
+                                            <h6 class="fs-6">{{ $essay_per_month_completed }} Completed</h6>
                                         </div>
                                     </div>
                                 </div>

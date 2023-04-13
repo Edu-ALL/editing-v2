@@ -184,7 +184,7 @@ Route::middleware('is_mentor')->group(function () {
 //**********Role Managing**********//
 Route::middleware('is_editor')->group(function () {
     // Dashboard
-    Route::get('/editor/dashboard', [DashboardManaging::class, 'index']);
+    Route::get('/editor/dashboard', [DashboardManaging::class, 'index'])->name('editor-dashboard');
 
     // Help
     Route::get('/editor/help', function () {

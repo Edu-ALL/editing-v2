@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\Editor;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Mentor;
 use App\Models\EssayClients;
 use App\Models\EssayEditors;
-use App\Models\Mentor;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -30,7 +30,10 @@ class Dashboard extends Controller
             ->whereYear('tbl_essay_editors.uploaded_at', $year)
             ->groupBy('tbl_editors.email')
             ->orderBy('completed_essay', 'desc')
-            ->paginate(5);
+            ->get();
+
+        $essayPerMonth = EssayEditors::whereMonth('uploaded_at', $month)->whereYear('uploaded_at', $year)->count();
+        $essayPerMonthCompleted = EssayEditors::where('status_essay_editors', '=', 7)->whereMonth('uploaded_at', $month)->whereYear('uploaded_at', $year)->count();
 
         return view('user.admin.dashboard', [
             'count_student' => Client::count(),
@@ -39,6 +42,8 @@ class Dashboard extends Controller
             'count_ongoing_essay' => EssayClients::where('status_essay_clients', '!=', 7)->count(),
             'count_completed_essay' => EssayEditors::where('status_essay_editors', '=', 7)->count(),
             'editors_active' => $editorsActive,
+            'essay_per_month' => $essayPerMonth,
+            'essay_per_month_completed' => $essayPerMonthCompleted,
             'date' => ['month' => $month, 'year' => $year]
         ]);
     }
