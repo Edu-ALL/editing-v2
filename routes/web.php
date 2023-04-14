@@ -56,6 +56,7 @@ Route::post('register/editor', [Editors::class, 'selfAddEditor'])->name('self-ad
 Route::post('invite-editor', [Editors::class, 'invite'])->name('invite-editor');
 Route::get('joined-editor', [Editors::class, 'join_editor'])->name('join-editor');
 
+
 // Login
 Route::middleware('check.login')->group(function () {
 
@@ -77,9 +78,15 @@ Route::middleware('check.login')->group(function () {
     Route::get('/forgot/mentor', function () {
         return view('forgot.mentor-forgot-password');
     });
+
+
     Route::get('/forgot/editor', function () {
         return view('forgot.editor-forgot-password');
     });
+    Route::post('send-reset-password/editor', [Editors::class, 'send_reset_password'])->name('send-reset-password');
+    Route::get('form-reset-password/editor', [Editors::class, 'form_reset_password'])->name('form-reset-password');
+    Route::post('reset-password/editor', [Editors::class, 'reset_password'])->name('reset-password');
+
     Route::get('/forgot/admin', function () {
         return view('forgot.admin-forgot-password');
     });

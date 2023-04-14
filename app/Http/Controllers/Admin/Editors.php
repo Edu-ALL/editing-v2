@@ -34,7 +34,7 @@ class Editors extends Controller
         Token::create($user_token);
 
         # send email to user
-        Mail::send('mail.invite-editor', $user_token, function($mail) use ($email) {
+        Mail::send('mail.invite-editor', $user_token, function ($mail) use ($email) {
             $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
             $mail->to($email);
             $mail->subject('Invitation To The Editor');
@@ -85,13 +85,13 @@ class Editors extends Controller
             return Redirect::back()->withErrors($validator->messages());
         }
 
-        if ($request->hasFile('img')) {        
+        if ($request->hasFile('img')) {
 
             $time = date("His");
-            $file_name = str_replace(' ', '-', strtolower($request->first_name.' '.$request->last_name));
+            $file_name = str_replace(' ', '-', strtolower($request->first_name . ' ' . $request->last_name));
             $file_format = $request->file('img')->getClientOriginalExtension();
-            $med_file_path = $request->file('img')->storeAs('user/editors', $time.'-'.$file_name.'.'.$file_format, ['disk' => 'public_assets']);
-            $img = $time.'-'.$file_name.'.'.$file_format;
+            $med_file_path = $request->file('img')->storeAs('user/editors', $time . '-' . $file_name . '.' . $file_format, ['disk' => 'public_assets']);
+            $img = $time . '-' . $file_name . '.' . $file_format;
         }
 
         DB::beginTransaction();
@@ -114,52 +114,52 @@ class Editors extends Controller
             $token->delete();
 
             DB::commit();
-
         } catch (Exception $e) {
-            
+
             DB::rollBack();
             return Redirect::back()->withErrors($e->getMessage());
-
         }
 
         return redirect('/login/editor')->with('add-editor-successful', 'Editors has been created');
     }
 
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $keyword = $request->get('keyword');
-        $editors = Editor::when($keyword, function($query) use ($keyword) {
-            $query->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%')->orWhere('email', 'like', '%'.$keyword.'%');
+        $editors = Editor::when($keyword, function ($query) use ($keyword) {
+            $query->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%' . $keyword . '%')->orWhere('email', 'like', '%' . $keyword . '%');
         })->orderBy('first_name', 'asc')->paginate(10);
 
-        if ($keyword) 
+        if ($keyword)
             $editors->appends(['keyword' => $keyword]);
 
         return view('user.admin.users.user-editor', ['editors' => $editors]);
     }
 
-    public function detail($id, Request $request){
+    public function detail($id, Request $request)
+    {
         $keyword1 = $request->get('keyword-ongoing');
         $keyword2 = $request->get('keyword-completed');
         $essay_ongoing = EssayClients::with('client_by_id', 'program')->where('id_editors', '=', $id)->where('status_essay_clients', '!=', 0)->where('status_essay_clients', '!=', 4)->where('status_essay_clients', '!=', 5)->where('status_essay_clients', '!=', 7)->when($keyword1, function ($query_) use ($keyword1) {
             $query_->where(function ($query) use ($keyword1) {
                 $query->orWhereHas('client_by_id', function ($query_client) use ($keyword1) {
-                    $query_client->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword1.'%');
+                    $query_client->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%' . $keyword1 . '%');
                 })->orWhereHas('program', function ($query_program) use ($keyword1) {
-                    $query_program->where('program_name', 'like', '%'.$keyword1.'%');
+                    $query_program->where('program_name', 'like', '%' . $keyword1 . '%');
                 })->orWhereHas('status', function ($query_status) use ($keyword1) {
-                    $query_status->where('status_title', 'like', '%'.$keyword1.'%');
-                })->orWhere('essay_title', 'like', '%'.$keyword1.'%');
+                    $query_status->where('status_title', 'like', '%' . $keyword1 . '%');
+                })->orWhere('essay_title', 'like', '%' . $keyword1 . '%');
             });
         })->paginate(5);
         $essay_completed = EssayClients::with('client_by_id', 'program')->where('id_editors', '=', $id)->where('status_essay_clients', '=', 7)->when($keyword2, function ($query_) use ($keyword2) {
             $query_->where(function ($query) use ($keyword2) {
                 $query->orWhereHas('client_by_id', function ($query_client) use ($keyword2) {
-                    $query_client->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword2.'%');
+                    $query_client->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%' . $keyword2 . '%');
                 })->orWhereHas('program', function ($query_program) use ($keyword2) {
-                    $query_program->where('program_name', 'like', '%'.$keyword2.'%');
+                    $query_program->where('program_name', 'like', '%' . $keyword2 . '%');
                 })->orWhereHas('status', function ($query_status) use ($keyword2) {
-                    $query_status->where('status_title', 'like', '%'.$keyword2.'%');
-                })->orWhere('essay_title', 'like', '%'.$keyword2.'%');
+                    $query_status->where('status_title', 'like', '%' . $keyword2 . '%');
+                })->orWhere('essay_title', 'like', '%' . $keyword2 . '%');
             });
         })->paginate(5);
 
@@ -186,7 +186,8 @@ class Editors extends Controller
         ]);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $rules = [
             'first_name' => 'required',
             'last_name' => 'required',
@@ -218,18 +219,17 @@ class Editors extends Controller
             $new_editor->status = 1;
             $new_editor->save();
             DB::commit();
-
         } catch (Exception $e) {
-            
+
             DB::rollBack();
             return Redirect::back()->withErrors($e->getMessage());
-
         }
 
         return redirect('admin/user/editor')->with('add-editor-successful', 'The new Editor has been saved');
     }
 
-    public function update($id_editors, Request $request){
+    public function update($id_editors, Request $request)
+    {
         $rules = [
             'position' => 'nullable',
         ];
@@ -246,18 +246,17 @@ class Editors extends Controller
             $editor->position = $request->position;
             $editor->save();
             DB::commit();
-
         } catch (Exception $e) {
 
             DB::rollBack();
             return Redirect::back()->withErrors($e->getMessage());
-
         }
 
-        return redirect('admin/user/editor/detail/'.$id_editors)->with('update-editor-successful', 'The Editor has been updated');
+        return redirect('admin/user/editor/detail/' . $id_editors)->with('update-editor-successful', 'The Editor has been updated');
     }
 
-    public function deactivate($id_editors){
+    public function deactivate($id_editors)
+    {
         DB::beginTransaction();
         try {
             $editor = Editor::find($id_editors);
@@ -272,7 +271,8 @@ class Editors extends Controller
         return redirect('admin/user/editor');
     }
 
-    public function activate($id_editors){
+    public function activate($id_editors)
+    {
         DB::beginTransaction();
         try {
             $editor = Editor::find($id_editors);
@@ -285,5 +285,71 @@ class Editors extends Controller
             return Redirect::back()->withErrors($e->getMessage());
         }
         return redirect('admin/user/editor');
+    }
+
+    public function send_reset_password(Request $request)
+    {
+        $email = $request->email;
+        $user_token = [
+            'email' => $email,
+            'token' => Crypt::encrypt(Str::random(32)),
+            'activated_at' => time()
+        ];
+
+        # save token
+        Token::create($user_token);
+
+        # send email to user
+        Mail::send('mail.forgot-password.send-reset-password', $user_token, function ($mail) use ($email) {
+            $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+            $mail->to($email);
+            $mail->subject('Reset Password');
+        });
+
+        if (Mail::failures()) {
+            return response()->json(Mail::failures());
+        }
+
+        return redirect('/')->with('invite-editor-successful', 'Invitation email has been sent');
+    }
+
+    public function form_reset_password(Request $request)
+    {
+        $email = $request->get('email');
+        $token = $request->get('token');
+
+        if (!$user_token = Token::where('token', $token)->first()) {
+            return redirect('/')->with('reset-password-error', 'Token is not found');
+        }
+
+        return view('forgot.reset-password', ['request' => $request]);
+    }
+
+    public function reset_password(Request $request)
+    {
+        $rules = [
+            'password' => 'required|min:6|confirmed'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator->messages());
+        }
+
+        DB::beginTransaction();
+        try {
+            $editor = Editor::where('email', $request->email)->first();
+            $editor->password = Hash::make($request->password);
+            $editor->save();
+
+            $token = Token::where('token', $request->reset_token)->first();
+            $token->delete();
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return Redirect::back()->withErrors($e->getMessage());
+        }
+        return redirect('login/editor');
     }
 }
