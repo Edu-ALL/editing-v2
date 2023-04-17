@@ -46,42 +46,49 @@
 
         <div class="row mt-4 justify-content-center gap-3">
             <div class="col col-md-5 mt-3">
-                <form class="text-start" autocomplete="off" action="{{ route('reset-password') }}" method="POST">
-                    <input type="hidden" name="reset_token" value="{{ $request->get('token') }}">
-                    <input type="hidden" name="email" value="{{ $request->get('email') }}">
-                    @csrf
-                    <div class="row">
-                        <div class="col">
-                            <div class="d-flex flex-column">
-                                <div class="col">
-                                    <label for="password" class="form-label">New Password <i
-                                            class="text-danger">*</i></label>
-                                    <input type="password" class="form-control" autocomplete="off" name="password"
-                                        readonly onfocus="this.removeAttribute('readonly')">
-                                    @error('password')
-                                        <div class="alert text-danger fs-10">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="col mt-3">
-                                    <label for="confirmationPassword" class="form-label">Confirmation New Password <i
-                                            class="text-danger">*</i></label>
-                                    <input type="password" class="form-control" name="password_confirmation" readonly
-                                        onfocus="this.removeAttribute('readonly')">
-                                    @error('password_confirmation')
-                                        <div class="alert text-danger fs-10">{{ $message }}</div>
-                                    @enderror
+                <div class="card p-4 shadow">
+                    <form class="text-start" autocomplete="off"
+                        @if ($request->get('role') == 'editor') action="{{ route('reset-password-editor') }}"
+                    {{-- @elseif ($request->get('role') == 'admin')
+                    action="{{ route('reset-password-admin') }}"
+                    @else
+                    action="{{ route('reset-password-mentor') }}"  --}} @endif
+                        method="POST">
+                        <input type="hidden" name="reset_token" value="{{ $request->get('token') }}">
+                        <input type="hidden" name="email" value="{{ $request->get('email') }}">
+                        @csrf
+                        <div class="row">
+                            <div class="col">
+                                <div class="d-flex flex-column">
+                                    <div class="col">
+                                        <label for="password" class="form-label">New Password <i
+                                                class="text-danger">*</i></label>
+                                        <input type="password" class="form-control" autocomplete="off" name="password"
+                                            readonly onfocus="this.removeAttribute('readonly')">
+                                        @error('password')
+                                            <div class="alert text-danger fs-10">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col mt-3">
+                                        <label for="confirmationPassword" class="form-label">Confirmation New Password
+                                            <i class="text-danger">*</i></label>
+                                        <input type="password" class="form-control" name="password_confirmation"
+                                            readonly onfocus="this.removeAttribute('readonly')">
+                                        @error('password_confirmation')
+                                            <div class="alert text-danger fs-10">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row text-center mt-4">
-                        <div class="col">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-
+                        <div class="row text-center mt-4">
+                            <div class="col">
+                                <button id="submit-btn" type="submit" class="btn btn-primary">Submit</button>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -135,24 +142,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
         integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-        $(document).on("click", ".browse", function() {
-            var file = $(this).parents().find(".file");
-            file.trigger("click");
-        });
-        $('input[type="file"]').change(function(e) {
-            var fileName = e.target.files[0].name;
-            $("#file").val(fileName);
-
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                // get loaded data and render thumbnail.
-                document.getElementById("preview").src = e.target.result;
-            };
-            // read the image file as a data URL.
-            reader.readAsDataURL(this.files[0]);
-        });
-    </script>
 </body>
 
 </html>

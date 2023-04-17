@@ -17,7 +17,6 @@ use Illuminate\Support\Str;
 use App\Models\Token;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\File;
 
 class Editors extends Controller
 {
@@ -285,71 +284,5 @@ class Editors extends Controller
             return Redirect::back()->withErrors($e->getMessage());
         }
         return redirect('admin/user/editor');
-    }
-
-    public function send_reset_password(Request $request)
-    {
-        $email = $request->email;
-        $user_token = [
-            'email' => $email,
-            'token' => Crypt::encrypt(Str::random(32)),
-            'activated_at' => time()
-        ];
-
-        # save token
-        Token::create($user_token);
-
-        # send email to user
-        Mail::send('mail.forgot-password.send-reset-password', $user_token, function ($mail) use ($email) {
-            $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
-            $mail->to($email);
-            $mail->subject('Reset Password');
-        });
-
-        if (Mail::failures()) {
-            return response()->json(Mail::failures());
-        }
-
-        return redirect('/')->with('invite-editor-successful', 'Invitation email has been sent');
-    }
-
-    public function form_reset_password(Request $request)
-    {
-        $email = $request->get('email');
-        $token = $request->get('token');
-
-        if (!$user_token = Token::where('token', $token)->first()) {
-            return redirect('/')->with('reset-password-error', 'Token is not found');
-        }
-
-        return view('forgot.reset-password', ['request' => $request]);
-    }
-
-    public function reset_password(Request $request)
-    {
-        $rules = [
-            'password' => 'required|min:6|confirmed'
-        ];
-
-        $validator = Validator::make($request->all(), $rules);
-        if ($validator->fails()) {
-            return Redirect::back()->withErrors($validator->messages());
-        }
-
-        DB::beginTransaction();
-        try {
-            $editor = Editor::where('email', $request->email)->first();
-            $editor->password = Hash::make($request->password);
-            $editor->save();
-
-            $token = Token::where('token', $request->reset_token)->first();
-            $token->delete();
-
-            DB::commit();
-        } catch (Exception $e) {
-            DB::rollBack();
-            return Redirect::back()->withErrors($e->getMessage());
-        }
-        return redirect('login/editor');
     }
 }

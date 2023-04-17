@@ -12,6 +12,22 @@
 </head>
 
 <body>
+    @error('email')
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div id="liveToast" class="toast show bg-danger text-white" role="alert" aria-live="assertive"
+                aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ $message }}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    @enderror
+
+
     <nav class="navbar">
         <div class="container py-2 px-4">
             <a class="navbar-brand" href="/">
@@ -29,7 +45,7 @@
             <div class="col-md-6 cardLogin mt-3">
                 <h4>Forgot Password</h4>
                 <hr>
-                <form action="{{ route('send-reset-password') }}" method="POST">
+                <form action="{{ route('send-reset-password-editor') }}" method="POST">
                     @csrf
                     <div class="field-email mt-5 text-center">
                         <h6>We get it, stuff happens. Just enter your email address below and we'll send you a link to
@@ -47,6 +63,7 @@
             </div>
         </div>
     </div>
+    @include('component.loading')
     {{-- End Content --}}
 </body>
 

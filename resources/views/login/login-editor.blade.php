@@ -12,6 +12,69 @@
 </head>
 
 <body>
+
+    @if (session()->has('send-email-success'))
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div id="liveToast" class="toast show bg-warning text-dark" role="alert" aria-live="assertive"
+                aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ session()->get('send-email-success') }}
+
+                    </div>
+                    <button type="button" class="btn-close btn-close-dark me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    @if (session()->has('send-email-error'))
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div id="liveToast" class="toast show bg-danger text-dark" role="alert" aria-live="assertive"
+                aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ session()->get('send-email-error') }}
+
+                    </div>
+                    <button type="button" class="btn-close btn-close-dark me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    @if (session()->has('success-reset-password'))
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div id="liveToast" class="toast show bg-success text-white" role="alert" aria-live="assertive"
+                aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ session()->get('success-reset-password') }}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    @if (session()->has('token-not-found'))
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div id="liveToast" class="toast show bg-danger text-white" role="alert" aria-live="assertive"
+                aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ session()->get('token-not-found') }}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <nav class="navbar">
         <div class="container py-2 px-4">
             <a class="navbar-brand" href="/">
@@ -29,7 +92,9 @@
             <div class="col-md-6 cardLogin">
                 <h4>Login as Editor</h4>
                 <hr>
-                @if ($errors->any())
+                @if ($errors->get('token-not-found'))
+                    {!! implode('', $errors->all('<div class="alert alert-danger" role="alert">:message</div>')) !!}
+                @elseif ($errors->any())
                     {!! implode('', $errors->all('<div class="alert alert-danger" role="alert">:message</div>')) !!}
                 @endif
                 <form action="{{ route('editor-login') }}" method="POST">

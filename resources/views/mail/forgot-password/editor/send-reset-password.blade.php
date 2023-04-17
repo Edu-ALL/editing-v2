@@ -498,7 +498,7 @@
 
                                                                                                 <div class="text-button"
                                                                                                     style="color:#ffffff; font-family:Arial,sans-serif; font-size:12px; line-height:16px; text-align:center; text-transform:uppercase">
-                                                                                                    <a href="{{ route('form-reset-password', ['email' => $email, 'token' => $token]) }}"
+                                                                                                    <a href="{{ route('form-reset-password-editor', ['email' => $email, 'token' => $token, 'role' => 'editor']) }}"
                                                                                                         target="_blank"
                                                                                                         class="link-white"
                                                                                                         style="color:#ffffff; text-decoration:none"><span

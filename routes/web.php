@@ -18,9 +18,11 @@ use App\Http\Controllers\Admin\Mentors;
 use App\Http\Controllers\Admin\Program;
 use App\Http\Controllers\Admin\UserStudent;
 use App\Http\Controllers\Admin\Universities;
+use App\Http\Controllers\Admin\Authentication as AdminAuth;
 use App\Http\Controllers\Editor\Dashboard;
 use App\Http\Controllers\Editor\Essays as EditorEssays;
 use App\Http\Controllers\Editor\Profile;
+use App\Http\Controllers\Editor\Authentication as EditorAuth;
 use App\Http\Controllers\ManagingEditor\AllEditorMenu;
 use App\Http\Controllers\ManagingEditor\AllEssaysMenu;
 use App\Http\Controllers\ManagingEditor\CategoriesTags as ManagingEditorCategoriesTags;
@@ -30,6 +32,7 @@ use App\Http\Controllers\ManagingEditor\DashboardManaging;
 use App\Http\Controllers\ManagingEditor\ProfileManaging;
 use App\Http\Controllers\ManagingEditor\Universities as ManagingEditorUniversities;
 use App\Http\Controllers\Mentor\Dashboard as MentorDashboard;
+use App\Http\Controllers\Mentor\Authentication as MentorAuth;
 use App\Models\Category;
 use App\Models\EssayClients;
 use App\Models\PositionEditor;
@@ -83,9 +86,11 @@ Route::middleware('check.login')->group(function () {
     Route::get('/forgot/editor', function () {
         return view('forgot.editor-forgot-password');
     });
-    Route::post('send-reset-password/editor', [Editors::class, 'send_reset_password'])->name('send-reset-password');
-    Route::get('form-reset-password/editor', [Editors::class, 'form_reset_password'])->name('form-reset-password');
-    Route::post('reset-password/editor', [Editors::class, 'reset_password'])->name('reset-password');
+
+    Route::post('send-reset-password/editor', [EditorAuth::class, 'send_reset_password'])->name('send-reset-password-editor');
+    Route::get('form-reset-password/editor', [EditorAuth::class, 'form_reset_password'])->name('form-reset-password-editor');
+    Route::post('reset-password/editor', [EditorAuth::class, 'reset_password'])->name('reset-password-editor');
+    Route::post('delete-token', [EditorAuth::class, 'delete_token'])->name('delete-token');
 
     Route::get('/forgot/admin', function () {
         return view('forgot.admin-forgot-password');
