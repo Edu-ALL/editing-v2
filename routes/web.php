@@ -81,20 +81,23 @@ Route::middleware('check.login')->group(function () {
     Route::get('/forgot/mentor', function () {
         return view('forgot.mentor-forgot-password');
     });
-
+    Route::post('send-reset-password/mentor', [MentorAuth::class, 'send_reset_password'])->name('send-reset-password-mentor');
+    Route::get('form-reset-password/mentor', [MentorAuth::class, 'form_reset_password'])->name('form-reset-password-mentor');
+    Route::post('reset-password/mentor', [MentorAuth::class, 'reset_password'])->name('reset-password-mentor');
 
     Route::get('/forgot/editor', function () {
         return view('forgot.editor-forgot-password');
     });
-
     Route::post('send-reset-password/editor', [EditorAuth::class, 'send_reset_password'])->name('send-reset-password-editor');
     Route::get('form-reset-password/editor', [EditorAuth::class, 'form_reset_password'])->name('form-reset-password-editor');
     Route::post('reset-password/editor', [EditorAuth::class, 'reset_password'])->name('reset-password-editor');
-    Route::post('delete-token', [EditorAuth::class, 'delete_token'])->name('delete-token');
 
     Route::get('/forgot/admin', function () {
         return view('forgot.admin-forgot-password');
     });
+    Route::post('send-reset-password/admin', [AdminAuth::class, 'send_reset_password'])->name('send-reset-password-admin');
+    Route::get('form-reset-password/admin', [AdminAuth::class, 'form_reset_password'])->name('form-reset-password-admin');
+    Route::post('reset-password/admin', [AdminAuth::class, 'reset_password'])->name('reset-password-admin');
 });
 
 //**********Role Admin**********//

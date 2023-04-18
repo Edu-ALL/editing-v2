@@ -107,23 +107,24 @@ class Authentication extends Controller
             if (!$user_token) {
                 return redirect('/login/editor')->with('token-not-found', 'Token not found, request again!');
             }
-
-            # will expire in 1 hour
-            if ($user_token->activated_at < time() - 3600) {
-                DB::beginTransaction();
-                try {
-                    $user_token->delete();
-                    DB::commit();
-                } catch (Exception $e) {
-                    DB::rollBack();
-                }
-
-                return redirect('/login/editor')->with('token-not-found', 'Session has been expired!');
-            }
         }
 
         if (!in_array($role, ['admin', 'editor', 'mentor'])) {
             return redirect('/login/editor')->with('role-not-found', 'Role is not found');
+        }
+
+        DB::beginTransaction();
+        try {
+            # delete all token that expire in 1 hour
+            $all_token = Token::where('activated_at', '<', time() - 3600)->get();
+            foreach ($all_token as $token) {
+                if ($user_token->activated_at < time() - 3600) {
+                    $user_token->delete();
+                    DB::commit();
+                }
+            }
+        } catch (Exception $e) {
+            DB::rollBack();
         }
 
         return view('forgot.reset-password', ['request' => $request]);

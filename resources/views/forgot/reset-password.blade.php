@@ -22,6 +22,20 @@
 </head>
 
 <body>
+    @if (session()->has('error-reset-password'))
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div id="liveToast" class="toast show bg-warning text-dark" role="alert" aria-live="assertive"
+                aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ session()->get('error-reset-password') }}
+                    </div>
+                    <button type="button" class="btn-close btn-close-dark me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    @endif
     <nav class="navbar" style="background-color: var(--bs-white)">
         <div class="container py-2 px-4">
             <a class="navbar-brand" href="/login/admin">
@@ -49,10 +63,10 @@
                 <div class="card p-4 shadow">
                     <form class="text-start" autocomplete="off"
                         @if ($request->get('role') == 'editor') action="{{ route('reset-password-editor') }}"
-                    {{-- @elseif ($request->get('role') == 'admin')
+                    @elseif ($request->get('role') == 'admin')
                     action="{{ route('reset-password-admin') }}"
                     @else
-                    action="{{ route('reset-password-mentor') }}"  --}} @endif
+                    action="{{ route('reset-password-mentor') }}" @endif
                         method="POST">
                         <input type="hidden" name="reset_token" value="{{ $request->get('token') }}">
                         <input type="hidden" name="email" value="{{ $request->get('email') }}">
