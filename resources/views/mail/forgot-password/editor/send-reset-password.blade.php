@@ -499,6 +499,7 @@
                                                                                                 <div class="text-button"
                                                                                                     style="color:#ffffff; font-family:Arial,sans-serif; font-size:12px; line-height:16px; text-align:center; text-transform:uppercase">
                                                                                                     <a href="{{ route('form-reset-password-editor', ['email' => $email, 'token' => $token, 'role' => 'editor']) }}"
+                                                                                                        id="action-btn"
                                                                                                         target="_blank"
                                                                                                         class="link-white"
                                                                                                         style="color:#ffffff; text-decoration:none"><span
@@ -722,6 +723,7 @@
             <td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left" width="1"></td>
         </tr>
     </table>
+    @include('component.delete-token')
 </body>
 
 </html>

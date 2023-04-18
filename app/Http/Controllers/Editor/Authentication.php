@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Editor;
 use App\Http\Controllers\Controller;
 use App\Models\Editor;
 use App\Models\Token;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
@@ -76,7 +77,7 @@ class Authentication extends Controller
         $user_token = [
             'email' => $email,
             'token' => Crypt::encrypt(Str::random(32)),
-            'activated_at' => time()
+            'activated_at' => time(),
         ];
 
         # save token
@@ -102,8 +103,23 @@ class Authentication extends Controller
         $token = $request->get('token');
         $role = $request->get('role');
 
-        if (!$user_token = Token::where('token', $token)->first()) {
-            return redirect('/login/editor')->with('token-not-found', 'Token has been expired, request again!');
+        if ($user_token = Token::where('token', $token)->first()) {
+            if (!$user_token) {
+                return redirect('/login/editor')->with('token-not-found', 'Token not found, request again!');
+            }
+
+            # will expire in 1 hour
+            if ($user_token->activated_at < time() - 3600) {
+                DB::beginTransaction();
+                try {
+                    $user_token->delete();
+                    DB::commit();
+                } catch (Exception $e) {
+                    DB::rollBack();
+                }
+
+                return redirect('/login/editor')->with('token-not-found', 'Session has been expired!');
+            }
         }
 
         if (!in_array($role, ['admin', 'editor', 'mentor'])) {
@@ -147,7 +163,7 @@ class Authentication extends Controller
         DB::beginTransaction();
 
         try {
-            $token = Token::where('token', $request->reset_token)->first();
+            $token = Token::where('token', $request->token)->first();
             $token->delete();
 
             DB::commit();
@@ -155,6 +171,6 @@ class Authentication extends Controller
             DB::rollBack();
         }
 
-        return response()->json(["success"]);
+        return response()->json(["success" => "Token has been deleted!"]);
     }
 }
