@@ -202,7 +202,7 @@
                                             </div>
                                         </div>
                                         <div class="container text-center pt-3" style="overflow-x: auto !important">
-                                            <table class="table table-bordered">
+                                            <table class="table table-bordered table-sm" style="font-size: 12px">
                                                 <thead>
                                                     <tr>
                                                         <th>No</th>
@@ -248,7 +248,8 @@
 
                                     <div>
                                         <hr>
-                                        <div class="detailCard d-flex justify-content-between align-items-center px-3 pb-2">
+                                        <div
+                                            class="detailCard d-flex justify-content-between align-items-center px-3 pb-2">
                                             <h6 class="fs-6">{{ $essay_per_month }} Essay Total (in
                                                 {{ DateTime::createFromFormat('!m', $date['month'])->format('F') }}
                                                 {{ $date['year'] }})</h6>
@@ -263,7 +264,8 @@
                     </div>
                 </div>
             </div>
-            {{-- End Content --}}
+
+
         </div>
     </div>
 @endsection
@@ -283,5 +285,19 @@
         formFilter.addEventListener('change', (() => {
             formFilter.submit();
         }))
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $('form').change(function(e) {
+            e.preventDefault();
+            Swal.fire({
+                width: 100,
+                backdrop: '#4e4e4e7d',
+                allowOutsideClick: false,
+            })
+            Swal.showLoading();
+            this.closest('form').submit();
+        })
     </script>
 @stop

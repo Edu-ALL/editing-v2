@@ -38,7 +38,7 @@ class Dashboard extends Controller
         return view('user.admin.dashboard', [
             'count_student' => Client::count(),
             'count_mentor' => Mentor::count(),
-            'count_editor' => Editor::count(),
+            'count_editor' => Editor::where('status', '1')->count(),
             'count_ongoing_essay' => EssayClients::where('status_essay_clients', '!=', 7)->count(),
             'count_completed_essay' => EssayEditors::where('status_essay_editors', '=', 7)->count(),
             'editors_active' => $editorsActive,

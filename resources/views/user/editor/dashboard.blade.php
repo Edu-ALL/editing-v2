@@ -27,10 +27,10 @@
                     @endif
                     <div>
                         <div class="row gap-4">
-                            <div class="col-md col-12 mb-0">
+                            <div class="col-md-5 col-12 mb-0">
                                 {{-- User List --}}
                                 <div class="row gap-2">
-                                    <a class="col-md col-12 p-0 userCard" href="/admin/user/student">
+                                    {{-- <a class="col-md col-12 p-0 userCard" href="/admin/user/student">
                                         <div class="headline text-center">
                                             <h6>Students</h6>
                                         </div>
@@ -48,8 +48,8 @@
                                         <div class="detailCard ps-3 mt-2">
                                             <h6>See the list of Students</h6>
                                         </div>
-                                    </a>
-                                    <a class="col-md col-12 p-0 userCard" href="/admin/user/mentor">
+                                    </a> --}}
+                                    {{-- <a class="col-md col-12 p-0 userCard" href="/admin/user/mentor">
                                         <div class="headline text-center">
                                             <h6>Mentors</h6>
                                         </div>
@@ -67,8 +67,8 @@
                                         <div class="detailCard ps-3 mt-2">
                                             <h6>See the list of Mentors</h6>
                                         </div>
-                                    </a>
-                                    <a class="col-md col-12 p-0 userCard" href="/admin/user/editor">
+                                    </a> --}}
+                                    <a class="col-md col-12 p-0 userCard" href="/editor/list">
                                         <div class="headline text-center">
                                             <h6>Editors</h6>
                                         </div>
@@ -92,7 +92,7 @@
 
                                 {{-- Essay --}}
                                 <div class="row gap-2 mt-2">
-                                    <a class="col-md col-12 p-0 userCard" href="/admin/essay-list/ongoing">
+                                    <a class="col-md col-12 p-0 userCard" href="/editor/all-essays">
                                         <div class="headline d-flex align-items-center gap-3">
                                             <img src="/assets/ongoing-essay.png" alt="">
                                             <h6>Ongoing Essay</h6>
@@ -107,7 +107,7 @@
                                             <h6>See the list of Ongoing Essay</h6>
                                         </div>
                                     </a>
-                                    <a class="col-md col-12 p-0 userCard" href="/admin/essay-list/completed">
+                                    <a class="col-md col-12 p-0 userCard" href="/editor/all-essays">
                                         <div class="headline d-flex align-items-center gap-3"
                                             style="background-color: var(--green)">
                                             <img src="/assets/completed-essay.png" alt="">
@@ -454,5 +454,20 @@
         formFilter.addEventListener('change', (() => {
             formFilter.submit();
         }))
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $('form').change(function(e) {
+            e.preventDefault();
+            Swal.fire({
+                width: 100,
+                backdrop: '#4e4e4e7d',
+                allowOutsideClick: false,
+            })
+            Swal.showLoading();
+            this.closest('form').submit();
+        })
     </script>
 @endsection
