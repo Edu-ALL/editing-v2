@@ -52,17 +52,17 @@
                                     <a class="btn-invite" href="/admin/user/editor/invite">
                                         <img src="/assets/letter.png" alt="">
                                     </a>
-                                    <div class="input-group">
+                                    {{-- <div class="input-group">
                                         <form id="form-editor-searching" action="{{ route('list-editor') }}" method="GET"
                                             role="search" class="w-100">
                                             <input type="text" class="form-control inputField py-2 px-3" name="keyword"
                                                 id="search-editor" placeholder="Search" required>
                                         </form>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
-                            <div class="container text-center" style="overflow-x: auto !important">
-                                <table class="table table-bordered">
+                            <div class="container text-start px-3 py-2">
+                                <table class="table" id="listeditor" style="width: 100%">
                                     <thead>
                                         <tr>
                                             <th>No</th>
@@ -74,44 +74,7 @@
                                             <th>Status</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <?php $i = ($editors->currentpage() - 1) * $editors->perpage() + 1; ?>
-                                        @foreach ($editors as $editor)
-                                            <tr
-                                                onclick="window.location='/admin/user/editor/detail/{{ $editor->id_editors }}'">
-                                                <th scope="row">{{ $i++ }}</th>
-                                                <td>{{ $editor->first_name . ' ' . $editor->last_name }}</td>
-                                                <td>{{ $editor->email ? $editor->email : '-' }}</td>
-                                                <td>{{ $editor->phone ? $editor->phone : '-' }}</td>
-                                                <td>{{ $editor->address ? strip_tags($editor->address) : '-' }}</td>
-                                                @if ($editor->position == 1)
-                                                    <td>Associate</td>
-                                                @elseif ($editor->position == 2)
-                                                    <td>Senior</td>
-                                                @elseif ($editor->position == 3)
-                                                    <td>Managing</td>
-                                                @endif
-                                                @if ($editor->status == 1)
-                                                    <td>
-                                                        <div class="status-editor">
-                                                            Active
-                                                        </div>
-                                                    </td>
-                                                @else
-                                                    <td>
-                                                        <div class="status-editor" style="background-color: var(--red)">
-                                                            Deleted
-                                                        </div>
-                                                    </td>
-                                                @endif
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
                                 </table>
-                                {{-- Pagination --}}
-                                <div class="d-flex justify-content-center">
-                                    {{ $editors->links() }}
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -124,13 +87,54 @@
 @endsection
 
 @section('js')
-    <script type="text/javascript">
-        $("#search-editor").keypress(function(e) {
-            if (e.keyCode === 13) {
-                swal.showLoading();
-                e.preventDefault();
-                $("#form-editor-searching").submit();
-            }
+    <script>
+        // List Editor
+        $(document).ready(function () {
+            $('#listeditor').DataTable({
+                scrollX: true,
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('data-editor') }}',
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        class: 'text-center'
+                    },
+                    {
+                        data: 'fullname',
+                        name: 'fullname'
+                    },
+                    {
+                        data: 'email',
+                        name: 'email'
+                    },
+                    {
+                        data: 'phone',
+                        name: 'phone'
+                    },
+                    {
+                        data: 'address',
+                        name: 'address'
+                    },
+                    {
+                        data: 'position',
+                        name: 'position'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
+                        class: 'text-center'
+                    },
+                ]
+            });
         });
+        // $("#search-editor").keypress(function(e) {
+        //     if (e.keyCode === 13) {
+        //         swal.showLoading();
+        //         e.preventDefault();
+        //         $("#form-editor-searching").submit();
+        //     }
+        // });
     </script>
 @stop
