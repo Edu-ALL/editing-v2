@@ -17,6 +17,7 @@ use Illuminate\Support\Str;
 use App\Models\Token;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Yajra\DataTables\Facades\DataTables;
 
 class Editors extends Controller
 {
@@ -122,17 +123,69 @@ class Editors extends Controller
         return redirect('/login/editor')->with('add-editor-successful', 'Editors has been created');
     }
 
+    public function getEditor(Request $request){
+        if ($request->ajax()) {
+            $data = Editor::orderBy('first_name', 'asc')->get();
+            return Datatables::of($data)
+            ->addIndexColumn()
+            ->editColumn('fullname', function($d){
+                $result = '
+                    '.$d->first_name . ' ' . $d->last_name.'
+                ';
+                return $result;
+            })
+            ->editColumn('email', function($d){
+                $result = '
+                    '.$d->email ? $d->email : "-".'
+                ';
+                return $result;
+            })
+            ->editColumn('phone', function($d){
+                $result = '
+                    '.$d->phone ? $d->phone : "-".'
+                ';
+                return $result;
+            })
+            ->editColumn('address', function($d){
+                $result = '
+                    '.$d->address ? $d->address : "-".'
+                ';
+                return $result;
+            })
+            ->editColumn('position', function($d){
+                if ($d->position == 1) {
+                    $result = 'Associate';
+                } else if ($d->position == 2) {
+                    $result = 'Senior';
+                } else if ($d->position == 3) {
+                    $result = 'Managing';
+                }
+                return $result;
+            })
+            ->editColumn('status', function($d){
+                if ($d->status == 1) {
+                    $result = '
+                        <div class="status-editor">
+                            Active
+                        </div>
+                    ';
+                } else {
+                    $result = '
+                        <div class="status-editor" style="background-color: var(--red)">
+                            Deactive
+                        </div>
+                    ';
+                }
+                return $result;
+            })
+            ->rawColumns(['fullname', 'email', 'phone', 'address', 'position', 'status'])
+            ->make(true);
+        }
+    }
+
     public function index(Request $request)
     {
-        $keyword = $request->get('keyword');
-        $editors = Editor::when($keyword, function ($query) use ($keyword) {
-            $query->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%' . $keyword . '%')->orWhere('email', 'like', '%' . $keyword . '%');
-        })->orderBy('first_name', 'asc')->paginate(10);
-
-        if ($keyword)
-            $editors->appends(['keyword' => $keyword]);
-
-        return view('user.admin.users.user-editor', ['editors' => $editors]);
+        return view('user.admin.users.user-editor');
     }
 
     public function detail($id, Request $request)
