@@ -111,6 +111,7 @@ Route::middleware('is_admin')->group(function () {
 
     // Student
     Route::get('/admin/user/student', [Clients::class, 'index'])->name('list-client');
+    Route::get('/admin/user/student/data', [Clients::class, 'getStudent'])->name('data-student');
     Route::get('/admin/user/student/detail/{id}', [Clients::class, 'detail']);
 
     // Mentor
