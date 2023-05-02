@@ -118,6 +118,7 @@ Route::middleware('is_admin')->group(function () {
 
     // Editor
     Route::get('/admin/user/editor', [Editors::class, 'index'])->name('list-editor');
+    Route::get('/admin/user/editor/data', [Editors::class, 'getEditor'])->name('data-editor');
     Route::get('/admin/user/editor/detail/{id}', [Editors::class, 'detail']);
     Route::get('/admin/user/editor/add', function () {
         return view('user.admin.users.user-editor-add', [
