@@ -48,7 +48,7 @@
                                 </div>
                             </div>
                             <div class="container text-start px-3 py-2">
-                                <table class="table" id="liststudent" style="width: 100%">
+                                <table class="table  table-bordered" id="liststudent" style="width: 100%">
                                     <thead>
                                         <tr>
                                             <th>No</th>
@@ -142,7 +142,12 @@
                         data: 'city',
                         name: 'city'
                     },
-                ]
+                ],
+                rowCallback: function(row, data) {
+                    $(row).on('click', function() {
+                        window.location.href = `/admin/user/student/detail/${data.id_clients}`;
+                    });
+                }
             });
         });
     </script>

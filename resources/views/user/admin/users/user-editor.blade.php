@@ -62,7 +62,7 @@
                                 </div>
                             </div>
                             <div class="container text-start px-3 py-2">
-                                <table class="table" id="listeditor" style="width: 100%">
+                                <table class="table  table-bordered" id="listeditor" style="width: 100%">
                                     <thead>
                                         <tr>
                                             <th>No</th>
@@ -89,7 +89,7 @@
 @section('js')
     <script>
         // List Editor
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#listeditor').DataTable({
                 scrollX: true,
                 responsive: true,
@@ -126,7 +126,12 @@
                         name: 'status',
                         class: 'text-center'
                     },
-                ]
+                ],
+                rowCallback: function(row, data) {
+                    $(row).on('click', function() {
+                        window.location.href = `/admin/user/editor/detail/${data.id_editors}`;
+                    });
+                }
             });
         });
         // $("#search-editor").keypress(function(e) {

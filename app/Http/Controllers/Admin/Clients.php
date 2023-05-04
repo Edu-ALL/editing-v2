@@ -17,23 +17,13 @@ class Clients extends Controller
 
     public function index(Request $request)
     {
-        // $keyword = $request->get('keyword');
-        // $clients = Client::with('mentors')->when($keyword, function($query) use ($keyword) {
-        //     $query->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%')->orWhereHas('mentors', function ($querym) use ($keyword) {
-        //         $querym->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%');
-        //     })->orWhere('email', 'like', '%'.$keyword.'%');
-        // })->orderBy('first_name', 'asc')->paginate(10);
-
-        // if ($keyword)
-        //     $clients->appends(['keyword' => $keyword]);
-
         return view('user.admin.users.user-student');
     }
 
     public function getStudent(Request $request)
     {
         if ($request->ajax()) {
-            $data = Client::with('mentors')->orderBy('first_name', 'asc')->get();
+            $data = Client::with(['mentors', 'mentors2'])->orderBy('first_name', 'asc')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('student_name', function ($client) {
@@ -45,7 +35,7 @@ class Clients extends Controller
                     return " " . $result . " ";
                 })
                 ->editColumn('backup_mentor', function ($client) {
-                    $result = isset($client->mentors2) ? $client->mentors2->first_name . ' ' . $client->mentors2->last_name : '-';
+                    $result = $client->mentors2 ? $client->mentors2->first_name . ' ' . $client->mentors2->last_name : '-';
                     return " " . $result . " ";
                 })
                 ->editColumn('email', function ($client) {

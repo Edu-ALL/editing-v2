@@ -116,6 +116,7 @@ Route::middleware('is_admin')->group(function () {
 
     // Mentor
     Route::get('/admin/user/mentor', [Mentors::class, 'index'])->name('list-mentor');
+    Route::get('/admin/user/mentor/data', [Mentors::class, 'getMentor'])->name('data-mentor');
 
     // Editor
     Route::get('/admin/user/editor', [Editors::class, 'index'])->name('list-editor');
@@ -132,9 +133,11 @@ Route::middleware('is_admin')->group(function () {
 
     // Essay List
     Route::get('/admin/essay-list/ongoing', [Essays::class, 'index'])->name('list-ongoing-essay');
+    Route::get('/admin/essay-list/ongoing/data', [Essays::class, 'getEssayOngoing'])->name('data-ongoing-essay');
     Route::get('/admin/essay-list/ongoing/detail/{id_essay}', [Essays::class, 'detailEssayOngoing']);
 
     Route::get('/admin/essay-list/completed', [Essays::class, 'essayCompleted'])->name('list-completed-essay');
+    Route::get('/admin/essay-list/completed/data', [Essays::class, 'getEssayCompleted'])->name('data-completed-essay');
     Route::get('/admin/essay-list/completed/detail/{id}', [Essays::class, 'detailEssayCompleted']);
 
     // Export to Excel
