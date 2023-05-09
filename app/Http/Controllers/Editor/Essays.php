@@ -27,14 +27,13 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Yajra\DataTables\Facades\DataTables;
 
 class Essays extends Controller
 {
     public function index(Request $request)
     {
-        $editor = Auth::guard('web-editor')->user();
-        $keyword1 = $request->get('keyword-ongoing');
-        $keyword2 = $request->get('keyword-completed');
+        // $keyword2 = $request->get('keyword-completed');
         // $ongoing_essay = EssayClients::where('id_editors', '=', $editor->id_editors)->where('status_essay_clients', '!=', 7)->where('status_essay_clients', '!=', 0)->where('status_essay_clients', '!=', 4)->where('status_essay_clients', '!=', 5)->when($keyword1, function ($query_) use ($keyword1) {
         //     $query_->where(function ($query) use ($keyword1) {
         //         $query->whereHas('client_by_id', function ($query_by_id) use ($keyword1) {
@@ -51,48 +50,191 @@ class Essays extends Controller
         //             });
         //     });
         // })->orderBy('uploaded_at', 'asc')->paginate(10);
-        $ongoing_essay = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', 'tbl_essay_editors.id_essay_clients')->where('editors_mail', $editor->email)->where('status_essay_editors', '!=', 7)->when($keyword2, function ($query_) use ($keyword2) {
-            $query_->where(function ($query) use ($keyword2) {
-                $query->whereHas('essay_clients', function ($query_essay) use ($keyword2) {
-                    $query_essay->whereHas('client_by_id', function ($query_client) use ($keyword2) {
-                        $query_client->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword2.'%')->orWhereHas('mentors', function ($query_mentor) use ($keyword2) {
-                            $query_mentor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword2.'%');
-                        });;
-                    })->orWhereHas('editor', function ($query_editor) use ($keyword2) {
-                        $query_editor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword2.'%');
-                    })->orWhereHas('program', function ($query_program) use ($keyword2) {
-                        $query_program->where('program_name', 'like', '%'.$keyword2.'%');
-                    })->orWhere('essay_title', 'like', '%'.$keyword2.'%')
-                    ->orWhereHas('status', function ($query_status) use ($keyword2) {
-                        $query_status->where('status_title', 'like', '%'.$keyword2.'%');
-                    });
-                });
-            });
+        // $ongoing_essay = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', 'tbl_essay_editors.id_essay_clients')->where('editors_mail', $editor->email)->where('status_essay_editors', '!=', 7)->when($keyword2, function ($query_) use ($keyword2) {
+        //     $query_->where(function ($query) use ($keyword2) {
+        //         $query->whereHas('essay_clients', function ($query_essay) use ($keyword2) {
+        //             $query_essay->whereHas('client_by_id', function ($query_client) use ($keyword2) {
+        //                 $query_client->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%' . $keyword2 . '%')->orWhereHas('mentors', function ($query_mentor) use ($keyword2) {
+        //                     $query_mentor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%' . $keyword2 . '%');
+        //                 });;
+        //             })->orWhereHas('editor', function ($query_editor) use ($keyword2) {
+        //                 $query_editor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%' . $keyword2 . '%');
+        //             })->orWhereHas('program', function ($query_program) use ($keyword2) {
+        //                 $query_program->where('program_name', 'like', '%' . $keyword2 . '%');
+        //             })->orWhere('essay_title', 'like', '%' . $keyword2 . '%')
+        //                 ->orWhereHas('status', function ($query_status) use ($keyword2) {
+        //                     $query_status->where('status_title', 'like', '%' . $keyword2 . '%');
+        //                 });
+        //         });
+        //     });
+        //     // })->orderBy('read', 'asc')->orderBy('uploaded_at', 'desc')->paginate(10);
+        // })->orderBy('read', 'asc')->orderBy('tbl_essay_clients.essay_deadline', 'asc')->orderBy('tbl_essay_clients.application_deadline', 'asc')->paginate(10);
+        // $completed_essay = EssayEditors::where('editors_mail', $editor->email)->where('status_essay_editors', '=', 7)->when($keyword2, function ($query_) use ($keyword2) {
+        //     $query_->where(function ($query) use ($keyword2) {
+        //         $query->whereHas('essay_clients', function ($query_essay) use ($keyword2) {
+        //             $query_essay->whereHas('client_by_id', function ($query_client) use ($keyword2) {
+        //                 $query_client->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%' . $keyword2 . '%')->orWhereHas('mentors', function ($query_mentor) use ($keyword2) {
+        //                     $query_mentor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%' . $keyword2 . '%');
+        //                 });;
+        //             })->orWhereHas('editor', function ($query_editor) use ($keyword2) {
+        //                 $query_editor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%' . $keyword2 . '%');
+        //             })->orWhereHas('program', function ($query_program) use ($keyword2) {
+        //                 $query_program->where('program_name', 'like', '%' . $keyword2 . '%');
+        //             })->orWhere('essay_title', 'like', '%' . $keyword2 . '%')
+        //                 ->orWhereHas('status', function ($query_status) use ($keyword2) {
+        //                     $query_status->where('status_title', 'like', '%' . $keyword2 . '%');
+        //                 });
+        //         });
+        //     });
         // })->orderBy('read', 'asc')->orderBy('uploaded_at', 'desc')->paginate(10);
-        })->orderBy('read', 'asc')->orderBy('tbl_essay_clients.essay_deadline', 'asc')->orderBy('tbl_essay_clients.application_deadline', 'asc')->paginate(10);
-        $completed_essay = EssayEditors::where('editors_mail', $editor->email)->where('status_essay_editors', '=', 7)->when($keyword2, function ($query_) use ($keyword2) {
-            $query_->where(function ($query) use ($keyword2) {
-                $query->whereHas('essay_clients', function ($query_essay) use ($keyword2) {
-                    $query_essay->whereHas('client_by_id', function ($query_client) use ($keyword2) {
-                        $query_client->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%' . $keyword2 . '%')->orWhereHas('mentors', function ($query_mentor) use ($keyword2) {
-                            $query_mentor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%' . $keyword2 . '%');
-                        });;
-                    })->orWhereHas('editor', function ($query_editor) use ($keyword2) {
-                        $query_editor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%' . $keyword2 . '%');
-                    })->orWhereHas('program', function ($query_program) use ($keyword2) {
-                        $query_program->where('program_name', 'like', '%' . $keyword2 . '%');
-                    })->orWhere('essay_title', 'like', '%' . $keyword2 . '%')
-                        ->orWhereHas('status', function ($query_status) use ($keyword2) {
-                            $query_status->where('status_title', 'like', '%' . $keyword2 . '%');
-                        });
-                });
-            });
-        })->orderBy('read', 'asc')->orderBy('uploaded_at', 'desc')->paginate(10);
 
-        return view('user.per-editor.essay-list.essay-list', [
-            'ongoing_essay' => $ongoing_essay,
-            'completed_essay' => $completed_essay,
-        ]);
+        return view('user.per-editor.essay-list.essay-list');
+    }
+
+    public function getEssayOngoing(Request $request)
+    {
+        if ($request->ajax()) {
+            $editor = Auth::guard('web-editor')->user();
+            $data = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', 'tbl_essay_editors.id_essay_clients')
+                ->with(['status', 'essay_clients.mentor', 'editor', 'essay_clients.client_by_id', 'essay_clients.client_by_email', 'essay_clients.client_by_id.mentors', 'essay_clients.client_by_email.mentors', 'essay_clients.program'])
+                ->where('editors_mail', $editor->email)
+                ->where('status_essay_editors', '!=', 7)
+                ->orderBy('read', 'asc')
+                ->orderBy('tbl_essay_clients.essay_deadline', 'asc')
+                ->orderBy('tbl_essay_clients.application_deadline', 'asc')
+                ->get();
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->editColumn('student_name', function ($essay) {
+                    if (isset($essay->essay_clients->client_by_id)) {
+                        $result =  '<div class="' . ($essay->read == 0 ? 'unread' : '') . '">' .
+                            ($essay->essay_clients->client_by_id->first_name) . ' ' . ($essay->essay_clients->client_by_id->last_name) .
+                            '</div>';
+                    } else {
+                        $result =  '<div class="' . ($essay->read == 0 ? 'unread' : '') . '">' .
+                            ($essay->essay_clients->client_by_email->first_name) . ' ' . ($essay->essay_clients->client_by_email->last_name) .
+                            '</div>';
+                    }
+                    return $result;
+                })
+                ->editColumn('mentor_name', function ($essay) {
+                    $result =  '<div class="' . ($essay->read == 0 ? 'unread' : '') . '">' .
+                        ($essay->essay_clients->mentor->first_name) . ' ' . ($essay->essay_clients->mentor->last_name)  .
+                        '</div>';
+                    return $result;
+                })
+                ->editColumn('editor_name', function ($essay) {
+                    $result =  '<div class="' . ($essay->read == 0 ? 'unread' : '') . '">' .
+                        ($essay->editor ? $essay->editor->first_name . ' ' . $essay->editor->last_name : '-')  .
+                        '</div>';
+                    return $result;
+                })
+                ->editColumn('program', function ($essay) {
+                    $result =  '<div class="' . ($essay->read == 0 ? 'unread' : '') . '">' .
+                        ($essay->essay_clients->program->program_name)  .
+                        '</div>';
+                    return $result;
+                })
+                ->editColumn('title', function ($essay) {
+                    $result =  '<div class="' . ($essay->read == 0 ? 'unread' : '') . '">' .
+                        ($essay->essay_clients->essay_title)  .
+                        '</div>';
+                    return $result;
+                })
+                ->editColumn('upload_date', function ($essay) {
+                    $result =  '<div class="' . ($essay->read == 0 ? 'unread' : '') . '">' .
+                        (date('D, d M Y', strtotime($essay->essay_clients->uploaded_at)))  .
+                        '</div>';
+                    return $result;
+                })
+                ->editColumn('essay_deadline', function ($essay) {
+                    $result =  '<div class="' . ($essay->read == 0 ? 'unread' : '') . '">' .
+                        (date('D, d M Y', strtotime($essay->essay_clients->essay_deadline)))  .
+                        '</div>';
+                    return $result;
+                })
+                ->editColumn('status', function ($essay) {
+                    $result =  '<div class="' . ($essay->read == 0 ? 'unread' : '') . '" style="color: var(--green)">' .
+                        ($essay->status->status_title)  .
+                        '</div>';
+                    return $result;
+                })
+                ->rawColumns(['student_name', 'mentor_name', 'editor_name', 'program', 'title', 'upload_date', 'essay_deadline', 'status'])
+                ->make();
+        }
+    }
+
+    public function getEssayCompleted(Request $request)
+    {
+        if ($request->ajax()) {
+            $editor = Auth::guard('web-editor')->user();
+            $data = EssayEditors::where('editors_mail', $editor->email)
+                ->with(['status', 'essay_clients.mentor', 'editor', 'essay_clients.client_by_id', 'essay_clients.client_by_email', 'essay_clients.client_by_id.mentors', 'essay_clients.client_by_email.mentors', 'essay_clients.program'])
+                ->where('status_essay_editors', '=', 7)
+                ->orderBy('read', 'asc')
+                ->orderBy('uploaded_at', 'desc')
+                ->get();
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->editColumn('student_name', function ($essay) {
+                    if (isset($essay->essay_clients->client_by_id)) {
+                        $result =  '<div class="' . ($essay->read == 0 ? 'unread' : '') . '">' .
+                            ($essay->essay_clients->client_by_id->first_name) . ' ' . ($essay->essay_clients->client_by_id->last_name) .
+                            '</div>';
+                    } else {
+                        $result =  '<div class="' . ($essay->read == 0 ? 'unread' : '') . '">' .
+                            ($essay->essay_clients->client_by_email->first_name) . ' ' . ($essay->essay_clients->client_by_email->last_name) .
+                            '</div>';
+                    }
+                    return $result;
+                })
+                ->editColumn('mentor_name', function ($essay) {
+                    $result =  '<div class="' . ($essay->read == 0 ? 'unread' : '') . '">' .
+                        ($essay->essay_clients->mentor->first_name) . ' ' . ($essay->essay_clients->mentor->last_name)  .
+                        '</div>';
+                    return $result;
+                })
+                ->editColumn('editor_name', function ($essay) {
+                    $result =  '<div class="' . ($essay->read == 0 ? 'unread' : '') . '">' .
+                        ($essay->editor ? $essay->editor->first_name . ' ' . $essay->editor->last_name : '-')  .
+                        '</div>';
+                    return $result;
+                })
+                ->editColumn('program', function ($essay) {
+                    $result =  '<div class="' . ($essay->read == 0 ? 'unread' : '') . '">' .
+                        ($essay->essay_clients->program->program_name)  .
+                        '</div>';
+                    return $result;
+                })
+                ->editColumn('title', function ($essay) {
+                    $result =  '<div class="' . ($essay->read == 0 ? 'unread' : '') . '">' .
+                        ($essay->essay_clients->essay_title)  .
+                        '</div>';
+                    return $result;
+                })
+                ->editColumn('upload_date', function ($essay) {
+                    $result =  '<div class="' . ($essay->read == 0 ? 'unread' : '') . '">' .
+                        (date('D, d M Y', strtotime($essay->essay_clients->uploaded_at)))  .
+                        '</div>';
+                    return $result;
+                })
+                ->editColumn('essay_deadline', function ($essay) {
+                    $result =  '<div class="' . ($essay->read == 0 ? 'unread' : '') . '">' .
+                        (date('D, d M Y', strtotime($essay->essay_clients->essay_deadline)))  .
+                        '</div>';
+                    return $result;
+                })
+                ->editColumn('status', function ($essay) {
+                    $result =  '<div class="' . ($essay->read == 0 ? 'unread' : '') . '" style="color: var(--green)">' .
+                        ($essay->status->status_title)  .
+                        '</div>';
+                    return $result;
+                })
+                ->rawColumns(['student_name', 'mentor_name', 'editor_name', 'program', 'title', 'upload_date', 'essay_deadline', 'status'])
+                ->make();
+        }
     }
 
     public function detailEssay($id_essay, Request $request)
@@ -140,7 +282,6 @@ class Essays extends Controller
         } else {
             return redirect('editors/essay-list')->with('isEssay', 'Essay not found');
         }
-        
     }
 
     public function detailEssayCompleted($id_essay, Request $request)
@@ -205,7 +346,7 @@ class Essays extends Controller
             'editor' => $editor,
         ];
 
-        // Pusher 
+        // Pusher
         event(new ManagingNotif('Editor accepted your assignment.'));
 
         $this->sendEmail('accept', $data);
@@ -256,7 +397,7 @@ class Essays extends Controller
             'notes' => $request->notes
         ];
 
-        // Pusher 
+        // Pusher
         event(new ManagingNotif('Editor rejected your assignment.'));
 
         $this->sendEmail('reject', $data);
@@ -351,59 +492,59 @@ class Essays extends Controller
 
         // DB::beginTransaction();
         // try {
-            $essay = EssayClients::find($id_essay);
-            $essay->status_essay_clients = 3;
-            # update status read editor
-            $essay->status_read_editor = 0;
-            $essay->save();
-            
+        $essay = EssayClients::find($id_essay);
+        $essay->status_essay_clients = 3;
+        # update status read editor
+        $essay->status_read_editor = 0;
+        $essay->save();
 
-            $essay_editor = EssayEditors::where('id_essay_clients', '=', $id_essay)->first();
-            $essay_editor->status_essay_editors = 3;
-            $essay_editor->work_duration = $request->work_duration;
-            $essay_editor->notes_editors = $request->description;
-            if ($request->hasFile('uploaded_file')) {
-                if ($old_file_path = $essay_editor->attached_of_editors) {
-                    $file_path = public_path('uploaded_files/program/essay/editors' . $old_file_path);
-                    if (File::exists($file_path)) {
-                        File::delete($file_path);
-                    }
+
+        $essay_editor = EssayEditors::where('id_essay_clients', '=', $id_essay)->first();
+        $essay_editor->status_essay_editors = 3;
+        $essay_editor->work_duration = $request->work_duration;
+        $essay_editor->notes_editors = $request->description;
+        if ($request->hasFile('uploaded_file')) {
+            if ($old_file_path = $essay_editor->attached_of_editors) {
+                $file_path = public_path('uploaded_files/program/essay/editors' . $old_file_path);
+                if (File::exists($file_path)) {
+                    File::delete($file_path);
                 }
-                if (isset($essay->client_by_id)) {
-
-                    $file_name = 'Editing-' . $essay->client_by_id->first_name . '-' . $essay->client_by_id->last_name . '-Essays-by-' . $essay->essay_editors->editor->first_name . '(' . date('d-m-Y_His') . ')';
-                } else if (isset($essay->client_by_email)) {
-
-                    $file_name = 'Editing-' . $essay->client_by_email->first_name . '-' . $essay->client_by_email->last_name . '-Essays-by-' . $essay->essay_editors->editor->first_name . '(' . date('d-m-Y_His') . ')';
-                }
-                $file_name = str_replace(' ', '-', $file_name);
-                $file_format = $request->file('uploaded_file')->getClientOriginalExtension();
-                $med_file_path = $request->file('uploaded_file')->storeAs('program/essay/editors', $file_name . '.' . $file_format, ['disk' => 'public_assets']);
-                $essay_editor->attached_of_editors = $file_name . '.' . $file_format;
             }
-            $essay_editor->save();
+            if (isset($essay->client_by_id)) {
 
-            $essay_status = new EssayStatus;
-            $essay_status->id_essay_clients = $id_essay;
-            $essay_status->status = 3;
-            $essay_status->save();
+                $file_name = 'Editing-' . $essay->client_by_id->first_name . '-' . $essay->client_by_id->last_name . '-Essays-by-' . $essay->essay_editors->editor->first_name . '(' . date('d-m-Y_His') . ')';
+            } else if (isset($essay->client_by_email)) {
 
-            $no_tag = 0;
-            foreach ($request->tag as $key) {
-                $tag = new EssayTags;
-                $tag->id_essay_clients = $id_essay;
-                $tag->id_topic = $request->tag[$no_tag];
-                $tag->save();
-                $no_tag++;
+                $file_name = 'Editing-' . $essay->client_by_email->first_name . '-' . $essay->client_by_email->last_name . '-Essays-by-' . $essay->essay_editors->editor->first_name . '(' . date('d-m-Y_His') . ')';
             }
+            $file_name = str_replace(' ', '-', $file_name);
+            $file_format = $request->file('uploaded_file')->getClientOriginalExtension();
+            $med_file_path = $request->file('uploaded_file')->storeAs('program/essay/editors', $file_name . '.' . $file_format, ['disk' => 'public_assets']);
+            $essay_editor->attached_of_editors = $file_name . '.' . $file_format;
+        }
+        $essay_editor->save();
 
-            $work_duration = new WorkDuration;
-            $work_duration->id_essay_editors = $essay_editor->id_essay_editors;
-            $work_duration->status = $essay->status->status_title;
-            $work_duration->duration = $essay_editor->work_duration;
-            $work_duration->save();
+        $essay_status = new EssayStatus;
+        $essay_status->id_essay_clients = $id_essay;
+        $essay_status->status = 3;
+        $essay_status->save();
 
-            // DB::commit();
+        $no_tag = 0;
+        foreach ($request->tag as $key) {
+            $tag = new EssayTags;
+            $tag->id_essay_clients = $id_essay;
+            $tag->id_topic = $request->tag[$no_tag];
+            $tag->save();
+            $no_tag++;
+        }
+
+        $work_duration = new WorkDuration;
+        $work_duration->id_essay_editors = $essay_editor->id_essay_editors;
+        $work_duration->status = $essay->status->status_title;
+        $work_duration->duration = $essay_editor->work_duration;
+        $work_duration->save();
+
+        // DB::commit();
         // } catch (Exception $e) {
         //     DB::rollBack();
         //     Log::error($e->getMessage());
@@ -421,7 +562,7 @@ class Essays extends Controller
             'editor' => $editor,
         ];
 
-        // Pusher 
+        // Pusher
         event(new ManagingNotif('The Editor has been submitted, Please verify his/her essay.'));
 
         $this->sendEmail('uploadEssay', $data);
@@ -545,7 +686,7 @@ class Essays extends Controller
             'editor' => $editor,
         ];
 
-        // Pusher 
+        // Pusher
         event(new ManagingNotif('The Editor has been revised, Please verify his/her essay.'));
 
         $this->sendEmail('uploadRevise', $data);

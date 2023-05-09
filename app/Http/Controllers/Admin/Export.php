@@ -11,7 +11,7 @@ use App\Models\EssayEditors;
 use App\Models\Status;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
-
+use Yajra\DataTables\Facades\DataTables;
 
 class Export extends Controller
 {
@@ -29,26 +29,31 @@ class Export extends Controller
             $f_editor = $request->get('f-editor-name');
             $f_essay_type = $request->get('f-essay-type');
             $f_status = $request->get('f-status');
-            $essay_editors = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', 'tbl_essay_editors.id_essay_clients')->with([
-                'essay_clients.client_by_id',
-                'essay_clients.client_by_email',
-                'essay_clients.university',
-                'essay_clients.program',
-                'status',
-                'editor'
-            ])->whereMonth('tbl_essay_editors.uploaded_at', $f_month)->whereYear('tbl_essay_editors.uploaded_at', $f_year)->when($f_status != "all", function ($query) use ($f_status) {
+            $essay_editors = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', 'tbl_essay_editors.id_essay_clients')
+                ->with([
+                    'essay_clients.client_by_id',
+                    'essay_clients.client_by_email',
+                    'essay_clients.university',
+                    'essay_clients.program',
+                    'status',
+                    'editor'
+                ])
+                ->whereMonth('tbl_essay_editors.uploaded_at', $f_month)
+                ->whereYear('tbl_essay_editors.uploaded_at', $f_year)
+                ->when($f_status != "all", function ($query) use ($f_status) {
 
-                // $query->where('status_essay_editors', $f_status)->orWhere('status_essay_clients', $f_status);
-                $query->where('status_essay_editors', $f_status)->where('status_essay_clients', $f_status);
-            })->when($f_editor != "all", function ($query) use ($f_editor) {
+                    // $query->where('status_essay_editors', $f_status)->orWhere('status_essay_clients', $f_status);
+                    $query->where('status_essay_editors', $f_status)->where('status_essay_clients', $f_status);
+                })->when($f_editor != "all", function ($query) use ($f_editor) {
 
-                $query->where('tbl_essay_editors.editors_mail', $f_editor);
-            })->when($f_essay_type != "all", function ($query) use ($f_essay_type) {
+                    $query->where('tbl_essay_editors.editors_mail', $f_editor);
+                })->when($f_essay_type != "all", function ($query) use ($f_essay_type) {
 
-                $query->whereHas('essay_clients', function ($query1) use ($f_essay_type) {
-                    $query1->where('essay_title', 'like', '%' . $f_essay_type . '%');
-                });
-            })->orderBy('tbl_essay_editors.uploaded_at', 'desc');
+                    $query->whereHas('essay_clients', function ($query1) use ($f_essay_type) {
+                        $query1->where('essay_title', 'like', '%' . $f_essay_type . '%');
+                    });
+                })->orderBy('tbl_essay_editors.uploaded_at', 'desc');
+
             $essay_editors = $request->get('f-download') != 1 ? $essay_editors->paginate(10)->appends([
                 '_token' => $f_token,
                 'f-month' => $f_month,
@@ -73,6 +78,116 @@ class Export extends Controller
         }
 
         return view('user.admin.export-excel.export-editor-essay', $response);
+    }
+
+    public function getEssay(Request $request)
+    {
+        if ($request->ajax()) {
+            // if ($request->all()) {
+            $f_token = $request->get('_token');
+            $f_month = $request->get('f-month');
+            $f_year = $request->get('f-year');
+            $f_editor = $request->get('f-editor-name');
+            $f_essay_type = $request->get('f-essay-type');
+            $f_status = $request->get('f-status');
+
+            $data = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', 'tbl_essay_editors.id_essay_clients')
+                ->with([
+                    'essay_clients.client_by_id',
+                    'essay_clients.client_by_email',
+                    'essay_clients.university',
+                    'essay_clients.program',
+                    'status',
+                    'editor'
+                ])
+                ->whereMonth('tbl_essay_editors.uploaded_at', $f_month)->whereYear('tbl_essay_editors.uploaded_at', $f_year)
+                ->when($f_status != "all", function ($query) use ($f_status) {
+                    // $query->where('status_essay_editors', $f_status)->orWhere('status_essay_clients', $f_status);
+                    $query->where('status_essay_editors', $f_status)->where('status_essay_clients', $f_status);
+                })
+                ->when($f_editor != "all", function ($query) use ($f_editor) {
+                    $query->where('tbl_essay_editors.editors_mail', $f_editor);
+                })
+                ->when($f_essay_type != "all", function ($query) use ($f_essay_type) {
+                    $query->whereHas('essay_clients', function ($query1) use ($f_essay_type) {
+                        $query1->where('essay_title', 'like', '%' . $f_essay_type . '%');
+                    });
+                })
+                ->orderBy('tbl_essay_editors.uploaded_at', 'desc')
+                ->get();
+
+
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->editColumn('student_name', function ($result) {
+                    if ($result->essay_clients->client_by_id == null) {
+                        $res = $result->essay_clients->client_by_email->first_name . ' ' . $result->essay_clients->client_by_email->last_name;
+                    } else {
+                        $res = $result->essay_clients->client_by_id->first_name . ' ' . $result->essay_clients->client_by_id->last_name;
+                    }
+
+                    return $res;
+                })
+                ->editColumn('student_name', function ($result) {
+                    if ($result->essay_clients->client_by_id == null) {
+                        $res = $result->essay_clients->client_by_email->first_name . ' ' . $result->essay_clients->client_by_email->last_name;
+                    } else {
+                        $res = $result->essay_clients->client_by_id->first_name . ' ' . $result->essay_clients->client_by_id->last_name;
+                    }
+
+                    return $res;
+                })
+                ->editColumn('editor_name', function ($result) {
+                    $res = $result->editor->first_name . ' ' . $result->editor->last_name;
+                    return $res;
+                })
+                ->editColumn('program_name', function ($result) {
+                    $res = $result->essay_clients->program->program_name;
+                    return $res;
+                })
+                ->editColumn('university', function ($result) {
+                    $res = $result->essay_clients->university->university_name;
+                    return $res;
+                })
+                ->editColumn('essay_title', function ($result) {
+                    $res = $result->essay_clients->essay_title;
+                    return $res;
+                })
+                ->editColumn('editors_file', function ($result) {
+                    $res = '<a href="' . (asset('uploaded_files/program/essay/editors/' . $result->attached_of_editors)) . '" rel="noopener" target="_blank" title="' . ($result->attached_of_editors) . '">Download</a>';
+                    return $res;
+                })
+                ->editColumn('students_file', function ($result) {
+                    $res = '<a href="' . (asset('uploaded_files/program/essay/students/' . $result->essay_clients->attached_of_clients)) . '" rel="noopener" target="_blank" title="' . ($result->essay_clients->attached_of_clients) . '">Download</a>';
+                    return ' ' . $res . '';
+                })
+                ->editColumn('status', function ($result) {
+                    if ($result->status->id == 7) {
+                        $res = '<div style="color: var(--green)">' . ($result->status->status_title) . '</div>';
+                    } else {
+                        $res = '<div style="color: var(--red)">' . ($result->status->status_title) . '</div>';
+                    }
+                    return $res;
+                })
+                ->editColumn('essay_rating', function ($result) {
+                    $res = $result->essay_clients->essay_rating;
+                    return $res;
+                })
+                ->editColumn('work_duration', function ($result) {
+                    $res = $result->work_duration;
+                    return $res;
+                })
+                ->editColumn('application_deadline', function ($result) {
+                    $res = $result->essay_clients->application_deadline;
+                    return $res;
+                })
+                ->editColumn('completed_date', function ($result) {
+                    $res = $result->essay_clients->completed_at;
+                    return $res;
+                })
+                ->rawColumns(['student_name', 'editor_name', 'program_name', 'university', 'essay_title', 'editors_file', 'students_file', 'status', 'essay_rating', 'work_duration', 'application_deadline', 'completed_date'])
+                ->make();
+        }
     }
 
     public function create_excel($essay_editors, $f_month, $f_year)

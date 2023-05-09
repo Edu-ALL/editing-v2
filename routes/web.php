@@ -122,6 +122,8 @@ Route::middleware('is_admin')->group(function () {
     Route::get('/admin/user/editor', [Editors::class, 'index'])->name('list-editor');
     Route::get('/admin/user/editor/data', [Editors::class, 'getEditor'])->name('data-editor');
     Route::get('/admin/user/editor/detail/{id}', [Editors::class, 'detail']);
+    Route::get('/admin/user/editor/detail/{id}/data-ongoing', [Editors::class, 'getDetailEssayOngoing'])->name('data-detail-essay-ongoing');
+    Route::get('/admin/user/editor/detail/{id}/data-completed', [Editors::class, 'getDetailEssayCompleted'])->name('data-detail-essay-completed');
     Route::get('/admin/user/editor/add', function () {
         return view('user.admin.users.user-editor-add', [
             'position' => PositionEditor::get()
@@ -145,6 +147,7 @@ Route::middleware('is_admin')->group(function () {
         return view('user.admin.export-excel.export-student-essay');
     });
     Route::get('/admin/export-excel/editor', [Export::class, 'index'])->name('export-excel');
+    Route::get('/admin/export-excel/editor/data', [Export::class, 'getEssay'])->name('data-export-excel');
 
     // Setting
     // University
@@ -267,6 +270,8 @@ Route::middleware('is_editor')->group(function () {
     Route::get('/editors/profile', [Profile::class, 'index']);
 
     Route::get('/editors/essay-list', [EditorEssays::class, 'index'])->name('list-essay');
+    Route::get('/editors/essay-list/data-ongoing', [EditorEssays::class, 'getEssayOngoing'])->name('data-essay-ongoing-editor');
+    Route::get('/editors/essay-list/data-completed', [EditorEssays::class, 'getEssayCompleted'])->name('data-essay-completed-editor');
     Route::get('/editors/essay-list/completed/detail/{id_essay}', [EditorEssays::class, 'detailEssayCompleted']);
     Route::get('/editors/essay-list/ongoing/detail/{id_essay}', [EditorEssays::class, 'detailEssay']);
 
