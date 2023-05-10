@@ -17,6 +17,7 @@ use Illuminate\Support\Str;
 use App\Models\Token;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Yajra\DataTables\Facades\DataTables;
 
 class Editors extends Controller
 {
@@ -122,45 +123,78 @@ class Editors extends Controller
         return redirect('/login/editor')->with('add-editor-successful', 'Editors has been created');
     }
 
+    public function getEditor(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Editor::orderBy('first_name', 'asc')->get();
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->editColumn('fullname', function ($d) {
+                    $result = '
+                    ' . $d->first_name . ' ' . $d->last_name . '
+                ';
+                    return $result;
+                })
+                ->editColumn('email', function ($d) {
+                    $result = '
+                    ' . $d->email ? $d->email : "-" . '
+                ';
+                    return $result;
+                })
+                ->editColumn('phone', function ($d) {
+                    $result = '
+                    ' . $d->phone ? $d->phone : "-" . '
+                ';
+                    return $result;
+                })
+                ->editColumn('address', function ($d) {
+                    $result = '
+                    ' . $d->address ? $d->address : "-" . '
+                ';
+                    return $result;
+                })
+                ->editColumn('position', function ($d) {
+                    if ($d->position == 1) {
+                        $result = 'Associate';
+                    } else if ($d->position == 2) {
+                        $result = 'Senior';
+                    } else if ($d->position == 3) {
+                        $result = 'Managing';
+                    }
+                    return $result;
+                })
+                ->editColumn('status', function ($d) {
+                    if ($d->status == 1) {
+                        $result = '
+                        <div class="status-editor">
+                            Active
+                        </div>
+                    ';
+                    } else {
+                        $result = '
+                        <div class="status-editor" style="background-color: var(--red)">
+                            Deactive
+                        </div>
+                    ';
+                    }
+                    return $result;
+                })
+                ->rawColumns(['fullname', 'email', 'phone', 'address', 'position', 'status'])
+                ->make(true);
+        }
+    }
+
     public function index(Request $request)
     {
-        $keyword = $request->get('keyword');
-        $editors = Editor::when($keyword, function ($query) use ($keyword) {
-            $query->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%' . $keyword . '%')->orWhere('email', 'like', '%' . $keyword . '%');
-        })->orderBy('first_name', 'asc')->paginate(10);
-
-        if ($keyword)
-            $editors->appends(['keyword' => $keyword]);
-
-        return view('user.admin.users.user-editor', ['editors' => $editors]);
+        return view('user.admin.users.user-editor');
     }
 
     public function detail($id, Request $request)
     {
-        $keyword1 = $request->get('keyword-ongoing');
-        $keyword2 = $request->get('keyword-completed');
-        $essay_ongoing = EssayClients::with('client_by_id', 'program')->where('id_editors', '=', $id)->where('status_essay_clients', '!=', 0)->where('status_essay_clients', '!=', 4)->where('status_essay_clients', '!=', 5)->where('status_essay_clients', '!=', 7)->when($keyword1, function ($query_) use ($keyword1) {
-            $query_->where(function ($query) use ($keyword1) {
-                $query->orWhereHas('client_by_id', function ($query_client) use ($keyword1) {
-                    $query_client->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%' . $keyword1 . '%');
-                })->orWhereHas('program', function ($query_program) use ($keyword1) {
-                    $query_program->where('program_name', 'like', '%' . $keyword1 . '%');
-                })->orWhereHas('status', function ($query_status) use ($keyword1) {
-                    $query_status->where('status_title', 'like', '%' . $keyword1 . '%');
-                })->orWhere('essay_title', 'like', '%' . $keyword1 . '%');
-            });
-        })->paginate(5);
-        $essay_completed = EssayClients::with('client_by_id', 'program')->where('id_editors', '=', $id)->where('status_essay_clients', '=', 7)->when($keyword2, function ($query_) use ($keyword2) {
-            $query_->where(function ($query) use ($keyword2) {
-                $query->orWhereHas('client_by_id', function ($query_client) use ($keyword2) {
-                    $query_client->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%' . $keyword2 . '%');
-                })->orWhereHas('program', function ($query_program) use ($keyword2) {
-                    $query_program->where('program_name', 'like', '%' . $keyword2 . '%');
-                })->orWhereHas('status', function ($query_status) use ($keyword2) {
-                    $query_status->where('status_title', 'like', '%' . $keyword2 . '%');
-                })->orWhere('essay_title', 'like', '%' . $keyword2 . '%');
-            });
-        })->paginate(5);
+        $essay_completed = EssayClients::with('client_by_id', 'program', 'status')
+            ->where('id_editors', '=', $id)
+            ->where('status_essay_clients', '=', 7)
+            ->get();
 
         $editor = Editor::find($id);
         $count_essay = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', '=', 'tbl_essay_editors.id_essay_clients')->where('editors_mail', $editor->email)->where('essay_rating', '!=', 0)->get();
@@ -177,12 +211,82 @@ class Editors extends Controller
             $average_rating = $rating / count($count_essay);
         }
 
+
         return view('user.admin.users.user-editor-detail', [
             'editor' => $editor,
-            'essay_ongoing' => $essay_ongoing,
             'essay_completed' => $essay_completed,
             'average_rating' => number_format($average_rating, 1, ".", ",")
         ]);
+    }
+
+    public function getDetailEssayOngoing($id, Request $request)
+    {
+        if ($request->ajax()) {
+            $data = EssayClients::with('client_by_id', 'program', 'status')
+                ->where('id_editors', '=', $id)->where('status_essay_clients', '!=', 0)
+                ->where('status_essay_clients', '!=', 4)->where('status_essay_clients', '!=', 5)
+                ->where('status_essay_clients', '!=', 7)->get();
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->editColumn('student_name', function ($essays_ongoing) {
+                    $result = $essays_ongoing->client_by_id->first_name . ' ' . $essays_ongoing->client_by_id->last_name;
+                    return $result;
+                })
+                ->editColumn('program', function ($essays_ongoing) {
+                    $result = $essays_ongoing->program->program_name;
+                    return $result;
+                })
+                ->editColumn('essay_title', function ($essays_ongoing) {
+                    $result = $essays_ongoing->essay_title;
+                    return $result;
+                })
+                ->editColumn('essay_deadline', function ($essays_ongoing) {
+                    $result = date('D, d M Y', strtotime($essays_ongoing->essay_deadline));
+                    return $result;
+                })
+                ->editColumn('status', function ($essays_ongoing) {
+                    $result =  '<div style="color: var(--blue)">' . ($essays_ongoing->status->status_title) . '</div>';
+                    return $result;
+                })
+                ->rawColumns(['student_name', 'program', 'essay_title', 'essay_deadline', 'status'])
+                ->make();
+        }
+    }
+
+    public function getDetailEssayCompleted($id, Request $request)
+    {
+        if ($request->ajax()) {
+            $data = EssayClients::with('client_by_id', 'program', 'status')
+                ->where('id_editors', '=', $id)
+                ->where('status_essay_clients', '=', 7)
+                ->get();
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->editColumn('student_name', function ($essays_completed) {
+                    $result = $essays_completed->client_by_id->first_name . ' ' . $essays_completed->client_by_id->last_name;
+                    return $result;
+                })
+                ->editColumn('program', function ($essays_completed) {
+                    $result = $essays_completed->program->program_name;
+                    return $result;
+                })
+                ->editColumn('essay_title', function ($essays_completed) {
+                    $result = $essays_completed->essay_title;
+                    return $result;
+                })
+                ->editColumn('essay_deadline', function ($essays_completed) {
+                    $result = date('D, d M Y', strtotime($essays_completed->essay_deadline));
+                    return $result;
+                })
+                ->editColumn('status', function ($essays_completed) {
+                    $result =  '<div style="color: var(--green)">' . ($essays_completed->status->status_title) . '</div>';
+                    return $result;
+                })
+                ->rawColumns(['student_name', 'program', 'essay_title', 'essay_deadline', 'status'])
+                ->make();
+        }
     }
 
     public function store(Request $request)
