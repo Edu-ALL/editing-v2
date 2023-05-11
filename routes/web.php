@@ -152,6 +152,7 @@ Route::middleware('is_admin')->group(function () {
     // Setting
     // University
     Route::get('/admin/setting/universities', [Universities::class, 'index'])->name('list-university');
+    Route::get('/admin/setting/universities/data', [Universities::class, 'getUniversities'])->name('data-list-university');
     Route::get('/admin/setting/universities/detail/{id}', [Universities::class, 'detail']);
 
     Route::get('/admin/setting/universities/add', function () {
@@ -169,6 +170,7 @@ Route::middleware('is_admin')->group(function () {
 
     // Programs
     Route::get('/admin/setting/programs', [Program::class, 'index'])->name('list-program');
+    Route::get('/admin/setting/programs/data', [Program::class, 'getPrograms'])->name('data-list-program');
     Route::get('/admin/setting/programs/detail/{id}', [Program::class, 'detail']);
     Route::get('/admin/setting/programs/add', function () {
         return view('user.admin.settings.setting-add-programs', [

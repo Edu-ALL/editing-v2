@@ -10,19 +10,15 @@ use Illuminate\Support\Facades\Redirect;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Yajra\DataTables\Facades\DataTables;
 
 class Universities extends Controller
 {
     public function index(Request $request)
     {
         $keyword = $request->get('keyword');
-        $universities = University::when($keyword, function($query) use ($keyword) {
-            $query->where('university_name', 'like', '%'.$keyword.'%')->
-                orWhere('website', 'like', '%'.$keyword.'%')->
-                orWhere('univ_email', 'like', '%'.$keyword.'%')->
-                orWhere('country', 'like', '%'.$keyword.'%')->
-                orWhere('phone', 'like', '%'.$keyword.'%')->
-                orWhere('address', 'like', '%'.$keyword.'%');
+        $universities = University::when($keyword, function ($query) use ($keyword) {
+            $query->where('university_name', 'like', '%' . $keyword . '%')->orWhere('website', 'like', '%' . $keyword . '%')->orWhere('univ_email', 'like', '%' . $keyword . '%')->orWhere('country', 'like', '%' . $keyword . '%')->orWhere('phone', 'like', '%' . $keyword . '%')->orWhere('address', 'like', '%' . $keyword . '%');
         })->orderBy('university_name', 'asc')->paginate(10);
 
         if ($keyword)
@@ -31,7 +27,53 @@ class Universities extends Controller
         return view('user.admin.settings.setting-universities', ['universities' => $universities]);
     }
 
-    public function detail($id){
+    public function getUniversities(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = University::orderBy('university_name', 'asc')->get();
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->editColumn('university_name', function ($university) {
+                    $result = $university->university_name;
+                    return $result;
+                })
+                ->editColumn('website', function ($university) {
+                    $result = $university->website;
+                    return $result;
+                })
+                ->editColumn('country', function ($university) {
+                    $result = $university->country;
+                    return $result;
+                })
+                ->editColumn('phone', function ($university) {
+                    $result = $university->phone;
+                    return $result;
+                })
+                ->editColumn('address', function ($university) {
+                    $result = $university->address;
+                    return $result;
+                })
+                ->editColumn('image', function ($university) {
+                    if ($university->photo) {
+                        $result = '<img src="' .
+                            (asset('uploaded_files/univ/' . $university->photo)) .
+                            '" alt="'($university->photo) . '" style="max-width:50px;" />';
+                    } else {
+                        $result = '<img src="' .
+                            (asset('uploaded_files/univ/default.png')) .
+                            '" alt="'($university->photo) . '" style="max-width:50px;" />';
+                    }
+
+                    return $result;
+                })
+                ->rawColumns(['university_name', 'website', 'country', 'phone', 'address', 'image'])
+                ->make();
+        }
+    }
+
+    public function detail($id)
+    {
         return view('user.admin.settings.setting-detail-universities', ['university' => University::find($id)]);
     }
 
@@ -69,14 +111,13 @@ class Universities extends Controller
             if ($request->hasFile('uploaded_file')) {
                 $file_name = str_replace(' ', '-', strtolower($university_name));
                 $file_format = $request->file('uploaded_file')->getClientOriginalExtension();
-                $med_file_path = $request->file('uploaded_file')->storeAs('univ', $file_name.'.'.$file_format, ['disk' => 'public_assets']);
+                $med_file_path = $request->file('uploaded_file')->storeAs('univ', $file_name . '.' . $file_format, ['disk' => 'public_assets']);
 
-                $university->photo = $file_name.'.'.$file_format;
+                $university->photo = $file_name . '.' . $file_format;
             }
 
             $university->save();
             DB::commit();
-
         } catch (Exception $e) {
             DB::rollBack();
             return Redirect::back()->withErrors(['msg' => 'Something went wrong when processing the data.']);
@@ -91,7 +132,7 @@ class Universities extends Controller
             return Redirect::back()->withErrors(['msg' => 'Couldn\'t find the university']);
         }
         $university_name = $request->university_name;
-        
+
         $university->university_name = $university_name;
         $university->website = $request->website;
         $university->univ_email = $request->email;
@@ -101,20 +142,20 @@ class Universities extends Controller
 
         if ($request->hasFile('uploaded_file')) {
             if ($old_image_path = $university->photo) {
-                $file_path = public_path('uploaded_files/univ/'.$old_image_path);
+                $file_path = public_path('uploaded_files/univ/' . $old_image_path);
                 if (File::exists($file_path)) {
                     File::delete($file_path);
                 }
             }
             $file_name = str_replace(' ', '-', strtolower($university_name));
             $file_format = $request->file('uploaded_file')->getClientOriginalExtension();
-            $med_file_path = $request->file('uploaded_file')->storeAs('univ', $file_name.'.'.$file_format, ['disk' => 'public_assets']);
+            $med_file_path = $request->file('uploaded_file')->storeAs('univ', $file_name . '.' . $file_format, ['disk' => 'public_assets']);
 
-            $university->photo = $file_name.'.'.$file_format;
+            $university->photo = $file_name . '.' . $file_format;
         }
         $university->save();
 
-        return redirect('admin/setting/universities/detail/'.$id_univ)->with('update-successful', 'The university has been updated');
+        return redirect('admin/setting/universities/detail/' . $id_univ)->with('update-successful', 'The university has been updated');
     }
 
     public function delete($id_univ, Request $request)
@@ -125,7 +166,7 @@ class Universities extends Controller
 
         //! tambahin hapus file sebelum delete data
         if ($old_image_path = $university->photo) {
-            $file_path = public_path('uploaded_files/univ/'.$old_image_path);
+            $file_path = public_path('uploaded_files/univ/' . $old_image_path);
             if (File::exists($file_path)) {
                 File::delete($file_path);
             }
