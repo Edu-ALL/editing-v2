@@ -14,17 +14,9 @@ use Yajra\DataTables\Facades\DataTables;
 
 class Universities extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $keyword = $request->get('keyword');
-        $universities = University::when($keyword, function ($query) use ($keyword) {
-            $query->where('university_name', 'like', '%' . $keyword . '%')->orWhere('website', 'like', '%' . $keyword . '%')->orWhere('univ_email', 'like', '%' . $keyword . '%')->orWhere('country', 'like', '%' . $keyword . '%')->orWhere('phone', 'like', '%' . $keyword . '%')->orWhere('address', 'like', '%' . $keyword . '%');
-        })->orderBy('university_name', 'asc')->paginate(10);
-
-        if ($keyword)
-            $universities->appends(['keyword' => $keyword]);
-
-        return view('user.admin.settings.setting-universities', ['universities' => $universities]);
+        return view('user.admin.settings.setting-universities');
     }
 
     public function getUniversities(Request $request)
@@ -58,11 +50,11 @@ class Universities extends Controller
                     if ($university->photo) {
                         $result = '<img src="' .
                             (asset('uploaded_files/univ/' . $university->photo)) .
-                            '" alt="'($university->photo) . '" style="max-width:50px;" />';
+                            '" alt="' . ($university->photo) . '" style="max-width:50px;" />';
                     } else {
                         $result = '<img src="' .
                             (asset('uploaded_files/univ/default.png')) .
-                            '" alt="'($university->photo) . '" style="max-width:50px;" />';
+                            '" alt="' . ($university->photo) . '" style="max-width:50px;" />';
                     }
 
                     return $result;

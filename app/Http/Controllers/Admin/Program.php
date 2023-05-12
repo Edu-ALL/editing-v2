@@ -15,17 +15,9 @@ use Yajra\DataTables\Facades\DataTables;
 
 class Program extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $keyword = $request->get('keyword');
-        $programs = Programs::when($keyword, function ($query) use ($keyword) {
-            $query->where('program_name', 'like', '%' . $keyword . '%');
-        })->orderBy('program_name', 'asc')->paginate(10);
-
-        if ($keyword)
-            $programs->appends(['keyword' => $keyword]);
-
-        return view('user.admin.settings.setting-programs', ['programs' => $programs]);
+        return view('user.admin.settings.setting-programs');
     }
 
     public function getPrograms(Request $request)

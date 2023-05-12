@@ -161,6 +161,7 @@ Route::middleware('is_admin')->group(function () {
 
     // Essay Prompt
     Route::get('/admin/setting/essay-prompt', [EssayPrompt::class, 'index'])->name('list-essay-prompt');
+    Route::get('/admin/setting/essay-prompt/data', [EssayPrompt::class, 'getEssayPrompt'])->name('data-list-essay-prompt');
     Route::get('/admin/setting/essay-prompt/detail/{id}', [EssayPrompt::class, 'detail']);
     Route::get('/admin/setting/essay-prompt/add', function () {
         return view('user.admin.settings.setting-add-essay-prompt', [
@@ -180,6 +181,7 @@ Route::middleware('is_admin')->group(function () {
 
     // Categories / Tags
     Route::get('/admin/setting/categories-tags', [CategoriesTags::class, 'index'])->name('list-tag');
+    Route::get('/admin/setting/categories-tags/data', [CategoriesTags::class, 'getCategories'])->name('data-list-tag');
     Route::get('/admin/setting/categories-tags/detail/{tag_id}', [CategoriesTags::class, 'detail']);
 });
 

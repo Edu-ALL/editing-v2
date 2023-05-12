@@ -10,26 +10,41 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\Facades\DataTables;
 
 class EssayPrompt extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $keyword = $request->get('keyword');
-        $essay_prompts = EssayPrompts::with('university')->when($keyword, function($query) use ($keyword) {
-            $query->where('title', 'like', '%'.$keyword.'%')->
-            orWhereHas('university', function ($querym) use ($keyword) {
-                $querym->where('university_name', 'like', '%'.$keyword.'%');
-            });
-        })->orderBy('title', 'asc')->paginate(10);
-
-        if ($keyword)
-            $essay_prompts->appends(['keyword' => $keyword]);
-
-        return view('user.admin.settings.setting-essay-prompt', ['essay_prompts' => $essay_prompts]);
+        return view('user.admin.settings.setting-essay-prompt');
     }
 
-    public function detail($id){
+    public function getEssayPrompt(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = EssayPrompts::with('university')->orderBy('title', 'asc')->get();
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->editColumn('title', function ($essay_prompt) {
+                    $result = $essay_prompt->title ?? "-";
+                    return $result;
+                })
+                ->editColumn('university_name', function ($essay_prompt) {
+                    $result = $essay_prompt->university->university_name ?? "-";
+                    return $result;
+                })
+                ->editColumn('description', function ($essay_prompt) {
+                    $result = $essay_prompt->description ?? "-";
+                    return $result;
+                })
+                ->rawColumns(['title', 'university_name', 'description'])
+                ->make();
+        }
+    }
+
+    public function detail($id)
+    {
         $univ = University::get();
         return view('user.admin.settings.setting-detail-essay-prompt', [
             'essay_prompt' => EssayPrompts::find($id),
@@ -60,12 +75,10 @@ class EssayPrompt extends Controller
             $new_prompt->status = 1;
             $new_prompt->save();
             DB::commit();
-
         } catch (Exception $e) {
-            
+
             DB::rollBack();
             return Redirect::back()->withErrors($e->getMessage());
-
         }
 
         return redirect('admin/setting/essay-prompt')->with('add-prompt-successful', 'The new Essay Prompt has been saved');
@@ -82,12 +95,10 @@ class EssayPrompt extends Controller
 
             $prompt->delete();
             DB::commit();
-
         } catch (Exception $e) {
 
             DB::rollBack();
             return Redirect::back()->withErrors($e->getMessage());
-
         }
 
         return redirect('admin/setting/essay-prompt')->with('delete-prompt-successful', 'The Essay Prompt has been deleted');
@@ -116,14 +127,12 @@ class EssayPrompt extends Controller
             $prompt->status = 1;
             $prompt->save();
             DB::commit();
-
         } catch (Exception $e) {
 
             DB::rollBack();
             return Redirect::back()->withErrors($e->getMessage());
-
         }
 
-        return redirect('admin/setting/essay-prompt/detail/'.$prompt_id)->with('update-prompt-successful', 'The Essay Prompt has been updated');
+        return redirect('admin/setting/essay-prompt/detail/' . $prompt_id)->with('update-prompt-successful', 'The Essay Prompt has been updated');
     }
 }
