@@ -63,7 +63,7 @@
                   <tr onclick="window.location='/admin/setting/essay-prompt/detail/{{ $essay_prompt->id_essay_prompt }}'">
                     <th scope="row">{{ $i++ }}</th>
                     <td>{{ $essay_prompt->title }}</td>
-                    <td>{{ $essay_prompt->university->university_name }}</td>
+                    <td>{{ $essay_prompt->university?->university_name }}</td>
                     <td>{!! $essay_prompt->description !!}</td>
                   </tr>
                   @endforeach

@@ -55,7 +55,7 @@
                   <div class="col-6 me-3">
                     <h6 class="pb-2">University Name :</h6>
                     <select class="select-normal" style="width: 96.5%;" name="id_univ">
-                      <option value="{{ $essay_prompt->university->id_univ }}" selected>{{ $essay_prompt->university->university_name }}</option>
+                      <option value="{{ $essay_prompt->university?->id_univ }}" selected>{{ $essay_prompt->university?->university_name }}</option>
                       @foreach ($univ as $univ)
                         <option value="{{ $univ->id_univ }}">{{ $univ->university_name }}</option>
                       @endforeach
