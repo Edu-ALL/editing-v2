@@ -152,6 +152,7 @@ Route::middleware('is_admin')->group(function () {
     // Setting
     // University
     Route::get('/admin/setting/universities', [Universities::class, 'index'])->name('list-university');
+    Route::get('/admin/setting/universities/data', [Universities::class, 'getUniversities'])->name('data-list-university');
     Route::get('/admin/setting/universities/detail/{id}', [Universities::class, 'detail']);
 
     Route::get('/admin/setting/universities/add', function () {
@@ -160,6 +161,7 @@ Route::middleware('is_admin')->group(function () {
 
     // Essay Prompt
     Route::get('/admin/setting/essay-prompt', [EssayPrompt::class, 'index'])->name('list-essay-prompt');
+    Route::get('/admin/setting/essay-prompt/data', [EssayPrompt::class, 'getEssayPrompt'])->name('data-list-essay-prompt');
     Route::get('/admin/setting/essay-prompt/detail/{id}', [EssayPrompt::class, 'detail']);
     Route::get('/admin/setting/essay-prompt/add', function () {
         return view('user.admin.settings.setting-add-essay-prompt', [
@@ -169,6 +171,7 @@ Route::middleware('is_admin')->group(function () {
 
     // Programs
     Route::get('/admin/setting/programs', [Program::class, 'index'])->name('list-program');
+    Route::get('/admin/setting/programs/data', [Program::class, 'getPrograms'])->name('data-list-program');
     Route::get('/admin/setting/programs/detail/{id}', [Program::class, 'detail']);
     Route::get('/admin/setting/programs/add', function () {
         return view('user.admin.settings.setting-add-programs', [
@@ -178,6 +181,7 @@ Route::middleware('is_admin')->group(function () {
 
     // Categories / Tags
     Route::get('/admin/setting/categories-tags', [CategoriesTags::class, 'index'])->name('list-tag');
+    Route::get('/admin/setting/categories-tags/data', [CategoriesTags::class, 'getCategories'])->name('data-list-tag');
     Route::get('/admin/setting/categories-tags/detail/{tag_id}', [CategoriesTags::class, 'detail']);
 });
 

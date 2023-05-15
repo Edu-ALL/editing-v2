@@ -209,7 +209,7 @@ class Essays extends Controller
     // }
 
     // Essay Completed
-    public function essayCompleted(Request $request)
+    public function essayCompleted()
     {
         return view('user.admin.essay-list.essay-completed');
     }
