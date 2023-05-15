@@ -222,7 +222,7 @@ class Editors extends Controller
     public function getDetailEssayOngoing($id, Request $request)
     {
         if ($request->ajax()) {
-            $data = EssayClients::with('client_by_id', 'program', 'status')
+            $data = EssayClients::with('client_by_id', 'client_by_email', 'program', 'status')
                 ->where('id_editors', '=', $id)->where('status_essay_clients', '!=', 0)
                 ->where('status_essay_clients', '!=', 4)->where('status_essay_clients', '!=', 5)
                 ->where('status_essay_clients', '!=', 7)->get();
@@ -230,7 +230,11 @@ class Editors extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('student_name', function ($essays_ongoing) {
-                    $result = $essays_ongoing->client_by_id->first_name . ' ' . $essays_ongoing->client_by_id->last_name;
+                    if ($essays_ongoing->client_by_id) {
+                        $result = $essays_ongoing->client_by_id->first_name . ' ' . $essays_ongoing->client_by_id->last_name;
+                    } else {
+                        $result = $essays_ongoing->client_by_email->first_name . ' ' . $essays_ongoing->client_by_email->last_name;
+                    }
                     return $result;
                 })
                 ->editColumn('program', function ($essays_ongoing) {
@@ -257,7 +261,7 @@ class Editors extends Controller
     public function getDetailEssayCompleted($id, Request $request)
     {
         if ($request->ajax()) {
-            $data = EssayClients::with('client_by_id', 'program', 'status')
+            $data = EssayClients::with('client_by_id', 'client_by_email', 'program', 'status')
                 ->where('id_editors', '=', $id)
                 ->where('status_essay_clients', '=', 7)
                 ->get();
@@ -265,7 +269,11 @@ class Editors extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('student_name', function ($essays_completed) {
-                    $result = $essays_completed->client_by_id->first_name . ' ' . $essays_completed->client_by_id->last_name;
+                    if ($essays_completed->client_by_id) {
+                        $result = $essays_completed->client_by_id->first_name . ' ' . $essays_completed->client_by_id->last_name;
+                    } else {
+                        $result = $essays_completed->client_by_email->first_name . ' ' . $essays_completed->client_by_email->last_name;
+                    }
                     return $result;
                 })
                 ->editColumn('program', function ($essays_completed) {

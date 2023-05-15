@@ -178,11 +178,11 @@ class Export extends Controller
                     return $res;
                 })
                 ->editColumn('application_deadline', function ($result) {
-                    $res = $result->essay_clients->application_deadline;
+                    $res = date('D, d M Y', strtotime($result->essay_clients->application_deadline));
                     return $res;
                 })
                 ->editColumn('completed_date', function ($result) {
-                    $res = $result->essay_clients->completed_at;
+                    $res = date('D, d M Y', strtotime($result->essay_clients->completed_at));
                     return $res;
                 })
                 ->rawColumns(['student_name', 'editor_name', 'program_name', 'university', 'essay_title', 'editors_file', 'students_file', 'status', 'essay_rating', 'work_duration', 'application_deadline', 'completed_date'])
