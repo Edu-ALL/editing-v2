@@ -1,10 +1,25 @@
 @extends('user.editor.utama.utama')
 @section('css')
-    <link rel="stylesheet" href="/css/per-editor/dashboard.css">
+    <link rel="stylesheet" href="/css/editor/dashboard.css">
     <style>
         .alert {
             font-size: 14px;
             margin: 0 -12px 16px -12px
+        }
+        .dataTables_scroll .dataTables_scrollHeadInner {
+            width: auto !important;
+            padding-right: 0 !important;
+        }
+        .dataTables_scroll .dataTables_scrollHeadInner .table.dataTable.no-footer {
+            width: 100% !important;
+        }
+        .dataTables_scroll .dataTables_scrollBody .table.dataTable.no-footer {
+            width: 100% !important;
+        }
+        .card {
+            border: none;
+            border-radius: 6px;
+            box-shadow: 0px 2px 10px rgba(58, 53, 65, 0.1);
         }
     </style>
 @endsection
@@ -16,7 +31,7 @@
             @include('user.editor.utama.menu')
 
             {{-- Content --}}
-            <div class="col">
+            <div class="col" style="overflow: auto !important">
                 @include('user.editor.utama.head')
                 <div class="container main-content m-0">
                     @if (session()->has('login-successful'))
@@ -26,7 +41,7 @@
                         </div>
                     @endif
                     <div>
-                        <div class="row gap-4">
+                        <div class="row gap-2">
                             <div class="col-md-5 col-12 mb-0">
                                 {{-- User List --}}
                                 <div class="row gap-2">
@@ -72,18 +87,18 @@
                                         <div class="headline text-center">
                                             <h6>Editors</h6>
                                         </div>
-                                        <div class="row px-3 countUser align-items-center text-center">
-                                            <div class="col">
+                                        <div class="row px-3 countUser align-items-center justify-content-center text-center">
+                                            <div class="col-md-4 col">
                                                 <img class="img-fluid" src="/assets/editor-bg.png" alt=""
                                                     style="object-fit: contain">
                                             </div>
-                                            <div class="col">
+                                            <div class="col-md-3 col">
                                                 <h4>{{ $count_editor }}</h4>
                                                 <h4>Editors</h4>
                                             </div>
                                         </div>
                                         <hr>
-                                        <div class="detailCard ps-3 mt-2">
+                                        <div class="detailCard ps-2 py-1 mt-1 mb-2">
                                             <h6>See the list of Editors</h6>
                                         </div>
                                     </a>
@@ -103,7 +118,7 @@
                                             <h4>Essay</h4>
                                         </div>
                                         <hr>
-                                        <div class="detailCard ps-3 mt-2">
+                                        <div class="detailCard ps-2 py-1 mt-1 mb-2">
                                             <h6>See the list of Ongoing Essay</h6>
                                         </div>
                                     </a>
@@ -119,7 +134,7 @@
                                             <h4>Essay</h4>
                                         </div>
                                         <hr>
-                                        <div class="detailCard ps-3 mt-2">
+                                        <div class="detailCard ps-2 py-1 mt-1 mb-2">
                                             <h6>See the list of Completed Essay</h6>
                                         </div>
                                     </a>
@@ -209,8 +224,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="container text-center pt-3" style="overflow-x: auto !important;">
-                                                <table class="table table-bordered">
+                                            <div class="container text-start px-3 py-2">
+                                                <table class="table" id="listeditoractiveduration">
                                                     <thead>
                                                         <tr>
                                                             <th>No</th>
@@ -220,48 +235,17 @@
                                                             <th>Total Duration</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody>
-                                                        <?php $i = 1; ?>
-                                                        @foreach ($editors_active as $editor)
-                                                            <tr>
-                                                                <th scope="row">{{ $i++ }}</th>
-                                                                <td>
-                                                                    {{ $editor->first_name . ' ' . $editor->last_name }}
-                                                                </td>
-                                                                @if ($editor->position == 1)
-                                                                    <td>Associate</td>
-                                                                @elseif ($editor->position == 2)
-                                                                    <td>Senior</td>
-                                                                @elseif ($editor->position == 3)
-                                                                    <td>Managing</td>
-                                                                @endif
-                                                                <td>
-                                                                    {{ $editor->completed_essay }}
-                                                                </td>
-                                                                <td>
-                                                                    {{ $editor->total_duration }}
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
-
-                                                        @unless (count($editors_active))
-                                                            <tr>
-                                                                <td colspan="7">No data</td>
-                                                            </tr>
-                                                        @endunless
-                                                    </tbody>
                                                 </table>
                                             </div>
                                         </div>
-
                                         <div>
-                                            <hr>
+                                            <hr class="my-1" style="color: var(--grey);">
                                             <div
-                                                class="detailCard d-flex justify-content-between align-items-center px-3 pb-2">
-                                                <h6 class="fs-6">{{ $essay_per_month }} Essay Total (in
+                                                class="detailCard d-flex justify-content-between align-items-center px-3 py-1 mb-2">
+                                                <h6 class="m-0">{{ $essay_per_month }} Essay Total (in
                                                     {{ DateTime::createFromFormat('!m', $date['month'])->format('F') }}
                                                     {{ $date['year'] }})</h6>
-                                                <h6 class="fs-6">{{ $essay_per_month_completed }} Completed</h6>
+                                                <h6 class="m-0">{{ $essay_per_month_completed }} Completed</h6>
                                             </div>
                                         </div>
                                     </div>
@@ -270,7 +254,7 @@
                             </div>
                             {{-- End Active Editor --}}
                         </div>
-                        <div class="row gap-2 mt-4">
+                        <div class="row gap-2 mt-3">
                             <div class="col-md col-12 p-0 userCard" style="cursor: default">
                                 <div class="headline d-flex align-items-center justify-content-center py-md-4 py-3 gap-3">
                                     <img src="/assets/essay-list.png" alt="">
@@ -332,8 +316,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row m-3">
-                                    <div class="col-lg col-12 p-0 userCard" style="cursor: default">
+                                <div class="row justify-content-center m-3 userCard">
+                                    <div class="col-md-10 col-12 p-0" style="cursor: default">
                                         <canvas class="mt-4 mb-1" id="all-essay-chart" style="width:100%"></canvas>
                                         <div class="text-center mt-4 mb-lg-0 mb-4">
                                             <h6 class="mb-4" style="font-size: 12px; color: var(--black)">
@@ -351,7 +335,7 @@
                                 </div>
                                 <div class="row gap-2 m-3">
                                     <div class="col-lg d-flex flex-column gap-2 p-0">
-                                        <a class="col-md col-12 p-0 userCard" href="/editor/essay-list-due-tommorow">
+                                        <a class="col-md col-12 p-0 userCard" href="/editor/essay-list-due-tomorrow">
                                             <div class="headline d-flex align-items-center px-4 py-md-4 py-3 gap-3"
                                                 style="background-color: var(--red)">
                                                 <img src="/assets/warning.png" alt="">
@@ -404,8 +388,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row m-3">
-                                    <div class="col-lg col-12 p-0 userCard" style="cursor: default">
+                                <div class="row justify-content-center m-3 userCard">
+                                    <div class="col-md-10 col-12 p-0" style="cursor: default">
                                         <canvas class="mt-4 mb-1" id="your-essay-chart" style="width:100%"></canvas>
                                         <div class="text-center mt-4 mb-lg-0 mb-4">
                                             <h6 class="mb-4" style="font-size: 12px; color: var(--black)">
@@ -426,6 +410,7 @@
 @endsection
 
 @section('js')
+    {{-- Chart --}}
     <script>
         new Chart(document.getElementById("all-essay-chart"), {
             type: 'doughnut',
@@ -450,14 +435,50 @@
     </script>
 
     <script>
+        // List Editor Active
+        $(document).ready(function () {
+            $('#listeditoractiveduration').DataTable({
+                scrollX: true,
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('managing-data-editor-active-duration') }}' + window.location.search,
+                columns: [
+                    {
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        class: 'text-center'
+                    },
+                    {
+                        data: 'editor_name',
+                        name: 'editor_name'
+                    },
+                    {
+                        data: 'position',
+                        name: 'position'
+                    },
+                    {
+                        data: 'completed_essay',
+                        name: 'completed_essay'
+                    },
+                    {
+                        data: 'total_duration',
+                        name: 'total_duration'
+                    }
+                ]
+            });
+        });
+    </script>
+
+    <script>
         const formFilter = document.getElementById('form-dashboard-filter');
         formFilter.addEventListener('change', (() => {
             formFilter.submit();
         }))
     </script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> --}}
+    {{-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
     <script>
         $('form').change(function(e) {
             e.preventDefault();

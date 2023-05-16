@@ -1,9 +1,13 @@
 @extends('user.editor.utama.utama')
 @section('css')
-  <link rel="stylesheet" href="/css/admin/essay-ongoing-detail.css">
+  <link rel="stylesheet" href="/css/editor/essay-ongoing-detail.css">
   <style>
-    .pagination { margin: 0}
-    .pagination .page-item .page-link { padding: 10px 15px; font-size: 12px; }
+    .dataTables_scroll .dataTables_scrollHeadInner {
+      width: auto !important;
+    }
+    .dataTables_scroll .dataTables_scrollHeadInner .table.m-0.dataTable.no-footer {
+      width: 100% !important;
+    }
   </style>
 @endsection
 
@@ -184,45 +188,47 @@
         <form action="{{ route('assign-editor', ['id_essay' => $essay->id_essay_clients]) }}" method="POST">
           @csrf
           <div class="col text-center p-0 m-0" style="max-height: 70vh; overflow-y: auto">
-            <table class="table table-bordered m-0">
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Editor Name</th>
-                  <th>Graduated From</th>
-                  <th>Due Tomorrow</th>
-                  <th>Due Within 3 Days</th>
-                  <th>Due Within 5 Days</th>
-                  <th>Completed Essay</th>
-                  <th>Assign</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php $i = 1;?>
-                @foreach ($editors as $editor)
-                <tr style="cursor: pointer" onclick="select_row(this)">
-                  <th scope="row">{{ $i++ }}</th>
-                  <td>{{ $editor->first_name.' '.$editor->last_name }}</td>
-                  <td>{{ $editor->graduated_from }}</td>
-                  <td>{{ $editor->dueTomorrow }} Essays</td>
-                  <td>{{ $editor->dueThree }} Essays</td>
-                  <td>{{ $editor->dueFive }} Essays</td>
-                  <td>{{ $completedEssay->where('editors_mail', $editor->email)->count() }} Essays</td>
-                  <td class="d-flex align-items-center justify-content-center">
-                    <div class="form-check d-flex align-items-center justify-content-center">
-                      <input class="form-check-input" type="radio" name="id_editors" id="flexRadioDefault1" value="{{ $editor->email }}">
-                    </div>
-                  </td>
-                </tr>
-                @endforeach
-                
-                @unless (count($editors)) 
-                <tr>
-                  <td colspan="8">No data</td>
-                </tr>
-                @endunless
-              </tbody>
-            </table>
+            <div class="container text-start px-3 py-2">
+              <table class="table m-0" id="listeditor" style="width: 100%">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Editor Name</th>
+                    <th>Graduated From</th>
+                    <th>Due Tomorrow</th>
+                    <th>Due Within 3 Days</th>
+                    <th>Due Within 5 Days</th>
+                    <th>Completed Essay</th>
+                    <th>Assign</th>
+                  </tr>
+                </thead>
+                {{-- <tbody>
+                  <?php $i = 1;?>
+                  @foreach ($editors as $editor)
+                  <tr style="cursor: pointer" onclick="select_row(this)">
+                    <th scope="row">{{ $i++ }}</th>
+                    <td>{{ $editor->first_name.' '.$editor->last_name }}</td>
+                    <td>{{ $editor->graduated_from }}</td>
+                    <td>{{ $editor->dueTomorrow }} Essays</td>
+                    <td>{{ $editor->dueThree }} Essays</td>
+                    <td>{{ $editor->dueFive }} Essays</td>
+                    <td>{{ $completedEssay->where('editors_mail', $editor->email)->count() }} Essays</td>
+                    <td class="d-flex align-items-center justify-content-center">
+                      <div class="form-check d-flex align-items-center justify-content-center">
+                        <input class="form-check-input" type="radio" name="id_editors" id="flexRadioDefault1" value="{{ $editor->email }}">
+                      </div>
+                    </td>
+                  </tr>
+                  @endforeach
+                  
+                  @unless (count($editors)) 
+                  <tr>
+                    <td colspan="8">No data</td>
+                  </tr>
+                  @endunless
+                </tbody> --}}
+              </table>
+            </div>
           </div>
           <div class="col d-flex align-items-center justify-content-end py-md-3 px-md-3 px-3 py-3 gap-2">
             <button class="btn btn-download d-flex align-items-center justify-content-center gap-2" data-bs-toggle="modal" data-bs-target="#selectEditor" style="background-color: var(--yellow); color: var(--white)">
@@ -242,7 +248,52 @@
   $(document).ready(function(){
       $("#info").modal('show');
   });
-
+  // List Editor
+  $(document).ready(function () {
+    $('#listeditor').DataTable({
+      scrollX: true,
+      responsive: true,
+      processing: true,
+      serverSide: true,
+      ajax: '{{ route('managing-data-list-editor') }}',
+      columns: [
+        {
+            data: 'DT_RowIndex',
+            name: 'DT_RowIndex',
+            class: 'text-center'
+        },
+        {
+            data: 'editor_name',
+            name: 'editor_name'
+        },
+        {
+            data: 'graduated_from',
+            name: 'graduated_from'
+        },
+        {
+            data: 'dueTomorrow',
+            name: 'dueTomorrow'
+        },
+        {
+            data: 'dueThree',
+            name: 'dueThree'
+        },
+        {
+            data: 'dueFive',
+            name: 'dueFive'
+        },
+        {
+            data: 'completed_essay',
+            name: 'completed_essay'
+        },
+        {
+            data: 'assign',
+            name: 'assign',
+            class: 'text-center'
+        },
+      ]
+    });
+  });
   function select_row(cb) {
     $(cb).find('input[type=radio]').prop("checked", true)
   }

@@ -9,20 +9,28 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\Facades\DataTables;
 
 class CategoriesTags extends Controller
 {
+    public function getCategories(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Tags::orderBy('topic_name', 'asc')->get();
+            return Datatables::of($data)
+            ->addIndexColumn()
+            ->setRowAttr([
+                'onclick' => function($d) {
+                    return 'getCategoriesDetail('.$d->id_topic.')';
+                },
+            ])
+            ->make(true);
+        }
+    }
+
     public function index(Request $request)
     {
-        $keyword = $request->get('keyword');
-        $tags = Tags::orderBy('topic_name', 'asc')->when($keyword, function($query) use ($keyword) {
-            $query->where('topic_name', 'like', '%'.$keyword.'%');
-        })->paginate(10);
-
-        if ($keyword)
-            $tags->appends(['keyword' => $keyword]);
-
-        return view('user.editor.settings.setting-categories', ['tags' => $tags]);
+        return view('user.editor.settings.setting-categories');
     }
 
     public function detail($tag_id, Request $request)
@@ -30,9 +38,6 @@ class CategoriesTags extends Controller
         if (!$tag = Tags::find($tag_id)) {
             return redirect('editor/setting/categories-tags')->with('isTag', 'Categories / Tags not found');
         }
-        // if (!$tag = Tags::find($tag_id)) {
-        //     return redirect('editor/setting/categories-tags')->withErrors('Couldn\'t find the tag');
-        // }
 
         $keyword = $request->get('keyword');
         $tags = Tags::orderBy('topic_name', 'asc')->when($keyword, function($query) use ($keyword) {
