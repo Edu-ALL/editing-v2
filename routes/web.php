@@ -189,6 +189,7 @@ Route::middleware('is_mentor')->group(function () {
 
     // User List
     Route::get('/mentor/user/student', [StudentsMenu::class, 'index'])->name('list-student');
+    Route::get('/mentor/user/student/data', [StudentsMenu::class, 'getStudent'])->name('mentor-data-student');
     Route::get('/mentor/user/student/detail/{id}', [StudentsMenu::class, 'detail']);
     Route::post('/mentor/user/student/update/{id}', [StudentsMenu::class, 'update'])->name('update-student');
 
