@@ -136,7 +136,7 @@ body {
 }
 .table .status-editor {
   color: var(--white);
-  padding: 6px 5px !important;
+  padding: 6px 6px !important;
   border-radius: 6px;
   background-color: var(--green);
   font-weight: 500;
