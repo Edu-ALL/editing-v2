@@ -14,9 +14,49 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Exception;
+use Yajra\DataTables\Facades\DataTables;
 
 class StudentsMenu extends Controller
 {
+    public function getStudent(Request $request){
+        if ($request->ajax()) {
+            $mentor = Auth::guard('web-mentor')->user();
+            $data = Client::where('id_mentor', '=', $mentor->id_mentors)->orWhere('id_mentor_2', '=', $mentor->id_mentors)->orderBy('first_name', 'asc')->get();
+            return Datatables::of($data)
+            ->addIndexColumn()
+            ->setRowAttr([
+                'onclick' => function($d) {
+                    return 'getStudentDetail('.$d->id_clients.')';
+                },
+            ])
+            ->editColumn('student_name', function($d){
+                $result = $d->first_name . ' ' . $d->last_name;
+                return $result;
+            })
+            ->editColumn('mentor_name', function($d){
+                $result = $d->mentors->first_name . ' ' . $d->mentors->last_name;
+                return $result;
+            })
+            ->editColumn('backup_mentor', function($d){
+                $result = isset($d->mentors2) ? $d->mentors2->first_name.' '.$d->mentors2->last_name : '-';
+                return $result;
+            })
+            ->editColumn('email', function($d){
+                $result = $d->email ? $d->email : '-';
+                return $result;
+            })
+            ->editColumn('phone', function($d){
+                $result = $d->phone ? $d->phone : '-';
+                return $result;
+            })
+            ->editColumn('city', function($d){
+                $result = $d->address ? strip_tags($d->address) : '-';
+                return $result;
+            })
+            ->make(true);
+        }
+    }
+
     public function index(Request $request)
     {
         $mentor = Auth::guard('web-mentor')->user();

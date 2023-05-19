@@ -151,7 +151,7 @@ body {
   border-bottom-left-radius: 0 !important;
 }
 
-.table thead {
+/* .table thead {
   background-color: #F9FAFC;
   text-transform: uppercase;
 }
@@ -171,7 +171,7 @@ body {
   padding: 14px 8px !important;
   text-align: center;
   vertical-align: middle;
-}
+} */
 
 .btn-create, .btn-create:hover {
   color: var(--white);

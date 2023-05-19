@@ -1,16 +1,6 @@
 @extends('user.editor.utama.utama')
 @section('css')
     <link rel="stylesheet" href="/css/editor/report-list-completed.css">
-    <style>
-        .pagination {
-            margin: 15px 0
-        }
-
-        .pagination .page-item .page-link {
-            padding: 10px 15px;
-            font-size: 12px;
-        }
-    </style>
 @endsection
 
 @section('content')
@@ -135,82 +125,26 @@
                                     </div>
                                     
                                 </div>
-                                <div class="container text-center p-0" style="overflow-x: auto !important">
-                                    <table class="table table-bordered" id="table-result">
+                                <div class="container text-start px-0 py-2">
+                                    <table class="table" id="listreport" style="width: 100%">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
                                                 <th>Students Name</th>
                                                 <th>Editors Name</th>
                                                 <th>Program Name</th>
-                                                <th>University</th>
+                                                {{-- <th>University</th> --}}
                                                 <th>Essay Title</th>
                                                 <th>Editors Files</th>
                                                 <th>Students Files</th>
                                                 <th>Status</th>
                                                 <th>Essay Rating</th>
                                                 <th>Work Duration (Minutes)</th>
-                                                <th>Application Date</th>
+                                                {{-- <th>Application Date</th> --}}
                                                 <th>Completed Date</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            @if ($results)
-                                                <?php $i = ($results->currentpage() - 1) * $results->perpage() + 1; ?>
-                                                @foreach ($results as $result)
-                                                    <tr style="cursor: default">
-                                                        <td>{{ $i++ }}</td>
-                                                        <td>
-                                                            @if ($result->essay_clients->client_by_id == null)
-                                                                {{ $result->essay_clients->client_by_email->first_name . ' ' . $result->essay_clients->client_by_email->last_name }}
-                                                            @else
-                                                                {{ $result->essay_clients->client_by_id->first_name . ' ' . $result->essay_clients->client_by_id->last_name }}
-                                                            @endif
-                                                        </td>
-                                                        <td>{{ $result->editor->first_name . ' ' . $result->editor->last_name }}
-                                                        </td>
-                                                        <td>{{ $result->essay_clients->program->program_name }}</td>
-                                                        <td>{{ $result->essay_clients->university->university_name }}</td>
-                                                        <td>{{ $result->essay_clients->essay_title }}</td>
-
-                                                        @if ($result->status->id == 8)
-                                                        <td><a href="{{ asset('uploaded_files/program/essay/revised/'.$result->attached_of_editors) }}" rel="noopener" target="_blank" title="{{ $result->attached_of_editors }}">Download</a>
-                                                        </td>
-                                                        @else
-                                                        <td><a href="{{ asset('uploaded_files/program/essay/editors/'.$result->attached_of_editors) }}" rel="noopener" target="_blank" title="{{ $result->attached_of_editors }}">Download</a>
-                                                        </td>
-                                                        @endif
-
-                                                        <td><a href="{{ asset('uploaded_files/program/essay/students/'.$result->essay_clients->attached_of_clients) }}" rel="noopener" target="_blank" title="{{ $result->essay_clients->attached_of_clients }}">Download</a>
-                                                        </td>
-
-                                                        @if ($result->status->id == 7)
-                                                        <td style="color: var(--green)">{{ $result->status->status_title }}</td>
-                                                        @else
-                                                        <td style="color: var(--red)">{{ $result->status->status_title }}</td>
-                                                        @endif
-
-                                                        <td>{{ $result->essay_clients->essay_rating }}</td>
-                                                        <td>{{ $result->work_duration }}</td>
-                                                        <td>{{ $result->essay_clients->application_deadline }}</td>
-                                                        <td>{{ $result->essay_clients->completed_at }}</td>
-                                                    </tr>
-                                                @endforeach
-
-                                                @unless(count($results))
-                                                    <tr>
-                                                        <td colspan="13">No data</td>
-                                                    </tr>
-                                                @endunless
-                                            @endif
-                                        </tbody>
                                     </table>
-                                    @if ($results)
-                                        {{-- Pagination --}}
-                                        <div class="d-flex justify-content-center">
-                                            {{ $results->links() }}
-                                        </div>
-                                    @endif
                                 </div>
                             </section>
                         </div>
@@ -221,4 +155,67 @@
             {{-- End Content --}}
         </div>
     </div>
+@endsection
+@section('js')
+<script>
+    // List Report
+    $(document).ready(function () {
+        $('#listreport').DataTable({
+            scrollX: true,
+            responsive: true,
+            processing: true,
+            serverSide: true,
+            ajax: '{{ route('report-list-data') }}' + window.location.search,
+            columns: [
+                {
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    class: 'text-center'
+                },
+                {
+                    data: 'student_name',
+                    name: 'student_name'
+                },
+                {
+                    data: 'editor_name',
+                    name: 'editor_name'
+                },
+                {
+                    data: 'program_name',
+                    name: 'program_name'
+                },
+                {
+                    data: 'essay_title',
+                    name: 'essay_title'
+                },
+                {
+                    data: 'editor_file',
+                    name: 'editor_file'
+                },
+                {
+                    data: 'student_file',
+                    name: 'student_file'
+                },
+                {
+                    data: 'status',
+                    name: 'status'
+                },
+                {
+                    data: 'essay_rating',
+                    name: 'essay_rating',
+                    class: 'text-center'
+                },
+                {
+                    data: 'work_duration',
+                    name: 'work_duration',
+                    class: 'text-center'
+                },
+                {
+                    data: 'completed_date',
+                    name: 'completed_date'
+                }
+            ]
+        });
+    });
+</script>
 @endsection

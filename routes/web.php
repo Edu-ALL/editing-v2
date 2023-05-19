@@ -200,6 +200,7 @@ Route::middleware('is_mentor')->group(function () {
 
     // User List
     Route::get('/mentor/user/student', [StudentsMenu::class, 'index'])->name('list-student');
+    Route::get('/mentor/user/student/data', [StudentsMenu::class, 'getStudent'])->name('mentor-data-student');
     Route::get('/mentor/user/student/detail/{id}', [StudentsMenu::class, 'detail']);
     Route::post('/mentor/user/student/update/{id}', [StudentsMenu::class, 'update'])->name('update-student');
 
@@ -212,6 +213,7 @@ Route::middleware('is_mentor')->group(function () {
 Route::middleware('is_editor')->group(function () {
     // Dashboard
     Route::get('/editor/dashboard', [DashboardManaging::class, 'index'])->name('editor-dashboard');
+    Route::get('/editor/dashboard/editor-active-duration/data', [DashboardManaging::class, 'getEditorActiveDuration'])->name('managing-data-editor-active-duration');
 
     // Help
     Route::get('/editor/help', function () {
@@ -220,16 +222,27 @@ Route::middleware('is_editor')->group(function () {
 
     //Editor List Menu
     Route::get('/editor/list', [AllEditorMenu::class, 'index'])->name('list-editor');
+    Route::get('/editor/list/editor/data', [AllEditorMenu::class, 'getEditor'])->name('managing-data-editor');
     Route::get('/editor/list/detail/{id}', [AllEditorMenu::class, 'detail']);
+    Route::get('/editor/list/editor/essay-ongoing/data/{id}', [AllEditorMenu::class, 'getEditorEssayOngoing'])->name('managing-data-editor-essay-ongoing');
+    Route::get('/editor/list/editor/essay-completed/data/{id}', [AllEditorMenu::class, 'getEditorEssayCompleted'])->name('managing-data-editor-essay-completed');
 
     //All Essays Menu
     Route::get('/editor/all-essays', [AllEssaysMenu::class, 'index']);
 
     //List All Essays
     Route::get('/editor/all-essays/completed-essay-list', [AllEssaysMenu::class, 'essayCompleted'])->name('editor-list-completed-essay');
+    Route::get('/editor/all-essays/completed-essay-list/data', [AllEssaysMenu::class, 'getCompletedList'])->name('managing-data-all-essay-completed');
+
     Route::get('/editor/all-essays/ongoing-essay-list', [AllEssaysMenu::class, 'ongoingList'])->name('editor-list-ongoing-essay');
+    Route::get('/editor/all-essays/ongoing-essay-list/data', [AllEssaysMenu::class, 'getOngoingList'])->name('managing-data-all-essay-ongoing');
+
     Route::get('/editor/all-essays/assigned-essay-list', [AllEssaysMenu::class, 'assignList'])->name('editor-list-assign-essay');
+    Route::get('/editor/all-essays/assigned-essay-list/data', [AllEssaysMenu::class, 'getAssignList'])->name('managing-data-essay-assign');
+
     Route::get('/editor/all-essays/not-assign-essay-list', [AllEssaysMenu::class, 'notAssignList'])->name('editor-list-not-assign-essay');
+    Route::get('/editor/all-essays/not-assign-essay-list/data', [AllEssaysMenu::class, 'getNotAssignList'])->name('managing-data-essay-not-assign');
+    Route::get('/editor/all-essays/editor-list/data', [AllEssaysMenu::class, 'getEditorList'])->name('managing-data-list-editor');
 
     //Detail All Essays
     Route::get('/editor/all-essays/ongoing/detail/{id}', [AllEssaysMenu::class, 'detailEssayManaging']);
@@ -237,30 +250,45 @@ Route::middleware('is_editor')->group(function () {
 
     //List All Essays Due
     Route::get('/editor/all-essays/essay-list-due-tommorow', [AllEssaysMenu::class, 'dueTomorrow'])->name('editor-list-due-tomorrow');
+    Route::get('/editor/all-essays/essay-list-due-tommorow/data', [AllEssaysMenu::class, 'getDueTomorrow'])->name('managing-data-all-due-tomorrow');
+
     Route::get('/editor/all-essays/essay-list-due-within-three', [AllEssaysMenu::class, 'dueThree'])->name('editor-list-due-within-three');
+    Route::get('/editor/all-essays/essay-list-due-within-three/data', [AllEssaysMenu::class, 'getDueThree'])->name('managing-data-all-due-three-days');
+
     Route::get('/editor/all-essays/essay-list-due-within-five', [AllEssaysMenu::class, 'dueFive'])->name('editor-list-due-within-five');
+    Route::get('/editor/all-essays/essay-list-due-within-five/data', [AllEssaysMenu::class, 'getDueFive'])->name('managing-data-all-due-five-days');
 
     //Essay List Menu
     Route::get('/editor/essay-list', [EssayListMenu::class, 'index'])->name('editor-essay-list');
+    Route::get('/editor/essay-list/ongoing/data', [EssayListMenu::class, 'getEssayOngoing'])->name('managing-data-essay-ongoing');
+    Route::get('/editor/essay-list/completed/data', [EssayListMenu::class, 'getEssayCompleted'])->name('managing-data-essay-completed');
     Route::get('/editor/essay-list/ongoing/detail/{id_essay}', [EssayListMenu::class, 'detailEssayList']);
     Route::get('/editor/essay-list/completed/detail/{id_essay}', [EssayListMenu::class, 'detailEssayList']);
 
     //List Essays List Due
-    Route::get('/editor/essay-list-due-tommorow', [EssayListMenu::class, 'dueTomorrow'])->name('editor-list-due-tomorrow');
+    Route::get('/editor/essay-list-due-tomorrow', [EssayListMenu::class, 'dueTomorrow'])->name('editor-list-due-tomorrow');
+    Route::get('/editor/essay-list-due-tomorrow/data', [EssayListMenu::class, 'getDueTomorrow'])->name('managing-data-due-tomorrow');
+
     Route::get('/editor/essay-list-due-within-three', [EssayListMenu::class, 'dueThree'])->name('editor-list-due-within-three');
+    Route::get('/editor/essay-list-due-three-days/data', [EssayListMenu::class, 'getDueThreeDays'])->name('managing-data-due-three-days');
+
     Route::get('/editor/essay-list-due-within-five', [EssayListMenu::class, 'dueFive'])->name('editor-list-due-within-five');
+    Route::get('/editor/essay-list-due-five-days/data', [EssayListMenu::class, 'getDueFiveDays'])->name('managing-data-due-five-days');
 
     //Setting Menu
     Route::get('/editor/setting/universities', [ManagingEditorUniversities::class, 'index'])->name('list-university');
+    Route::get('/editor/setting/universities/data', [ManagingEditorUniversities::class, 'getUniversity'])->name('managing-data-university');
     Route::get('/editor/setting/universities/detail/{id}', [ManagingEditorUniversities::class, 'detail']);
     Route::get('/editor/setting/universities/add', function () {
         return view('user.editor.settings.setting-add-universities');
     });
     Route::get('/editor/setting/categories-tags', [ManagingEditorCategoriesTags::class, 'index'])->name('list-tag');
+    Route::get('/editor/setting/categories-tags/data', [ManagingEditorCategoriesTags::class, 'getCategories'])->name('managing-data-categories');
     Route::get('/editor/setting/categories-tags/detail/{tag_id}', [ManagingEditorCategoriesTags::class, 'detail']);
 
     // Report List
     Route::get('/editor/report-list', [ReportList::class, 'index'])->name('report-list');
+    Route::get('/editor/report-list/data', [ReportList::class, 'getReportList'])->name('report-list-data');
 
     // Profile
     Route::get('/editor/profile', [ProfileManaging::class, 'index']);
