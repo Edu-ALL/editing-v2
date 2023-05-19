@@ -192,10 +192,12 @@ Route::middleware('is_mentor')->group(function () {
 
     // Essay List
     Route::get('/mentor/essay-list/ongoing', [EssaysMenu::class, 'ongoingEssay'])->name('mentor-essay-list-ongoing');
+    Route::get('/mentor/essay-list/ongoing/data', [EssaysMenu::class, 'getOngoingEssay'])->name('data-mentor-essay-list-ongoing');
     Route::get('/mentor/essay-list/ongoing/detail/{id}', [EssaysMenu::class, 'detailOngoingEssay'])->name('mentor-essay-list-ongoing-detail');
     Route::post('/mentor/essay-list/ongoing/delete/{id}', [EssaysMenu::class, 'deletEssay'])->name('mentor-essay-delete');;
 
     Route::get('/mentor/essay-list/completed', [EssaysMenu::class, 'completedEssay'])->name('mentor-essay-list-completed');
+    Route::get('/mentor/essay-list/completed/data', [EssaysMenu::class, 'getCompletedEssay'])->name('data-mentor-essay-list-completed');
     Route::get('/mentor/essay-list/completed/detail/{id}', [EssaysMenu::class, 'detailCompletedEssay']);
 
     // User List
