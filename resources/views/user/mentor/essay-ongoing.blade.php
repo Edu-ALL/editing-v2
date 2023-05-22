@@ -29,18 +29,9 @@
                                     <img src="/assets/ongoing-essay.png" alt="">
                                     <h6>Ongoing Essay List</h6>
                                 </div>
-                                <div class="col-md-4 col-6 d-flex align-items-center justify-content-end gap-md-3 gap-2">
-                                    <div class="input-group">
-                                        <form id="form-ongoing-essay-searching"
-                                            action="{{ route('mentor-essay-list-ongoing') }}" method="GET" role="search"
-                                            class="w-100">
-                                            <input type="search" class="form-control inputField py-2 px-3" name="keyword" placeholder="Search">
-                                        </form>
-                                    </div>
-                                </div>
                             </div>
-                            <div class="container text-center" style="overflow-x: auto !important">
-                                <table class="table table-bordered">
+                            <div class="container text-start px-3 py-2">
+                                <table class="table table-bordered" id="listongoingessay" style="width: 100%">
                                     <thead>
                                         <tr>
                                             <th>No</th>
@@ -52,46 +43,7 @@
                                             <th>Status</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <?php $i = ($essays->currentpage() - 1) * $essays->perpage() + 1; ?>
-                                        @foreach ($essays as $essay)
-                                            @if($essay->status_read == 0)
-                                                @php 
-                                                $read = "text-dark fw-bold";
-                                                $title = "Unread";
-                                                @endphp
-                                            @else
-                                                @php
-                                                $read = "";
-                                                $title = "Read";
-                                                @endphp
-                                            @endif
-                                            <tr
-                                                onclick="window.location='/mentor/essay-list/ongoing/detail/{{ $essay->id_essay_clients }}'">
-                                                <th scope="row" class="{{ $read }}" title="{{ $title }}">{{ $i++ }}</th>
-
-                                                <td class="{{ $read }}" title="{{ $title }}">{{ isset($essay->client_by_id) ? $essay->client_by_id->first_name . ' ' . $essay->client_by_id->last_name : $essay->client_by_email->first_name . ' ' . $essay->client_by_email->last_name }}
-                                                </td>
-                                                <td class="{{ $read }}" title="{{ $title }}">{{ $essay->mentor->first_name . ' ' . $essay->mentor->last_name }}
-                                                </td>
-
-                                                <td class="{{ $read }}" title="{{ $title }}"><?php echo $essay->editor ? $essay->editor->first_name . ' ' . $essay->editor->last_name : '-'; ?></td>
-                                                <td class="{{ $read }}" title="{{ $title }}">{{ $essay->essay_title }}</td>
-                                                <td class="{{ $read }}" title="{{ $title }}">{{ date('D, d M Y', strtotime($essay->essay_deadline)) }}</td>
-                                                <td style="color: var(--red)" class="{{ $read }}" title="{{ $title }}">{{ $essay->status->status_title }}</td>
-                                                </td>
-                                        @endforeach
-                                        @unless(count($essays))
-                                            <tr style="cursor: default">
-                                                <td colspan="7">No data</td>
-                                            </tr>
-                                        @endunless
-                                    </tbody>
                                 </table>
-                                {{-- Pagination --}}
-                                <div class="d-flex justify-content-center">
-                                    {{ $essays->links() }}
-                                </div>
                             </div>
                             </a>
                         </div>
@@ -104,13 +56,52 @@
         </div>
     @endsection
     @section('js')
-        <script type="text/javascript">
-            $("#form-ongoing-essay-searching").keypress(function(e) {
-                if (e.keyCode === 13) {
-                    swal.showLoading();
-                    e.preventDefault();
-                    $("#form-ongoing-essay-searching").submit();
-                }
+        <script>
+            // List Student
+            $(document).ready(function() {
+                $('#listongoingessay').DataTable({
+                    scrollX: true,
+                    responsive: true,
+                    processing: true,
+                    serverSide: true,
+                    ajax: '{{ route('data-mentor-essay-list-ongoing') }}',
+                    columns: [{
+                            data: 'DT_RowIndex',
+                            name: 'DT_RowIndex',
+                            class: 'text-center'
+                        },
+                        {
+                            data: 'student_name',
+                            name: 'student_name'
+                        },
+                        {
+                            data: 'mentor_name',
+                            name: 'mentor_name'
+                        },
+                        {
+                            data: 'editor_name',
+                            name: 'editor_name'
+                        },
+                        {
+                            data: 'essay_title',
+                            name: 'essay_title'
+                        },
+                        {
+                            data: 'essay_deadline',
+                            name: 'essay_deadline'
+                        },
+                        {
+                            data: 'status',
+                            name: 'status'
+                        },
+                    ],
+                    rowCallback: function(row, data) {
+                        $(row).on('click', function() {
+                            window.location.href =
+                                `/mentor/essay-list/ongoing/detail/${data.id_essay_clients}`;
+                        });
+                    }
+                });
             });
         </script>
     @stop
