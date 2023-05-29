@@ -508,8 +508,13 @@ class AllEssaysMenu extends Controller
     public function cancel($id_essay)
     {
         DB::beginTransaction();
+        $essay = EssayClients::find($id_essay);
+        $essay_editor = EssayEditors::where('id_essay_clients', $id_essay)->first();
+        $managing = Auth::guard('web-editor')->user();
+        $client = Client::where('id_clients', $essay->id_clients)->first();
+        $editor = Editor::where('email', $essay_editor->editors_mail)->first();
+    
         try {
-            $essay = EssayClients::find($id_essay);
             $essay->status_essay_clients = 4;
             $essay->save();
 
@@ -529,10 +534,6 @@ class AllEssaysMenu extends Controller
             DB::rollBack();
             return Redirect::back()->withErrors($e->getMessage());
         }
-
-        $managing = Auth::guard('web-editor')->user();
-        $client = Client::where('id_clients', $essay->id_clients)->first();
-        $editor = Editor::where('id_editors', $essay->id_editors)->first();
 
         // $email = $essay->essay_editors->editor->email;
         $email = $editors_mail;
