@@ -231,7 +231,7 @@
             </div>
           </div>
           <div class="col d-flex align-items-center justify-content-end py-md-3 px-md-3 px-3 py-3 gap-2">
-            <button class="btn btn-download d-flex align-items-center justify-content-center gap-2" data-bs-toggle="modal" data-bs-target="#selectEditor" style="background-color: var(--yellow); color: var(--white)">
+            <button class="btn btn-download d-flex align-items-center justify-content-center gap-2" data-bs-toggle="modal" data-bs-target="#selectEditor" style="background-color: var(--yellow); color: var(--white)" type="submit">
               <img src="/assets/assign-list.png" alt="">
               <h6 class="my-auto">Select Editor</h6>
             </button>

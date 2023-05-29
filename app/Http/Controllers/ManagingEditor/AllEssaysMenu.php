@@ -171,7 +171,7 @@ class AllEssaysMenu extends Controller
     public function getEditorList(Request $request)
     {
         if ($request->ajax()) {
-            $data = Editor::all();
+            $data = Editor::where('status',1)->get();
             return Datatables::of($data)
             ->addIndexColumn()
             ->setRowAttr([
