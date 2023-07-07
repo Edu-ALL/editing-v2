@@ -106,6 +106,7 @@
         //     }
         // });
 
+<<<<<<< HEAD
         $("#sync-mentors").click(function(e) {
             e.preventDefault();
             swal.showLoading();
@@ -133,3 +134,38 @@
         })
     </script>
 @stop
+=======
+      $.ajax({
+        url: $(this).attr('href'),
+        type: "GET",
+        success: function (response) {
+          msg = JSON.parse(response);
+          if (msg.success == true){
+            
+            if (msg.data == 0) {
+
+              Swal.fire(
+                'Sync Completed',
+                'No new mentors found',
+                'success'
+              )
+            } else if (msg.data > 0) {
+              Swal.fire(
+                'Sync Completed',
+                'Mentors CRM data synchronization<br>has been successful',
+                'success'
+              )
+            }
+          } else {
+            Swal.fire(
+              '',
+              msg.message,
+              'info'
+            )
+          }
+        }
+      })
+    })
+  </script>
+@stop
+>>>>>>> origin/development-v1.0

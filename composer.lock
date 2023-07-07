@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "6a167480c4f2836bab863a724196ebf1",
+=======
+    "content-hash": "f2585b65cad40fd3f062780f7f002c4f",
+>>>>>>> origin/development-v1.0
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -252,6 +256,7 @@
                 {
                     "url": "https://github.com/BenMorel",
                     "type": "github"
+<<<<<<< HEAD
                 },
                 {
                     "url": "https://tidelift.com/funding/github/packagist/brick/math",
@@ -340,6 +345,15 @@
                 }
             ],
             "time": "2022-04-01T19:23:25+00:00"
+=======
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/brick/math",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-08-15T20:50:18+00:00"
+>>>>>>> origin/development-v1.0
         },
         {
             "name": "doctrine/inflector",
@@ -1532,6 +1546,7 @@
             "time": "2023-02-15T16:40:09+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "laravelcollective/html",
             "version": "v6.4.1",
             "source": {
@@ -1557,8 +1572,46 @@
                 "illuminate/database": "^6.0|^7.0|^8.0|^9.0|^10.0",
                 "mockery/mockery": "~1.0",
                 "phpunit/phpunit": "~8.5|^9.5.10"
+=======
+            "name": "league/commonmark",
+            "version": "1.6.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/commonmark.git",
+                "reference": "2b8185c13bc9578367a5bf901881d1c1b5bbd09b"
             },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/2b8185c13bc9578367a5bf901881d1c1b5bbd09b",
+                "reference": "2b8185c13bc9578367a5bf901881d1c1b5bbd09b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": "^7.1 || ^8.0"
+            },
+            "conflict": {
+                "scrutinizer/ocular": "1.7.*"
+            },
+            "require-dev": {
+                "cebe/markdown": "~1.0",
+                "commonmark/commonmark.js": "0.29.2",
+                "erusev/parsedown": "~1.0",
+                "ext-json": "*",
+                "github/gfm": "0.29.0",
+                "michelf/php-markdown": "~1.4",
+                "mikehaertl/php-shellcommand": "^1.4",
+                "phpstan/phpstan": "^0.12.90",
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.2",
+                "scrutinizer/ocular": "^1.5",
+                "symfony/finder": "^4.2"
+>>>>>>> origin/development-v1.0
+            },
+            "bin": [
+                "bin/commonmark"
+            ],
             "type": "library",
+<<<<<<< HEAD
             "extra": {
                 "branch-alias": {
                     "dev-master": "6.x-dev"
@@ -1573,6 +1626,8 @@
                     }
                 }
             },
+=======
+>>>>>>> origin/development-v1.0
             "autoload": {
                 "files": [
                     "src/helpers.php"
@@ -1988,7 +2043,11 @@
             ],
             "support": {
                 "issues": "https://github.com/maennchen/ZipStream-PHP/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/maennchen/ZipStream-PHP/tree/2.1.0"
+=======
+                "source": "https://github.com/maennchen/ZipStream-PHP/tree/master"
+>>>>>>> origin/development-v1.0
             },
             "funding": [
                 {
@@ -2374,7 +2433,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< HEAD
             "time": "2023-01-29T18:53:47+00:00"
+=======
+            "time": "2022-10-30T18:34:28+00:00"
+>>>>>>> origin/development-v1.0
         },
         {
             "name": "nikic/php-parser",
@@ -3707,6 +3770,7 @@
         },
         {
             "name": "symfony/css-selector",
+<<<<<<< HEAD
             "version": "v5.4.21",
             "source": {
                 "type": "git",
@@ -3717,6 +3781,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/css-selector/zipball/95f3c7468db1da8cc360b24fa2a26e7cefcb355d",
                 "reference": "95f3c7468db1da8cc360b24fa2a26e7cefcb355d",
+=======
+            "version": "v5.4.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/css-selector.git",
+                "reference": "c1681789f059ab756001052164726ae88512ae3d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/css-selector/zipball/c1681789f059ab756001052164726ae88512ae3d",
+                "reference": "c1681789f059ab756001052164726ae88512ae3d",
+>>>>>>> origin/development-v1.0
                 "shasum": ""
             },
             "require": {
@@ -3753,7 +3829,11 @@
             "description": "Converts CSS selectors to XPath expressions",
             "homepage": "https://symfony.com",
             "support": {
+<<<<<<< HEAD
                 "source": "https://github.com/symfony/css-selector/tree/v5.4.21"
+=======
+                "source": "https://github.com/symfony/css-selector/tree/v5.4.11"
+>>>>>>> origin/development-v1.0
             },
             "funding": [
                 {
@@ -3769,7 +3849,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< HEAD
             "time": "2023-02-14T08:03:56+00:00"
+=======
+            "time": "2022-06-27T16:58:25+00:00"
+>>>>>>> origin/development-v1.0
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -3911,6 +3995,7 @@
         },
         {
             "name": "symfony/event-dispatcher",
+<<<<<<< HEAD
             "version": "v5.4.22",
             "source": {
                 "type": "git",
@@ -3921,6 +4006,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/1df20e45d56da29a4b1d8259dd6e950acbf1b13f",
                 "reference": "1df20e45d56da29a4b1d8259dd6e950acbf1b13f",
+=======
+            "version": "v5.4.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/event-dispatcher.git",
+                "reference": "8e6ce1cc0279e3ff3c8ff0f43813bc88d21ca1bc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/8e6ce1cc0279e3ff3c8ff0f43813bc88d21ca1bc",
+                "reference": "8e6ce1cc0279e3ff3c8ff0f43813bc88d21ca1bc",
+>>>>>>> origin/development-v1.0
                 "shasum": ""
             },
             "require": {
@@ -3976,7 +4073,11 @@
             "description": "Provides tools that allow your application components to communicate with each other by dispatching events and listening to them",
             "homepage": "https://symfony.com",
             "support": {
+<<<<<<< HEAD
                 "source": "https://github.com/symfony/event-dispatcher/tree/v5.4.22"
+=======
+                "source": "https://github.com/symfony/event-dispatcher/tree/v5.4.9"
+>>>>>>> origin/development-v1.0
             },
             "funding": [
                 {
@@ -3992,7 +4093,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< HEAD
             "time": "2023-03-17T11:31:58+00:00"
+=======
+            "time": "2022-05-05T16:45:39+00:00"
+>>>>>>> origin/development-v1.0
         },
         {
             "name": "symfony/event-dispatcher-contracts",
@@ -5462,6 +5567,7 @@
         },
         {
             "name": "symfony/string",
+<<<<<<< HEAD
             "version": "v5.4.22",
             "source": {
                 "type": "git",
@@ -5472,6 +5578,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/string/zipball/8036a4c76c0dd29e60b6a7cafcacc50cf088ea62",
                 "reference": "8036a4c76c0dd29e60b6a7cafcacc50cf088ea62",
+=======
+            "version": "v5.4.15",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/string.git",
+                "reference": "571334ce9f687e3e6af72db4d3b2a9431e4fd9ed"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/string/zipball/571334ce9f687e3e6af72db4d3b2a9431e4fd9ed",
+                "reference": "571334ce9f687e3e6af72db4d3b2a9431e4fd9ed",
+>>>>>>> origin/development-v1.0
                 "shasum": ""
             },
             "require": {
@@ -5528,7 +5646,11 @@
                 "utf8"
             ],
             "support": {
+<<<<<<< HEAD
                 "source": "https://github.com/symfony/string/tree/v5.4.22"
+=======
+                "source": "https://github.com/symfony/string/tree/v5.4.15"
+>>>>>>> origin/development-v1.0
             },
             "funding": [
                 {
@@ -5544,6 +5666,7 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< HEAD
             "time": "2023-03-14T06:11:53+00:00"
         },
         {
@@ -5558,6 +5681,22 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/translation/zipball/9a401392f01bc385aa42760eff481d213a0cc2ba",
                 "reference": "9a401392f01bc385aa42760eff481d213a0cc2ba",
+=======
+            "time": "2022-10-05T15:16:54+00:00"
+        },
+        {
+            "name": "symfony/translation",
+            "version": "v5.4.14",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/translation.git",
+                "reference": "f0ed07675863aa6e3939df8b1bc879450b585cab"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/f0ed07675863aa6e3939df8b1bc879450b585cab",
+                "reference": "f0ed07675863aa6e3939df8b1bc879450b585cab",
+>>>>>>> origin/development-v1.0
                 "shasum": ""
             },
             "require": {
@@ -5625,7 +5764,11 @@
             "description": "Provides tools to internationalize your application",
             "homepage": "https://symfony.com",
             "support": {
+<<<<<<< HEAD
                 "source": "https://github.com/symfony/translation/tree/v5.4.22"
+=======
+                "source": "https://github.com/symfony/translation/tree/v5.4.14"
+>>>>>>> origin/development-v1.0
             },
             "funding": [
                 {
@@ -5641,7 +5784,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< HEAD
             "time": "2023-03-27T16:07:23+00:00"
+=======
+            "time": "2022-10-07T08:01:20+00:00"
+>>>>>>> origin/development-v1.0
         },
         {
             "name": "symfony/translation-contracts",
@@ -6623,6 +6770,7 @@
         },
         {
             "name": "laravel/sail",
+<<<<<<< HEAD
             "version": "v1.19.0",
             "source": {
                 "type": "git",
@@ -6633,6 +6781,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/sail/zipball/4f230634a3163f3442def6a4e6ffdb02b02e14d6",
                 "reference": "4f230634a3163f3442def6a4e6ffdb02b02e14d6",
+=======
+            "version": "v1.16.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/sail.git",
+                "reference": "0dbee8802e17911afbe29a8506316343829b056e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/sail/zipball/0dbee8802e17911afbe29a8506316343829b056e",
+                "reference": "0dbee8802e17911afbe29a8506316343829b056e",
+>>>>>>> origin/development-v1.0
                 "shasum": ""
             },
             "require": {
@@ -6679,7 +6839,11 @@
                 "issues": "https://github.com/laravel/sail/issues",
                 "source": "https://github.com/laravel/sail"
             },
+<<<<<<< HEAD
             "time": "2023-01-31T13:37:57+00:00"
+=======
+            "time": "2022-11-21T16:19:18+00:00"
+>>>>>>> origin/development-v1.0
         },
         {
             "name": "mockery/mockery",
@@ -7012,6 +7176,7 @@
         },
         {
             "name": "phpunit/php-code-coverage",
+<<<<<<< HEAD
             "version": "9.2.26",
             "source": {
                 "type": "git",
@@ -7022,6 +7187,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/443bc6912c9bd5b409254a40f4b0f4ced7c80ea1",
                 "reference": "443bc6912c9bd5b409254a40f4b0f4ced7c80ea1",
+=======
+            "version": "9.2.19",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
+                "reference": "c77b56b63e3d2031bd8997fcec43c1925ae46559"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/c77b56b63e3d2031bd8997fcec43c1925ae46559",
+                "reference": "c77b56b63e3d2031bd8997fcec43c1925ae46559",
+>>>>>>> origin/development-v1.0
                 "shasum": ""
             },
             "require": {
@@ -7077,7 +7254,11 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.26"
+=======
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.19"
+>>>>>>> origin/development-v1.0
             },
             "funding": [
                 {
@@ -7085,7 +7266,11 @@
                     "type": "github"
                 }
             ],
+<<<<<<< HEAD
             "time": "2023-03-06T12:58:08+00:00"
+=======
+            "time": "2022-11-18T07:47:47+00:00"
+>>>>>>> origin/development-v1.0
         },
         {
             "name": "phpunit/php-file-iterator",

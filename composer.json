@@ -6,7 +6,10 @@
     "license": "MIT",
     "require": {
         "php": "^7.2|^8.0",
+<<<<<<< HEAD
         "arcanedev/log-viewer": "8.x",
+=======
+>>>>>>> origin/development-v1.0
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.75",
