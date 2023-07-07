@@ -62,7 +62,7 @@ class Mentors extends Controller
 
     public function doSyncCRMV2Mentors(Request $request)
     {
-        $crm_host = '127.0.0.1:8000';
+        $crm_host = 'https://crm-allinedu.com';
         $response = Http::get($crm_host.'/api/v1/get/mentors');
         $crm_mentors = collect(json_decode($response)->data);
 

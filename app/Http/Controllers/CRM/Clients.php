@@ -48,7 +48,7 @@ class Clients extends Controller
     // crm version 2 //
     public function syncCRMV2Clients()
     {
-        $crm_host = '127.0.0.1:8000';
+        $crm_host = 'https://crm-allinedu.com';
         $response = Http::get($crm_host.'/api/v1/get/mentees');
         $crm_mentees = collect(json_decode($response)->data);
         $collection = [];
