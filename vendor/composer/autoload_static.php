@@ -338,8 +338,8 @@ class ComposerStaticInit61cafc6596be37f2c7eb8542c291876f
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -600,6 +600,8 @@ class ComposerStaticInit61cafc6596be37f2c7eb8542c291876f
         'App\\Models\\CRM\\StudentMentor' => __DIR__ . '/../..' . '/app/Models/CRM/StudentMentor.php',
         'App\\Models\\CRM\\StudentProgram' => __DIR__ . '/../..' . '/app/Models/CRM/StudentProgram.php',
         'App\\Models\\CRM\\University' => __DIR__ . '/../..' . '/app/Models/CRM/University.php',
+        'App\\Models\\CRM_V2\\Client' => __DIR__ . '/../..' . '/app/Models/CRM_V2/Client.php',
+        'App\\Models\\CRM_V2\\User' => __DIR__ . '/../..' . '/app/Models/CRM_V2/User.php',
         'App\\Models\\Category' => __DIR__ . '/../..' . '/app/Models/Category.php',
         'App\\Models\\Client' => __DIR__ . '/../..' . '/app/Models/Client.php',
         'App\\Models\\Editor' => __DIR__ . '/../..' . '/app/Models/Editor.php',

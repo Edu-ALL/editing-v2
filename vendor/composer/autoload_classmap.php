@@ -68,6 +68,8 @@ return array(
     'App\\Models\\CRM\\StudentMentor' => $baseDir . '/app/Models/CRM/StudentMentor.php',
     'App\\Models\\CRM\\StudentProgram' => $baseDir . '/app/Models/CRM/StudentProgram.php',
     'App\\Models\\CRM\\University' => $baseDir . '/app/Models/CRM/University.php',
+    'App\\Models\\CRM_V2\\Client' => $baseDir . '/app/Models/CRM_V2/Client.php',
+    'App\\Models\\CRM_V2\\User' => $baseDir . '/app/Models/CRM_V2/User.php',
     'App\\Models\\Category' => $baseDir . '/app/Models/Category.php',
     'App\\Models\\Client' => $baseDir . '/app/Models/Client.php',
     'App\\Models\\Editor' => $baseDir . '/app/Models/Editor.php',
