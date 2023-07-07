@@ -18,8 +18,8 @@ class Clients extends Controller
     {
         $keyword = $request->get('keyword');
         $clients = Client::with('mentors')->when($keyword, function($query) use ($keyword) {
-            $query->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%')->orWhereHas('mentors', function ($querym) use ($keyword) {
-                $querym->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%'.$keyword.'%');
+            $query->where(DB::raw("CONCAT(`first_name`, ' ',COALESCE(`last_name`, ''))"), 'like', '%'.$keyword.'%')->orWhereHas('mentors', function ($querym) use ($keyword) {
+                $querym->where(DB::raw("CONCAT(`first_name`, ' ',COALESCE(`last_name`, ''))"), 'like', '%'.$keyword.'%');
             })->orWhere('email', 'like', '%'.$keyword.'%');
         })->orderBy('first_name', 'asc')->paginate(10);
 

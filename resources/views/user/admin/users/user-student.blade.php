@@ -102,6 +102,7 @@
                 <th>Students Name</th>
                 <th>Email</th>
                 <th>Mentor Name</th>
+                <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -109,8 +110,7 @@
         </table>
       </div>
       <div class="modal-footer">
-        <form action="{{ route('do-sync-clients') }}" method="POST">
-          @csrf
+        <form action="{{ route('do-sync-clients') }}" id="do-sync" method="POST">
           <button type="submit" class="btn btn-primary">Sync Now</button>
         </form>
       </div>
@@ -121,7 +121,55 @@
 
 @section('js')
   <script>
-    $("#do-sync").submit(function(e) {
+    $(document).on('click', '#do-sync button', function(e) {
+      e.preventDefault();
+
+      const selectedId = [];
+
+      $(".selectedClient:checkbox:checked").each(function(i) {
+        selectedId[i] = $(this).val();
+      })
+
+      Swal.fire({
+        title: 'Sync Clients From Bigdata',
+        icon: 'info',
+        html:
+          'Are you sure?',
+        showCloseButton: true,
+        showCancelButton: true,
+        focusConfirm: false,
+        confirmButtonText:
+          '<i class="fa fa-check"></i> Yes',
+        cancelButtonText:
+          'Not sure',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          
+          var url = $("#do-sync").attr('action');
+          
+          Swal.showLoading();
+          $.ajax({
+            url: url,
+            type: 'POST',
+            data: {
+              _token: "{{ csrf_token() }}",
+              "selectedClient" : selectedId
+            }
+          }).done(function(msg) {
+            console.log(msg)
+            if (msg == true)
+              Swal.fire('Sync completed', '', 'success')
+            else
+              Swal.fire('Error while processing', '', 'error')
+
+            location.reload();
+          });
+          
+        }
+      })
+      
+    })
+    $("#ddo-sync").submit(function(e) {
       e.preventDefault();
 
       Swal.fire({
@@ -141,6 +189,10 @@
           swal.showLoading();
           $.ajax({
             url: $(this).attr('action'),
+            type: 'POST',
+            data: {
+              selectedClient : selectedClient
+            }
           }).done(function(msg) {
             Swal.fire('Saved!', '', 'success')
             location.reload();
@@ -179,11 +231,22 @@
         var markup = "";
         var no = 1;
         for (i in msg) {
+
+          var first_name = msg[i].first_name;
+          var last_name = msg[i].last_name;
+          if (last_name == null)
+            last_name = '';
+
+          var email = msg[i].email;
+          if (email == null)
+            email = '';
+
           markup += "<tr>" + 
               "<td>" + no++ + "</td>" +
-              "<td>" + msg[i].first_name + " " + msg[i].last_name + "</td>" +
-              "<td>" + msg[i].email + "</td>" +
+              "<td>" + first_name + " " + last_name + "</td>" +
+              "<td>" + email + "</td>" +
               "<td>" + msg[i].mentor_name + "</td>" +
+              "<td><input type='checkbox' class='selectedClient' name='selectedClient[]' value='"+ msg[i].id_clients +"' /></td>"
             "</tr>";
         }
         

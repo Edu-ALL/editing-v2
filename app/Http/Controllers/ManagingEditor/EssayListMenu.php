@@ -319,7 +319,7 @@ class EssayListMenu extends Controller
             'uploaded_file' => 'required|mimes:doc,docx|max:2048',
             'work_duration' => 'required',
             'tag' => 'required',
-            'description' => 'required',
+            'description' => '',
         ];
 
         $validator = Validator::make($request->all() + ['id_essay_clients' => $id_essay], $rules);

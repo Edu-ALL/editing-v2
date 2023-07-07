@@ -29,10 +29,11 @@
                                     <h6>Editor Request : 
                                         @if (isset($essay->editor))
                                             {{ $essay->editor->first_name.' '.$essay->editor->last_name }}
-                                        @elseif (isset($essay->essay_editors->editor))
+                                        @elseif ($essay->essay_editors && isset($essay->essay_editors->editor))
                                             {{ $essay->essay_editors->editor->first_name.' '.$essay->essay_editors->editor->last_name }}
+                                        @else
+                                            -
                                         @endif
-                                        <!--{{ $essay->essay_editors->editor->first_name . ' ' . $essay->essay_editors->editor->last_name }}-->
                                     </h6>
                                 @endif
                                 {{-- @if ($essay->status_essay_clients == '1' ||

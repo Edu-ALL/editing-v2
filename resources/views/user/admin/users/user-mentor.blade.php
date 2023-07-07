@@ -102,12 +102,22 @@
         type: "GET",
         success: function (response) {
           msg = JSON.parse(response);
-          if (msg.success == true){ 
-            Swal.fire(
-              'Congratulations !',
-              'Mentors CRM data synchronization<br>has been successful',
-              'success'
-            )
+          if (msg.success == true){
+            
+            if (msg.data == 0) {
+
+              Swal.fire(
+                'Sync Completed',
+                'No new mentors found',
+                'success'
+              )
+            } else if (msg.data > 0) {
+              Swal.fire(
+                'Sync Completed',
+                'Mentors CRM data synchronization<br>has been successful',
+                'success'
+              )
+            }
           } else {
             Swal.fire(
               '',
