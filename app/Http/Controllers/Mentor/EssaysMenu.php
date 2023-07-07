@@ -331,4 +331,30 @@ class EssaysMenu extends Controller
 
         return redirect('mentor/essay-list/completed/detail/' . $id);
     }
+    
+     public function listEssayMentee(Request $request)
+    {
+        $email = $request->get('email') ?? null;
+
+        if (!$mentor = Mentor::where('email', $email)) {
+            return response()->json(['success' => false, 'error' => 'Failed to get list essay.']);
+        }
+
+        $essays = EssayClients::where('mentors_mail', $email)->orderBy('uploaded_at', 'desc')->paginate(10);
+
+        return response()->json(['success' => true, 'data' => $essays]);
+    }
+
+    public function listEssayByStudent(Request $request)
+    {
+        $email = $request->get('email') ?? null;
+
+        if (!$student = Client::where('email', $email)) {
+            return response()->json(['success' => false, 'error' => 'Failed to get list essay.']);
+        }
+
+        $essays = EssayClients::where('email', $email)->orderBy('uploaded_at', 'desc')->paginate(10);
+
+        return response()->json(['success' => true, 'data' => $essays]);
+    }
 }

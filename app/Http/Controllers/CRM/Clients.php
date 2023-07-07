@@ -12,7 +12,7 @@ class Clients extends Controller
 {
     public function syncCRMClients()
     {
-        $local_clients = Client::select('id_clients')->get();
+        $local_clients = Client::pluck('id_clients')->toArray();
         $crm_clients = CRMClient::withAndWhereHas('student_mentors', function($query) {
             $query->with('mentors')->whereHas('student_programs', function ($query1) {
                 $query1->whereHas('programs', function ($query2) {
