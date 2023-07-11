@@ -32,7 +32,7 @@
                                     <img src="/assets/completed-essay.png" alt="">
                                     <h6>List of Completed Essay</h6>
                                 </div>
-                                <div class="col-md-4 col-4 d-flex align-items-center justify-content-end">
+                                {{-- <div class="col-md-4 col-4 d-flex align-items-center justify-content-end">
                                     <div class="input-group">
                                         <form id="form-completed-essay-searching"
                                             action="{{ route('list-completed-essay') }}" method="GET" role="search"
@@ -41,10 +41,10 @@
                                                 placeholder="Search">
                                         </form>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
-                            <div class="container text-center" style="overflow-x: auto !important">
-                                <table class="table table-bordered">
+                            <div class="container text-start px-3 py-2">
+                                <table class="table table-bordered" id="listcompletedessay" style="width: 100%">
                                     <thead>
                                         <tr>
                                             <th>No</th>
@@ -56,7 +56,7 @@
                                             <th>Status</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    {{-- <tbody>
                                         <?php $i = ($essays->currentpage() - 1) * $essays->perpage() + 1; ?>
                                         @foreach ($essays as $essay)
                                             <tr
@@ -77,17 +77,17 @@
                                             </tr>
                                         @endforeach
 
-                                        @unless(count($essays))
+                                        @unless (count($essays))
                                             <tr>
                                                 <td colspan="7">No data</td>
                                             </tr>
                                         @endunless
-                                    </tbody>
+                                    </tbody> --}}
                                 </table>
                                 {{-- Pagination --}}
-                                <div class="d-flex justify-content-center">
+                                {{-- <div class="d-flex justify-content-center">
                                     {{ $essays->links() }}
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -100,38 +100,85 @@
 
     {{-- Modal Info --}}
     @if (session()->has('isEssay'))
-    <div class="modal fade" id="info-essay" tabindex="-1" show>
-        <div class="modal-dialog d-flex align-items-center justify-content-center">
-        <div class="modal-content border-0 w-75">
-            <div class="modal-header" style="background-color: var(--red)">
-                <div class="col d-flex gap-1 align-items-center">
-                    <img src="/assets/info.png" alt="">
-                    <h6 class="modal-title ms-3">Alert</h6>
-                </div>
-                <div type="button" data-bs-dismiss="modal" aria-label="Close">
-                    <img src="/assets/close.png" alt="" style="height: 26px">
+        <div class="modal fade" id="info-essay" tabindex="-1" show>
+            <div class="modal-dialog d-flex align-items-center justify-content-center">
+                <div class="modal-content border-0 w-75">
+                    <div class="modal-header" style="background-color: var(--red)">
+                        <div class="col d-flex gap-1 align-items-center">
+                            <img src="/assets/info.png" alt="">
+                            <h6 class="modal-title ms-3">Alert</h6>
+                        </div>
+                        <div type="button" data-bs-dismiss="modal" aria-label="Close">
+                            <img src="/assets/close.png" alt="" style="height: 26px">
+                        </div>
+                    </div>
+                    <div class="modal-body text-center px-4 py-4 my-md-3">
+                        <p>{{ session()->get('isEssay') }} <span style="color: var(--red)">*</span></p>
+                    </div>
                 </div>
             </div>
-            <div class="modal-body text-center px-4 py-4 my-md-3">
-                <p>{{ session()->get('isEssay') }}  <span style="color: var(--red)">*</span></p>
-            </div>
         </div>
-        </div>
-    </div>
     @endif
 @endsection
 
 @section('js')
-    <script type="text/javascript">
-        $("#form-ongoing-essay-searching").keypress(function(e) {
-            if (e.keyCode === 13) {
-                swal.showLoading();
-                e.preventDefault();
-                $("#form-ongoing-essay-searching").submit();
-            }
+    <script>
+        $(document).ready(function() {
+            $('#listcompletedessay').DataTable({
+                scrollX: true,
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('data-completed-essay') }}',
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        class: 'text-center'
+                    },
+                    {
+                        data: 'student_name',
+                        name: 'student_name'
+                    },
+                    {
+                        data: 'mentor_name',
+                        name: 'mentor_name'
+                    },
+                    {
+                        data: 'editor_name',
+                        name: 'editor_name'
+                    },
+                    {
+                        data: 'essay_title',
+                        name: 'essay_title'
+                    },
+                    {
+                        data: 'essay_deadline',
+                        name: 'essay_deadline'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status'
+                    },
+                ],
+                rowCallback: function(row, data) {
+                    $(row).on('click', function() {
+                        window.location.href =
+                            `/admin/essay-list/completed/detail/${data.id_essay_clients }`;
+                    });
+                }
+            });
         });
+    </script>
+    <script type="text/javascript">
+        // $("#form-ongoing-essay-searching").keypress(function(e) {
+        //     if (e.keyCode === 13) {
+        //         swal.showLoading();
+        //         e.preventDefault();
+        //         $("#form-ongoing-essay-searching").submit();
+        //     }
+        // });
 
-        $(document).ready(function(){
+        $(document).ready(function() {
             $("#info-essay").modal('show');
         });
     </script>

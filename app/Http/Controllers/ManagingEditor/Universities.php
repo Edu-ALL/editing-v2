@@ -10,25 +10,40 @@ use Illuminate\Support\Facades\Redirect;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Yajra\DataTables\Facades\DataTables;
 
 class Universities extends Controller
 {
+    public function getUniversity(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = University::orderBy('university_name', 'asc')->get();
+            return Datatables::of($data)
+            ->addIndexColumn()
+            ->setRowAttr([
+                'onclick' => function($d) {
+                    return 'getUniversityDetail('.$d->id_univ.')';
+                },
+            ])
+            ->editColumn('image', function($d){
+                if ($d->photo) {
+                    $path = asset('uploaded_files/univ/'.$d->photo);
+                } else {
+                    $path = asset('uploaded_files/univ/default.png');
+                }
+                $result = '
+                    <img src="'.$path.'" alt="'.$d->photo.'" style="max-width:50px;" />
+                ';
+                return $result;
+            })
+            ->rawColumns(['image'])
+            ->make(true);
+        }
+    }
+
     public function index(Request $request)
     {
-        $keyword = $request->get('keyword');
-        $universities = University::when($keyword, function($query) use ($keyword) {
-            $query->where('university_name', 'like', '%'.$keyword.'%')->
-                orWhere('website', 'like', '%'.$keyword.'%')->
-                orWhere('univ_email', 'like', '%'.$keyword.'%')->
-                orWhere('country', 'like', '%'.$keyword.'%')->
-                orWhere('phone', 'like', '%'.$keyword.'%')->
-                orWhere('address', 'like', '%'.$keyword.'%');
-        })->orderBy('university_name', 'asc')->paginate(10);
-
-        if ($keyword)
-            $universities->appends(['keyword' => $keyword]);
-
-        return view('user.editor.settings.setting-universities', ['universities' => $universities]);
+        return view('user.editor.settings.setting-universities');
     }
 
     public function detail($id){

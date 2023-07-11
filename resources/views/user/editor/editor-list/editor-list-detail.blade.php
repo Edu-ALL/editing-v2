@@ -1,6 +1,6 @@
 @extends('user.editor.utama.utama')
 @section('css')
-  <link rel="stylesheet" href="/css/admin/user-editor-detail.css">
+  <link rel="stylesheet" href="/css/editor/user-editor-detail.css">
   <style>
     .pagination { margin: 15px 0}
     .pagination .page-item .page-link { padding: 10px 15px; font-size: 12px; }
@@ -222,12 +222,6 @@
                     </select>
                   </div>
                 </div>
-                {{-- <div class="col-12 d-flex justify-content-center pt-3" style="border-top: 1px solid var(--light-grey)">
-                  <button class="btn btn-create d-flex align-items-center gap-2">
-                    <img src="/assets/update.png" alt="">
-                    <h6>Update Editor</h6>
-                  </button>
-                </div> --}}
               </form>
             </div>
           </div>
@@ -239,16 +233,9 @@
                 <img src="/assets/ongoing-essay.png" alt="">
                 <h6>Processed Essay Editing</h6>
               </div>
-              <div class="col-md-4 col-4 d-flex align-items-center justify-content-end">
-                <div class="input-group">
-                  <form id="form-ongoing-essay-searching" action="" method="GET" role="search" class="w-100">
-                    <input type="search" class="form-control inputField py-2 px-3" name="keyword-ongoing" placeholder="Search">
-                  </form>
-                </div>
-              </div>
             </div>
-            <div class="container text-center" style="overflow-x: auto !important">
-              <table class="table table-bordered">
+            <div class="container text-start px-3 py-2">
+              <table class="table" id="listessayongoing" style="width: 100%">
                 <thead>
                   <tr>
                     <th>No</th>
@@ -259,30 +246,7 @@
                     <th>Status</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <?php $i = ($essay_ongoing->currentpage()-1)* $essay_ongoing->perpage() + 1;?>
-                  @foreach ($essay_ongoing as $essays_ongoing)
-                  <tr style="cursor: default">
-                    <th scope="row">{{ $i++ }}</th>
-                    <td>{{ $essays_ongoing->client_by_id->first_name.' '.$essays_ongoing->client_by_id->last_name}}</td>
-                    <td>{{ $essays_ongoing->program->program_name }}</td>
-                    <td>{{ $essays_ongoing->essay_title }}</td>
-                    <td>{{ date('D, d M Y', strtotime($essays_ongoing->essay_deadline)) }}</td>
-                    <td style="color: var(--blue)">{{ $essays_ongoing->status->status_title }}</td>
-                  </tr>
-                  @endforeach
-                  
-                  @unless (count($essay_ongoing)) 
-                  <tr style="cursor: default">
-                    <td colspan="7">No data</td>
-                  </tr>
-                  @endunless
-                </tbody>
               </table>
-              {{-- Pagination --}}
-              <div class="d-flex justify-content-center">
-                {{ $essay_ongoing->links() }}
-              </div>
             </div>
           </div>
         </div>
@@ -293,16 +257,9 @@
                 <img src="/assets/completed-essay.png" alt="">
                 <h6>Completed Essay Editing</h6>
               </div>
-              <div class="col-md-4 col-4 d-flex align-items-center justify-content-end">
-                <div class="input-group">
-                  <form id="form-completed-essay-searching" action="" method="GET" role="search" class="w-100">
-                    <input type="search" class="form-control inputField py-2 px-3" name="keyword-completed" placeholder="Search">
-                  </form>
-                </div>
-              </div>
             </div>
-            <div class="container text-center" style="overflow-x: auto !important">
-              <table class="table table-bordered">
+            <div class="container text-start px-3 py-2">
+              <table class="table" id="listessaycompleted" style="width: 100%">
                 <thead>
                   <tr>
                     <th>No</th>
@@ -313,7 +270,7 @@
                     <th>Status</th>
                   </tr>
                 </thead>
-                <tbody>
+                {{-- <tbody>
                   <?php $i = ($essay_completed->currentpage()-1)* $essay_completed->perpage() + 1;?>
                   @foreach ($essay_completed as $essays_completed)
                   <tr style="cursor: default">
@@ -331,12 +288,8 @@
                     <td colspan="7">No data</td>
                   </tr>
                   @endunless
-                </tbody>
+                </tbody> --}}
               </table>
-              {{-- Pagination --}}
-              <div class="d-flex justify-content-center">
-                {{ $essay_completed->links() }}
-              </div>
             </div>
           </div>
         </div>
@@ -349,19 +302,75 @@
 
 @section('js')
   <script type="text/javascript">
-    $("#form-ongoing-essay-searching").keypress(function(e) {
-      if (e.keyCode === 13) {
-        swal.showLoading();
-        e.preventDefault();
-        $("#form-ongoing-essay-searching").submit();
-      }
-    });
-    $("#form-completed-essay-searching").keypress(function(e) {
-      if (e.keyCode === 13) {
-        swal.showLoading();
-        e.preventDefault();
-        $("#form-completed-essay-searching").submit();
-      }
+    // List Essay
+    $(document).ready(function () {
+      var id = '<?php echo $editor->id_editors ?>';
+      $('#listessayongoing').DataTable({
+          scrollX: true,
+          responsive: true,
+          processing: true,
+          serverSide: true,
+          ajax: '{{ url('/editor/list/editor/essay-ongoing/data/') }}' + '/' + id,
+          columns: [{
+                  data: 'DT_RowIndex',
+                  name: 'DT_RowIndex',
+                  class: 'text-center'
+              },
+              {
+                  data: 'student_name',
+                  name: 'student_name'
+              },
+              {
+                  data: 'program_name',
+                  name: 'program_name'
+              },
+              {
+                  data: 'essay_title',
+                  name: 'essay_title'
+              },
+              {
+                  data: 'essay_deadline',
+                  name: 'essay_deadline'
+              },
+              {
+                  data: 'status',
+                  name: 'status',
+              },
+          ]
+      });
+      $('#listessaycompleted').DataTable({
+          scrollX: true,
+          responsive: true,
+          processing: true,
+          serverSide: true,
+          ajax: '{{ url('/editor/list/editor/essay-completed/data/') }}' + '/' + id,
+          columns: [{
+                  data: 'DT_RowIndex',
+                  name: 'DT_RowIndex',
+                  class: 'text-center'
+              },
+              {
+                  data: 'student_name',
+                  name: 'student_name'
+              },
+              {
+                  data: 'program_name',
+                  name: 'program_name'
+              },
+              {
+                  data: 'essay_title',
+                  name: 'essay_title'
+              },
+              {
+                  data: 'essay_deadline',
+                  name: 'essay_deadline'
+              },
+              {
+                  data: 'status',
+                  name: 'status',
+              },
+          ]
+      });
     });
   </script>
 @stop

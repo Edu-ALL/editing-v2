@@ -85,6 +85,32 @@
                 @endforeach
               </div>
             </div>
+            @if ($essay->notes_managing !== NULL)
+            <div class="headline d-flex align-items-center gap-3">
+              <img src="/assets/download.png" alt="">
+              <h6>Notes</h6>
+            </div>
+            <div class="col d-flex flex-column px-3 py-md-4 py-4 my-md-1 countEssay text-center justify-content-center" style="color: var(--black)">
+              <div class="col d-flex flex-row flex-wrap gap-2 justify-content-center" style="font-size:12px">
+                @if (($essay->managing_file != "") || ($essay->managing_file != NULL) )
+                  {!! $essay->notes_managing !!}
+                @endif
+              </div>
+            </div>
+            @endif
+            @if ($essay->notes_editors !== NULL)
+            <div class="headline d-flex align-items-center gap-3">
+              <img src="/assets/download.png" alt="">
+              <h6>Notes</h6>
+            </div>
+            <div class="col d-flex flex-column px-3 py-md-4 py-4 my-md-1 countEssay text-center justify-content-center" style="color: var(--black)">
+              <div class="col d-flex flex-row flex-wrap gap-2 justify-content-center" style="font-size:12px">
+                @if (($essay->attached_of_editors != "") || ($essay->attached_of_editors != NULL) )
+                  {!! $essay->notes_editors !!}
+                @endif
+              </div>
+            </div>
+            @endif
           </div>
           
           <div class="col-md-8 col-12 p-0 userCard">
@@ -105,7 +131,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{{ $essay->essay_clients->client_by_id->first_name.' '.$essay->essay_clients->client_by_id->last_name }}</p>
+                    <p>{{ $essay->essay_clients->client_by_id ? $essay->essay_clients->client_by_id->first_name.' '.$essay->essay_clients->client_by_id->last_name : $essay->essay_clients->client_by_email->first_name.' '.$essay->essay_clients->client_by_email->last_name }}</p>
                   </div>
                 </div>
                 <div class="row d-flex align-items-center">
@@ -114,7 +140,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{{ $essay->essay_clients->client_by_id->email }}</p>
+                    <p>{{ $essay->essay_clients->client_by_id ? $essay->essay_clients->client_by_id->email : $essay->essay_clients->client_by_email->email}}</p>
                   </div>
                 </div>
                 <div class="row d-flex align-items-center">
@@ -123,7 +149,7 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{{ $essay->essay_clients->client_by_id->address }}</p>
+                    <p>{!! $essay->essay_clients->client_by_id ? $essay->essay_clients->client_by_id->address : $essay->essay_clients->client_by_email->address !!}</p>
                   </div>
                 </div>
               </div>

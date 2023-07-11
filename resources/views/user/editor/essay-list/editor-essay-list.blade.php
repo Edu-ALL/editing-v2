@@ -12,7 +12,7 @@
             @include('user.editor.utama.menu')
 
             {{-- Content --}}
-            <div class="col">
+            <div class="col" style="overflow: auto !important">
                 @include('user.editor.utama.head')
                 <div class="container main-content m-0">
                     <div class="row flex-column gap-4">
@@ -23,19 +23,9 @@
                                         <img src="/assets/ongoing-essay.png" alt="">
                                         <h6>List of Ongoing Essay</h6>
                                     </div>
-                                    <div class="col-md-4 col d-flex align-items-center justify-content-end">
-                                        <div class="input-group">
-                                            <form id="form-ongoing-essay-searching"
-                                                action="{{ route('editor-essay-list') }}" method="GET" role="search"
-                                                class="w-100">
-                                                <input type="search" class="form-control inputField py-2 px-3"
-                                                    name="keyword-ongoing" placeholder="Search">
-                                            </form>
-                                        </div>
-                                    </div>
                                 </div>
-                                <div class="container text-center p-0" style="overflow-x: auto !important">
-                                    <table class="table table-bordered">
+                                <div class="container text-start px-3 py-2">
+                                    <table class="table" id="listessayongoing" style="width: 100%">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
@@ -49,51 +39,7 @@
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <?php $i = ($ongoing_essay->currentpage() - 1) * $ongoing_essay->perpage() + 1; ?>
-                                            @foreach ($ongoing_essay as $essay)
-                                                <tr
-                                                    onclick="window.location='/editor/essay-list/ongoing/detail/{{ $essay->id_essay_clients }}'">
-                                                    {{-- <td colspan="9">{{ json_encode($essay) }}</td> --}}
-                                                    <th scope="row"
-                                                        class="{{ isset($essay->read) && $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ $i++ }}
-                                                    </th>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->essay_clients->client_by_id->first_name . ' ' . $essay->essay_clients->client_by_id->last_name }}
-                                                    </td>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->essay_clients->client_by_id->mentors->first_name . ' ' . $essay->essay_clients->client_by_id->mentors->last_name }}
-                                                    </td>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->editor ? $essay->editor->first_name . ' ' . $essay->editor->last_name : '-' }}
-                                                    </td>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->essay_clients->program->program_name }}</td>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->essay_clients->essay_title }}</td>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ date('D, d M Y', strtotime($essay->essay_clients->uploaded_at)) }}
-                                                    </td>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ date('D, d M Y', strtotime($essay->essay_clients->essay_deadline)) }}
-                                                    </td>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}"
-                                                        style="color: var(--green)">{{ $essay->status->status_title }}</td>
-                                                </tr>
-                                            @endforeach
-
-                                            @unless(count($ongoing_essay))
-                                                <tr style="cursor: default">
-                                                    <td colspan="9">No data</td>
-                                                </tr>
-                                            @endunless
-                                        </tbody>
                                     </table>
-                                    {{-- Pagination --}}
-                                    <div class="d-flex justify-content-center">
-                                        {{ $ongoing_essay->links() }}
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -105,18 +51,9 @@
                                         <img src="/assets/completed-essay.png" alt="">
                                         <h6>List of Completed Essay</h6>
                                     </div>
-                                    <div class="col-md-4 col d-flex align-items-center justify-content-end">
-                                        <div class="input-group">
-                                            <form id="form-completed-essay-searching" action="" method="GET"
-                                                role="search" class="w-100">
-                                                <input type="search" class="form-control inputField py-2 px-3"
-                                                    name="keyword-completed" placeholder="Search">
-                                            </form>
-                                        </div>
-                                    </div>
                                 </div>
-                                <div class="container text-center p-0" style="overflow-x: auto !important">
-                                    <table class="table table-bordered">
+                                <div class="container text-start px-3 py-2">
+                                    <table class="table" id="listessaycompleted" style="width: 100%">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
@@ -130,48 +67,7 @@
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <?php $i = ($completed_essay->currentpage() - 1) * $completed_essay->perpage() + 1; ?>
-                                            @foreach ($completed_essay as $essay)
-                                                <tr
-                                                    onclick="window.location='/editor/essay-list/completed/detail/{{ $essay->id_essay_clients }}'">
-                                                    <th scope="row" class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ $i++ }}</th>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->essay_clients->client_by_id->first_name . ' ' . $essay->essay_clients->client_by_id->last_name }}
-                                                    </td>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->essay_clients->client_by_id->mentors->first_name . ' ' . $essay->essay_clients->client_by_id->mentors->last_name }}
-                                                    </td>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->editor ? $essay->editor->first_name . ' ' . $essay->editor->last_name : '-' }}
-                                                    </td>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->essay_clients->program->program_name }}</td>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->essay_clients->essay_title }}</td>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ date('D, d M Y', strtotime($essay->essay_clients->uploaded_at)) }}
-                                                    </td>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ date('D, d M Y', strtotime($essay->essay_clients->essay_deadline)) }}
-                                                    </td>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}"
-                                                        style="color: var(--green)">{{ $essay->status->status_title }}</td>
-                                                </tr>
-                                            @endforeach
-
-                                            @unless(count($completed_essay))
-                                                <tr style="cursor: default">
-                                                    <td colspan="9">No data</td>
-                                                </tr>
-                                            @endunless
-                                        </tbody>
                                     </table>
-                                    {{-- Pagination --}}
-                                    <div class="d-flex justify-content-center">
-                                        {{ $completed_essay->links() }}
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -205,6 +101,107 @@
 @endsection
 @section('js')
 <script>
+    // List Essay
+    $(document).ready(function () {
+        $('#listessayongoing').DataTable({
+            scrollX: true,
+            responsive: true,
+            processing: true,
+            serverSide: true,
+            ajax: '{{ route('managing-data-essay-ongoing') }}',
+            columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    class: 'text-center'
+                },
+                {
+                    data: 'student_name',
+                    name: 'student_name'
+                },
+                {
+                    data: 'mentor_name',
+                    name: 'mentor_name'
+                },
+                {
+                    data: 'editor_name',
+                    name: 'editor_name'
+                },
+                {
+                    data: 'program_name',
+                    name: 'program_name'
+                },
+                {
+                    data: 'essay_title',
+                    name: 'essay_title'
+                },
+                {
+                    data: 'upload_date',
+                    name: 'upload_date'
+                },
+                {
+                    data: 'essay_deadline',
+                    name: 'essay_deadline'
+                },
+                {
+                    data: 'status',
+                    name: 'status',
+                },
+            ]
+        });
+        $('#listessaycompleted').DataTable({
+            scrollX: true,
+            responsive: true,
+            processing: true,
+            serverSide: true,
+            ajax: '{{ route('managing-data-essay-completed') }}',
+            columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    class: 'text-center'
+                },
+                {
+                    data: 'student_name',
+                    name: 'student_name'
+                },
+                {
+                    data: 'mentor_name',
+                    name: 'mentor_name'
+                },
+                {
+                    data: 'editor_name',
+                    name: 'editor_name'
+                },
+                {
+                    data: 'program_name',
+                    name: 'program_name'
+                },
+                {
+                    data: 'essay_title',
+                    name: 'essay_title'
+                },
+                {
+                    data: 'upload_date',
+                    name: 'upload_date'
+                },
+                {
+                    data: 'essay_deadline',
+                    name: 'essay_deadline'
+                },
+                {
+                    data: 'status',
+                    name: 'status',
+                },
+            ]
+        });
+    });
+    function getOngoingDetail(id){
+        var link = '/editor/essay-list/ongoing/detail/' + id
+        window.location.href = link;
+    }
+    function getCompletedDetail(id){
+        var link = '/editor/essay-list/completed/detail/' + id
+        window.location.href = link;
+    }
     $(document).ready(function(){
         $("#info-essay").modal('show');
     });

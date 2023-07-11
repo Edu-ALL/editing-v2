@@ -149,9 +149,18 @@
                                     {{-- Text Area --}}
                                     <div class="col-12 d-flex" style="overflow: auto !important">
                                         <div class="col">
-                                            <h6 class="pb-2">Essay Prompt<sup class="text-danger">*</sup> :</h6>
-                                            <textarea name="essay_prompt" class="textarea" placeholder="Essay Prompt"></textarea>
+                                            <h6 class="pb-2">Concern <sup class="text-danger">*</sup> :</h6>
+                                            <textarea name="essay_prompt" class="textarea" placeholder="Tell the editors what kind of feedback you want or what concerns you have about the mentee's essay"></textarea>
                                             @error('essay_prompt')
+                                                <small class="alert text-danger fs-10">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-12 pt-3 d-flex" style="overflow: auto !important">
+                                        <div class="col">
+                                            <h6 class="pb-2">Notes :</h6>
+                                            <textarea name="essay_notes" class="textarea" placeholder="How many essays are in this document?"></textarea>
+                                            @error('essay_notes')
                                                 <small class="alert text-danger fs-10">{{ $message }}</small>
                                             @enderror
                                         </div>

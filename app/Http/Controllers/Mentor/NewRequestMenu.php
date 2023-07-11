@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\DB;
 // use Illuminate\Support\Facades\File; 
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class NewRequestMenu extends Controller
@@ -52,6 +53,7 @@ class NewRequestMenu extends Controller
             'number_of_word' => 'required',
             'essay_title' => 'required',
             'essay_prompt' => 'required',
+            'essay_notes' => 'nullable',
             'essay_deadline' => 'required|date',
             'application_deadline' => 'required|date|after:essay_deadline',
             'attached_of_clients' => 'required|mimes:docx,doc|max:2048',
@@ -94,6 +96,7 @@ class NewRequestMenu extends Controller
             $new_request->id_editors            = $request->id_editors;
             $new_request->essay_title           = $request->essay_title;
             $new_request->essay_prompt          = $request->essay_prompt;
+            $new_request->essay_notes           = $request->essay_notes;
             $new_request->id_clients            = $request->id_clients;
             $new_request->email                 = $client->email;
             // $new_request->mentors_mail          = $client->mentors->email;
@@ -110,6 +113,7 @@ class NewRequestMenu extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
 
@@ -120,11 +124,20 @@ class NewRequestMenu extends Controller
             'essay_deadline' => $request->essay_deadline,
             'application_deadline' => $request->application_deadline,
             'university' => University::where('id_univ', $request->id_univ)->first(),
-            'essay_prompt' => $request->essay_prompt
+            'essay_prompt' => $request->essay_prompt,
+            'essay_notes' => $request->essay_notes,
         ];
 
-        // Pusher 
-        event(new ManagingNotif('Mentor has uploaded the essay.'));
+        try {
+            
+            // Pusher 
+            event(new ManagingNotif('Mentor has uploaded the essay.'));
+        } catch (Exception $e) {
+
+            Log::error('Pusher store new request from mentor : '.$e->getMessage());
+
+        }
+
 
         $this->sendEmail('new-request', $data);
 
@@ -157,5 +170,108 @@ class NewRequestMenu extends Controller
         if (Mail::failures()) {
             return response()->json(Mail::failures());
         }
+    }
+    
+    public function mentorUploadEssay(Request $request)
+    {
+        $rules = [
+            'mentors_mail' => 'required|email|exists:tbl_mentors,email',
+            'id_editors' => 'nullable',
+            'id_univ' => 'required',
+            'id_clients' => 'required',
+            'number_of_word' => 'required',
+            'essay_title' => 'required',
+            'essay_prompt' => 'required',
+            'essay_notes' => 'nullable',
+            'essay_deadline' => 'required|date',
+            'application_deadline' => 'required|date|after:essay_deadline',
+            'attached_of_clients' => 'required|mimes:docx,doc|max:2048',
+        ];
+
+        $messages = [
+            'id_univ.required' => 'The university name is required',
+            'id_clients.required' => 'The student name is required',
+            'attached_of_clients.required' => 'The uploaded file is required',
+            'attached_of_clients.mimes' => 'The uploaded file must be doc / docx',
+            'attached_of_clients.max' => 'The uploaded file size must less than 2Mb'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'error' => $validator->errors()], 400);
+        }
+
+        $id_transaksi = '0';
+        $mentor = Mentor::where('email', $request->mentors_mail)->first();
+        $mentee_id =  $request->id_clients;
+
+        $client = Client::where('id_clients', '=', $mentee_id)->first();
+
+        $fileName = $request->attached_of_clients->getClientOriginalName();
+        $fileExt = $request->attached_of_clients->getClientOriginalExtension();
+
+        $cstFileName = str_replace(' ', '', $client->first_name) . '_Essay_by_' . str_replace(' ', '', $mentor->first_name) . '(' . date('d-m-Y_His') . ').' . $fileExt;
+        // $filePath = 'program/essay/mentors/'.$fileName;
+        $filePath = 'program/essay/students/' . $cstFileName;
+        Storage::disk('public_assets')->put($filePath, file_get_contents($request->attached_of_clients));
+
+
+        DB::beginTransaction();
+        try {
+            $new_request = new EssayClients();
+            $new_request->id_transaction        = $id_transaksi;
+            $new_request->id_program            = $request->number_of_word;
+            $new_request->id_univ               = $request->id_univ;
+            $new_request->id_editors            = $request->id_editors;
+            $new_request->essay_title           = $request->essay_title;
+            $new_request->essay_prompt          = $request->essay_prompt;
+            $new_request->essay_notes           = $request->essay_notes;
+            $new_request->id_clients            = $request->id_clients;
+            $new_request->email                 = $client->email;
+            // $new_request->mentors_mail          = $client->mentors->email;
+            $new_request->mentors_mail          = $mentor->email;
+            $new_request->essay_deadline        = $request->essay_deadline;
+            $new_request->application_deadline  = $request->application_deadline;
+
+            $new_request->attached_of_clients   = $cstFileName;
+            $new_request->status_essay_clients  = 0;
+            $new_request->status_read           = 0;
+            $new_request->status_read_editor    = 0;
+            $new_request->uploaded_at    = date('Y-m-d H:i:s');
+            $new_request->save();
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            // return Redirect::back()->withErrors($e->getMessage());
+            return response()->json(['success' => false, 'error' => 'Failed to store new request. Please try again.']);
+        }
+
+        $data = [
+            'client' => $client,
+            'mentor' => $mentor,
+            'essay_title' => $request->essay_title,
+            'essay_deadline' => $request->essay_deadline,
+            'application_deadline' => $request->application_deadline,
+            'university' => University::where('id_univ', $request->id_univ)->first(),
+            'essay_prompt' => $request->essay_prompt,
+            'essay_notes' => $request->essay_notes,
+        ];
+
+        try {
+
+            // Pusher 
+            event(new ManagingNotif('Mentor has uploaded the essay.'));
+        } catch (Exception $e) {
+
+            // Log::error('Pusher store new request from mentor : ' . $e->getMessage());
+            return response()->json(['success' => false, 'error' => 'Failed to store new request. Please try again.']);
+        }
+
+
+        $this->sendEmail('new-request', $data);
+
+        // return redirect('/mentor/essay-list/ongoing')->with('message', 'New request has been saved');
+        return response()->json(['success' => true, 'message' => 'New request has been saved']);
     }
 }

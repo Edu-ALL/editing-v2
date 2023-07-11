@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\Facades\DataTables;
 
 class CategoriesTags extends Controller
 {
@@ -24,12 +25,10 @@ class CategoriesTags extends Controller
 
             $tag->delete();
             DB::commit();
-
         } catch (Exception $e) {
 
             DB::rollBack();
             return Redirect::back()->withErrors($e->getMessage());
-
         }
 
         return redirect('admin/setting/categories-tags')->with('delete-tag-successful', 'The tag has been deleted');
@@ -54,12 +53,10 @@ class CategoriesTags extends Controller
             $tag->topic_name = $request->title;
             $tag->save();
             DB::commit();
-
         } catch (Exception $e) {
 
             DB::rollBack();
             return Redirect::back()->withErrors($e->getMessage());
-
         }
 
         return redirect('admin/setting/categories-tags')->with('update-tag-successful', 'The tag has been updated');
@@ -72,8 +69,8 @@ class CategoriesTags extends Controller
         }
 
         $keyword = $request->get('keyword');
-        $tags = Tags::orderBy('topic_name', 'asc')->when($keyword, function($query) use ($keyword) {
-            $query->where('topic_name', 'like', '%'.$keyword.'%');
+        $tags = Tags::orderBy('topic_name', 'asc')->when($keyword, function ($query) use ($keyword) {
+            $query->where('topic_name', 'like', '%' . $keyword . '%');
         })->paginate(10);
 
         if ($keyword)
@@ -95,32 +92,37 @@ class CategoriesTags extends Controller
 
         DB::beginTransaction();
         try {
-            
+
             $new_tag = new Tags;
             $new_tag->topic_name = $request->title;
             $new_tag->save();
             DB::commit();
-
         } catch (Exception $e) {
-            
+
             DB::rollBack();
             return Redirect::back()->withErrors($e->getMessage());
-
         }
 
         return redirect('admin/setting/categories-tags')->with('add-tag-successful', 'The new tag has been saved');
     }
 
-    public function index(Request $request)
+    public function index()
     {
-        $keyword = $request->get('keyword');
-        $tags = Tags::orderBy('topic_name', 'asc')->when($keyword, function($query) use ($keyword) {
-            $query->where('topic_name', 'like', '%'.$keyword.'%');
-        })->paginate(10);
+        return view('user.admin.settings.setting-categories');
+    }
 
-        if ($keyword)
-            $tags->appends(['keyword' => $keyword]);
+    public function getCategories(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Tags::orderBy('topic_name', 'asc')->get();
 
-        return view('user.admin.settings.setting-categories', ['tags' => $tags]);
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->editColumn('category_name', function ($tag) {
+                    $result = $tag->topic_name;
+                    return $result;
+                })
+                ->make();
+        }
     }
 }

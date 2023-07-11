@@ -94,7 +94,13 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{{ $essay->essay_clients->client_by_id->first_name.' '.$essay->essay_clients->client_by_id->last_name }}</p>
+                    <p>
+                      @if (isset($essay->essay_clients->client_by_id))
+                          {{ $essay->essay_clients->client_by_id->first_name . ' ' . $essay->essay_clients->client_by_id->last_name }}
+                      @else
+                          {{ $essay->essay_clients->client_by_email->first_name . ' ' . $essay->essay_clients->client_by_email->last_name }}
+                      @endif
+                    </p>
                   </div>
                 </div>
                 <div class="row d-flex align-items-center">
@@ -103,7 +109,13 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{{ $essay->essay_clients->client_by_id->email ? $essay->essay_clients->client_by_id->email : '-' }}</p>
+                    <p>
+                      @if (isset($essay->essay_clients->client_by_id))
+                          {{ $essay->essay_clients->client_by_id->email }}
+                      @else
+                          {{ $essay->essay_clients->client_by_email->email }}
+                      @endif
+                    </p>
                   </div>
                 </div>
                 <div class="row d-flex">
@@ -112,7 +124,13 @@
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
-                    <p>{!! $essay->essay_clients->client_by_id->address ? $essay->essay_clients->client_by_id->address : '-' !!}</p>
+                    <p>
+                      @if (isset($essay->essay_clients->client_by_id))
+                          {{ $essay->essay_clients->client_by_id->address }}
+                      @else
+                          {{ $essay->essay_clients->client_by_email->address }}
+                      @endif
+                      </p>
                   </div>
                 </div>
               </div>

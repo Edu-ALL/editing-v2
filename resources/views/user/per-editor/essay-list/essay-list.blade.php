@@ -35,18 +35,9 @@
                                         <img src="/assets/ongoing-essay.png" alt="">
                                         <h6>List of Ongoing Essay</h6>
                                     </div>
-                                    <div class="col-md-4 col d-flex align-items-center justify-content-end">
-                                        <div class="input-group">
-                                            <form id="form-ongoing-essay-searching" action="{{ route('list-essay') }}"
-                                                method="GET" role="search" class="w-100">
-                                                <input type="search" class="form-control inputField py-2 px-3"
-                                                    name="keyword-ongoing" placeholder="Search">
-                                            </form>
-                                        </div>
-                                    </div>
                                 </div>
-                                <div class="container text-center p-0" style="overflow-x: auto !important">
-                                    <table class="table table-bordered">
+                                <div class="container text-start px-3 py-2">
+                                    <table class="table table-bordered" id="listessayongoing" style="width: 100%">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
@@ -60,48 +51,7 @@
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <?php $i = ($ongoing_essay->currentpage() - 1) * $ongoing_essay->perpage() + 1; ?>
-                                            @foreach ($ongoing_essay as $essay)
-                                                <tr
-                                                    onclick="window.location='/editors/essay-list/ongoing/detail/{{ $essay->id_essay_clients }}'">
-                                                    <th scope="row" class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ $i++ }}</th>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->essay_clients->client_by_id->first_name . ' ' . $essay->essay_clients->client_by_id->last_name }}
-                                                    </td>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->essay_clients->mentor->first_name . ' ' . $essay->essay_clients->mentor->last_name }}
-                                                    </td>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->editor ? $essay->editor->first_name . ' ' . $essay->editor->last_name : '-' }}
-                                                    </td>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->essay_clients->program->program_name }}</td>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->essay_clients->essay_title }}</td>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ date('D, d M Y', strtotime($essay->essay_clients->uploaded_at)) }}
-                                                    </td>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ date('D, d M Y', strtotime($essay->essay_clients->essay_deadline)) }}
-                                                    </td>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}"
-                                                        style="color: var(--green)">{{ $essay->status->status_title }}</td>
-                                                </tr>
-                                            @endforeach
-
-                                            @unless(count($ongoing_essay))
-                                                <tr style="cursor: default">
-                                                    <td colspan="9">No data</td>
-                                                </tr>
-                                            @endunless
-                                        </tbody>
                                     </table>
-                                    {{-- Pagination --}}
-                                    <div class="d-flex justify-content-center">
-                                        {{ $ongoing_essay->links() }}
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -113,18 +63,9 @@
                                         <img src="/assets/completed-essay.png" alt="">
                                         <h6>List of Completed Essay</h6>
                                     </div>
-                                    <div class="col-md-4 col d-flex align-items-center justify-content-end">
-                                        <div class="input-group">
-                                            <form id="form-completed-essay-searching" action="" method="GET"
-                                                role="search" class="w-100">
-                                                <input type="search" class="form-control inputField py-2 px-3"
-                                                    name="keyword-completed" placeholder="Search">
-                                            </form>
-                                        </div>
-                                    </div>
                                 </div>
-                                <div class="container text-center p-0" style="overflow-x: auto !important">
-                                    <table class="table table-bordered">
+                                <div class="container text-start px-3 py-2">
+                                    <table class="table table-bordered" id="listessaycompleted" style="width: 100%">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
@@ -138,48 +79,7 @@
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <?php $i = ($completed_essay->currentpage() - 1) * $completed_essay->perpage() + 1; ?>
-                                            @foreach ($completed_essay as $essay)
-                                                <tr
-                                                    onclick="window.location='/editors/essay-list/completed/detail/{{ $essay->id_essay_clients }}'">
-                                                    <th scope="row" class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ $i++ }}</th>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->essay_clients->client_by_id->first_name . ' ' . $essay->essay_clients->client_by_id->last_name }}
-                                                    </td>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->essay_clients->mentor->first_name . ' ' . $essay->essay_clients->mentor->last_name }}
-                                                    </td>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->editor ? $essay->editor->first_name . ' ' . $essay->editor->last_name : '-' }}
-                                                    </td>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->essay_clients->program->program_name }}</td>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->essay_clients->essay_title }}</td>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ date('D, d M Y', strtotime($essay->essay_clients->uploaded_at)) }}
-                                                    </td>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ date('D, d M Y', strtotime($essay->essay_clients->essay_deadline)) }}
-                                                    </td>
-                                                    <td class="{{ $essay->read == 0 ? 'unread' : '' }}"
-                                                        style="color: var(--green)">{{ $essay->status->status_title }}</td>
-                                                </tr>
-                                            @endforeach
-
-                                            @unless(count($completed_essay))
-                                                <tr style="cursor: default">
-                                                    <td colspan="9">No data</td>
-                                                </tr>
-                                            @endunless
-                                        </tbody>
                                     </table>
-                                    {{-- Pagination --}}
-                                    <div class="d-flex justify-content-center">
-                                        {{ $completed_essay->links() }}
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -192,29 +92,154 @@
 
     {{-- Modal Info --}}
     @if (session()->has('isEssay'))
-    <div class="modal fade" id="info-essay" tabindex="-1" show>
-        <div class="modal-dialog d-flex align-items-center justify-content-center">
-        <div class="modal-content border-0 w-75">
-            <div class="modal-header" style="background-color: var(--red)">
-                <div class="col d-flex gap-1 align-items-center">
-                    <img src="/assets/info.png" alt="">
-                    <h6 class="modal-title ms-3">Alert</h6>
-                </div>
-                <div type="button" data-bs-dismiss="modal" aria-label="Close">
-                    <img src="/assets/close.png" alt="" style="height: 26px">
+        <div class="modal fade" id="info-essay" tabindex="-1" show>
+            <div class="modal-dialog d-flex align-items-center justify-content-center">
+                <div class="modal-content border-0 w-75">
+                    <div class="modal-header" style="background-color: var(--red)">
+                        <div class="col d-flex gap-1 align-items-center">
+                            <img src="/assets/info.png" alt="">
+                            <h6 class="modal-title ms-3">Alert</h6>
+                        </div>
+                        <div type="button" data-bs-dismiss="modal" aria-label="Close">
+                            <img src="/assets/close.png" alt="" style="height: 26px">
+                        </div>
+                    </div>
+                    <div class="modal-body text-center px-4 py-4 my-md-3">
+                        <p>{{ session()->get('isEssay') }} <span style="color: var(--red)">*</span></p>
+                    </div>
                 </div>
             </div>
-            <div class="modal-body text-center px-4 py-4 my-md-3">
-                <p>{{ session()->get('isEssay') }}  <span style="color: var(--red)">*</span></p>
-            </div>
         </div>
-        </div>
-    </div>
     @endif
 @endsection
 
 @section('js')
     <script type="text/javascript">
+        $(document).ready(function() {
+            $('#listessayongoing').DataTable({
+                scrollX: true,
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('data-essay-ongoing-editor') }}',
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        class: 'text-center',
+                    },
+                    {
+                        data: 'student_name',
+                        name: 'student_name',
+                        class: 'text-center'
+                    },
+                    {
+                        data: 'mentor_name',
+                        name: 'mentor_name',
+                        class: 'text-center'
+                    },
+                    {
+                        data: 'editor_name',
+                        name: 'editor_name',
+                        class: 'text-center'
+                    },
+                    {
+                        data: 'program',
+                        name: 'program',
+                        class: 'text-center'
+                    },
+                    {
+                        data: 'title',
+                        name: 'title',
+                        class: 'text-center'
+                    },
+                    {
+                        data: 'upload_date',
+                        name: 'upload_date',
+                        class: 'text-center'
+                    },
+                    {
+                        data: 'essay_deadline',
+                        name: 'essay_deadline',
+                        class: 'text-center'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
+                        class: 'text-center'
+                    },
+                ],
+                rowCallback: function(row, data) {
+                    $(row).on('click', function() {
+                        window.location.href =
+                            `/editors/essay-list/ongoing/detail/${ data.id_essay_clients }`;
+                    });
+                }
+            });
+        });
+
+        $(document).ready(function() {
+            $('#listessaycompleted').DataTable({
+                scrollX: true,
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('data-essay-completed-editor') }}',
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        class: 'text-center',
+                    },
+                    {
+                        data: 'student_name',
+                        name: 'student_name',
+                        class: 'text-center'
+                    },
+                    {
+                        data: 'mentor_name',
+                        name: 'mentor_name',
+                        class: 'text-center'
+                    },
+                    {
+                        data: 'editor_name',
+                        name: 'editor_name',
+                        class: 'text-center'
+                    },
+                    {
+                        data: 'program',
+                        name: 'program',
+                        class: 'text-center'
+                    },
+                    {
+                        data: 'title',
+                        name: 'title',
+                        class: 'text-center'
+                    },
+                    {
+                        data: 'upload_date',
+                        name: 'upload_date',
+                        class: 'text-center'
+                    },
+                    {
+                        data: 'essay_deadline',
+                        name: 'essay_deadline',
+                        class: 'text-center'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
+                        class: 'text-center'
+                    },
+                ],
+                rowCallback: function(row, data) {
+                    $(row).on('click', function() {
+                        window.location.href =
+                            `/editors/essay-list/completed/detail/${ data.id_essay_clients }`;
+                    });
+                }
+            });
+        });
+
+
         $("#form-ongoing-essay-searching").keypress(function(e) {
             if (e.keyCode === 13) {
                 swal.showLoading();
@@ -229,7 +254,7 @@
                 $("#form-completed-essay-searching").submit();
             }
         });
-        $(document).ready(function(){
+        $(document).ready(function() {
             $("#info-essay").modal('show');
         });
     </script>
