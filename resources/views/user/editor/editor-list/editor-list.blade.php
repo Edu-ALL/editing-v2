@@ -1,6 +1,6 @@
 @extends('user.editor.utama.utama')
 @section('css')
-    <link rel="stylesheet" href="/css/admin/user-editor.css">
+    <link rel="stylesheet" href="/css/editor/user-editor.css">
     <style>
         .pagination {
             margin: 15px 0
@@ -23,7 +23,7 @@
             @include('user.editor.utama.menu')
 
             {{-- Content --}}
-            <div class="col">
+            <div class="col" style="overflow: auto !important">
                 @include('user.editor.utama.head')
                 <div class="container main-content m-0">
                     @if (session()->has('deactive-editor-successful'))
@@ -50,15 +50,10 @@
                                     <a class="btn-invite" href="/editor/invite">
                                         <img src="/assets/letter.png" alt="">
                                     </a>
-                                    <form action="{{ route('list-editor') }}"
-                                        method="GET" role="search" class="w-100">
-                                        <input type="search" class="form-control inputField py-2 px-3"
-                                            name="keyword" placeholder="Search">
-                                    </form>
                                 </div>
                             </div>
-                            <div class="container text-center" style="overflow-x: auto !important">
-                                <table class="table table-bordered">
+                            <div class="container text-start px-3 py-2">
+                                <table class="table" id="listeditor" style="width: 100%">
                                     <thead>
                                         <tr>
                                             <th>No</th>
@@ -71,63 +66,13 @@
                                             <th>Status</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <?php $i = ($editors->currentpage() - 1) * $editors->perpage() + 1; ?>
-                                        @foreach ($editors as $editor)
-                                            <tr
-                                                onclick="window.location='/editor/list/detail/{{ $editor->id_editors }}'">
-                                                <th scope="row">{{ $i++ }}</th>
-                                                <td>{{ $editor->first_name . ' ' . $editor->last_name }}</td>
-                                                <td>{{ $editor->email }}</td>
-                                                {{-- <td>{{ $dueTomorrow->where('id_editors', $editor->id_editors)->count() }} Essays</td>
-                                                <td>{{ $dueThree->where('id_editors', $editor->id_editors)->count() }} Essays</td>
-                                                <td>{{ $dueFive->where('id_editors', $editor->id_editors)->count() }} Essays</td> --}}
-                                                <td>{{ $editor->dueTomorrow }} Essays</td>
-                                                <td>{{ $editor->dueThree }} Essays</td>
-                                                <td>{{ $editor->dueFive }} Essays</td>
-                                                @if ($editor->position == 1)
-                                                    <td>Associate</td>
-                                                @elseif ($editor->position == 2)
-                                                    <td>Senior</td>
-                                                @elseif ($editor->position == 3)
-                                                    <td>Managing</td>
-                                                @endif
-                                                @if ($editor->status == 1)
-                                                    <td>
-                                                        <div class="status-editor">
-                                                            Active
-                                                        </div>
-                                                    </td>
-                                                @else
-                                                    <td>
-                                                        <div class="status-editor" style="background-color: var(--red)">
-                                                            Deactive
-                                                        </div>
-                                                    </td>
-                                                @endif
-                                            </tr>
-                                        @endforeach
-
-                                        @unless(count($editors))
-                                            <tr style="cursor: default">
-                                                <td colspan="8">No data</td>
-                                            </tr>
-                                        @endunless
-                                    </tbody>
                                 </table>
-                                {{-- Pagination --}}
-                                <div class="d-flex justify-content-center">
-                                    {{ $editors->links() }}
-                                </div>
                             </div>
-                            </table>
                         </div>
-                        </a>
                     </div>
                     {{-- End Table Student --}}
                 </div>
             </div>
-
             {{-- End Content --}}
         </div>
     </div>
@@ -156,6 +101,55 @@
 @endsection
 @section('js')
 <script>
+    // List Editor
+    $(document).ready(function () {
+        $('#listeditor').DataTable({
+            scrollX: true,
+            responsive: true,
+            processing: true,
+            serverSide: true,
+            ajax: '{{ route('managing-data-editor') }}',
+            columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    class: 'text-center'
+                },
+                {
+                    data: 'fullname',
+                    name: 'fullname'
+                },
+                {
+                    data: 'email',
+                    name: 'email'
+                },
+                {
+                    data: 'dueTomorrow',
+                    name: 'dueTomorrow'
+                },
+                {
+                    data: 'dueThree',
+                    name: 'dueThree'
+                },
+                {
+                    data: 'dueFive',
+                    name: 'dueFive'
+                },
+                {
+                    data: 'position',
+                    name: 'position'
+                },
+                {
+                    data: 'status',
+                    name: 'status',
+                    class: 'text-center'
+                },
+            ]
+        });
+    });
+    function getDetail(id){
+        var link = '/editor/list/detail/' + id
+        window.location.href = link;
+    }
     $(document).ready(function(){
         $("#info-editor").modal('show');
     });

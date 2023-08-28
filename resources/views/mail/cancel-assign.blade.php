@@ -400,7 +400,6 @@
                                                                                                 &nbsp;</td>
                                                                                         </tr>
                                                                                     </table>
-
                                                                                     <div class="h5-2"
                                                                                         style="color:#555555; font-family:Arial,sans-serif; font-size:14px; line-height:20px; text-align:left; text-transform:capitalize">
                                                                                         <p>Hi {{ $editor->first_name.' '.$editor->last_name }},</p>

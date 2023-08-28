@@ -32,16 +32,9 @@
                                     <img src="/assets/completed-essay.png" alt="">
                                     <h6>List of Completed Essay</h6>
                                 </div>
-                                <div class="col-md-4 col-4 d-flex align-items-center justify-content-end">
-                                    <div class="input-group">
-                                        <form id="form-completed-essay-searching" action="{{ route('mentor-essay-list-completed') }}" method="GET" role="search" class="w-100">
-                                            <input type="search" class="form-control inputField py-2 px-3" name="keyword" placeholder="Search">
-                                        </form>
-                                    </div>
-                                </div>
                             </div>
-                            <div class="container text-center" style="overflow-x: auto !important">
-                                <table class="table table-bordered">
+                            <div class="container text-start px-3 py-2">
+                                <table class="table table-bordered" id="listcompletedessay" style="width: 100%">
                                     <thead>
                                         <tr>
                                             <th>No</th>
@@ -53,50 +46,7 @@
                                             <th>Status</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <?php $i = ($essays->currentpage() - 1) * $essays->perpage() + 1; ?>
-                                        @foreach ($essays as $essay)
-                                            @if($essay->essay_clients->status_read == 0)
-                                                @php 
-                                                $read = "text-dark fw-bold";
-                                                $title = "Unread";
-                                                @endphp
-                                            @else
-                                                @php
-                                                $read = "";
-                                                $title = "Read";
-                                                @endphp
-                                            @endif
-                                            <tr
-                                                onclick="window.location='/mentor/essay-list/completed/detail/{{ $essay->id_essay_clients }}'">
-                                                <th scope="row" class="{{ $read }}" title="{{ $title }}">{{ $i++ }}</th>
-
-                                                <td class="{{ $read }}" title="{{ $title }}">{{ isset($essay->essay_clients->client_by_id) ? $essay->essay_clients->client_by_id->first_name . ' ' . $essay->essay_clients->client_by_id->last_name : $essay->essay_clients->client_by_email->first_name . ' ' . $essay->essay_clients->client_by_email->last_name }}
-                                                </td>
-                                                <td class="{{ $read }}" title="{{ $title }}">{{ $essay->essay_clients->mentor->first_name . ' ' . $essay->essay_clients->mentor->last_name }}
-                                                </td>
-
-                                                <td class="{{ $read }}" title="{{ $title }}">{{ $essay->editor ? $essay->editor->first_name . ' ' . $essay->editor->last_name : '-' }}
-                                                </td>
-                                                <td class="{{ $read }}" title="{{ $title }}">{{ $essay->essay_clients->essay_title }}</td>
-                                                <td class="{{ $read }}" title="{{ $title }}">{{ date('D, d M Y', strtotime($essay->essay_clients->essay_deadline)) }}
-                                                </td>
-                                                <td style="color: var(--green)" class="{{ $read }}" title="{{ $title }}">{{ $essay->status->status_title }}</td>
-                                            </tr>
-                                        @endforeach
-
-                                        @unless(count($essays))
-                                            <tr>
-                                                <td colspan="7">No data</td>
-                                            </tr>
-                                        @endunless
-                                    </tbody>
-
                                 </table>
-
-                                <div class="d-flex justify-content-center">
-                                    {{ $essays->links() }}
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -107,3 +57,54 @@
         </div>
     </div>
 @endsection
+
+@section('js')
+    <script>
+        // List Student
+        $(document).ready(function() {
+            $('#listcompletedessay').DataTable({
+                scrollX: true,
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('data-mentor-essay-list-completed') }}',
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        class: 'text-center'
+                    },
+                    {
+                        data: 'student_name',
+                        name: 'student_name'
+                    },
+                    {
+                        data: 'mentor_name',
+                        name: 'mentor_name'
+                    },
+                    {
+                        data: 'editor_name',
+                        name: 'editor_name'
+                    },
+                    {
+                        data: 'essay_title',
+                        name: 'essay_title'
+                    },
+                    {
+                        data: 'essay_deadline',
+                        name: 'essay_deadline'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status'
+                    },
+                ],
+                rowCallback: function(row, data) {
+                    $(row).on('click', function() {
+                        window.location.href =
+                            `/mentor/essay-list/completed/detail/${data.id_essay_clients}`;
+                    });
+                }
+            });
+        });
+    </script>
+@stop

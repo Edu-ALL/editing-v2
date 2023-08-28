@@ -17,10 +17,13 @@ use App\Models\Editor;
 Route::post('authenticate', [Authentication::class, '_loginAdmins'])->name('admin-login');
 Route::get('logout', [Authentication::class, 'logout'])->name('logout');
 
-Route::get('sync/clients', [CRMClients::class, 'syncCRMClients'])->name('sync-clients');
-Route::post('sync/clients', [CRMClients::class, 'doSyncCRMClients'])->name('do-sync-clients');
+// Route::get('sync/clients', [CRMClients::class, 'syncCRMClients'])->name('sync-clients'); # version 1
+Route::get('sync/clients', [CRMClients::class, 'syncCRMV2Clients'])->name('sync-clients'); # version 2
+// Route::post('sync/clients', [CRMClients::class, 'doSyncCRMClients'])->name('do-sync-clients');
+Route::post('sync/clients', [CRMClients::class, 'doSyncCRMV2Clients'])->name('do-sync-clients');
 
-Route::get('sync/mentors', [CRMMentors::class, 'doSyncCRMMentors'])->name('do-sync-mentors');
+// Route::get('sync/mentors', [CRMMentors::class, 'doSyncCRMMentors'])->name('do-sync-mentors');
+Route::get('sync/mentors', [CRMMentors::class, 'doSyncCRMV2Mentors'])->name('do-sync-mentors');
 
 Route::post('university', [Universities::class, 'store'])->name('add-university');
 Route::post('university/{uni_id}', [Universities::class, 'update'])->name('update-university');

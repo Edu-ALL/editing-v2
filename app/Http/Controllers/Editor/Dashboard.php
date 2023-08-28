@@ -10,7 +10,8 @@ use Illuminate\Http\Request;
 
 class Dashboard extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $editor = Auth::guard('web-editor')->user();
 
         $ongoing_essay = EssayClients::where('id_editors', $editor->id_editors)->where('status_essay_clients', '!=', 7)->where('status_essay_clients', '!=', 0)->where('status_essay_clients', '!=', 5);
@@ -29,10 +30,11 @@ class Dashboard extends Controller
         ]);
     }
 
-    public function essayDeadline($start, $num){
+    public function essayDeadline($start, $num)
+    {
         $today = date('Y-m-d');
-        $start = date('Y-m-d', strtotime('+'.$start.' days', strtotime($today)));
-        $dueDate = date('Y-m-d', strtotime('+'.$num.' days', strtotime($today)));
+        $start = date('Y-m-d', strtotime('+' . $start . ' days', strtotime($today)));
+        $dueDate = date('Y-m-d', strtotime('+' . $num . ' days', strtotime($today)));
         $editor = Auth::guard('web-editor')->user();
         $essay = EssayClients::where('id_editors', '=', $editor->id_editors)->where('status_essay_clients', '!=', 7)->where('status_essay_clients', '!=', 0)->where('status_essay_clients', '!=', 5);
         // $essay->whereBetween('essay_deadline', [$start, $dueDate]);
