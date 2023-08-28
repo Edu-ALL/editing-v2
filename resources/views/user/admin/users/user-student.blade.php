@@ -94,7 +94,7 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <form action="{{ route('do-sync-clients') }}" method="POST">
+                    <form action="{{ route('do-sync-clients') }}" id="do-sync" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-primary">Sync Now</button>
                     </form>
