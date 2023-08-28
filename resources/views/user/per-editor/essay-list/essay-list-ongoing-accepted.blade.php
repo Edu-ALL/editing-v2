@@ -133,6 +133,12 @@
                 <h6>Upload Your File</h6>
               </div>
             </div>
+            
+            <div>
+              @if ($errors->any())
+                  {!! implode('', $errors->all('<div class="alert alert-danger" role="alert">:message</div>')) !!}
+              @endif
+            </div>
             <form action="{{ route('upload-essay', ['id_essay' => $essay->id_essay_clients]) }}" class="p-0" id="form-essay" enctype="multipart/form-data" method="POST">
               @csrf
               <div class="row field px-2 py-md-4 py-4" style="overflow: auto !important">
@@ -143,6 +149,9 @@
                       <div class="h-100">
                         <input class="form-control form-control-sm inputField h-100" id="formFileSm" name="uploaded_file" form="form-essay" type="file">
                       </div>
+                      @error('uploaded_file')
+                        <div class="pt-1 text-danger" style="font-size: 10px">{{ $message }}</div>
+                      @enderror
                       <h6 class="pt-2" style="font-size: 10px; color: var(--red)">* Upload your essay with the '.docx' format</h6>
                     </div>
                   </div>
@@ -163,6 +172,9 @@
                         <span class="input-group-text py-2 px-2" id="basic-addon1">Minutes</span>
                       </div>
                     </div>
+                    @error('work_duration')
+                      <div class="pt-1 text-danger" style="font-size: 10px">{{ $message }}</div>
+                    @enderror
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-3">
@@ -183,12 +195,18 @@
                         <option value="{{ $tags->id_topic }}">{{ $tags->topic_name }}</option>
                       @endforeach
                     </select>
+                    @error('tag')
+                      <div class="pt-1 text-danger" style="font-size: 10px">{{ $message }}</div>
+                    @enderror
                   </div>
                 </div>
                 <div class="col-12 d-flex mb-2" style="overflow: auto !important">
                   <div class="col">
                     <h6 class="pb-2">Descriptions :</h6>
                     <textarea name="description" class="textarea" placeholder="Descriptions"></textarea>
+                    @error('description')
+                      <div class="pt-1 text-danger" style="font-size: 10px">{{ $message }}</div>
+                    @enderror
                   </div>
                 </div>
               </div>
@@ -211,7 +229,7 @@
 </div>
 
 {{-- Modal Info --}}
-<div class="modal fade" id="info" tabindex="-1" aria-hidden="true">
+{{-- <div class="modal fade" id="info" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog d-flex align-items-center justify-content-center">
     <div class="modal-content border-0 w-75">
       <div class="modal-header" style="background-color: var(--blue)">
@@ -228,7 +246,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> --}}
 @endsection
 
 @section('js')

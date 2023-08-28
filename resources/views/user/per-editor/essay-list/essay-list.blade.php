@@ -68,7 +68,12 @@
                                                     <th scope="row" class="{{ $essay->read == 0 ? 'unread' : '' }}">
                                                         {{ $i++ }}</th>
                                                     <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->essay_clients->client_by_id->first_name . ' ' . $essay->essay_clients->client_by_id->last_name }}
+                                                        
+                                                        @if (isset($essay->essay_clients->client_by_id))
+                                                            {{ $essay->essay_clients->client_by_id->first_name . ' ' . $essay->essay_clients->client_by_id->last_name }}
+                                                        @else
+                                                            {{ $essay->essay_clients->client_by_email->first_name . ' ' . $essay->essay_clients->client_by_email->last_name }}
+                                                        @endif
                                                     </td>
                                                     <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
                                                         {{ $essay->essay_clients->mentor->first_name . ' ' . $essay->essay_clients->mentor->last_name }}
@@ -146,7 +151,11 @@
                                                     <th scope="row" class="{{ $essay->read == 0 ? 'unread' : '' }}">
                                                         {{ $i++ }}</th>
                                                     <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
-                                                        {{ $essay->essay_clients->client_by_id->first_name . ' ' . $essay->essay_clients->client_by_id->last_name }}
+                                                        @if (isset($essay->essay_clients->client_by_id))
+                                                            {{ $essay->essay_clients->client_by_id->first_name . ' ' . $essay->essay_clients->client_by_id->last_name }}
+                                                        @else
+                                                            {{ $essay->essay_clients->client_by_email->first_name . ' ' . $essay->essay_clients->client_by_email->last_name }}
+                                                        @endif
                                                     </td>
                                                     <td class="{{ $essay->read == 0 ? 'unread' : '' }}">
                                                         {{ $essay->essay_clients->mentor->first_name . ' ' . $essay->essay_clients->mentor->last_name }}

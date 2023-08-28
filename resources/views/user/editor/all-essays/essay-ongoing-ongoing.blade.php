@@ -53,6 +53,28 @@
                 </button>
               </form>
             </div>
+            @if (isset($essay->essay_editors->notes_editors))
+              <div class="headline d-flex align-items-center gap-3">
+                <img src="/assets/file.png" alt="">
+                <h6>Notes</h6>
+              </div>
+              <div class="col d-flex flex-column px-3 py-md-4 py-4 my-md-1 countEssay text-center justify-content-center" style="color: var(--black)">
+                <div class="col d-flex flex-row flex-wrap gap-2 justify-content-center" style="font-size:10px">
+                    {!! $essay->essay_editors->notes_editors !!}
+                </div>
+              </div>
+            @endif
+            @if (isset($essay->essay_editors->managing_file) && $essay->essay_editors->managing_file != "")
+              <div class="headline d-flex align-items-center gap-3">
+                <img src="/assets/file.png" alt="">
+                <h6>Notes From Managing</h6>
+              </div>
+              <div class="col d-flex flex-column px-3 py-md-4 py-4 my-md-1 countEssay text-center justify-content-center" style="color: var(--black)">
+                <div class="col d-flex flex-row flex-wrap gap-2 justify-content-center">
+                    {!! $essay->essay_editors->notes_managing !!}
+                </div>
+              </div>
+            @endif
           </div>
           
           <div class="col-md-8 col-12 p-0 userCard" style="cursor: default">
@@ -117,8 +139,14 @@
                 </div>
                 <div class="col-12 d-flex mb-4" style="overflow: auto !important">
                   <div class="col">
-                    <h6 class="pb-2">Essay Prompt :</h6>
+                    <h6 class="pb-2">Concern :</h6>
                     <textarea name="" class="textarea" style="overflow: auto !important">{{ $essay->essay_prompt }}</textarea>
+                  </div>
+                </div>
+                <div class="col-12 d-flex mb-4" style="overflow: auto !important">
+                  <div class="col">
+                    <h6 class="pb-2">Notes :</h6>
+                    <textarea name="" class="textarea" style="overflow: auto !important">{!! $essay->essay_notes !!}</textarea>
                   </div>
                 </div>
                 <div class="col-12 d-flex flex-lg-row flex-column mb-3 gap-lg-2 gap-3">

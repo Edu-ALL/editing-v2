@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Client;
 use App\Models\CRM\Client as CRMClient;
+use Illuminate\Support\Facades\Redirect;
 
 class Clients extends Controller
 {
@@ -56,5 +57,7 @@ class Clients extends Controller
             $client->deleted_at = "0000-00-00 00:00:00";
             $client->save();
         }
+
+        return Redirect::to('admin/user/student')->withSuccess('Sync has been completed');
     }
 }

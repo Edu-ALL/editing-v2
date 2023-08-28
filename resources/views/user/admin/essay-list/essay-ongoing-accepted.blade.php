@@ -136,10 +136,16 @@
                 </div>
                 <div class="col-12 d-flex mb-4" style="overflow: auto !important">
                   <div class="col">
-                    <h6 class="pb-2">Essay Prompt :</h6>
+                    <h6 class="pb-2">Concern :</h6>
                     <textarea name="" class="textarea" style="overflow: auto !important"></textarea>
                   </div>
                 </div>
+                {{-- <div class="col-12 d-flex mb-4" style="overflow: auto !important">
+                  <div class="col">
+                    <h6 class="pb-2">Notes :</h6>
+                    <div style="font-size: 12px">{!! $ !!}</div>
+                  </div>
+                </div> --}}
                 <div class="col-12 d-flex flex-lg-row flex-column mb-3">
                   <div class="col-lg-6 col d-flex mb-3">
                     <div class="col-6">

@@ -147,11 +147,20 @@
                 </div>
                 <div class="row d-flex align-items-center">
                   <div class="col-md-3 col-4">
-                    <h6>Essay Prompt</h6>
+                    <h6>Concern</h6>
                   </div>
                   <div class="col-1 titik2"><p>:</p></div>
                   <div class="col-7">
                     <p>{!! $essay->essay_clients->essay_prompt !!}</p>
+                  </div>
+                </div>
+                <div class="row d-flex align-items-center">
+                  <div class="col-md-3 col-4">
+                    <h6>Notes</h6>
+                  </div>
+                  <div class="col-1 titik2"><p>:</p></div>
+                  <div class="col-7" style="font-size: 12px">
+                    {!! $essay->essay_clients->essay_notes !!}
                   </div>
                 </div>
                 <div class="row d-flex">

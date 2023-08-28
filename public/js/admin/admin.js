@@ -89,6 +89,7 @@ document.addEventListener("click", (evt) => {
 // TinyMCE
 tinymce.init({
   selector: '.textarea',
+  element_format : 'html', //new
   width: 'auto',
   height: '300'
 });
