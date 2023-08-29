@@ -22,6 +22,51 @@
                     </div>
                     @endif
                     <div class="row">
+                        @if($assigned->count()>0)
+                        <div class="col-12">
+                            <div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert"
+                                style="font-size: 14px;">
+                                <label>
+                                    There {{ $assigned->count() == 1 ? 'is' : 'are' }}
+                                    <strong>{{ $assigned->count() }}</strong> essay that you need to confirm.
+                                </label>
+                                <div class="dropstart">
+                                    <button class="btn bg-danger btn-sm dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa fa-info-circle"></i>
+                                    </button>
+                                    <div class="dropdown-menu overflow-auto p-3 pb-0"
+                                        style="width: 550px; max-height:400px; font-size:13px;">
+                                        <table class="table table-hover table-bordered">
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th>No</th>
+                                                    <th>Editor Name</th>
+                                                    <th>Mentor Name</th>
+                                                    <th>Essay Title</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($assigned as $item)
+                                                    <tr class="text-center" onclick="window.open('{{url('editors/essay-list/ongoing/detail/').'/'.$item->id_essay_clients}}');">
+                                                        <td>{{ $loop->index + 1 }}</td>
+                                                        <td>
+                                                            {{ $item->editor->first_name . ' ' . $item->editor->last_name }}
+                                                        </td>
+                                                        <td>
+                                                            {{ $item->essay_clients->mentor->first_name . ' ' . $item->essay_clients->mentor->last_name }}
+                                                        </td>
+                                                        <td>{{ $item->essay_clients->essay_title }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
                         <div class="col-md col-12 p-0 userCard">
                             <div class="headline d-flex align-items-center justify-content-center py-md-4 py-3 gap-3">
                                 <img src="/assets/essay-list.png" alt="">

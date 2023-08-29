@@ -21,7 +21,7 @@
                     @endif
                     <div class="row mb-1">
                         <div class="col-md-6 p-0 pe-2 m-0">
-                            <div class="alert alert-danger d-flex justify-content-between" role="alert"
+                            <div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert"
                                 style="font-size: 14px;">
                                 <label>
                                     There {{ $assigned->count() == 1 ? 'is' : 'are' }}
@@ -29,10 +29,11 @@
                                     essays.
                                 </label>
                                 <div class="dropstart">
-                                    <i class="fa fa-info-circle dropdown-toggle cursor-pointer" data-bs-toggle="dropdown"
-                                        aria-expanded="true" type="button">
-                                    </i>
-                                    <div class="dropdown-menu overflow-auto  p-3 pb-0"
+                                    <button class="btn btn-danger btn-sm dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa fa-info-circle"></i>
+                                    </button>
+                                    <div class="dropdown-menu overflow-auto p-3 pb-0"
                                         style="width: 550px; max-height:400px; font-size:13px;">
                                         <table class="table table-hover table-bordered">
                                             <thead>
@@ -45,7 +46,7 @@
                                             </thead>
                                             <tbody>
                                                 @foreach ($assigned as $item)
-                                                    <tr class="text-center">
+                                                    <tr class="text-center" onclick="window.open('{{url('admin/essay-list/ongoing/detail/').'/'.$item->id_essay_clients}}');">
                                                         <td>{{ $loop->index + 1 }}</td>
                                                         <td>
                                                             {{ $item->editor->first_name . ' ' . $item->editor->last_name }}
@@ -64,7 +65,7 @@
                             </div>
                         </div>
                         <div class="col-md-6 p-0 ps-2 m-0">
-                            <div class="alert alert-danger d-flex justify-content-between" role="alert"
+                            <div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert"
                                 style="font-size: 14px;">
                                 <label>
                                     There {{ $submited->count() == 1 ? 'is' : 'are' }}
@@ -72,8 +73,10 @@
                                     essays.
                                 </label>
                                 <div class="dropstart">
-                                    <i class="fa fa-info-circle dropdown-toggle cursor-pointer" data-bs-toggle="dropdown" type="button">
-                                    </i>
+                                    <button class="btn btn-danger btn-sm dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa fa-info-circle"></i>
+                                    </button>
                                     <div class="dropdown-menu overflow-auto p-3 pb-0"
                                         style="width: 550px; max-height:400px; font-size:13px;">
                                         <table class="table table-hover table-bordered">
@@ -87,7 +90,7 @@
                                             </thead>
                                             <tbody>
                                                 @foreach ($submited as $item)
-                                                    <tr class="text-center">
+                                                    <tr class="text-center" onclick="window.open('{{url('admin/essay-list/ongoing/detail/').'/'.$item->id_essay_clients}}');">
                                                         <td>{{ $loop->index + 1 }}</td>
                                                         <td>
                                                             {{ $item->editor->first_name . ' ' . $item->editor->last_name }}

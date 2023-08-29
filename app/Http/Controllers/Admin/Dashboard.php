@@ -21,7 +21,7 @@ class Dashboard extends Controller
         $query = $request->query();
         $month = $query['active-month'] ??  Carbon::now()->month;
         $year = $query['active-year'] ?? Carbon::now()->year;
-        $tomorrow = Carbon::now()->addDay();
+        $today = Carbon::now();
 
         $editorsActive = DB::table('tbl_editors')
             ->join('tbl_essay_editors', 'tbl_editors.email', '=', 'tbl_essay_editors.editors_mail')
@@ -36,13 +36,13 @@ class Dashboard extends Controller
         $essayPerMonth = EssayEditors::whereMonth('uploaded_at', $month)->whereYear('uploaded_at', $year)->count();
         $essayPerMonthCompleted = EssayEditors::where('status_essay_editors', '=', 7)->whereMonth('uploaded_at', $month)->whereYear('uploaded_at', $year)->count();
 
-        $essayAssigned = EssayEditors::where('status_essay_editors', '=', 1)->where('uploaded_at', '<', $tomorrow)->get();
+        $essayAssigned = EssayEditors::where('status_essay_editors', '=', 1)->where('uploaded_at', '<', $today)->get();
 
 
         $essaySubmited = EssayEditors::where(function ($query) {
             $query->where('status_essay_editors', '=', 3)
                 ->orWhere('status_essay_editors', '=', 8);
-        })->where('uploaded_at', '<', $tomorrow)->get();
+        })->where('uploaded_at', '<', $today)->get();
 
 
         return view('user.admin.dashboard', [
