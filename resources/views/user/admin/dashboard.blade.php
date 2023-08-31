@@ -14,6 +14,33 @@
             <div class="col">
                 @include('user.admin.utama.head')
                 <div class="container main-content m-0">
+                    {{-- @foreach ($mail as $item)
+                        <h6>{{ $item[0] }}</h6>
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                                <tr class="text-center">
+                                    <th>No</th>
+                                    <th>Editor Name</th>
+                                    <th>Mentor Name</th>
+                                    <th>Essay Title</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($item[1] as $essay)
+                                    <tr class="text-center">
+                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>
+                                            {{ $essay->editor->first_name.' '.$essay->editor->last_name }}
+                                        </td>
+                                        <td>
+                                            {{ $essay->essay_clients->mentor->first_name . ' ' . $essay->essay_clients->mentor->last_name }}
+                                        </td>
+                                        <td>{{ $essay->essay_clients->essay_title }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @endforeach --}}
                     @if (session()->has('login-successful'))
                         <div class="row alert alert-success fade show" role="alert">
                             {{ session()->get('login-successful') }}
@@ -42,6 +69,8 @@
                                                     <th>Editor Name</th>
                                                     <th>Mentor Name</th>
                                                     <th>Essay Title</th>
+                                                    <th>Essay Deadline</th>
+                                                    <th>Uploaded Date</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -55,6 +84,8 @@
                                                             {{ $item->essay_clients->mentor->first_name . ' ' . $item->essay_clients->mentor->last_name }}
                                                         </td>
                                                         <td>{{ $item->essay_clients->essay_title }}</td>
+                                                        <td>{{ date('D, d F Y', strtotime($item->essay_clients->essay_deadline)) }}</td>
+                                                        <td>{{ date('D, d F Y', strtotime($item->uploaded_at)) }}</td>
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -86,6 +117,8 @@
                                                     <th>Editor Name</th>
                                                     <th>Mentor Name</th>
                                                     <th>Essay Title</th>
+                                                    <th>Essay Deadline</th>
+                                                    <th>Uploaded Date</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -99,6 +132,8 @@
                                                             {{ $item->essay_clients->mentor->first_name . ' ' . $item->essay_clients->mentor->last_name }}
                                                         </td>
                                                         <td>{{ $item->essay_clients->essay_title }}</td>
+                                                        <td>{{ date('D, d F Y', strtotime($item->essay_clients->essay_deadline)) }}</td>
+                                                        <td>{{ date('D, d F Y', strtotime($item->uploaded_at)) }}</td>
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -109,7 +144,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row gap-4">
+                    <div class="row gap-3">
                         <div class="col-md col-12 mb-0">
                             {{-- User List --}}
                             <div class="row gap-2">

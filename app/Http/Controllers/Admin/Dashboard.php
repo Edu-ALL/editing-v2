@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\Reminder;
 use App\Models\Client;
 use App\Models\Editor;
 use App\Models\Mentor;
@@ -38,12 +39,15 @@ class Dashboard extends Controller
 
         $essayAssigned = EssayEditors::where('status_essay_editors', '=', 1)->where('uploaded_at', '<', $today)->get();
 
-
         $essaySubmited = EssayEditors::where(function ($query) {
             $query->where('status_essay_editors', '=', 3)
                 ->orWhere('status_essay_editors', '=', 8);
         })->where('uploaded_at', '<', $today)->get();
 
+        // Testing Reminder
+        // $reminder = new Reminder();
+        // $reminder->sendReminderEmailEditor();
+        // $reminder->sendReminderEmailManagingEditor();
 
         return view('user.admin.dashboard', [
             'count_student' => Client::count(),
@@ -56,7 +60,7 @@ class Dashboard extends Controller
             'essay_per_month_completed' => $essayPerMonthCompleted,
             'date' => ['month' => $month, 'year' => $year],
             'assigned' => $essayAssigned,
-            'submited' => $essaySubmited
+            'submited' => $essaySubmited,
         ]);
     }
 }
