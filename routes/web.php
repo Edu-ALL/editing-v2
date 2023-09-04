@@ -315,8 +315,8 @@ Route::middleware('is_editor')->group(function () {
     });
 });
 
-Route::get('/event', function () {
-    event(new MentorNotif('test@gmail.com', 'Essay has been completed'));
-});
+// Route::get('/event', function () {
+//     event(new MentorNotif('test@gmail.com', 'Essay has been completed'));
+// });
 
-Route::get('check',[Reminder::class,'sendReminderEmailManagingEditor']);
+// Route::get('check',[Reminder::class,'sendReminderEmailManagingEditor']);
