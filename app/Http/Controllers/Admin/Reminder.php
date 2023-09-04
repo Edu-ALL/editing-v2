@@ -64,8 +64,13 @@ class Reminder extends Controller
     public function sendReminderEmailManagingEditor(){
         // Essay Submitted and Revised
         $essaySubmitted = EssayEditors::where('status_essay_editors', '=', 3)->orWhere('status_essay_editors', '=', 8)->orderBy('uploaded_at', 'desc')->get();
-        // Email Managing Editor
-        $emailEditors = array_column(Editor::where('position', '=', 3)->get()->toArray(), 'email');
+        // Managing Editor data
+        $managingEditors = Editor::where('position', '=', 3)->get();
+        $managingEditorsName = array();
+        foreach($managingEditors as $editor){
+            array_push($managingEditorsName, $editor->first_name.' '.$editor->last_name);
+        }
+        $emailEditors = array_column($managingEditors->toArray(), 'email');
         // Check Date and Send Email
         $status = 'false';
         foreach($essaySubmitted as $essay){
@@ -81,6 +86,7 @@ class Reminder extends Controller
         if ($status == 'true') {
             $dataEditor = [
                 'email' => $emailEditors,
+                'name' => $managingEditorsName,
                 'role' => 'managing',
                 'status' => $status,
                 'essays' => $essaySubmitted,
@@ -95,14 +101,14 @@ class Reminder extends Controller
             Mail::send('mail.reminder.reminder-essay', $data, function($mail) use ($data) {
                 $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
                 $mail->to($data['email']);
-                $mail->subject('Essay Reminder');
+                $mail->subject('Pending Essay Awaiting Your Review');
             });
         } elseif ($data['role'] == 'managing' && $data['status'] == 'true'){
             Mail::send('mail.reminder.reminder-essay', $data, function($mail) use ($data) {
                 $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
                 $mail->to($data['email'][0]);
-                $mail->cc($data['email']);
-                $mail->subject('Essay Reminder');
+                $mail->cc(array_slice($data['email'], 1));
+                $mail->subject('Managing Editors: Unchecked Essay Edits Need Your Approval');
             });
         }
 
