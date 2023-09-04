@@ -328,7 +328,7 @@
                                             <div class="img-center"
                                                 style="font-size:0pt; line-height:0pt; text-align:center"><a href="#"
                                                     target="_blank"><img
-                                                        src="https://all-inedu.com/wp-content/uploads/2016/04/logo_normal_small.png"
+                                                        src="https://all-inedu.com/assets/img/navbar/ALLIN-LOGO-LONG-NEW.png"
                                                         border="0" width="277" height="57" alt="" /></a>
                                             </div>
                                         </div>
@@ -404,7 +404,7 @@
                                                                                     <div class="h5-2"
                                                                                         style="color:#555555; font-family:Arial,sans-serif; font-size:14px; line-height:20px; text-align:left; text-transform:capitalize">
                                                                                         @if ($role == 'managing')
-                                                                                            <p>Hello {{ implode(', ', $name) }}!</p>
+                                                                                            <p>Hello Managing Editor!</p>
                                                                                         @else
                                                                                             <p>Hello {{ $name }}!</p>
                                                                                         @endif

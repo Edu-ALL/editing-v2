@@ -1,20 +1,33 @@
-<table class="table table-hover table-bordered">
+<style>
+    .table-essay table,
+    .table-essay  th,
+    .table-essay  td {
+        border: 1px solid white;
+        border-collapse: collapse;
+    }
+
+    .table-essay  th,
+    .table-essay  td {
+        background-color: #eaeaea;
+    }
+</style>
+<table class="table-essay table-hover table-bordered" border="1">
     <thead>
         <tr class="text-center">
-            <th>No</th>
-            <th>Editor Name</th>
-            <th>Mentor Name</th>
-            <th>Essay Title</th>
-            <th>Essay Deadline</th>
-            <th>Uploaded Date</th>
+            <th align="center">No</th>
+            <th align="center">Editor Name</th>
+            <th align="center">Mentor Name</th>
+            <th align="center">Essay Title</th>
+            <th align="center">Essay Deadline</th>
+            <th align="center">{{ $role == 'managing' ? 'Uploaded Date' : 'Assigned Date' }}</th>
         </tr>
     </thead>
     <tbody>
         @foreach ($essays as $essay)
             <tr class="text-center">
-                <td>{{ $loop->index + 1 }}</td>
+                <td align="center">{{ $loop->index + 1 }}</td>
                 <td>
-                    {{ $essay->editor->first_name.' '.$essay->editor->last_name }}
+                    {{ $essay->editor->first_name . ' ' . $essay->editor->last_name }}
                 </td>
                 <td>
                     {{ $essay->essay_clients->mentor->first_name . ' ' . $essay->essay_clients->mentor->last_name }}
