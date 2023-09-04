@@ -146,7 +146,7 @@ class NewRequestMenu extends Controller
 
     public function sendEmail($type, $data)
     {
-        $managing = Editor::where('position', 3)->get()->toArray();
+        $managing = Editor::where('position', 3)->where('status', 1)->get()->toArray();
         $email = array_column($managing, 'email');
 
         $i = 0;

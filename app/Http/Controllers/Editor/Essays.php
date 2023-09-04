@@ -408,7 +408,7 @@ class Essays extends Controller
     public function sendEmail($type, $data)
     {
         // $email = 'editor.dummy@example.com';
-        $managing = Editor::where('position', 3)->get()->toArray();
+        $managing = Editor::where('position', 3)->where('status', 1)->get()->toArray();
         $email = array_column($managing, 'email');
 
         // $user_token = [
