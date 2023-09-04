@@ -70,7 +70,7 @@
                                                     <th>Mentor Name</th>
                                                     <th>Essay Title</th>
                                                     <th>Essay Deadline</th>
-                                                    <th>Uploaded Date</th>
+                                                    <th>Assigned Date</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

@@ -328,7 +328,7 @@
                                             <div class="img-center"
                                                 style="font-size:0pt; line-height:0pt; text-align:center"><a href="#"
                                                     target="_blank"><img
-                                                        src="https://all-inedu.com/wp-content/uploads/2016/04/logo_normal_small.png"
+                                                        src="https://all-inedu.com/assets/img/navbar/ALLIN-LOGO-LONG-NEW.png"
                                                         border="0" width="277" height="57" alt="" /></a>
                                             </div>
                                         </div>
@@ -404,9 +404,9 @@
                                                                                     <div class="h5-2"
                                                                                         style="color:#555555; font-family:Arial,sans-serif; font-size:14px; line-height:20px; text-align:left; text-transform:capitalize">
                                                                                         @if ($role == 'managing')
-                                                                                            <p>Hi Managing Editor,</p>
+                                                                                            <p>Hello Managing Editor!</p>
                                                                                         @else
-                                                                                            <p>Hi {{ $name }},</p>
+                                                                                            <p>Hello {{ $name }}!</p>
                                                                                         @endif
                                                                                     </div>
                                                                                     <table width="100%" border="0"
@@ -425,27 +425,28 @@
                                                                                         style="color:#777777; font-family:Arial,sans-serif; font-size:12px; line-height:20px; text-align:left">
                                                                                         <br>
                                                                                         @if ($role == 'managing')
-                                                                                            <p>There are {{ count($essays) }} essay that you need to review.</p>
+                                                                                            <p>Thanks for making sure that the essays we return to the mentees are of the highest quality!</p>
+                                                                                            <br>
+                                                                                            <p>Here are the essays that are awaiting your review today:</p>
+                                                                                            @include('mail.reminder.tablelist')
+                                                                                            <br>
+                                                                                            <p>Your feedback is so important to the effectiveness of these essays, which can be a game-changer for our mentees' university application. Please kindly review these essays promptly.</p>
+                                                                                            <br>
+                                                                                            <p>You can log in <a href="{{ url('/login/editor') }}">here</a> to review these essays. Thank you!</p>
+                                                                                            <br>
                                                                                         @else
-                                                                                            <p>There are {{ count($essays) }} essay that you need to confirm.</p>
+                                                                                            <p>Thanks for your dedication to maintaining the excellence of essays on our platform. Your expertise greatly contributes to shaping the future of our mentees' university applications.</p>
+                                                                                            <br>
+                                                                                            <p>We wanted to remind you that there's an essay awaiting your review. Your insightful feedback is instrumental in refining the essay and helping the mentee put their best foot forward!</p>
+                                                                                            <br>
+                                                                                            @include('mail.reminder.tablelist')
+                                                                                            <br>
+                                                                                            <p>Please log in <a href="{{ url('/login/editor') }}">here</a> to review the essay and provide your valuable insights. Your attention to this review will significantly impact the quality of the essay and the mentee's application success.</p>
+                                                                                            <br>
+                                                                                            <p>Thank you!</p>
+                                                                                            <br>
                                                                                         @endif
-                                                                                        <br>
-                                                                                        @include('mail.reminder.tablelist')
-                                                                                        <br>
-                                                                                        <p>Thanks! Please feel free to contact your managing editor if you have questions or concerns.</p>
                                                                                     </div>
-                                                                                    <table width="100%" border="0"
-                                                                                        cellspacing="0" cellpadding="0"
-                                                                                        class="spacer"
-                                                                                        style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
-                                                                                        <tr>
-                                                                                            <td height="15"
-                                                                                                class="spacer"
-                                                                                                style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
-                                                                                                &nbsp;</td>
-                                                                                        </tr>
-                                                                                    </table>
-
                                                                                 </td>
                                                                             </tr>
                                                                         </table>
