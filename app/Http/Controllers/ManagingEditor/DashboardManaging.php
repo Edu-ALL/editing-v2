@@ -75,13 +75,13 @@ class DashboardManaging extends Controller
         $essayPerMonth = EssayEditors::whereMonth('uploaded_at', $month)->whereYear('uploaded_at', $year)->count();
         $essayPerMonthCompleted = EssayEditors::where('status_essay_editors', '=', 7)->whereMonth('uploaded_at', $month)->whereYear('uploaded_at', $year)->count();
     
-        $essayAssigned = EssayEditors::where('status_essay_editors', '=', 1)->where('uploaded_at', '<', $today)->get();
+        $essayAssigned = EssayEditors::where('status_essay_editors', '=', 1)->where('uploaded_at', '<', $today)->orderBy('uploaded_at', 'desc')->get();
 
 
         $essaySubmited = EssayEditors::where(function ($query) {
             $query->where('status_essay_editors', '=', 3)
                 ->orWhere('status_essay_editors', '=', 8);
-        })->where('uploaded_at', '<', $today)->get();
+        })->where('uploaded_at', '<', $today)->orderBy('uploaded_at', 'desc')->get();
        
         return view('user.editor.dashboard', [
             'ongoing_essay' => $ongoing_essay->count(),

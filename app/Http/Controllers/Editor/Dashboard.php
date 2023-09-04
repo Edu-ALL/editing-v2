@@ -23,7 +23,7 @@ class Dashboard extends Controller
         $duethree = $this->essayDeadline('1', '3');
         $duefive = $this->essayDeadline('3', '5');
 
-        $essayAssigned = EssayEditors::where('editors_mail', $editor->email)->where('status_essay_editors', '=', 1)->where('uploaded_at', '<', $today)->get();
+        $essayAssigned = EssayEditors::where('editors_mail', $editor->email)->where('status_essay_editors', '=', 1)->where('uploaded_at', '<', $today)->orderBy('uploaded_at', 'desc')->get();
 
         return view('user.per-editor.dashboard', [
             'ongoing_essay' => $ongoing_essay->count(),
