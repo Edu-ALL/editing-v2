@@ -6,16 +6,20 @@
             font-size: 14px;
             margin: 0 -12px 16px -12px
         }
+
         .dataTables_scroll .dataTables_scrollHeadInner {
             width: auto !important;
             padding-right: 0 !important;
         }
+
         .dataTables_scroll .dataTables_scrollHeadInner .table.dataTable.no-footer {
             width: 100% !important;
         }
+
         .dataTables_scroll .dataTables_scrollBody .table.dataTable.no-footer {
             width: 100% !important;
         }
+
         .card {
             border: none;
             border-radius: 6px;
@@ -40,6 +44,107 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
+                    <div class="row justify-content-between">
+                        @if($assigned->count()>0)
+                        <div class="col-md-6 px-3 m-0">
+                            <div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert"
+                                style="font-size: 14px;">
+                                <label>
+                                    There {{ $assigned->count() == 1 ? 'is' : 'are' }}
+                                    <strong>{{ $assigned->count() }}</strong> Essay Editor who have not accepted/rejected
+                                    essays.
+                                </label>
+                                <div class="dropstart">
+                                    <button class="btn btn-danger btn-sm dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa fa-info-circle"></i>
+                                    </button>
+                                    <div class="dropdown-menu overflow-auto p-3 pb-0"
+                                        style="width: 550px; max-height:400px; font-size:13px;">
+                                        <table class="table table-hover table-bordered">
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th>No</th>
+                                                    <th>Editor Name</th>
+                                                    <th>Mentor Name</th>
+                                                    <th>Essay Title</th>
+                                                    <th>Essay Deadline</th>
+                                                    <th>Assigned Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($assigned as $item)
+                                                    <tr class="text-center" onclick="window.open('{{url('editor/all-essays/ongoing/detail/').'/'.$item->id_essay_clients}}');">
+                                                        <td>{{ $loop->index + 1 }}</td>
+                                                        <td>
+                                                            {{ $item->editor->first_name . ' ' . $item->editor->last_name }}
+                                                        </td>
+                                                        <td>
+                                                            {{ $item->essay_clients->mentor->first_name . ' ' . $item->essay_clients->mentor->last_name }}
+                                                        </td>
+                                                        <td>{{ $item->essay_clients->essay_title }}</td>
+                                                        <td>{{ date('D, d F Y', strtotime($item->essay_clients->essay_deadline)) }}</td>
+                                                        <td>{{ date('D, d F Y', strtotime($item->uploaded_at)) }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                        @if($submited->count()>0)
+                        <div class="col-md-6 px-3 m-0">
+                            <div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert"
+                                style="font-size: 14px;">
+                                <label>
+                                    There {{ $submited->count() == 1 ? 'is' : 'are' }}
+                                    <strong>{{ $submited->count() }}</strong> essay that you need to review.
+                                </label>
+                                <div class="dropstart">
+                                    <button class="btn btn-danger btn-sm dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa fa-info-circle"></i>
+                                    </button>
+                                    <div class="dropdown-menu overflow-auto p-3 pb-0"
+                                        style="width: 550px; max-height:400px; font-size:13px;">
+                                        <table class="table table-hover table-bordered">
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th>No</th>
+                                                    <th>Editor Name</th>
+                                                    <th>Mentor Name</th>
+                                                    <th>Essay Title</th>
+                                                    <th>Essay Deadline</th>
+                                                    <th>Uploaded Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($submited as $item)
+                                                    <tr class="text-center" onclick="window.open('{{url('editor/all-essays/ongoing/detail/').'/'.$item->id_essay_clients}}');">
+                                                        <td>{{ $loop->index + 1 }}</td>
+                                                        <td>
+                                                            {{ $item->editor->first_name . ' ' . $item->editor->last_name }}
+                                                        </td>
+                                                        <td>
+                                                            {{ $item->essay_clients->mentor->first_name . ' ' . $item->essay_clients->mentor->last_name }}
+                                                        </td>
+                                                        <td>{{ $item->essay_clients->essay_title }}</td>
+                                                        <td>{{ date('D, d F Y', strtotime($item->essay_clients->essay_deadline)) }}</td>
+                                                        <td>{{ date('D, d F Y', strtotime($item->uploaded_at)) }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                    </div>
                     <div>
                         <div class="row gap-2">
                             <div class="col-md-5 col-12 mb-0">
@@ -87,7 +192,8 @@
                                         <div class="headline text-center">
                                             <h6>Editors</h6>
                                         </div>
-                                        <div class="row px-3 countUser align-items-center justify-content-center text-center">
+                                        <div
+                                            class="row px-3 countUser align-items-center justify-content-center text-center">
                                             <div class="col-md-4 col">
                                                 <img class="img-fluid" src="/assets/editor-bg.png" alt=""
                                                     style="object-fit: contain">
@@ -199,7 +305,8 @@
                                                                 </div>
                                                                 <div class="col-md">
                                                                     <div class="form-floating">
-                                                                        <select class="form-select" id="floatingSelectGrid"
+                                                                        <select class="form-select"
+                                                                            id="floatingSelectGrid"
                                                                             aria-label="Floating label select example"
                                                                             name="active-year">
                                                                             @for ($year = 2016; $year <= Carbon\Carbon::now()->year; $year++)
@@ -436,15 +543,14 @@
 
     <script>
         // List Editor Active
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#listeditoractiveduration').DataTable({
                 scrollX: true,
                 responsive: true,
                 processing: true,
                 serverSide: true,
                 ajax: '{{ route('managing-data-editor-active-duration') }}' + window.location.search,
-                columns: [
-                    {
+                columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
                         class: 'text-center'

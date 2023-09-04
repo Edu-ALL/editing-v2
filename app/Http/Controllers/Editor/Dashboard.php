@@ -7,11 +7,13 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\EssayClients;
 use App\Models\EssayEditors;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class Dashboard extends Controller
 {
     public function index()
     {
+        $today = Carbon::now();
         $editor = Auth::guard('web-editor')->user();
 
         $ongoing_essay = EssayClients::where('id_editors', $editor->id_editors)->where('status_essay_clients', '!=', 7)->where('status_essay_clients', '!=', 0)->where('status_essay_clients', '!=', 5);
@@ -21,12 +23,15 @@ class Dashboard extends Controller
         $duethree = $this->essayDeadline('1', '3');
         $duefive = $this->essayDeadline('3', '5');
 
+        $essayAssigned = EssayEditors::where('editors_mail', $editor->email)->where('status_essay_editors', '=', 1)->where('uploaded_at', '<', $today)->get();
+
         return view('user.per-editor.dashboard', [
             'ongoing_essay' => $ongoing_essay->count(),
             'completed_essay' => $completed_essay->count(),
             'duetomorrow' => $duetomorrow,
             'duethree' => $duethree,
             'duefive' => $duefive,
+            'assigned' => $essayAssigned,
         ]);
     }
 

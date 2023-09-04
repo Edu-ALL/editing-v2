@@ -79,7 +79,7 @@
                     <h5 class="modal-title text-light" id="syncLabel">Sync Bigdata Platform</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body overflow-auto" style="max-height: 400px;">
                     <table class="table table-bordered" width="100%" id="markup-clients">
                         <thead>
                             <tr class="text-center">
@@ -205,30 +205,31 @@
                 }
 
 
-        var markup = "";
-        var no = 1;
-        for (i in msg) {
+                var markup = "";
+                var no = 1;
+                for (i in msg) {
 
-          var first_name = msg[i].first_name;
-          var last_name = msg[i].last_name;
-          if (last_name == null)
-            last_name = '';
+                    var first_name = msg[i].first_name;
+                    var last_name = msg[i].last_name;
+                    if (last_name == null)
+                        last_name = '';
 
-          var email = msg[i].email;
-          if (email == null)
-            email = '';
+                    var email = msg[i].email;
+                    if (email == null)
+                        email = '';
 
-          markup += "<tr>" + 
-              "<td>" + no++ + "</td>" +
-              "<td>" + first_name + " " + last_name + "</td>" +
-              "<td>" + email + "</td>" +
-              "<td>" + msg[i].mentor_name + "</td>" +
-              "<td><input type='checkbox' class='selectedClient' name='selectedClient[]' value='"+ msg[i].id_clients +"' /></td>"
-            "</tr>";
-        }
-        
-        $("#markup-clients tbody").html(''); //set tbody always empty at first
-        $("#markup-clients tbody").append(markup);
+                    markup += "<tr>" +
+                        "<td>" + no++ + "</td>" +
+                        "<td>" + first_name + " " + last_name + "</td>" +
+                        "<td>" + email + "</td>" +
+                        "<td>" + msg[i].mentor_name + "</td>" +
+                        "<td><input type='checkbox' class='selectedClient' name='selectedClient[]' value='" +
+                        msg[i].id_clients + "' /></td>"
+                    "</tr>";
+                }
+
+                $("#markup-clients tbody").html(''); //set tbody always empty at first
+                $("#markup-clients tbody").append(markup);
 
                 swal.close();
                 $("#syncModal").modal('show');
@@ -236,55 +237,52 @@
         });
     </script>
 
-<script>
-  $(document).on('click', '#do-sync button', function(e) {
-    e.preventDefault();
+    <script>
+        $(document).on('click', '#do-sync button', function(e) {
+            e.preventDefault();
 
-    const selectedId = [];
+            const selectedId = [];
 
-    $(".selectedClient:checkbox:checked").each(function(i) {
-      selectedId[i] = $(this).val();
-    })
+            $(".selectedClient:checkbox:checked").each(function(i) {
+                selectedId[i] = $(this).val();
+            })
 
-    Swal.fire({
-      title: 'Sync Clients From Bigdata',
-      icon: 'info',
-      html:
-        'Are you sure?',
-      showCloseButton: true,
-      showCancelButton: true,
-      focusConfirm: false,
-      confirmButtonText:
-        '<i class="fa fa-check"></i> Yes',
-      cancelButtonText:
-        'Not sure',
-    }).then((result) => {
+            Swal.fire({
+                title: 'Sync Clients From Bigdata',
+                icon: 'info',
+                html: 'Are you sure?',
+                showCloseButton: true,
+                showCancelButton: true,
+                focusConfirm: false,
+                confirmButtonText: '<i class="fa fa-check"></i> Yes',
+                cancelButtonText: 'Not sure',
+            }).then((result) => {
 
-      if (result.isConfirmed) {
-        
-        var url = $("#do-sync").attr('action');
-        
-        Swal.showLoading();
-        $.ajax({
-          url: url,
-          type: 'POST',
-          data: {
-            _token: "{{ csrf_token() }}",
-            "selectedClient" : selectedId
-          }
-        }).done(function(msg) {
-          console.log(msg)
-          if (msg == true)
-            Swal.fire('Sync completed', '', 'success')
-          else
-            Swal.fire('Error while processing', '', 'error')
+                if (result.isConfirmed) {
 
-          location.reload();
-        });
-        
-      }
-    })
-    
-  })
-</script>
+                    var url = $("#do-sync").attr('action');
+
+                    Swal.showLoading();
+                    $.ajax({
+                        url: url,
+                        type: 'POST',
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            "selectedClient": selectedId
+                        }
+                    }).done(function(msg) {
+                        console.log(msg)
+                        if (msg == true)
+                            Swal.fire('Sync completed', '', 'success')
+                        else
+                            Swal.fire('Error while processing', '', 'error')
+
+                        location.reload();
+                    });
+
+                }
+            })
+
+        })
+    </script>
 @stop

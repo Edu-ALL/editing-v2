@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\Program;
 use App\Http\Controllers\Admin\UserStudent;
 use App\Http\Controllers\Admin\Universities;
 use App\Http\Controllers\Admin\Authentication as AdminAuth;
+use App\Http\Controllers\Admin\Reminder;
 use App\Http\Controllers\Editor\Dashboard;
 use App\Http\Controllers\Editor\Essays as EditorEssays;
 use App\Http\Controllers\Editor\Profile;
@@ -314,6 +315,8 @@ Route::middleware('is_editor')->group(function () {
     });
 });
 
-Route::get('/event', function () {
-    event(new MentorNotif('test@gmail.com', 'Essay has been completed'));
-});
+// Route::get('/event', function () {
+//     event(new MentorNotif('test@gmail.com', 'Essay has been completed'));
+// });
+
+// Route::get('check',[Reminder::class,'sendReminderEmailManagingEditor']);

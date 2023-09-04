@@ -153,7 +153,7 @@
 
 {{-- Modal Info --}}
 <div class="modal fade" id="info" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog d-flex align-items-center justify-content-center">
+  <div class="modal-dialog d-flex align-items-center justify-content-center modal-dialog-centered">
     <div class="modal-content border-0 w-75">
       <div class="modal-header">
         <div class="col d-flex gap-1 align-items-center">

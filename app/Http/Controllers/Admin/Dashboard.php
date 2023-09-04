@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\Reminder;
 use App\Models\Client;
 use App\Models\Editor;
 use App\Models\Mentor;
@@ -21,6 +22,7 @@ class Dashboard extends Controller
         $query = $request->query();
         $month = $query['active-month'] ??  Carbon::now()->month;
         $year = $query['active-year'] ?? Carbon::now()->year;
+        $today = Carbon::now();
 
         $editorsActive = DB::table('tbl_editors')
             ->join('tbl_essay_editors', 'tbl_editors.email', '=', 'tbl_essay_editors.editors_mail')
@@ -35,6 +37,18 @@ class Dashboard extends Controller
         $essayPerMonth = EssayEditors::whereMonth('uploaded_at', $month)->whereYear('uploaded_at', $year)->count();
         $essayPerMonthCompleted = EssayEditors::where('status_essay_editors', '=', 7)->whereMonth('uploaded_at', $month)->whereYear('uploaded_at', $year)->count();
 
+        $essayAssigned = EssayEditors::where('status_essay_editors', '=', 1)->where('uploaded_at', '<', $today)->get();
+
+        $essaySubmited = EssayEditors::where(function ($query) {
+            $query->where('status_essay_editors', '=', 3)
+                ->orWhere('status_essay_editors', '=', 8);
+        })->where('uploaded_at', '<', $today)->get();
+
+        // Testing Reminder
+        // $reminder = new Reminder();
+        // $reminder->sendReminderEmailEditor();
+        // $reminder->sendReminderEmailManagingEditor();
+
         return view('user.admin.dashboard', [
             'count_student' => Client::count(),
             'count_mentor' => Mentor::count(),
@@ -44,7 +58,9 @@ class Dashboard extends Controller
             'editors_active' => $editorsActive,
             'essay_per_month' => $essayPerMonth,
             'essay_per_month_completed' => $essayPerMonthCompleted,
-            'date' => ['month' => $month, 'year' => $year]
+            'date' => ['month' => $month, 'year' => $year],
+            'assigned' => $essayAssigned,
+            'submited' => $essaySubmited,
         ]);
     }
 }

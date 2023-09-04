@@ -332,7 +332,7 @@
                                             <div class="img-center"
                                                 style="font-size:0pt; line-height:0pt; text-align:center"><a
                                                     href="#" target="_blank"><img
-                                                        src="https://all-inedu.com/wp-content/uploads/2016/04/logo_normal_small.png"
+                                                        src="https://all-inedu.com/assets/img/navbar/ALLIN-LOGO-LONG-NEW.png"
                                                         border="0" width="277" height="57"
                                                         alt="" /></a>
                                             </div>

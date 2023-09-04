@@ -52,6 +52,7 @@ class DashboardManaging extends Controller
 
     public function index(Request $request)
     {
+        $today = Carbon::now();
         $editor = Auth::guard('web-editor')->user();
 
         $ongoing_essay = EssayClients::where('status_essay_clients', '!=', 7);
@@ -74,6 +75,14 @@ class DashboardManaging extends Controller
         $essayPerMonth = EssayEditors::whereMonth('uploaded_at', $month)->whereYear('uploaded_at', $year)->count();
         $essayPerMonthCompleted = EssayEditors::where('status_essay_editors', '=', 7)->whereMonth('uploaded_at', $month)->whereYear('uploaded_at', $year)->count();
     
+        $essayAssigned = EssayEditors::where('status_essay_editors', '=', 1)->where('uploaded_at', '<', $today)->get();
+
+
+        $essaySubmited = EssayEditors::where(function ($query) {
+            $query->where('status_essay_editors', '=', 3)
+                ->orWhere('status_essay_editors', '=', 8);
+        })->where('uploaded_at', '<', $today)->get();
+       
         return view('user.editor.dashboard', [
             'ongoing_essay' => $ongoing_essay->count(),
             'completed_essay' => $completed_essay->count(),
@@ -92,7 +101,9 @@ class DashboardManaging extends Controller
             'count_completed_essay' => EssayEditors::where('status_essay_editors', '=', 7)->count(),
             'essay_per_month' => $essayPerMonth,
             'essay_per_month_completed' => $essayPerMonthCompleted,
-            'date' => ['month' => $month, 'year' => $year]
+            'date' => ['month' => $month, 'year' => $year],
+            'assigned' => $essayAssigned,
+            'submited' => $essaySubmited,
         ]);
     }
 

@@ -14,12 +14,137 @@
             <div class="col">
                 @include('user.admin.utama.head')
                 <div class="container main-content m-0">
+                    {{-- @foreach ($mail as $item)
+                        <h6>{{ $item[0] }}</h6>
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                                <tr class="text-center">
+                                    <th>No</th>
+                                    <th>Editor Name</th>
+                                    <th>Mentor Name</th>
+                                    <th>Essay Title</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($item[1] as $essay)
+                                    <tr class="text-center">
+                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>
+                                            {{ $essay->editor->first_name.' '.$essay->editor->last_name }}
+                                        </td>
+                                        <td>
+                                            {{ $essay->essay_clients->mentor->first_name . ' ' . $essay->essay_clients->mentor->last_name }}
+                                        </td>
+                                        <td>{{ $essay->essay_clients->essay_title }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @endforeach --}}
                     @if (session()->has('login-successful'))
                         <div class="row alert alert-success fade show" role="alert">
                             {{ session()->get('login-successful') }}
                         </div>
                     @endif
-                    <div class="row gap-4">
+                    <div class="row mb-1">
+                        <div class="col-md-6 p-0 pe-2 m-0">
+                            <div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert"
+                                style="font-size: 14px;">
+                                <label>
+                                    There {{ $assigned->count() == 1 ? 'is' : 'are' }}
+                                    <strong>{{ $assigned->count() }}</strong> Essay Editor who have not accepted/rejected
+                                    essays.
+                                </label>
+                                <div class="dropstart">
+                                    <button class="btn btn-danger btn-sm dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa fa-info-circle"></i>
+                                    </button>
+                                    <div class="dropdown-menu overflow-auto p-3 pb-0"
+                                        style="width: 550px; max-height:400px; font-size:13px;">
+                                        <table class="table table-hover table-bordered">
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th>No</th>
+                                                    <th>Editor Name</th>
+                                                    <th>Mentor Name</th>
+                                                    <th>Essay Title</th>
+                                                    <th>Essay Deadline</th>
+                                                    <th>Assigned Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($assigned as $item)
+                                                    <tr class="text-center" onclick="window.open('{{url('admin/essay-list/ongoing/detail/').'/'.$item->id_essay_clients}}');">
+                                                        <td>{{ $loop->index + 1 }}</td>
+                                                        <td>
+                                                            {{ $item->editor->first_name . ' ' . $item->editor->last_name }}
+                                                        </td>
+                                                        <td>
+                                                            {{ $item->essay_clients->mentor->first_name . ' ' . $item->essay_clients->mentor->last_name }}
+                                                        </td>
+                                                        <td>{{ $item->essay_clients->essay_title }}</td>
+                                                        <td>{{ date('D, d F Y', strtotime($item->essay_clients->essay_deadline)) }}</td>
+                                                        <td>{{ date('D, d F Y', strtotime($item->uploaded_at)) }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 p-0 ps-2 m-0">
+                            <div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert"
+                                style="font-size: 14px;">
+                                <label>
+                                    There {{ $submited->count() == 1 ? 'is' : 'are' }}
+                                    <strong>{{ $submited->count() }}</strong> Managing Editor who have not revised/verified
+                                    essays.
+                                </label>
+                                <div class="dropstart">
+                                    <button class="btn btn-danger btn-sm dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa fa-info-circle"></i>
+                                    </button>
+                                    <div class="dropdown-menu overflow-auto p-3 pb-0"
+                                        style="width: 550px; max-height:400px; font-size:13px;">
+                                        <table class="table table-hover table-bordered">
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th>No</th>
+                                                    <th>Editor Name</th>
+                                                    <th>Mentor Name</th>
+                                                    <th>Essay Title</th>
+                                                    <th>Essay Deadline</th>
+                                                    <th>Uploaded Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($submited as $item)
+                                                    <tr class="text-center" onclick="window.open('{{url('admin/essay-list/ongoing/detail/').'/'.$item->id_essay_clients}}');">
+                                                        <td>{{ $loop->index + 1 }}</td>
+                                                        <td>
+                                                            {{ $item->editor->first_name . ' ' . $item->editor->last_name }}
+                                                        </td>
+                                                        <td>
+                                                            {{ $item->essay_clients->mentor->first_name . ' ' . $item->essay_clients->mentor->last_name }}
+                                                        </td>
+                                                        <td>{{ $item->essay_clients->essay_title }}</td>
+                                                        <td>{{ date('D, d F Y', strtotime($item->essay_clients->essay_deadline)) }}</td>
+                                                        <td>{{ date('D, d F Y', strtotime($item->uploaded_at)) }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row gap-3">
                         <div class="col-md col-12 mb-0">
                             {{-- User List --}}
                             <div class="row gap-2">
@@ -132,8 +257,8 @@
                                             </div>
                                             <div class="col-md-6 col d-flex align-items-center justify-content-end">
                                                 <div class="input-group">
-                                                    <form id="form-dashboard-filter" action="{{ route('admin-dashboard') }}"
-                                                        method="GET">
+                                                    <form id="form-dashboard-filter"
+                                                        action="{{ route('admin-dashboard') }}" method="GET">
                                                         <div class="row g-2">
                                                             <div class="col-md">
                                                                 <div class="form-floating">
