@@ -6,7 +6,7 @@
         <table class="table table-hover table-striped mb-0" style="font-size: 11px;">
             @foreach ($tracking as $item)
                 {{-- Canceled, Rejected, and Revise not display  --}}
-                @if ($item->status != 4 && $item->status != 5 && $item->status != 6 )
+                @if ($item->status != 4 && $item->status != 5 && $item->status != 6)
                     <tr class="my-1">
                         <td class="text-start" style="padding: 5px !important;">
                             {{ $item->status == 2 ? 'Accepted' : $item->check_status->status_title }}
@@ -59,10 +59,15 @@
                                         ->startOfDay()
                                         ->diffInDays(Carbon::parse($editor_deadline)->startOfDay());
                                 @endphp
-
-                                {{ $items->created_at > $editor_deadline ? '+ ' : '- ' }}
-                                {{ $diffEditorDeadline . ' Days' }} <br>
-                                <small style="font-size: 10px">From Editor's Deadline</small>
+                                <p class="m-0 p-0 mb-2" style="font-size: 11px">The Editor has submitted this essay</p>
+                                {{ $diffEditorDeadline . ' Days' }}
+                                <p class="m-0 p-0 mt-2" style="font-size: 11px">
+                                    <strong
+                                        class="{{ $items->created_at > $essay->essay_deadline ? 'text-danger' : 'text-success' }}">
+                                        {{ $items->created_at > $editor_deadline ? 'after ' : 'before ' }}
+                                    </strong>
+                                    Editor's deadline
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -77,9 +82,15 @@
                                         ->diffInDays(Carbon::parse($essay->essay_deadline)->startOfDay());
                                 @endphp
 
-                                {{ $items->created_at > $essay->essay_deadline ? '+ ' : '- ' }}
-                                {{ $diffManagingDeadline . ' Days' }} <br>
-                                <small style="font-size: 10px">From Managing's Deadline</small>
+                                <p class="m-0 p-0 mb-2" style="font-size: 11px;">The Managing Editor has completed this essay</p>
+                                {{ $diffManagingDeadline . ' Days' }}
+                                <p class="m-0 p-0 mt-2" style="font-size: 11px">
+                                    <strong
+                                        class="{{ $items->created_at > $essay->essay_deadline ? 'text-danger' : 'text-success' }}">
+                                        {{ $items->created_at > $essay->essay_deadline ? 'after ' : 'before ' }}
+                                    </strong>
+                                    essay deadline
+                                </p>
                             </div>
                         </div>
                     </div>
