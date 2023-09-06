@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 // use App\Models\Editor;
 use App\Models\EssayClients;
+use App\Models\EssayStatus;
 use App\Models\Mentor;
 use App\Models\Programs;
 use App\Models\University;
@@ -103,13 +104,20 @@ class NewRequestMenu extends Controller
             $new_request->mentors_mail          = $mentor->email;
             $new_request->essay_deadline        = $request->essay_deadline;
             $new_request->application_deadline  = $request->application_deadline;
-
             $new_request->attached_of_clients   = $cstFileName;
             $new_request->status_essay_clients  = 0;
             $new_request->status_read           = 0;
             $new_request->status_read_editor    = 0;
             $new_request->uploaded_at    = date('Y-m-d H:i:s');
             $new_request->save();
+            
+            // Insert Essay Status 
+            $essay_status = new EssayStatus;
+            $essay_status->id_essay_clients = $new_request->id_essay_clients;
+            $essay_status->status = 0;
+            $essay_status->save();
+
+
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();

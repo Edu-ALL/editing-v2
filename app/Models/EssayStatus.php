@@ -28,4 +28,8 @@ class EssayStatus extends Model
     {
         return $this->belongsTo(Status::class, 'status', 'id');
     }
+    public function check_status()
+    {
+        return $this->belongsTo(Status::class, 'status', 'id');
+    }
 }

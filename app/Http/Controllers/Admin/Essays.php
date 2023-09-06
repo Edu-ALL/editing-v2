@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Exception;
+use Illuminate\Support\Carbon;
 use Yajra\DataTables\Facades\DataTables;
 
 class Essays extends Controller
@@ -66,7 +67,14 @@ class Essays extends Controller
 
     public function detailEssayOngoing($id_essay, Request $request)
     {
+        $tracking = EssayStatus::where('id_essay_clients', $id_essay)
+            ->groupBy('status')
+            ->orderBy('status', 'ASC')
+            ->orderBy('created_at', 'DESC')
+            ->get();
+
         $essay = EssayClients::find($id_essay);
+
         if ($essay) {
             $editors = Editor::paginate(10);
             $essay = EssayClients::find($id_essay);
@@ -80,15 +88,18 @@ class Essays extends Controller
 
             if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4 || $essay->status_essay_clients == 5) {
                 return view('user.admin.essay-list.essay-ongoing-detail', [
-                    'ongoing' => $essay,
+                    'tracking' => $tracking,
+                    'essay' => $essay,
                     'editors' => $editors
                 ]);
             } else if ($essay->status_essay_clients == 1 || $essay->status_essay_clients == 2) {
                 return view('user.admin.essay-list.essay-ongoing-assign', [
+                    'tracking' => $tracking,
                     'essay' => $essay
                 ]);
             } else if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 6 || $essay->status_essay_clients == 8) {
                 return view('user.admin.essay-list.essay-ongoing-submitted', [
+                    'tracking' => $tracking,
                     'essay' => $essay,
                     'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
                 ]);
@@ -258,6 +269,12 @@ class Essays extends Controller
 
     public function detailEssayCompleted($id)
     {
+        $tracking = EssayStatus::where('id_essay_clients', $id)
+            ->groupBy('status')
+            ->orderBy('status', 'ASC')
+            ->orderBy('created_at', 'DESC')
+            ->get();
+
         $essay = EssayEditors::where('id_essay_clients', $id)->first();
         if ($essay) {
             $essay = EssayEditors::where('id_essay_clients', $id)->first();
@@ -269,7 +286,9 @@ class Essays extends Controller
             }
 
             return view('user.admin.essay-list.essay-completed-detail', [
-                'essay' => $essay,
+                'tracking' => $tracking,
+                'essay' => $essay_client,
+                'essay_editor' => $essay,
                 'tags' => EssayTags::where('id_essay_clients', $id)->get(),
                 'feedback' => EssayFeedbacks::where('id_essay_clients', $id)->first(),
                 'status_essay' => $status_essay

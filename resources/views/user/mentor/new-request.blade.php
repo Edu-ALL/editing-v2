@@ -170,10 +170,15 @@
                                             <div class="text-area mb-3">
                                                 <h6 class="pb-2">Essay Deadline<sup class="text-danger">*</sup> :</h6>
                                                 <div class="col">
+                                                    @php
+                                                        $max_time = strtotime('18:00');
+                                                        $time_now = strtotime(date('H:i'));
+                                                        $day = $time_now > $max_time ? '+6days' : '+5days';
+                                                    @endphp
                                                     <input type="date" id="minEssay" name="essay_deadline"
                                                         class="form-control inputField py-2 px-2" placeholder="Search"
                                                         onchange="addMinApp()"
-                                                        min="<?= date('Y-m-d', strtotime('+1days')) ?>"
+                                                        min="<?= date('Y-m-d', strtotime($day)) ?>"
                                                         style="width: 96.5%;">
                                                     @error('essay_deadline')
                                                         <small class="alert text-danger fs-10">{{ $message }}</small>
@@ -187,7 +192,7 @@
                                                 </h6>
                                                 <div class="col">
                                                     <input type="date" id="minApp" name="application_deadline"
-                                                        class="form-control inputField py-2 px-2" placeholder="Search"
+                                                        class="form-control inputField py-2 px-2"  min="<?= date('Y-m-d', strtotime('+6days')) ?>"placeholder="Search"
                                                         style="width: 96.5%;">
                                                     @error('application_deadline')
                                                         <small class="alert text-danger fs-10">{{ $message }}</small>
