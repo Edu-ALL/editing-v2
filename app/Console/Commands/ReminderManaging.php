@@ -40,7 +40,7 @@ class ReminderManaging extends Command
     public function handle()
     {
         (new Reminder)->sendReminderEmailManagingEditor();
-        Log::info('blog publis is running');
+        Log::info('reminder managing is running');
         return Command::SUCCESS;
     }
 }
