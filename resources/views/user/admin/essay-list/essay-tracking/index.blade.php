@@ -48,49 +48,69 @@
             </div>
         </div>
 
-        <div class="row justify-content-center mt-3">
+        <div class="row justify-content-center align-items-stretch mt-3">
             @foreach ($tracking as $items)
                 @if ($items->status == 3)
-                    <div class="col-md-6 p-0 m-0">
-                        <div class="card shadow">
-                            <div class="card-body text-center">
+                    <div class="col-md-6 p-0 m-0 pe-md-2">
+                        <div class="card shadow h-100">
+                            <div class="card-body text-center d-flex align-items-center">
                                 @php
                                     $diffEditorDeadline = Carbon::parse($items->created_at)
                                         ->startOfDay()
                                         ->diffInDays(Carbon::parse($editor_deadline)->startOfDay());
                                 @endphp
-                                <p class="m-0 p-0 mb-2" style="font-size: 11px">The Editor has submitted this essay</p>
-                                {{ $diffEditorDeadline . ' Days' }}
-                                <p class="m-0 p-0 mt-2" style="font-size: 11px">
-                                    <strong
-                                        class="{{ $items->created_at > $essay->essay_deadline ? 'text-danger' : 'text-success' }}">
-                                        {{ $items->created_at > $editor_deadline ? 'after ' : 'before ' }}
-                                    </strong>
-                                    Editor's deadline
-                                </p>
+                                <div class="">
+                                    <p class="m-0 p-0 mb-2" style="font-size: 11px">
+                                        The Editor has submitted this essay
+                                        @if ($diffEditorDeadline != 0)
+                                            <h5>
+                                                {{ $diffEditorDeadline . ' Days' }}
+                                            </h5>
+                                            <p class="m-0 p-0 mt-2" style="font-size: 11px">
+                                                <strong
+                                                    class="{{ $items->created_at > $editor_deadline ? 'text-danger' : 'text-success' }}">
+                                                    {{ $items->created_at > $editor_deadline ? 'after ' : 'before ' }}
+                                                </strong>
+                                                Editor's deadline
+                                            </p>
+                                        @else
+                                            according to the essay deadline
+                                        @endif
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 @endif
                 @if ($items->status == 7)
-                    <div class="col-md-6 p-0 m-0">
-                        <div class="card shadow">
-                            <div class="card-body text-center">
+                    <div class="col-md-6 p-0 m-0 ps-md-2">
+                        <div class="card shadow h-100">
+                            <div class="card-body text-center d-flex align-items-center">
                                 @php
                                     $diffManagingDeadline = Carbon::parse($items->created_at)
                                         ->startOfDay()
                                         ->diffInDays(Carbon::parse($essay->essay_deadline)->startOfDay());
                                 @endphp
-
-                                <p class="m-0 p-0 mb-2" style="font-size: 11px;">The Managing Editor has completed this essay</p>
-                                {{ $diffManagingDeadline . ' Days' }}
-                                <p class="m-0 p-0 mt-2" style="font-size: 11px">
-                                    <strong
-                                        class="{{ $items->created_at > $essay->essay_deadline ? 'text-danger' : 'text-success' }}">
-                                        {{ $items->created_at > $essay->essay_deadline ? 'after ' : 'before ' }}
-                                    </strong>
-                                    essay deadline
-                                </p>
+                                <div class="">
+                                    <p class="m-0 p-0 mb-2" style="font-size: 11px;">The Managing Editor has completed
+                                        this
+                                        essay
+                                        @if ($diffManagingDeadline != 0)
+                                            <h5>
+                                                {{ $diffManagingDeadline . ' Days' }}
+                                            </h5>
+                                            <p class="m-0 p-0 mt-2" style="font-size: 11px">
+                                                <strong
+                                                    class="{{ $items->created_at > $essay->essay_deadline ? 'text-danger' : 'text-success' }}">
+                                                    {{ $items->created_at > $essay->essay_deadline ? 'after ' : 'before ' }}
+                                                </strong>
+                                                essay deadline
+                                            </p>
+                                        @else
+                                            according to the essay deadline
+                                        @endif
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
