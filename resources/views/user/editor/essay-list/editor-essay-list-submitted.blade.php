@@ -1,232 +1,271 @@
 @extends('user.editor.utama.utama')
 @section('css')
-  <link rel="stylesheet" href="/css/per-editor/dashboard.css">
+    <link rel="stylesheet" href="/css/per-editor/dashboard.css">
 @endsection
 @section('content')
-<div class="container-fluid p-0">
-  <div class="row flex-nowrap main" id="main">
+    <div class="container-fluid p-0">
+        <div class="row flex-nowrap main" id="main">
 
-    {{-- Sidenav --}}
-    @include('user.editor.utama.menu')
+            {{-- Sidenav --}}
+            @include('user.editor.utama.menu')
 
-    {{-- Content --}}
-    <div class="col" style="overflow: auto !important">
-      @include('user.editor.utama.head')
-      <div class="container main-content m-0">
-        <div class="row gap-2">
-          <div class="col-md col-12 p-0 userCard profile" style="cursor: default">
-            <div class="headline d-flex align-items-center gap-3">
-              <img src="/assets/status.png" alt="">
-              <h6>Status</h6>
-            </div>
-            <div class="col d-flex flex-column align-items-center px-3 py-md-5 py-4 gap-3 text-center justify-content-center" style="color: var(--black)">
-              <img class="img-status" src="/assets/status-ongoing.png" alt="">
-              <h6>{{ $essay->status->status_title }}</h6>
-              {{-- <h6>Accepted and Ongoing</h6> --}}
-            </div>
-            <div class="headline d-flex align-items-center gap-3">
-              <img src="/assets/file.png" alt="">
-              <h6>Download Student Essay</h6>
-            </div>
-            <div class="col d-flex align-items-center justify-content-center py-md-4 py-4">
-              <img class="img-word" src="/assets/logo-word.png" alt="">
-            </div>
-            <div class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
-              <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/students/'.$essay->attached_of_clients) }}>
-                <img src="/assets/download.png" alt="">
-                <h6>Download</h6>
-              </a>
-            </div>
-          </div>
-          
-          <div class="col-md-8 col-12 p-0 userCard profile" style="cursor: default">
-            <div class="headline d-flex justify-content-between">
-              <div class="col-md-6 col-8 d-flex align-items-center gap-3">
-                <img src="/assets/student.png" alt="">
-                <h6>Student Detail</h6>
-              </div>
-              <div class="col-md-4 col-4 d-flex align-items-center justify-content-end gap-md-3 gap-2">
-                <a href="/editor/essay-list"><img src="/assets/back.png" alt=""></a>
-              </div>
-            </div>
-            <div class="row profile-editor px-md-4 py-md-4 px-3 py-4 mb-2" style="overflow: auto !important">
-              <div class="col-md student-desc d-flex flex-column justify-content-center gap-lg-3 gap-2 ps-lg-3 px-2 border-0">
-                <div class="row d-flex align-items-center">
-                  <div class="col-md-3 col-4">
-                    <h6>Full Name</h6>
-                  </div>
-                  <div class="col-1 titik2"><p>:</p></div>
-                  <div class="col-7">
-                    <p>{{ $essay->client_by_id->first_name.' '.$essay->client_by_id->last_name }}</p>
-                  </div>
-                </div>
-                <div class="row d-flex align-items-center">
-                  <div class="col-md-3 col-4">
-                    <h6>Email</h6>
-                  </div>
-                  <div class="col-1 titik2"><p>:</p></div>
-                  <div class="col-7">
-                    <p>{{ $essay->client_by_id->email ? $essay->client_by_id->email : '-' }}</p>
-                  </div>
-                </div>
-                <div class="row d-flex">
-                  <div class="col-md-3 col-4">
-                    <h6>Address</h6>
-                  </div>
-                  <div class="col-1 titik2"><p>:</p></div>
-                  <div class="col-7">
-                    <p>{!! $essay->client_by_id->address ? $essay->client_by_id->address : '-' !!}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="headline d-flex justify-content-between">
-              <div class="col d-flex align-items-center gap-3">
-                <img src="/assets/detail.png" alt="">
-                <h6>Essay Detail</h6>
-              </div>
-            </div>
-            <div class="row profile-editor px-md-4 py-md-4 px-3 py-4 mb-3" style="overflow: auto !important">
-              <div class="col-md student-desc d-flex flex-column justify-content-center gap-lg-3 gap-2 ps-lg-3 px-2 border-0">
-                <div class="row d-flex align-items-center">
-                  <div class="col-md-3 col-4">
-                    <h6>University Name</h6>
-                  </div>
-                  <div class="col-1 titik2"><p>:</p></div>
-                  <div class="col-7">
-                    <p>{{ $essay->university->university_name }}</p>
-                  </div>
-                </div>
-                <div class="row d-flex align-items-center">
-                  <div class="col-md-3 col-4">
-                    <h6>Essay Type</h6>
-                  </div>
-                  <div class="col-1 titik2"><p>:</p></div>
-                  <div class="col-7">
-                    <p>{{ $essay->essay_title }}</p>
-                  </div>
-                </div>
-                <div class="row d-flex align-items-center">
-                  <div class="col-md-3 col-4">
-                    <h6>Concern</h6>
-                  </div>
-                  <div class="col-1 titik2"><p>:</p></div>
-                  <div class="col-7">
-                    <p>{!! $essay->essay_prompt !!}</p>
-                  </div>
-                </div>
-                <div class="row d-flex align-items-center">
-                  <div class="col-md-3 col-4">
-                    <h6>Notes</h6>
-                  </div>
-                  <div class="col-1 titik2"><p>:</p></div>
-                  <div class="col-7">
-                    <p>{!! $essay->essay_notes !!}</p>
-                  </div>
-                </div>
-                <div class="row d-flex">
-                  <div class="col-md-3 col-4">
-                    <h6>Date</h6>
-                  </div>
-                  <div class="col-1 titik2"><p>:</p></div>
-                  <div class="col-7 ps-3">
-                    <ul class="d-flex flex-column gap-2">
-                      <li><p><b>Essay Deadline</b> : {{ date('D, d M Y', strtotime($essay->essay_deadline)) }}</p></li>
-                      <li><p><b>Application Deadline</b> : {{ date('D, d M Y', strtotime($essay->application_deadline)) }}</p></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="headline d-flex justify-content-between">
-              <div class="col d-flex align-items-center gap-3">
-                <img src="/assets/file.png" alt="">
-                <h6>Download Your File</h6>
-              </div>
-            </div>
-            <div class="row field px-md-3 py-md-4 px-3 py-4" style="overflow: auto !important">
-              <form action="" class="p-0">
-                <div class="col-12 d-flex flex-md-row flex-column gap-4 mb-3">
-                  <div class="col-md-4 col px-2">
-                    <div class="col mb-3">
-                      <h6 class="pb-2">Your Essay :</h6>
-                      <div class="col d-flex align-items-center justify-content-center py-md-4 py-4">
-                        <img class="img-word" src="/assets/logo-word.png" alt="">
-                      </div>
-                      <div class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
-                        @if ($essay->status_essay_clients == 8)
-                          <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/revised/'.$essay->essay_editors->attached_of_editors) }}>
-                            <img src="/assets/download.png" alt="">
-                            <h6>Download</h6>
-                          </a>
-                        @else
-                          <a class="btn btn-download d-flex align-items-center gap-2" href={{ asset('uploaded_files/program/essay/editors/'.$essay->essay_editors->attached_of_editors) }}>
-                            <img src="/assets/download.png" alt="">
-                            <h6>Download</h6>
-                          </a>
-                        @endif
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col">
-                    <div class="col pb-3" style="border-bottom: 1px solid var(--light-grey)">
-                      <h6 class="pb-3">Tags :</h6>
-                      <div class="col d-flex flex-wrap gap-1 list-tags pe-2">
-                        @foreach ($tags as $tag)
-                        <div class="tags py-2 px-3">
-                          <h6 style="font-size: 12px; font-weight: 500">#{{ $tag->tags->topic_name }}</h6>
+            {{-- Content --}}
+            <div class="col" style="overflow: auto !important">
+                @include('user.editor.utama.head')
+                <div class="container main-content m-0">
+                    <div class="row gap-2">
+                        <div class="col-md col-12 p-0 userCard profile" style="cursor: default">
+                            <div class="headline d-flex align-items-center gap-3">
+                                <img src="/assets/status.png" alt="">
+                                <h6>Status</h6>
+                            </div>
+                            <div class="col d-flex flex-column align-items-center px-3 py-md-5 py-4 gap-3 text-center justify-content-center"
+                                style="color: var(--black)">
+                                <img class="img-status" src="/assets/status-ongoing.png" alt="">
+                                <h6>{{ $essay->status->status_title }}</h6>
+                                {{-- <h6>Accepted and Ongoing</h6> --}}
+                            </div>
+                            @include('user.editor.essay-list.editors-deadline.index')
+                            <div class="headline d-flex align-items-center gap-3">
+                                <img src="/assets/file.png" alt="">
+                                <h6>Download Student Essay</h6>
+                            </div>
+                            <div class="col d-flex align-items-center justify-content-center py-md-4 py-4">
+                                <img class="img-word" src="/assets/logo-word.png" alt="">
+                            </div>
+                            <div class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
+                                <a class="btn btn-download d-flex align-items-center gap-2"
+                                    href={{ asset('uploaded_files/program/essay/students/' . $essay->attached_of_clients) }}>
+                                    <img src="/assets/download.png" alt="">
+                                    <h6>Download</h6>
+                                </a>
+                            </div>
                         </div>
-                        @endforeach
-                        {{-- <div class="tags py-2 px-3">
+
+                        <div class="col-md-8 col-12 p-0 userCard profile" style="cursor: default">
+                            <div class="headline d-flex justify-content-between">
+                                <div class="col-md-6 col-8 d-flex align-items-center gap-3">
+                                    <img src="/assets/student.png" alt="">
+                                    <h6>Student Detail</h6>
+                                </div>
+                                <div class="col-md-4 col-4 d-flex align-items-center justify-content-end gap-md-3 gap-2">
+                                    <a href="/editor/essay-list"><img src="/assets/back.png" alt=""></a>
+                                </div>
+                            </div>
+                            <div class="row profile-editor px-md-4 py-md-4 px-3 py-4 mb-2"
+                                style="overflow: auto !important">
+                                <div
+                                    class="col-md student-desc d-flex flex-column justify-content-center gap-lg-3 gap-2 ps-lg-3 px-2 border-0">
+                                    <div class="row d-flex align-items-center">
+                                        <div class="col-md-3 col-4">
+                                            <h6>Full Name</h6>
+                                        </div>
+                                        <div class="col-1 titik2">
+                                            <p>:</p>
+                                        </div>
+                                        <div class="col-7">
+                                            <p>{{ $essay->client_by_id->first_name . ' ' . $essay->client_by_id->last_name }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row d-flex align-items-center">
+                                        <div class="col-md-3 col-4">
+                                            <h6>Email</h6>
+                                        </div>
+                                        <div class="col-1 titik2">
+                                            <p>:</p>
+                                        </div>
+                                        <div class="col-7">
+                                            <p>{{ $essay->client_by_id->email ? $essay->client_by_id->email : '-' }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row d-flex">
+                                        <div class="col-md-3 col-4">
+                                            <h6>Address</h6>
+                                        </div>
+                                        <div class="col-1 titik2">
+                                            <p>:</p>
+                                        </div>
+                                        <div class="col-7">
+                                            <p>{!! $essay->client_by_id->address ? $essay->client_by_id->address : '-' !!}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="headline d-flex justify-content-between">
+                                <div class="col d-flex align-items-center gap-3">
+                                    <img src="/assets/detail.png" alt="">
+                                    <h6>Essay Detail</h6>
+                                </div>
+                            </div>
+                            <div class="row profile-editor px-md-4 py-md-4 px-3 py-4 mb-3"
+                                style="overflow: auto !important">
+                                <div
+                                    class="col-md student-desc d-flex flex-column justify-content-center gap-lg-3 gap-2 ps-lg-3 px-2 border-0">
+                                    <div class="row d-flex align-items-center">
+                                        <div class="col-md-3 col-4">
+                                            <h6>University Name</h6>
+                                        </div>
+                                        <div class="col-1 titik2">
+                                            <p>:</p>
+                                        </div>
+                                        <div class="col-7">
+                                            <p>{{ $essay->university->university_name }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row d-flex align-items-center">
+                                        <div class="col-md-3 col-4">
+                                            <h6>Essay Type</h6>
+                                        </div>
+                                        <div class="col-1 titik2">
+                                            <p>:</p>
+                                        </div>
+                                        <div class="col-7">
+                                            <p>{{ $essay->essay_title }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row d-flex align-items-center">
+                                        <div class="col-md-3 col-4">
+                                            <h6>Concern</h6>
+                                        </div>
+                                        <div class="col-1 titik2">
+                                            <p>:</p>
+                                        </div>
+                                        <div class="col-7">
+                                            <p>{!! $essay->essay_prompt !!}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row d-flex align-items-center">
+                                        <div class="col-md-3 col-4">
+                                            <h6>Notes</h6>
+                                        </div>
+                                        <div class="col-1 titik2">
+                                            <p>:</p>
+                                        </div>
+                                        <div class="col-7">
+                                            <p>{!! $essay->essay_notes !!}</p>
+                                        </div>
+                                    </div>
+                                    {{-- <div class="row d-flex">
+                                        <div class="col-md-3 col-4">
+                                            <h6>Date</h6>
+                                        </div>
+                                        <div class="col-1 titik2">
+                                            <p>:</p>
+                                        </div>
+                                        <div class="col-7 ps-3">
+                                            <ul class="d-flex flex-column gap-2">
+                                                <li>
+                                                    <p><b>Essay Deadline</b> :
+                                                        {{ date('D, d M Y', strtotime($essay->essay_deadline)) }}</p>
+                                                </li>
+                                                <li>
+                                                    <p><b>Application Deadline</b> :
+                                                        {{ date('D, d M Y', strtotime($essay->application_deadline)) }}</p>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div> --}}
+                                </div>
+                            </div>
+                            <div class="headline d-flex justify-content-between">
+                                <div class="col d-flex align-items-center gap-3">
+                                    <img src="/assets/file.png" alt="">
+                                    <h6>Download Your File</h6>
+                                </div>
+                            </div>
+                            <div class="row field px-md-3 py-md-4 px-3 py-4" style="overflow: auto !important">
+                                <form action="" class="p-0">
+                                    <div class="col-12 d-flex flex-md-row flex-column gap-4 mb-3">
+                                        <div class="col-md-4 col px-2">
+                                            <div class="col mb-3">
+                                                <h6 class="pb-2">Your Essay :</h6>
+                                                <div
+                                                    class="col d-flex align-items-center justify-content-center py-md-4 py-4">
+                                                    <img class="img-word" src="/assets/logo-word.png" alt="">
+                                                </div>
+                                                <div
+                                                    class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
+                                                    @if ($essay->status_essay_clients == 8)
+                                                        <a class="btn btn-download d-flex align-items-center gap-2"
+                                                            href={{ asset('uploaded_files/program/essay/revised/' . $essay->essay_editors->attached_of_editors) }}>
+                                                            <img src="/assets/download.png" alt="">
+                                                            <h6>Download</h6>
+                                                        </a>
+                                                    @else
+                                                        <a class="btn btn-download d-flex align-items-center gap-2"
+                                                            href={{ asset('uploaded_files/program/essay/editors/' . $essay->essay_editors->attached_of_editors) }}>
+                                                            <img src="/assets/download.png" alt="">
+                                                            <h6>Download</h6>
+                                                        </a>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="col pb-3" style="border-bottom: 1px solid var(--light-grey)">
+                                                <h6 class="pb-3">Tags :</h6>
+                                                <div class="col d-flex flex-wrap gap-1 list-tags pe-2">
+                                                    @foreach ($tags as $tag)
+                                                        <div class="tags py-2 px-3">
+                                                            <h6 style="font-size: 12px; font-weight: 500">
+                                                                #{{ $tag->tags->topic_name }}</h6>
+                                                        </div>
+                                                    @endforeach
+                                                    {{-- <div class="tags py-2 px-3">
                           <h6 style="font-size: 12px; font-weight: 500">#{{ $essay->essay_tags->tags->topic_name }}</h6>
                         </div> --}}
-                      </div>
+                                                </div>
+                                            </div>
+                                            <div class="col d-flex flex-row alert-complete py-3 px-4 mt-3"
+                                                id="alertComplete"
+                                                style="border-radius: 10px; background-color: var(--yellow)">
+                                                <div class="col d-flex align-items-center gap-2">
+                                                    <img src="/assets/danger.png" alt="">
+                                                    <h6>Your Essay has being Reviewed</h6>
+                                                </div>
+                                                <img src="/assets/exit.png" alt="" onclick="closeAlert()"
+                                                    style="cursor: pointer">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col d-flex flex-row alert-complete py-3 px-4 mt-3" id="alertComplete" style="border-radius: 10px; background-color: var(--yellow)">
-                      <div class="col d-flex align-items-center gap-2">
-                        <img src="/assets/danger.png" alt="">
-                        <h6>Your Essay has being Reviewed</h6>
-                      </div>
-                      <img src="/assets/exit.png" alt="" onclick="closeAlert()" style="cursor: pointer">
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        
-      </div>
-    </div>
-    {{-- End Content --}}
-  </div>
-</div>
 
-{{-- Modal Info --}}
-<div class="modal fade" id="info" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog d-flex align-items-center justify-content-center">
-    <div class="modal-content border-0 w-100">
-      <div class="modal-header" style="background-color: var(--blue)">
-        <div class="col d-flex gap-1 align-items-center">
-          <img src="/assets/thumbsup.png" alt="">
-          <h6 class="modal-title ms-3">Congratulations</h6>
+                </div>
+            </div>
+            {{-- End Content --}}
         </div>
-        <div type="button" data-bs-dismiss="modal" aria-label="Close">
-          <img src="/assets/close.png" alt="" style="height: 26px">
-        </div>
-      </div>
-      <div class="modal-body text-center px-4 py-4 my-md-3">
-        <p>Your Essay has been Uploaded, Please Waiting to Verified <span style="color: var(--red)">*</span></p>
-      </div>
     </div>
-  </div>
-</div>
+
+    {{-- Modal Info --}}
+    <div class="modal fade" id="info" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog d-flex align-items-center justify-content-center modal-dialog-centered">
+            <div class="modal-content border-0 w-100">
+                <div class="modal-header" style="background-color: var(--blue)">
+                    <div class="col d-flex gap-1 align-items-center">
+                        <img src="/assets/thumbsup.png" alt="">
+                        <h6 class="modal-title ms-3">Congratulations</h6>
+                    </div>
+                    <div type="button" data-bs-dismiss="modal" aria-label="Close">
+                        <img src="/assets/close.png" alt="" style="height: 26px">
+                    </div>
+                </div>
+                <div class="modal-body text-center px-4 py-4 my-md-3">
+                    <p>Your Essay has been Uploaded, Please Waiting to Verified <span style="color: var(--red)">*</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('js')
-<script>
-  $(document).ready(function(){
-      $("#info").modal('show');
-  });
-</script>
+    <script>
+        $(document).ready(function() {
+            $("#info").modal('show');
+        });
+    </script>
 @endsection

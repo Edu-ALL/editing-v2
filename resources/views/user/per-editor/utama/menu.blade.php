@@ -49,7 +49,7 @@
 
 {{-- Modal Logout --}}
 <div class="modal fade" id="logout" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0">
             <div class="modal-header">
                 <div class="col d-flex gap-2 align-items-center">

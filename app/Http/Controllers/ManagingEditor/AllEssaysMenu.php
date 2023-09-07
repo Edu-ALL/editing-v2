@@ -357,6 +357,12 @@ class AllEssaysMenu extends Controller
 
     public function detailEssayManaging($id_essay, Request $request)
     {
+        $tracking = EssayStatus::where('id_essay_clients', $id_essay)
+            ->groupBy('status')
+            ->orderBy('status', 'ASC')
+            ->orderBy('created_at', 'DESC')
+            ->get();
+
         $essay = EssayClients::find($id_essay);
         if ($essay) {
             $editors = Editor::all();
@@ -384,20 +390,24 @@ class AllEssaysMenu extends Controller
 
             if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4 || $essay->status_essay_clients == 5) {
                 return view('user.editor.all-essays.essay-ongoing-detail', [
+                    'tracking' => $tracking,
                     'essay' => $essay,
                     'editors' => $editors,
                     'completedEssay' => EssayEditors::where('status_essay_editors', 7)->get()
                 ]);
             } else if ($essay->status_essay_clients == 1) {
                 return view('user.editor.all-essays.essay-ongoing-assign', [
+                    'tracking' => $tracking,
                     'essay' => $essay
                 ]);
             } else if ($essay->status_essay_clients == 2) {
                 return view('user.editor.all-essays.essay-ongoing-ongoing', [
+                    'tracking' => $tracking,
                     'essay' => $essay
                 ]);
             } else if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 6 || $essay->status_essay_clients == 8) {
                 return view('user.editor.all-essays.essay-ongoing-submitted', [
+                    'tracking' => $tracking,
                     'essay' => $essay,
                     'tags' => EssayTags::where('id_essay_clients', $id_essay)->get(),
                     'list_tags' => Tags::get(),
@@ -412,6 +422,13 @@ class AllEssaysMenu extends Controller
     public function detailEssayManagingCompleted($id_essay, Request $request)
     {
         $essay = EssayEditors::where('id_essay_clients', $id_essay)->first();
+
+        $tracking = EssayStatus::where('id_essay_clients', $id_essay)
+            ->groupBy('status')
+            ->orderBy('status', 'ASC')
+            ->orderBy('created_at', 'DESC')
+            ->get();
+
         if ($essay) {
             // $essay = EssayEditors::where('id_essay_clients', $id_essay)->first();
             $essay_client = EssayClients::where('id_essay_clients', $id_essay)->first();
@@ -421,7 +438,9 @@ class AllEssaysMenu extends Controller
                 $status_essay = 'Late';
             }
             return view('user.editor.all-essays.essay-completed-detail', [
-                'essay' => $essay,
+                'tracking' => $tracking,
+                'essay' => $essay_client,
+                'essay_editor' => $essay,
                 'tags' => EssayTags::where('id_essay_clients', $id_essay)->get(),
                 'feedback' => EssayFeedbacks::where('id_essay_clients', $id_essay)->first(),
                 'status_essay' => $status_essay

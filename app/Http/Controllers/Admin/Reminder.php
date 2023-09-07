@@ -75,6 +75,7 @@ class Reminder extends Controller
             array_push($managingEditorsName, $editor->first_name . ' ' . $editor->last_name);
         }
         $emailEditors = array_column($managingEditors->toArray(), 'email');
+
         // Check Date and Send Email
         $dataEditor = [
             'email' => $emailEditors,
@@ -92,13 +93,13 @@ class Reminder extends Controller
             Mail::send('mail.reminder.reminder-essay', $data, function ($mail) use ($data) {
                 $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
                 $mail->to($data['email']);
+                $mail->cc('essay.editor@all-inedu.com');
                 $mail->subject('Pending Essay Awaiting Your Review');
             });
         } elseif ($data['role'] == 'managing' && $data['status'] == 'true') {
             Mail::send('mail.reminder.reminder-essay', $data, function ($mail) use ($data) {
                 $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
-                $mail->to($data['email'][0]);
-                $mail->cc(array_slice($data['email'], 1));
+                $mail->to($data['email']);
                 $mail->subject('Managing Editors: Unchecked Essay Edits Need Your Approval');
             });
         }

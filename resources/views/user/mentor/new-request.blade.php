@@ -178,7 +178,8 @@
                                                     <input type="date" id="minEssay" name="essay_deadline"
                                                         class="form-control inputField py-2 px-2" placeholder="Search"
                                                         onchange="addMinApp()"
-                                                        min="<?= date('Y-m-d', strtotime($day)) ?>"
+                                                        value="<?= date('Y-m-d', strtotime($day)) ?>"
+                                                        min="<?= date('Y-m-d') ?>"
                                                         style="width: 96.5%;">
                                                     @error('essay_deadline')
                                                         <small class="alert text-danger fs-10">{{ $message }}</small>
@@ -192,7 +193,7 @@
                                                 </h6>
                                                 <div class="col">
                                                     <input type="date" id="minApp" name="application_deadline"
-                                                        class="form-control inputField py-2 px-2"  min="<?= date('Y-m-d', strtotime('+6days')) ?>"placeholder="Search"
+                                                        class="form-control inputField py-2 px-2"  min="<?= date('Y-m-d') ?>"placeholder="Search"
                                                         style="width: 96.5%;">
                                                     @error('application_deadline')
                                                         <small class="alert text-danger fs-10">{{ $message }}</small>

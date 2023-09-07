@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Exception;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
@@ -33,61 +34,6 @@ class Essays extends Controller
 {
     public function index(Request $request)
     {
-        // $keyword2 = $request->get('keyword-completed');
-        // $ongoing_essay = EssayClients::where('id_editors', '=', $editor->id_editors)->where('status_essay_clients', '!=', 7)->where('status_essay_clients', '!=', 0)->where('status_essay_clients', '!=', 4)->where('status_essay_clients', '!=', 5)->when($keyword1, function ($query_) use ($keyword1) {
-        //     $query_->where(function ($query) use ($keyword1) {
-        //         $query->whereHas('client_by_id', function ($query_by_id) use ($keyword1) {
-        //             $query_by_id->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%' . $keyword1 . '%')->orWhereHas('mentors', function ($query_mentor_by_id) use ($keyword1) {
-        //                 $query_mentor_by_id->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%' . $keyword1 . '%');
-        //             });
-        //         })->orWhereHas('editor', function ($query_editor) use ($keyword1) {
-        //             $query_editor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%' . $keyword1 . '%');
-        //         })->orWhereHas('program', function ($query_program) use ($keyword1) {
-        //             $query_program->where('program_name', 'like', '%' . $keyword1 . '%');
-        //         })->orWhere('essay_title', 'like', '%' . $keyword1 . '%')
-        //             ->orWhereHas('status', function ($query_status) use ($keyword1) {
-        //                 $query_status->where('status_title', 'like', '%' . $keyword1 . '%');
-        //             });
-        //     });
-        // })->orderBy('uploaded_at', 'asc')->paginate(10);
-        // $ongoing_essay = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', 'tbl_essay_editors.id_essay_clients')->where('editors_mail', $editor->email)->where('status_essay_editors', '!=', 7)->when($keyword2, function ($query_) use ($keyword2) {
-        //     $query_->where(function ($query) use ($keyword2) {
-        //         $query->whereHas('essay_clients', function ($query_essay) use ($keyword2) {
-        //             $query_essay->whereHas('client_by_id', function ($query_client) use ($keyword2) {
-        //                 $query_client->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%' . $keyword2 . '%')->orWhereHas('mentors', function ($query_mentor) use ($keyword2) {
-        //                     $query_mentor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%' . $keyword2 . '%');
-        //                 });;
-        //             })->orWhereHas('editor', function ($query_editor) use ($keyword2) {
-        //                 $query_editor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%' . $keyword2 . '%');
-        //             })->orWhereHas('program', function ($query_program) use ($keyword2) {
-        //                 $query_program->where('program_name', 'like', '%' . $keyword2 . '%');
-        //             })->orWhere('essay_title', 'like', '%' . $keyword2 . '%')
-        //                 ->orWhereHas('status', function ($query_status) use ($keyword2) {
-        //                     $query_status->where('status_title', 'like', '%' . $keyword2 . '%');
-        //                 });
-        //         });
-        //     });
-        //     // })->orderBy('read', 'asc')->orderBy('uploaded_at', 'desc')->paginate(10);
-        // })->orderBy('read', 'asc')->orderBy('tbl_essay_clients.essay_deadline', 'asc')->orderBy('tbl_essay_clients.application_deadline', 'asc')->paginate(10);
-        // $completed_essay = EssayEditors::where('editors_mail', $editor->email)->where('status_essay_editors', '=', 7)->when($keyword2, function ($query_) use ($keyword2) {
-        //     $query_->where(function ($query) use ($keyword2) {
-        //         $query->whereHas('essay_clients', function ($query_essay) use ($keyword2) {
-        //             $query_essay->whereHas('client_by_id', function ($query_client) use ($keyword2) {
-        //                 $query_client->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%' . $keyword2 . '%')->orWhereHas('mentors', function ($query_mentor) use ($keyword2) {
-        //                     $query_mentor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%' . $keyword2 . '%');
-        //                 });;
-        //             })->orWhereHas('editor', function ($query_editor) use ($keyword2) {
-        //                 $query_editor->where(DB::raw("CONCAT(`first_name`, ' ',`last_name`)"), 'like', '%' . $keyword2 . '%');
-        //             })->orWhereHas('program', function ($query_program) use ($keyword2) {
-        //                 $query_program->where('program_name', 'like', '%' . $keyword2 . '%');
-        //             })->orWhere('essay_title', 'like', '%' . $keyword2 . '%')
-        //                 ->orWhereHas('status', function ($query_status) use ($keyword2) {
-        //                     $query_status->where('status_title', 'like', '%' . $keyword2 . '%');
-        //                 });
-        //         });
-        //     });
-        // })->orderBy('read', 'asc')->orderBy('uploaded_at', 'desc')->paginate(10);
-
         return view('user.per-editor.essay-list.essay-list');
     }
 
@@ -149,8 +95,11 @@ class Essays extends Controller
                     return $result;
                 })
                 ->editColumn('essay_deadline', function ($essay) {
+                    $diffDeadline = Carbon::parse($essay->essay_clients->essay_deadline)->startOfDay()->diffInDays(Carbon::parse($essay->essay_clients->uploaded_at)->startOfDay());
+                    $editors_deadline = Carbon::parse($essay->essay_clients->uploaded_at)->addDays(60 / 100 * $diffDeadline);
+
                     $result =  '<div class="' . ($essay->read == 0 ? 'unread' : '') . '">' .
-                        (date('D, d M Y', strtotime($essay->essay_clients->essay_deadline)))  .
+                        (date('D, d M Y', strtotime($editors_deadline)))  .
                         '</div>';
                     return $result;
                 })
@@ -221,8 +170,11 @@ class Essays extends Controller
                     return $result;
                 })
                 ->editColumn('essay_deadline', function ($essay) {
+                    $diffDeadline = Carbon::parse($essay->essay_clients->essay_deadline)->startOfDay()->diffInDays(Carbon::parse($essay->essay_clients->uploaded_at)->startOfDay());
+                    $editors_deadline = Carbon::parse($essay->essay_clients->uploaded_at)->addDays(60 / 100 * $diffDeadline);
+
                     $result =  '<div class="' . ($essay->read == 0 ? 'unread' : '') . '">' .
-                        (date('D, d M Y', strtotime($essay->essay_clients->essay_deadline)))  .
+                        (date('D, d M Y', strtotime($editors_deadline)))  .
                         '</div>';
                     return $result;
                 })
@@ -240,6 +192,10 @@ class Essays extends Controller
     public function detailEssay($id_essay, Request $request)
     {
         $essay = EssayClients::find($id_essay);
+
+        $diffDeadline = Carbon::parse($essay->essay_deadline)->startOfDay()->diffInDays(Carbon::parse($essay->uploaded_at)->startOfDay());
+        $editors_deadline = Carbon::parse($essay->uploaded_at)->addDays(60 / 100 * $diffDeadline);
+
         if ($essay) {
             $editors = Editor::paginate(10);
             $essay = EssayClients::find($id_essay);
@@ -254,25 +210,30 @@ class Essays extends Controller
 
             if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4) {
                 return view('user.per-editor.essay-list.essay-list-ongoing-detail', [
+                    'editors_deadline' => $editors_deadline,
                     'essay' => $essay,
                     'editors' => $editors
                 ]);
             } else if ($essay->status_essay_clients == 1) {
                 return view('user.per-editor.essay-list.essay-list-ongoing-detail', [
+                    'editors_deadline' => $editors_deadline,
                     'essay' => $essay
                 ]);
             } else if ($essay->status_essay_clients == 2) {
                 return view('user.per-editor.essay-list.essay-list-ongoing-accepted', [
+                    'editors_deadline' => $editors_deadline,
                     'essay' => $essay,
                     'tags' => Tags::get()
                 ]);
             } else if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 8) {
                 return view('user.per-editor.essay-list.essay-list-ongoing-submitted', [
+                    'editors_deadline' => $editors_deadline,
                     'essay' => $essay,
                     'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
                 ]);
             } else if ($essay->status_essay_clients == 6) {
                 return view('user.per-editor.essay-list.essay-list-ongoing-revise', [
+                    'editors_deadline' => $editors_deadline,
                     'essay' => $essay,
                     'tags' => EssayTags::where('id_essay_clients', $id_essay)->get(),
                     'list_tags' => Tags::get(),
@@ -287,6 +248,10 @@ class Essays extends Controller
     public function detailEssayCompleted($id_essay, Request $request)
     {
         $essay_editor = EssayEditors::where('id_essay_clients', $id_essay)->first();
+        
+        $diffDeadline = Carbon::parse($essay_editor->essay_clients->essay_deadline)->startOfDay()->diffInDays(Carbon::parse($essay_editor->essay_clients->uploaded_at)->startOfDay());
+        $editors_deadline = Carbon::parse($essay_editor->essay_clients->uploaded_at)->addDays(60 / 100 * $diffDeadline);
+
         if ($essay_editor) {
             // $essay = EssayClients::find($id_essay);
             $essay_editor = EssayEditors::where('id_essay_clients', $id_essay)->first();
@@ -300,7 +265,9 @@ class Essays extends Controller
 
             if ($essay_editor->status_essay_editors == 7) {
                 return view('user.per-editor.essay-list.essay-list-completed-detail', [
-                    'essay' => $essay_editor,
+                    'editors_deadline' => $editors_deadline,
+                    'essay' => $essay_editor->essay_clients,
+                    'essay_editor' => $essay_editor,
                     'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
                 ]);
             }
