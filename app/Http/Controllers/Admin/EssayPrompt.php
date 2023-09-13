@@ -45,6 +45,9 @@ class EssayPrompt extends Controller
 
     public function detail($id)
     {
+        if (!EssayPrompts::find($id)) {
+            return abort(404);
+        }
         $univ = University::get();
         return view('user.admin.settings.setting-detail-essay-prompt', [
             'essay_prompt' => EssayPrompts::find($id),

@@ -67,6 +67,9 @@ class Clients extends Controller
 
     public function detail($id)
     {
+        if (!Client::find($id)) {
+            return abort(404);
+        }
         return view('user.admin.users.user-student-detail', [
             'client' => Client::find($id),
             'mentors' => Mentor::get()

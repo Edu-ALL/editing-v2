@@ -393,7 +393,8 @@ class EssayListMenu extends Controller
                 ]);
             }
         } else {
-            return redirect('editor/essay-list')->with('isEssay', 'Essay not found');
+            return abort(404);
+            // return redirect('editor/essay-list')->with('isEssay', 'Essay not found');
         }
     }
 

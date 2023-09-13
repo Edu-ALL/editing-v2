@@ -196,7 +196,8 @@ class AllEditorMenu extends Controller
                 'average_rating' => number_format($average_rating, 1, ".", ",")
             ]);
         } else {
-            return redirect('editor/list')->with('isEditor', 'Editor not found');
+            return abort(404);
+            // return redirect('editor/list')->with('isEditor', 'Editor not found');
         }
         
     }

@@ -66,6 +66,9 @@ class Universities extends Controller
 
     public function detail($id)
     {
+        if (!University::find($id)) {
+            return abort(404);
+        }
         return view('user.admin.settings.setting-detail-universities', ['university' => University::find($id)]);
     }
 
