@@ -94,7 +94,8 @@ class Essays extends Controller
                 ]);
             }
         } else {
-            return redirect('admin/essay-list/ongoing')->with('isEssay', 'Essay not found');
+            return abort(404);
+            // return redirect('admin/essay-list/ongoing')->with('isEssay', 'Essay not found');
         }
     }
 
@@ -275,7 +276,8 @@ class Essays extends Controller
                 'status_essay' => $status_essay
             ]);
         } else {
-            return redirect('admin/essay-list/completed')->with('isEssay', 'Essay not found');
+            return abort(404);
+            // return redirect('admin/essay-list/completed')->with('isEssay', 'Essay not found');
         }
     }
 }

@@ -51,7 +51,8 @@ class Universities extends Controller
         if ($university) {
             return view('user.editor.settings.setting-detail-universities', ['university' => $university]);
         } else {
-            return redirect('editor/setting/universities')->with('isUniv', 'University not found');
+            return abort(404);
+            // return redirect('editor/setting/universities')->with('isUniv', 'University not found');
         }
     }
 

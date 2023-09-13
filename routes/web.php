@@ -59,6 +59,10 @@ Route::post('register/editor', [Editors::class, 'selfAddEditor'])->name('self-ad
 Route::post('invite-editor', [Editors::class, 'invite'])->name('invite-editor');
 Route::get('joined-editor', [Editors::class, 'join_editor'])->name('join-editor');
 
+// 404 Page
+Route::fallback(function () {
+    return view('errors.404');
+});
 
 // Login
 Route::middleware('check.login')->group(function () {

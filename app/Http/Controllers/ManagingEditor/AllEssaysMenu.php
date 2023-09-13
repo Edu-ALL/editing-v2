@@ -405,7 +405,8 @@ class AllEssaysMenu extends Controller
                 ]);
             }
         } else {
-            return redirect('editor/all-essays')->with('isEssay', 'Essay not found');
+            return abort(404);
+            // return redirect('editor/all-essays')->with('isEssay', 'Essay not found');
         }
     }
 
@@ -427,7 +428,8 @@ class AllEssaysMenu extends Controller
                 'status_essay' => $status_essay
             ]);
         } else {
-            return redirect('editor/all-essays');
+            return abort(404);
+            // return redirect('editor/all-essays');
         }
     }
 

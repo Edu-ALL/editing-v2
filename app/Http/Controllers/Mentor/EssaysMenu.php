@@ -229,7 +229,7 @@ class EssaysMenu extends Controller
     public function detailOngoingEssay($id)
     {
         if (!$essay = EssayClients::find($id)) {
-            return Redirect::to('mentor/essay-list/ongoing')->with('message', 'Essay not found');
+            return abort(404);
         }
 
         # update status read
@@ -245,9 +245,8 @@ class EssaysMenu extends Controller
 
     public function detailCompletedEssay($id)
     {
-
         if (!$essay = EssayEditors::where('id_essay_clients', $id)->first()) {
-            return Redirect::to('mentor/essay-list/completed');
+            return abort(404);
         }
 
         $essay_client = EssayClients::where('id_essay_clients', $id)->first();

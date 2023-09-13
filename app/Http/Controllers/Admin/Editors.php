@@ -191,12 +191,15 @@ class Editors extends Controller
 
     public function detail($id, Request $request)
     {
+        if (!Editor::find($id)) {
+            return abort(404);
+        }
+        
+        $editor = Editor::find($id);
         $essay_completed = EssayClients::with('client_by_id', 'program', 'status')
             ->where('id_editors', '=', $id)
             ->where('status_essay_clients', '=', 7)
             ->get();
-
-        $editor = Editor::find($id);
         $count_essay = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', '=', 'tbl_essay_editors.id_essay_clients')->where('editors_mail', $editor->email)->where('essay_rating', '!=', 0)->get();
 
         $rating = 0;
@@ -210,7 +213,6 @@ class Editors extends Controller
         if ($rating != 0) {
             $average_rating = $rating / count($count_essay);
         }
-
 
         return view('user.admin.users.user-editor-detail', [
             'editor' => $editor,

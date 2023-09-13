@@ -65,7 +65,8 @@ class CategoriesTags extends Controller
     public function detail($tag_id, Request $request)
     {
         if (!$tag = Tags::find($tag_id)) {
-            return redirect('admin/setting/categories-tags')->withErrors('Couldn\'t find the tag');
+            return abort(404);
+            // return redirect('admin/setting/categories-tags')->withErrors('Couldn\'t find the tag');
         }
 
         $keyword = $request->get('keyword');

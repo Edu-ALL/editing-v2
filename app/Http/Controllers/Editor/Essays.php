@@ -280,7 +280,8 @@ class Essays extends Controller
                 ]);
             }
         } else {
-            return redirect('editors/essay-list')->with('isEssay', 'Essay not found');
+            return abort(404);
+            // return redirect('editors/essay-list')->with('isEssay', 'Essay not found');
         }
     }
 
@@ -305,7 +306,8 @@ class Essays extends Controller
                 ]);
             }
         } else {
-            return redirect('editors/essay-list')->with('isEssay', 'Essay not found');
+            return abort(404);
+            // return redirect('editors/essay-list')->with('isEssay', 'Essay not found');
         }
     }
 

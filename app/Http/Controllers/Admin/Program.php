@@ -66,6 +66,9 @@ class Program extends Controller
 
     public function detail($id)
     {
+        if (!Programs::find($id)) {
+            return abort(404);
+        }
         $category = Category::get();
         return view('user.admin.settings.setting-detail-programs', [
             'program' => Programs::find($id),
