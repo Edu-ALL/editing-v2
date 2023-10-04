@@ -36,6 +36,7 @@
                                                 <th>Program Name</th>
                                                 <th>Essay Title</th>
                                                 <th>Upload Date</th>
+                                                <th>Editors Deadline</th>
                                                 <th>Essay Deadline</th>
                                                 <th>Status</th>
                                             </tr>
@@ -93,6 +94,10 @@
                 {
                     data: 'upload_date',
                     name: 'upload_date'
+                },
+                {
+                    data: 'editors_deadline',
+                    name: 'editors_deadline'
                 },
                 {
                     data: 'essay_deadline',

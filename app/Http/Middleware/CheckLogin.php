@@ -22,7 +22,11 @@ class CheckLogin
         if (Auth::guard('web-admin')->check()) {
             return redirect('/admin/dashboard');
         } else if (Auth::guard('web-editor')->check()) {
-            return redirect('/editors/dashboard');
+            if(Auth::guard('web-editor')->user()->position == 3) {
+                return redirect('/editor/dashboard');
+            } else {
+                return redirect('/editors/dashboard');
+            }
         } else if (Auth::guard('web-mentor')->check()) {
             return redirect('/mentor/dashboard');
         }

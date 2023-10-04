@@ -16,6 +16,7 @@ use App\Models\EssayTags;
 use App\Models\Mentor;
 use App\Models\Tags;
 use App\Models\Token;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -49,55 +50,65 @@ class AllEssaysMenu extends Controller
         if ($request->ajax()) {
             $data = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', 'tbl_essay_editors.id_essay_clients')->where('status_essay_editors', 1)->orderBy('tbl_essay_clients.essay_deadline', 'asc')->orderBy('tbl_essay_clients.application_deadline', 'asc')->get();
             return Datatables::of($data)
-            ->addIndexColumn()
-            ->setRowClass(function ($d) {
-                return isset($d->read) && $d->read == 0 ? 'unread' : '';
-            })
-            ->setRowAttr([
-                'onclick' => function($d) {
-                    return 'getOngoingDetail('.$d->id_essay_clients.')';
-                },
-            ])
-            ->editColumn('student_name', function($d){
-                $result = isset($d->essay_clients->client_by_id) ? $d->essay_clients->client_by_id->first_name . ' ' . $d->essay_clients->client_by_id->last_name : $d->essay_clients->client_by_email->first_name . ' ' . $d->essay_clients->client_by_email->last_name;
-                return $result;
-            })
-            ->editColumn('mentor_name', function($d){
-                $result = $d->essay_clients->mentor->first_name . ' ' . $d->essay_clients->mentor->last_name;
-                return $result;
-            })
-            ->editColumn('editor_name', function($d){
-                $result = isset($d->editor) ? $d->editor->first_name . ' ' . $d->editor->last_name : '-';
-                return $result;
-            })
-            ->editColumn('request_editor', function($d){
-                $result = isset($d->essay_clients->editor) ? $d->essay_clients->editor->first_name . ' ' . $d->essay_clients->editor->last_name : '-';
-                return $result;
-            })
-            ->editColumn('program_name', function($d){
-                $result = $d->essay_clients->program->program_name . ' (' . $d->essay_clients->program->minimum_word . ' - ' . $d->essay_clients->program->maximum_word . ' Words)';
-                return $result;
-            })
-            ->editColumn('essay_title', function($d){
-                $result = $d->essay_clients->essay_title;
-                return $result;
-            })
-            ->editColumn('upload_date', function($d){
-                $result = date('D, d M Y', strtotime($d->essay_clients->uploaded_at));
-                return $result;
-            })
-            ->editColumn('essay_deadline', function($d){
-                $result = date('D, d M Y', strtotime($d->essay_clients->essay_deadline));
-                return $result;
-            })
-            ->editColumn('status', function($d){
-                $result = '
-                    <span style="color: var(--blue)">'.$d->status->status_title.'</span>
+                ->addIndexColumn()
+                ->setRowClass(function ($d) {
+                    return isset($d->read) && $d->read == 0 ? 'unread' : '';
+                })
+                ->setRowAttr([
+                    'onclick' => function ($d) {
+                        return 'getOngoingDetail(' . $d->id_essay_clients . ')';
+                    },
+                ])
+                ->editColumn('student_name', function ($d) {
+                    $result = isset($d->essay_clients->client_by_id) ? $d->essay_clients->client_by_id->first_name . ' ' . $d->essay_clients->client_by_id->last_name : $d->essay_clients->client_by_email->first_name . ' ' . $d->essay_clients->client_by_email->last_name;
+                    return $result;
+                })
+                ->editColumn('mentor_name', function ($d) {
+                    $result = $d->essay_clients->mentor->first_name . ' ' . $d->essay_clients->mentor->last_name;
+                    return $result;
+                })
+                ->editColumn('editor_name', function ($d) {
+                    $result = isset($d->editor) ? $d->editor->first_name . ' ' . $d->editor->last_name : '-';
+                    return $result;
+                })
+                ->editColumn('request_editor', function ($d) {
+                    $result = isset($d->essay_clients->editor) ? $d->essay_clients->editor->first_name . ' ' . $d->essay_clients->editor->last_name : '-';
+                    return $result;
+                })
+                ->editColumn('program_name', function ($d) {
+                    $result = $d->essay_clients->program->program_name . ' (' . $d->essay_clients->program->minimum_word . ' - ' . $d->essay_clients->program->maximum_word . ' Words)';
+                    return $result;
+                })
+                ->editColumn('essay_title', function ($d) {
+                    $result = $d->essay_clients->essay_title;
+                    return $result;
+                })
+                ->editColumn('upload_date', function ($d) {
+                    $result = date('D, d M Y', strtotime($d->essay_clients->uploaded_at));
+                    return $result;
+                })
+                ->editColumn('editors_deadline', function ($d) {
+                    // Editors deadline 60% dari selisih
+                    $deadline = Carbon::parse($d->essay_clients->essay_deadline)
+                        ->startOfDay()
+                        ->diffInDays(Carbon::parse($d->essay_clients->uploaded_at)->startOfDay());
+
+                    $editor_deadline = Carbon::parse($d->essay_clients->uploaded_at)->addDays(round((60 / 100) * $deadline, 0));
+                    $result = date('D, d M Y', strtotime($editor_deadline));
+                    return $result;
+                })
+                ->editColumn('essay_deadline', function ($d) {
+                    $result = date('D, d M Y', strtotime($d->essay_clients->essay_deadline));
+                    return $result;
+                })
+                ->editColumn('status', function ($d) {
+                    $result = '
+                    <span style="color: var(--blue)">' . $d->status->status_title . '</span>
                 ';
-                return $result;
-            })
-            ->rawColumns(['status'])
-            ->make(true);
+                    return $result;
+                })
+                ->rawColumns(['status'])
+                ->make(true);
         }
     }
 
@@ -111,55 +122,65 @@ class AllEssaysMenu extends Controller
         if ($request->ajax()) {
             $data = EssayClients::where('status_essay_clients', 0)->orWhere('status_essay_clients', 4)->orWhere('status_essay_clients', 5)->orderBy('essay_deadline', 'asc')->orderBy('application_deadline', 'asc')->get();
             return Datatables::of($data)
-            ->addIndexColumn()
-            ->setRowClass(function ($d) {
-                return isset($d->read) && $d->read == 0 ? 'unread' : '';
-            })
-            ->setRowAttr([
-                'onclick' => function($d) {
-                    return 'getOngoingDetail('.$d->id_essay_clients.')';
-                },
-            ])
-            ->editColumn('student_name', function($d){
-                $result = isset($d->client_by_id) ? $d->client_by_id->first_name . ' ' . $d->client_by_id->last_name : $d->client_by_email->first_name . ' ' . $d->client_by_email->last_name;
-                return $result;
-            })
-            ->editColumn('mentor_name', function($d){
-                $result = isset($d->client_by_id) ? $d->client_by_id->mentors->first_name . ' ' . $d->client_by_id->mentors->last_name : $d->client_by_email->mentors->first_name . ' ' . $d->client_by_email->mentors->last_name;
-                return $result;
-            })
-            ->editColumn('editor_name', function($d){
-                $result = $d->status_essay_clients == 0 || $d->status_essay_clients == 4 || $d->status_essay_clients == 5 ? '-' : $d->editor->first_name . ' ' . $d->editor->last_name;
-                return $result;
-            })
-            ->editColumn('request_editor', function($d){
-                $result = isset($d->editor) ? $d->editor->first_name . ' ' . $d->editor->last_name : '-';
-                return $result;
-            })
-            ->editColumn('program_name', function($d){
-                $result = $d->program->program_name . ' (' . $d->program->minimum_word . ' - ' . $d->program->maximum_word . ' Words)';
-                return $result;
-            })
-            ->editColumn('essay_title', function($d){
-                $result = $d->essay_title;
-                return $result;
-            })
-            ->editColumn('upload_date', function($d){
-                $result = date('D, d M Y', strtotime($d->uploaded_at));
-                return $result;
-            })
-            ->editColumn('essay_deadline', function($d){
-                $result = date('D, d M Y', strtotime($d->essay_deadline));
-                return $result;
-            })
-            ->editColumn('status', function($d){
-                $result = '
-                    <span style="color: var(--blue)">'.$d->status->status_title.'</span>
+                ->addIndexColumn()
+                ->setRowClass(function ($d) {
+                    return isset($d->read) && $d->read == 0 ? 'unread' : '';
+                })
+                ->setRowAttr([
+                    'onclick' => function ($d) {
+                        return 'getOngoingDetail(' . $d->id_essay_clients . ')';
+                    },
+                ])
+                ->editColumn('student_name', function ($d) {
+                    $result = isset($d->client_by_id) ? $d->client_by_id->first_name . ' ' . $d->client_by_id->last_name : $d->client_by_email->first_name . ' ' . $d->client_by_email->last_name;
+                    return $result;
+                })
+                ->editColumn('mentor_name', function ($d) {
+                    $result = isset($d->client_by_id) ? $d->client_by_id->mentors->first_name . ' ' . $d->client_by_id->mentors->last_name : $d->client_by_email->mentors->first_name . ' ' . $d->client_by_email->mentors->last_name;
+                    return $result;
+                })
+                ->editColumn('editor_name', function ($d) {
+                    $result = $d->status_essay_clients == 0 || $d->status_essay_clients == 4 || $d->status_essay_clients == 5 ? '-' : $d->editor->first_name . ' ' . $d->editor->last_name;
+                    return $result;
+                })
+                ->editColumn('request_editor', function ($d) {
+                    $result = isset($d->editor) ? $d->editor->first_name . ' ' . $d->editor->last_name : '-';
+                    return $result;
+                })
+                ->editColumn('program_name', function ($d) {
+                    $result = $d->program->program_name . ' (' . $d->program->minimum_word . ' - ' . $d->program->maximum_word . ' Words)';
+                    return $result;
+                })
+                ->editColumn('essay_title', function ($d) {
+                    $result = $d->essay_title;
+                    return $result;
+                })
+                ->editColumn('upload_date', function ($d) {
+                    $result = date('D, d M Y', strtotime($d->uploaded_at));
+                    return $result;
+                })
+                ->editColumn('editors_deadline', function ($d) {
+                    // Editors deadline 60% dari selisih
+                    $deadline = Carbon::parse($d->essay_deadline)
+                        ->startOfDay()
+                        ->diffInDays(Carbon::parse($d->uploaded_at)->startOfDay());
+
+                    $editor_deadline = Carbon::parse($d->uploaded_at)->addDays(round((60 / 100) * $deadline, 0));
+                    $result = date('D, d M Y', strtotime($editor_deadline));
+                    return $result;
+                })
+                ->editColumn('essay_deadline', function ($d) {
+                    $result = date('D, d M Y', strtotime($d->essay_deadline));
+                    return $result;
+                })
+                ->editColumn('status', function ($d) {
+                    $result = '
+                    <span style="color: var(--blue)">' . $d->status->status_title . '</span>
                 ';
-                return $result;
-            })
-            ->rawColumns(['status'])
-            ->make(true);
+                    return $result;
+                })
+                ->rawColumns(['status'])
+                ->make(true);
         }
     }
 
@@ -171,52 +192,52 @@ class AllEssaysMenu extends Controller
     public function getEditorList(Request $request)
     {
         if ($request->ajax()) {
-            $data = Editor::where('status',1)->get();
+            $data = Editor::where('status', 1)->get();
             return Datatables::of($data)
-            ->addIndexColumn()
-            ->setRowAttr([
-                'onclick' => function($d) {
-                    return 'select_row(this)';
-                },
-                'style' => function($d) {
-                    return 'cursor: pointer';
-                },
-            ])
-            ->editColumn('editor_name', function($d){
-                $result = $d->first_name.' '.$d->last_name;
-                return $result;
-            })
-            ->editColumn('graduated_from', function($d){
-                $result = $d->graduated_from;
-                return $result;
-            })
-            ->editColumn('dueTomorrow', function($d){
-                $result = $this->dueEssayEditor('0', '1', $d->email).' Essays';
-                return $result;
-            })
-            ->editColumn('dueThree', function($d){
-                $result = $this->dueEssayEditor('2', '3', $d->email).' Essays';
-                return $result;
-            })
-            ->editColumn('dueFive', function($d){
-                $result = $this->dueEssayEditor('4', '5', $d->email).' Essays';
-                return $result;
-            })
-            ->editColumn('completed_essay', function($d){
-                $completedEssay = EssayEditors::where('status_essay_editors', 7)->get();
-                $result = $completedEssay->where('editors_mail', $d->email)->count()." Essays";
-                return $result;
-            })
-            ->editColumn('assign', function($d){
-                $result = '
+                ->addIndexColumn()
+                ->setRowAttr([
+                    'onclick' => function ($d) {
+                        return 'select_row(this)';
+                    },
+                    'style' => function ($d) {
+                        return 'cursor: pointer';
+                    },
+                ])
+                ->editColumn('editor_name', function ($d) {
+                    $result = $d->first_name . ' ' . $d->last_name;
+                    return $result;
+                })
+                ->editColumn('graduated_from', function ($d) {
+                    $result = $d->graduated_from;
+                    return $result;
+                })
+                ->editColumn('dueTomorrow', function ($d) {
+                    $result = $this->dueEssayEditor('0', '1', $d->email) . ' Essays';
+                    return $result;
+                })
+                ->editColumn('dueThree', function ($d) {
+                    $result = $this->dueEssayEditor('2', '3', $d->email) . ' Essays';
+                    return $result;
+                })
+                ->editColumn('dueFive', function ($d) {
+                    $result = $this->dueEssayEditor('4', '5', $d->email) . ' Essays';
+                    return $result;
+                })
+                ->editColumn('completed_essay', function ($d) {
+                    $completedEssay = EssayEditors::where('status_essay_editors', 7)->get();
+                    $result = $completedEssay->where('editors_mail', $d->email)->count() . " Essays";
+                    return $result;
+                })
+                ->editColumn('assign', function ($d) {
+                    $result = '
                     <div class="form-check d-flex align-items-center justify-content-center">
-                        <input class="form-check-input" type="radio" name="id_editors" id="flexRadioDefault1" value="'.$d->email.'">
+                        <input class="form-check-input" type="radio" name="id_editors" id="flexRadioDefault1" value="' . $d->email . '">
                     </div>
                 ';
-                return $result;
-            })
-            ->rawColumns(['assign'])
-            ->make(true);
+                    return $result;
+                })
+                ->rawColumns(['assign'])
+                ->make(true);
         }
     }
 
@@ -225,55 +246,65 @@ class AllEssaysMenu extends Controller
         if ($request->ajax()) {
             $data = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', 'tbl_essay_editors.id_essay_clients')->where('status_essay_editors', 2)->orWhere('status_essay_editors', 3)->orWhere('status_essay_editors', 6)->orWhere('status_essay_editors', 8)->orderBy('tbl_essay_clients.essay_deadline', 'asc')->orderBy('tbl_essay_clients.application_deadline', 'asc')->get();
             return Datatables::of($data)
-            ->addIndexColumn()
-            ->setRowClass(function ($d) {
-                return isset($d->read) && $d->read == 0 ? 'unread' : '';
-            })
-            ->setRowAttr([
-                'onclick' => function($d) {
-                    return 'getOngoingDetail('.$d->id_essay_clients.')';
-                },
-            ])
-            ->editColumn('student_name', function($d){
-                $result = isset($d->essay_clients->client_by_id) ? $d->essay_clients->client_by_id->first_name . ' ' . $d->essay_clients->client_by_id->last_name : $d->essay_clients->client_by_email->first_name . ' ' . $d->essay_clients->client_by_email->last_name;
-                return $result;
-            })
-            ->editColumn('mentor_name', function($d){
-                $result = $d->essay_clients->mentor->first_name . ' ' . $d->essay_clients->mentor->last_name;
-                return $result;
-            })
-            ->editColumn('editor_name', function($d){
-                $result = isset($d->editor) ? $d->editor->first_name . ' ' . $d->editor->last_name : '-';
-                return $result;
-            })
-            ->editColumn('request_editor', function($d){
-                $result = isset($d->essay_clients->editor) ? $d->essay_clients->editor->first_name.' '.$d->essay_clients->editor->last_name : '-';
-                return $result;
-            })
-            ->editColumn('program_name', function($d){
-                $result = $d->essay_clients->program->program_name . ' (' . $d->essay_clients->program->minimum_word . ' - ' . $d->essay_clients->program->maximum_word . ' Words)';
-                return $result;
-            })
-            ->editColumn('essay_title', function($d){
-                $result = $d->essay_clients->essay_title;
-                return $result;
-            })
-            ->editColumn('upload_date', function($d){
-                $result = date('D, d M Y', strtotime($d->essay_clients->uploaded_at));
-                return $result;
-            })
-            ->editColumn('essay_deadline', function($d){
-                $result = date('D, d M Y', strtotime($d->essay_clients->essay_deadline));
-                return $result;
-            })
-            ->editColumn('status', function($d){
-                $result = '
-                    <span style="color: var(--blue)">'.$d->status->status_title.'</span>
+                ->addIndexColumn()
+                ->setRowClass(function ($d) {
+                    return isset($d->read) && $d->read == 0 ? 'unread' : '';
+                })
+                ->setRowAttr([
+                    'onclick' => function ($d) {
+                        return 'getOngoingDetail(' . $d->id_essay_clients . ')';
+                    },
+                ])
+                ->editColumn('student_name', function ($d) {
+                    $result = isset($d->essay_clients->client_by_id) ? $d->essay_clients->client_by_id->first_name . ' ' . $d->essay_clients->client_by_id->last_name : $d->essay_clients->client_by_email->first_name . ' ' . $d->essay_clients->client_by_email->last_name;
+                    return $result;
+                })
+                ->editColumn('mentor_name', function ($d) {
+                    $result = $d->essay_clients->mentor->first_name . ' ' . $d->essay_clients->mentor->last_name;
+                    return $result;
+                })
+                ->editColumn('editor_name', function ($d) {
+                    $result = isset($d->editor) ? $d->editor->first_name . ' ' . $d->editor->last_name : '-';
+                    return $result;
+                })
+                ->editColumn('request_editor', function ($d) {
+                    $result = isset($d->essay_clients->editor) ? $d->essay_clients->editor->first_name . ' ' . $d->essay_clients->editor->last_name : '-';
+                    return $result;
+                })
+                ->editColumn('program_name', function ($d) {
+                    $result = $d->essay_clients->program->program_name . ' (' . $d->essay_clients->program->minimum_word . ' - ' . $d->essay_clients->program->maximum_word . ' Words)';
+                    return $result;
+                })
+                ->editColumn('essay_title', function ($d) {
+                    $result = $d->essay_clients->essay_title;
+                    return $result;
+                })
+                ->editColumn('upload_date', function ($d) {
+                    $result = date('D, d M Y', strtotime($d->essay_clients->uploaded_at));
+                    return $result;
+                })
+                ->editColumn('editors_deadline', function ($d) {
+                    // Editors deadline 60% dari selisih
+                    $deadline = Carbon::parse($d->essay_clients->essay_deadline)
+                        ->startOfDay()
+                        ->diffInDays(Carbon::parse($d->essay_clients->uploaded_at)->startOfDay());
+
+                    $editor_deadline = Carbon::parse($d->essay_clients->uploaded_at)->addDays(round((60 / 100) * $deadline, 0));
+                    $result = date('D, d M Y', strtotime($editor_deadline));
+                    return $result;
+                })
+                ->editColumn('essay_deadline', function ($d) {
+                    $result = date('D, d M Y', strtotime($d->essay_clients->essay_deadline));
+                    return $result;
+                })
+                ->editColumn('status', function ($d) {
+                    $result = '
+                    <span style="color: var(--blue)">' . $d->status->status_title . '</span>
                 ';
-                return $result;
-            })
-            ->rawColumns(['status'])
-            ->make(true);
+                    return $result;
+                })
+                ->rawColumns(['status'])
+                ->make(true);
         }
     }
 
@@ -287,55 +318,65 @@ class AllEssaysMenu extends Controller
         if ($request->ajax()) {
             $data = EssayEditors::where('status_essay_editors', 7)->orderBy('uploaded_at', 'desc')->get();
             return Datatables::of($data)
-            ->addIndexColumn()
-            ->setRowClass(function ($d) {
-                return isset($d->read) && $d->read == 0 ? 'unread' : '';
-            })
-            ->setRowAttr([
-                'onclick' => function($d) {
-                    return 'getCompletedDetail('.$d->id_essay_clients.')';
-                },
-            ])
-            ->editColumn('student_name', function($d){
-                $result = isset($d->essay_clients->client_by_id) ? $d->essay_clients->client_by_id->first_name . ' ' . $d->essay_clients->client_by_id->last_name : $d->essay_clients->client_by_email->first_name . ' ' . $d->essay_clients->client_by_email->last_name;
-                return $result;
-            })
-            ->editColumn('mentor_name', function($d){
-                $result = $d->essay_clients->mentor->first_name . ' ' . $d->essay_clients->mentor->last_name;
-                return $result;
-            })
-            ->editColumn('editor_name', function($d){
-                $result = isset($d->editor) ? $d->editor->first_name . ' ' . $d->editor->last_name : '-';
-                return $result;
-            })
-            ->editColumn('request_editor', function($d){
-                $result = isset($d->essay_clients->editor) ? $d->essay_clients->editor->first_name.' '.$d->essay_clients->editor->last_name : '-';
-                return $result;
-            })
-            ->editColumn('program_name', function($d){
-                $result = $d->essay_clients->program->program_name . ' (' . $d->essay_clients->program->minimum_word . ' - ' . $d->essay_clients->program->maximum_word . ' Words)';
-                return $result;
-            })
-            ->editColumn('essay_title', function($d){
-                $result = $d->essay_clients->essay_title;
-                return $result;
-            })
-            ->editColumn('upload_date', function($d){
-                $result = date('D, d M Y', strtotime($d->essay_clients->uploaded_at));
-                return $result;
-            })
-            ->editColumn('essay_deadline', function($d){
-                $result = date('D, d M Y', strtotime($d->essay_clients->essay_deadline));
-                return $result;
-            })
-            ->editColumn('status', function($d){
-                $result = '
-                    <span style="color: var(--green)">'.$d->status->status_title.'</span>
+                ->addIndexColumn()
+                ->setRowClass(function ($d) {
+                    return isset($d->read) && $d->read == 0 ? 'unread' : '';
+                })
+                ->setRowAttr([
+                    'onclick' => function ($d) {
+                        return 'getCompletedDetail(' . $d->id_essay_clients . ')';
+                    },
+                ])
+                ->editColumn('student_name', function ($d) {
+                    $result = isset($d->essay_clients->client_by_id) ? $d->essay_clients->client_by_id->first_name . ' ' . $d->essay_clients->client_by_id->last_name : $d->essay_clients->client_by_email->first_name . ' ' . $d->essay_clients->client_by_email->last_name;
+                    return $result;
+                })
+                ->editColumn('mentor_name', function ($d) {
+                    $result = $d->essay_clients->mentor->first_name . ' ' . $d->essay_clients->mentor->last_name;
+                    return $result;
+                })
+                ->editColumn('editor_name', function ($d) {
+                    $result = isset($d->editor) ? $d->editor->first_name . ' ' . $d->editor->last_name : '-';
+                    return $result;
+                })
+                ->editColumn('request_editor', function ($d) {
+                    $result = isset($d->essay_clients->editor) ? $d->essay_clients->editor->first_name . ' ' . $d->essay_clients->editor->last_name : '-';
+                    return $result;
+                })
+                ->editColumn('program_name', function ($d) {
+                    $result = $d->essay_clients->program->program_name . ' (' . $d->essay_clients->program->minimum_word . ' - ' . $d->essay_clients->program->maximum_word . ' Words)';
+                    return $result;
+                })
+                ->editColumn('essay_title', function ($d) {
+                    $result = $d->essay_clients->essay_title;
+                    return $result;
+                })
+                ->editColumn('upload_date', function ($d) {
+                    $result = date('D, d M Y', strtotime($d->essay_clients->uploaded_at));
+                    return $result;
+                })
+                ->editColumn('editors_deadline', function ($d) {
+                    // Editors deadline 60% dari selisih
+                    $deadline = Carbon::parse($d->essay_clients->essay_deadline)
+                        ->startOfDay()
+                        ->diffInDays(Carbon::parse($d->essay_clients->uploaded_at)->startOfDay());
+
+                    $editor_deadline = Carbon::parse($d->essay_clients->uploaded_at)->addDays(round((60 / 100) * $deadline, 0));
+                    $result = date('D, d M Y', strtotime($editor_deadline));
+                    return $result;
+                })
+                ->editColumn('essay_deadline', function ($d) {
+                    $result = date('D, d M Y', strtotime($d->essay_clients->essay_deadline));
+                    return $result;
+                })
+                ->editColumn('status', function ($d) {
+                    $result = '
+                    <span style="color: var(--green)">' . $d->status->status_title . '</span>
                 ';
-                return $result;
-            })
-            ->rawColumns(['status'])
-            ->make(true);
+                    return $result;
+                })
+                ->rawColumns(['status'])
+                ->make(true);
         }
     }
 
@@ -381,8 +422,8 @@ class AllEssaysMenu extends Controller
                 $essay->save();
                 DB::commit();
             }
-            
-            $editors->map(function($data) {
+
+            $editors->map(function ($data) {
                 $data['dueTomorrow'] = $this->dueEssayEditor('0', '1', $data['email']);
                 $data['dueThree'] = $this->dueEssayEditor('2', '3', $data['email']);
                 $data['dueFive'] = $this->dueEssayEditor('4', '5', $data['email']);
@@ -534,7 +575,7 @@ class AllEssaysMenu extends Controller
         $managing = Auth::guard('web-editor')->user();
         $client = Client::where('id_clients', $essay->id_clients)->first();
         $editor = Editor::where('email', $essay_editor->editors_mail)->first();
-    
+
         try {
             $essay->status_essay_clients = 4;
             $essay->save();
@@ -612,8 +653,8 @@ class AllEssaysMenu extends Controller
                 $file_name = 'Revised_by_' . $editor->first_name . '_' . $editor->last_name . '(' . date('d-m-Y_His') . ')';
                 // $file_name = str_replace(' ', '-', $file_name);
                 $file_format = $request->file('uploaded_acc_file')->getClientOriginalExtension();
-                $med_file_path = $request->file('uploaded_acc_file')->storeAs('program/essay/revised', $file_name.'.'.$file_format, ['disk' => 'public_assets']);
-                $essay_editor->managing_file = $file_name.'.'.$file_format;
+                $med_file_path = $request->file('uploaded_acc_file')->storeAs('program/essay/revised', $file_name . '.' . $file_format, ['disk' => 'public_assets']);
+                $essay_editor->managing_file = $file_name . '.' . $file_format;
             }
             $essay_editor->notes_managing = $request->notes_managing;
             $essay_editor->save();
@@ -772,7 +813,7 @@ class AllEssaysMenu extends Controller
             if (EssayFeedbacks::find($id_essay)) {
                 EssayFeedbacks::find($id_essay)->delete();
             }
-            
+
 
             DB::commit();
         } catch (Exception $e) {
@@ -845,59 +886,59 @@ class AllEssaysMenu extends Controller
         if ($request->ajax()) {
             $data = $this->allEssayDeadline('0', '1')->orderBy('status_read_editor', 'asc')->get();
             return Datatables::of($data)
-            ->addIndexColumn()
-            ->setRowClass(function ($d) {
-                return isset($d->status_read_editor) && $d->status_read_editor == 0 ? 'unread' : '';
-            })
-            ->setRowAttr([
-                'onclick' => function($d) {
-                    return 'getOngoingDetail('.$d->id_essay_clients.')';
-                },
-            ])
-            ->editColumn('student_name', function($d){
-                $result = $d->client_by_id->first_name.' '.$d->client_by_id->last_name;
-                return $result;
-            })
-            ->editColumn('mentor_name', function($d){
-                $result = $d->client_by_id->mentors->first_name.' '.$d->client_by_id->mentors->last_name;
-                return $result;
-            })
-            ->editColumn('editor_name', function($d){
-                if ($d->essay_editors && $d->essay_editors->editor != null) {
-                    $result = $d->essay_editors->editor->first_name.' '.$d->essay_editors->editor->last_name;
-                } else if ($d->status_essay_clients == 0 || $d->editor == null) {
-                    $result = '-';
-                }
-                return $result;
-            })
-            ->editColumn('request_editor', function($d){
-                $result = $d->editor ? $d->editor->first_name.' '.$d->editor->last_name : '-';
-                return $result;
-            })
-            ->editColumn('program_name', function($d){
-                $result = $d->program->program_name.' ('.$d->program->minimum_word.' - '.$d->program->maximum_word.' Words)';
-                return $result;
-            })
-            ->editColumn('essay_title', function($d){
-                $result = $d->essay_title;
-                return $result;
-            })
-            ->editColumn('upload_date', function($d){
-                $result = date('D, d M Y', strtotime($d->uploaded_at));
-                return $result;
-            })
-            ->editColumn('essay_deadline', function($d){
-                $result = date('D, d M Y', strtotime($d->essay_deadline));
-                return $result;
-            })
-            ->editColumn('status', function($d){
-                $result = '
-                    <span style="color: var(--blue)">'.$d->status->status_title.'</span>
+                ->addIndexColumn()
+                ->setRowClass(function ($d) {
+                    return isset($d->status_read_editor) && $d->status_read_editor == 0 ? 'unread' : '';
+                })
+                ->setRowAttr([
+                    'onclick' => function ($d) {
+                        return 'getOngoingDetail(' . $d->id_essay_clients . ')';
+                    },
+                ])
+                ->editColumn('student_name', function ($d) {
+                    $result = $d->client_by_id->first_name . ' ' . $d->client_by_id->last_name;
+                    return $result;
+                })
+                ->editColumn('mentor_name', function ($d) {
+                    $result = $d->client_by_id->mentors->first_name . ' ' . $d->client_by_id->mentors->last_name;
+                    return $result;
+                })
+                ->editColumn('editor_name', function ($d) {
+                    if ($d->essay_editors && $d->essay_editors->editor != null) {
+                        $result = $d->essay_editors->editor->first_name . ' ' . $d->essay_editors->editor->last_name;
+                    } else if ($d->status_essay_clients == 0 || $d->editor == null) {
+                        $result = '-';
+                    }
+                    return $result;
+                })
+                ->editColumn('request_editor', function ($d) {
+                    $result = $d->editor ? $d->editor->first_name . ' ' . $d->editor->last_name : '-';
+                    return $result;
+                })
+                ->editColumn('program_name', function ($d) {
+                    $result = $d->program->program_name . ' (' . $d->program->minimum_word . ' - ' . $d->program->maximum_word . ' Words)';
+                    return $result;
+                })
+                ->editColumn('essay_title', function ($d) {
+                    $result = $d->essay_title;
+                    return $result;
+                })
+                ->editColumn('upload_date', function ($d) {
+                    $result = date('D, d M Y', strtotime($d->uploaded_at));
+                    return $result;
+                })
+                ->editColumn('essay_deadline', function ($d) {
+                    $result = date('D, d M Y', strtotime($d->essay_deadline));
+                    return $result;
+                })
+                ->editColumn('status', function ($d) {
+                    $result = '
+                    <span style="color: var(--blue)">' . $d->status->status_title . '</span>
                 ';
-                return $result;
-            })
-            ->rawColumns(['status'])
-            ->make(true);
+                    return $result;
+                })
+                ->rawColumns(['status'])
+                ->make(true);
         }
     }
     public function dueTomorrow(Request $request)
@@ -910,59 +951,59 @@ class AllEssaysMenu extends Controller
         if ($request->ajax()) {
             $data = $this->allEssayDeadline('2', '3')->orderBy('status_read_editor', 'asc')->get();
             return Datatables::of($data)
-            ->addIndexColumn()
-            ->setRowClass(function ($d) {
-                return isset($d->status_read_editor) && $d->status_read_editor == 0 ? 'unread' : '';
-            })
-            ->setRowAttr([
-                'onclick' => function($d) {
-                    return 'getOngoingDetail('.$d->id_essay_clients.')';
-                },
-            ])
-            ->editColumn('student_name', function($d){
-                $result = $d->client_by_id->first_name.' '.$d->client_by_id->last_name;
-                return $result;
-            })
-            ->editColumn('mentor_name', function($d){
-                $result = $d->client_by_id->mentors->first_name.' '.$d->client_by_id->mentors->last_name;
-                return $result;
-            })
-            ->editColumn('editor_name', function($d){
-                if ($d->essay_editors && $d->essay_editors->editor != null) {
-                    $result = $d->essay_editors->editor->first_name.' '.$d->essay_editors->editor->last_name;
-                } else if ($d->status_essay_clients == 0 || $d->editor == null) {
-                    $result = '-';
-                }
-                return $result;
-            })
-            ->editColumn('request_editor', function($d){
-                $result = $d->editor ? $d->editor->first_name.' '.$d->editor->last_name : '-';
-                return $result;
-            })
-            ->editColumn('program_name', function($d){
-                $result = $d->program->program_name.' ('.$d->program->minimum_word.' - '.$d->program->maximum_word.' Words)';
-                return $result;
-            })
-            ->editColumn('essay_title', function($d){
-                $result = $d->essay_title;
-                return $result;
-            })
-            ->editColumn('upload_date', function($d){
-                $result = date('D, d M Y', strtotime($d->uploaded_at));
-                return $result;
-            })
-            ->editColumn('essay_deadline', function($d){
-                $result = date('D, d M Y', strtotime($d->essay_deadline));
-                return $result;
-            })
-            ->editColumn('status', function($d){
-                $result = '
-                    <span style="color: var(--blue)">'.$d->status->status_title.'</span>
+                ->addIndexColumn()
+                ->setRowClass(function ($d) {
+                    return isset($d->status_read_editor) && $d->status_read_editor == 0 ? 'unread' : '';
+                })
+                ->setRowAttr([
+                    'onclick' => function ($d) {
+                        return 'getOngoingDetail(' . $d->id_essay_clients . ')';
+                    },
+                ])
+                ->editColumn('student_name', function ($d) {
+                    $result = $d->client_by_id->first_name . ' ' . $d->client_by_id->last_name;
+                    return $result;
+                })
+                ->editColumn('mentor_name', function ($d) {
+                    $result = $d->client_by_id->mentors->first_name . ' ' . $d->client_by_id->mentors->last_name;
+                    return $result;
+                })
+                ->editColumn('editor_name', function ($d) {
+                    if ($d->essay_editors && $d->essay_editors->editor != null) {
+                        $result = $d->essay_editors->editor->first_name . ' ' . $d->essay_editors->editor->last_name;
+                    } else if ($d->status_essay_clients == 0 || $d->editor == null) {
+                        $result = '-';
+                    }
+                    return $result;
+                })
+                ->editColumn('request_editor', function ($d) {
+                    $result = $d->editor ? $d->editor->first_name . ' ' . $d->editor->last_name : '-';
+                    return $result;
+                })
+                ->editColumn('program_name', function ($d) {
+                    $result = $d->program->program_name . ' (' . $d->program->minimum_word . ' - ' . $d->program->maximum_word . ' Words)';
+                    return $result;
+                })
+                ->editColumn('essay_title', function ($d) {
+                    $result = $d->essay_title;
+                    return $result;
+                })
+                ->editColumn('upload_date', function ($d) {
+                    $result = date('D, d M Y', strtotime($d->uploaded_at));
+                    return $result;
+                })
+                ->editColumn('essay_deadline', function ($d) {
+                    $result = date('D, d M Y', strtotime($d->essay_deadline));
+                    return $result;
+                })
+                ->editColumn('status', function ($d) {
+                    $result = '
+                    <span style="color: var(--blue)">' . $d->status->status_title . '</span>
                 ';
-                return $result;
-            })
-            ->rawColumns(['status'])
-            ->make(true);
+                    return $result;
+                })
+                ->rawColumns(['status'])
+                ->make(true);
         }
     }
     public function dueThree(Request $request)
@@ -975,59 +1016,59 @@ class AllEssaysMenu extends Controller
         if ($request->ajax()) {
             $data = $this->allEssayDeadline('4', '5')->orderBy('status_read_editor', 'asc')->get();
             return Datatables::of($data)
-            ->addIndexColumn()
-            ->setRowClass(function ($d) {
-                return isset($d->status_read_editor) && $d->status_read_editor == 0 ? 'unread' : '';
-            })
-            ->setRowAttr([
-                'onclick' => function($d) {
-                    return 'getOngoingDetail('.$d->id_essay_clients.')';
-                },
-            ])
-            ->editColumn('student_name', function($d){
-                $result = $d->client_by_id->first_name.' '.$d->client_by_id->last_name;
-                return $result;
-            })
-            ->editColumn('mentor_name', function($d){
-                $result = $d->client_by_id->mentors->first_name.' '.$d->client_by_id->mentors->last_name;
-                return $result;
-            })
-            ->editColumn('editor_name', function($d){
-                if ($d->essay_editors && $d->essay_editors->editor != null) {
-                    $result = $d->essay_editors->editor->first_name.' '.$d->essay_editors->editor->last_name;
-                } else if ($d->status_essay_clients == 0 || $d->editor == null) {
-                    $result = '-';
-                }
-                return $result;
-            })
-            ->editColumn('request_editor', function($d){
-                $result = $d->editor ? $d->editor->first_name.' '.$d->editor->last_name : '-';
-                return $result;
-            })
-            ->editColumn('program_name', function($d){
-                $result = $d->program->program_name.' ('.$d->program->minimum_word.' - '.$d->program->maximum_word.' Words)';
-                return $result;
-            })
-            ->editColumn('essay_title', function($d){
-                $result = $d->essay_title;
-                return $result;
-            })
-            ->editColumn('upload_date', function($d){
-                $result = date('D, d M Y', strtotime($d->uploaded_at));
-                return $result;
-            })
-            ->editColumn('essay_deadline', function($d){
-                $result = date('D, d M Y', strtotime($d->essay_deadline));
-                return $result;
-            })
-            ->editColumn('status', function($d){
-                $result = '
-                    <span style="color: var(--blue)">'.$d->status->status_title.'</span>
+                ->addIndexColumn()
+                ->setRowClass(function ($d) {
+                    return isset($d->status_read_editor) && $d->status_read_editor == 0 ? 'unread' : '';
+                })
+                ->setRowAttr([
+                    'onclick' => function ($d) {
+                        return 'getOngoingDetail(' . $d->id_essay_clients . ')';
+                    },
+                ])
+                ->editColumn('student_name', function ($d) {
+                    $result = $d->client_by_id->first_name . ' ' . $d->client_by_id->last_name;
+                    return $result;
+                })
+                ->editColumn('mentor_name', function ($d) {
+                    $result = $d->client_by_id->mentors->first_name . ' ' . $d->client_by_id->mentors->last_name;
+                    return $result;
+                })
+                ->editColumn('editor_name', function ($d) {
+                    if ($d->essay_editors && $d->essay_editors->editor != null) {
+                        $result = $d->essay_editors->editor->first_name . ' ' . $d->essay_editors->editor->last_name;
+                    } else if ($d->status_essay_clients == 0 || $d->editor == null) {
+                        $result = '-';
+                    }
+                    return $result;
+                })
+                ->editColumn('request_editor', function ($d) {
+                    $result = $d->editor ? $d->editor->first_name . ' ' . $d->editor->last_name : '-';
+                    return $result;
+                })
+                ->editColumn('program_name', function ($d) {
+                    $result = $d->program->program_name . ' (' . $d->program->minimum_word . ' - ' . $d->program->maximum_word . ' Words)';
+                    return $result;
+                })
+                ->editColumn('essay_title', function ($d) {
+                    $result = $d->essay_title;
+                    return $result;
+                })
+                ->editColumn('upload_date', function ($d) {
+                    $result = date('D, d M Y', strtotime($d->uploaded_at));
+                    return $result;
+                })
+                ->editColumn('essay_deadline', function ($d) {
+                    $result = date('D, d M Y', strtotime($d->essay_deadline));
+                    return $result;
+                })
+                ->editColumn('status', function ($d) {
+                    $result = '
+                    <span style="color: var(--blue)">' . $d->status->status_title . '</span>
                 ';
-                return $result;
-            })
-            ->rawColumns(['status'])
-            ->make(true);
+                    return $result;
+                })
+                ->rawColumns(['status'])
+                ->make(true);
         }
     }
     public function dueFive(Request $request)
