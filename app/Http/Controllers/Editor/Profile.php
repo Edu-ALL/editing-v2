@@ -12,6 +12,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class Profile extends Controller
 {
@@ -44,7 +45,8 @@ class Profile extends Controller
         DB::beginTransaction();
         try {
 
-            $editor = Editor::find($id_editors);
+            $old_editor = Editor::find($id_editors);
+            $editor = $old_editor;
             $editor->first_name = $request->first_name;
             $editor->last_name = $request->last_name;
             $editor->phone = $request->phone;
@@ -78,9 +80,11 @@ class Profile extends Controller
             $editor->save();
             DB::commit();
 
+            Log::notice("Editor : " . $old_editor->first_name . " " . $old_editor->last_name . " profile data was change to " . $editor);
         } catch (Exception $e) {
 
             DB::rollBack();
+            Log::error($e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
 
         }
