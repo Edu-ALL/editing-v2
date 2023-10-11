@@ -10,6 +10,7 @@ use App\Models\EssayClients;
 use App\Models\EssayEditors;
 use App\Models\Status;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -236,7 +237,7 @@ class Export extends Controller
             ],
             $body_excel
         ]);
-
+        Log::notice('Excel file has been successfully created : '.'Essay Report '.$f_month.'-'.$f_year.'.xlsx');
         return Excel::download($export, 'Essay Report ' . $f_month . '-' . $f_year . '.xlsx');
     }
 

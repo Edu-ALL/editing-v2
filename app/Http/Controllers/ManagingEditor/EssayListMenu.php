@@ -25,6 +25,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -416,8 +417,10 @@ class EssayListMenu extends Controller
             $essay_status->save();
 
             DB::commit();
+            Log::notice('Editor : '.Auth::guard('web-editor')->user()->first_name.' '.Auth::guard('web-editor')->user()->last_name.' has accepted Essay : '.$essay->essay_title);
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error('Accept Essay failed : '.$e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
 
@@ -461,8 +464,10 @@ class EssayListMenu extends Controller
             EssayEditors::where('id_essay_clients', '=', $essay->id_essay_clients)->delete();
 
             DB::commit();
+            Log::notice('Editor : '.Auth::guard('web-editor')->user()->first_name.' '.Auth::guard('web-editor')->user()->last_name.' has rejected Essay : '.$essay->essay_title);
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error('Reject Essay failed : '.$e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
 
@@ -552,8 +557,10 @@ class EssayListMenu extends Controller
             $work_duration->save();
 
             DB::commit();
+            Log::notice('Editor : '.Auth::guard('web-editor')->user()->first_name.' '.Auth::guard('web-editor')->user()->last_name.' has submitted Essay : '.$essay->essay_title);
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error('Submit Essay failed : '.$e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
 
@@ -661,8 +668,10 @@ class EssayListMenu extends Controller
             $work_duration->save();
 
             DB::commit();
+            Log::notice('Editor : '.Auth::guard('web-editor')->user()->first_name.' '.Auth::guard('web-editor')->user()->last_name.' has revised Essay : '.$essay->essay_title);
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error('Revise Essay failed : '.$e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
 

@@ -109,10 +109,11 @@
                 ]
             });
         });
-
-        function getOngoingDetail(id) {
-            var link = '/editor/all-essays/ongoing/detail/' + id
-            window.location.href = link;
-        }
-    </script>
+    });
+    function getOngoingDetail(id){
+        var link = '/editor/all-essays/ongoing/detail/' + id
+        // window.location.href = link;
+        window.open(link, '_blank');
+    }
+</script>
 @endsection

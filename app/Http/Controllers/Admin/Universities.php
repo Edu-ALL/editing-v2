@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Redirect;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
 
 class Universities extends Controller
@@ -113,11 +114,12 @@ class Universities extends Controller
 
             $university->save();
             DB::commit();
+            Log::notice($university->university_name.' has been successfully added');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error('Store University failed : '.$e->getMessage());
             return Redirect::back()->withErrors(['msg' => 'Something went wrong when processing the data.']);
         }
-
         return redirect('admin/setting/universities/add')->with('input-successful', 'New university has been added');
     }
 
@@ -126,30 +128,56 @@ class Universities extends Controller
         if (!$university = University::find($id_univ)) {
             return Redirect::back()->withErrors(['msg' => 'Couldn\'t find the university']);
         }
-        $university_name = $request->university_name;
 
-        $university->university_name = $university_name;
-        $university->website = $request->website;
-        $university->univ_email = $request->email;
-        $university->phone = $request->phone;
-        $university->address = $request->address;
-        $university->country = $request->country;
+        $rules = [
+            'university_name' => 'required|max:255',
+            'email' => 'nullable|email',
+            'website' => 'nullable|url',
+            'phone' => 'nullable',
+            'country' => 'nullable',
+            'address' => 'nullable',
+            'uploaded_file' => 'nullable|mimes:jpeg,jpg,png,bmp,webp|max:2048'
+        ];
 
-        if ($request->hasFile('uploaded_file')) {
-            if ($old_image_path = $university->photo) {
-                $file_path = public_path('uploaded_files/univ/' . $old_image_path);
-                if (File::exists($file_path)) {
-                    File::delete($file_path);
-                }
-            }
-            $file_name = str_replace(' ', '-', strtolower($university_name));
-            $file_format = $request->file('uploaded_file')->getClientOriginalExtension();
-            $med_file_path = $request->file('uploaded_file')->storeAs('univ', $file_name . '.' . $file_format, ['disk' => 'public_assets']);
-
-            $university->photo = $file_name . '.' . $file_format;
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator->messages());
         }
-        $university->save();
 
+        DB::beginTransaction();
+        try {
+
+            $university_name = $request->university_name;
+
+            $university->university_name = $university_name;
+            $university->website = $request->website;
+            $university->univ_email = $request->email;
+            $university->phone = $request->phone;
+            $university->address = $request->address;
+            $university->country = $request->country;
+
+            if ($request->hasFile('uploaded_file')) {
+                if ($old_image_path = $university->photo) {
+                    $file_path = public_path('uploaded_files/univ/' . $old_image_path);
+                    if (File::exists($file_path)) {
+                        File::delete($file_path);
+                    }
+                }
+                $file_name = str_replace(' ', '-', strtolower($university_name));
+                $file_format = $request->file('uploaded_file')->getClientOriginalExtension();
+                $med_file_path = $request->file('uploaded_file')->storeAs('univ', $file_name . '.' . $file_format, ['disk' => 'public_assets']);
+    
+                $university->photo = $file_name . '.' . $file_format;
+            }
+
+            $university->save();
+            DB::commit();
+            Log::notice($university->university_name.' has been successfully updated');
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error('Update University failed : '.$e->getMessage());
+            return Redirect::back()->withErrors(['msg' => 'Something went wrong when processing the data.']);
+        }
         return redirect('admin/setting/universities/detail/' . $id_univ)->with('update-successful', 'The university has been updated');
     }
 
@@ -158,6 +186,7 @@ class Universities extends Controller
         if (!$university = University::find($id_univ)) {
             return Redirect::back()->withErrors(['success' => false, 'message' => 'Couldn\'t find the university']);
         }
+        $university_name = $university->university_name;
 
         //! tambahin hapus file sebelum delete data
         if ($old_image_path = $university->photo) {
@@ -166,8 +195,8 @@ class Universities extends Controller
                 File::delete($file_path);
             }
         }
-
         $university->delete();
+        Log::notice($university_name.' has been successfully deleted');
         return redirect(route('list-university'))->with('delete-successful', 'The university has been deleted');
     }
 }

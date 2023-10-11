@@ -17,6 +17,7 @@ use Illuminate\Support\Str;
 use App\Models\Token;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
 
 class Editors extends Controller
@@ -41,13 +42,17 @@ class Editors extends Controller
         });
 
         if (Mail::failures()) {
+            Log::error('Failed to sent email : '.Mail::failures());
             return response()->json(Mail::failures());
         }
 
-        if (Auth::guard('web-admin')->check())
+        if (Auth::guard('web-admin')->check()){
+            Log::notice('Invitation email has been sent to '.$email);
             return redirect('admin/user/editor/invite')->with('invite-editor-successful', 'Invitation email has been sent');
-        else
+        } else {
+            Log::notice('Invitation email has been sent to '.$email);
             return redirect('editor/invite')->with('invite-editor-successful', 'Invitation email has been sent');
+        }
     }
 
     public function join_editor(Request $request)
@@ -114,9 +119,10 @@ class Editors extends Controller
             $token->delete();
 
             DB::commit();
+            Log::notice('Editor : '.$new_editor->first_name.' '.$new_editor->last_name.' was successfully added');
         } catch (Exception $e) {
-
             DB::rollBack();
+            Log::error($e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
 
@@ -332,9 +338,10 @@ class Editors extends Controller
             $new_editor->status = 1;
             $new_editor->save();
             DB::commit();
+            Log::notice('Editor : '.$new_editor->first_name.' '.$new_editor->last_name.' was successfully created');
         } catch (Exception $e) {
-
             DB::rollBack();
+            Log::error('Store Editor failed : '.$e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
 
@@ -354,17 +361,16 @@ class Editors extends Controller
 
         DB::beginTransaction();
         try {
-
             $editor = Editor::find($id_editors);
             $editor->position = $request->position;
             $editor->save();
             DB::commit();
+            Log::notice('Editor : '.$editor->first_name.' '.$editor->last_name.' position was updated');
         } catch (Exception $e) {
-
             DB::rollBack();
+            Log::error('Update Editor failed : '.$e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
-
         return redirect('admin/user/editor/detail/' . $id_editors)->with('update-editor-successful', 'The Editor has been updated');
     }
 
@@ -375,13 +381,14 @@ class Editors extends Controller
             $editor = Editor::find($id_editors);
             $editor->status = 2;
             $editor->save();
-
             DB::commit();
+            Log::notice('Editor : '.$editor->first_name.' '.$editor->last_name.' was successfully deactivated');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error('Deactivate Editor failed : '.$e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
-        return redirect('admin/user/editor');
+        return redirect('admin/user/editor/detail/' . $id_editors);
     }
 
     public function activate($id_editors)
@@ -391,12 +398,13 @@ class Editors extends Controller
             $editor = Editor::find($id_editors);
             $editor->status = 1;
             $editor->save();
-
             DB::commit();
+            Log::notice('Editor : '.$editor->first_name.' '.$editor->last_name.' was successfully activated');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error('Activate Editor failed : '.$e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
-        return redirect('admin/user/editor');
+        return redirect('admin/user/editor/detail/' . $id_editors);
     }
 }

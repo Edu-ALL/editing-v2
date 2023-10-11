@@ -445,8 +445,16 @@ class AllEssaysMenu extends Controller
                 $essay->save();
                 DB::commit();
             }
-
-            $editors->map(function ($data) {
+            if ($essay_editor) {
+                if ($essay_editor->read == 0) {
+                    DB::beginTransaction();
+                    $essay_editor->read = 1;
+                    $essay_editor->save();
+                    DB::commit();
+                }
+            }
+            
+            $editors->map(function($data) {
                 $data['dueTomorrow'] = $this->dueEssayEditor('0', '1', $data['email']);
                 $data['dueThree'] = $this->dueEssayEditor('2', '3', $data['email']);
                 $data['dueFive'] = $this->dueEssayEditor('4', '5', $data['email']);
@@ -503,6 +511,12 @@ class AllEssaysMenu extends Controller
             } else {
                 $status_essay = 'Late';
             }
+            if ($essay->read == 0) {
+                DB::beginTransaction();
+                $essay->read = 1;
+                $essay->save();
+                DB::commit();
+            }
             return view('user.editor.all-essays.essay-completed-detail', [
                 'tracking' => $tracking,
                 'essay' => $essay_client,
@@ -523,10 +537,8 @@ class AllEssaysMenu extends Controller
         # managing editor data
         $managing_name = Auth::guard('web-editor')->user()->first_name . ' ' . Auth::guard('web-editor')->user()->last_name;
 
-
         # get associate editor data
         $editor = Editor::where('email', $request->id_editors)->where('status', 1)->first();
-
 
         DB::beginTransaction();
         try {
@@ -552,12 +564,12 @@ class AllEssaysMenu extends Controller
             $essay_status->id_essay_clients = $essay->id_essay_clients;
             $essay_status->status = 1;
             $essay_status->save();
+            Log::notice('Editor : '.$managing_name.' has been Assigned for Essay : '.$essay->essay_title);
         } catch (Exception $e) {
             DB::rollBack();
-            Log::error($e->getMessage());
+            Log::error('Assign Editor failed : '.$e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
-
 
         $editors_mail = $essay->essay_editors->editor->email;
 
@@ -617,8 +629,10 @@ class AllEssaysMenu extends Controller
             $essay_status->save();
 
             DB::commit();
+            Log::notice('Editor : '.$editor->first_name.' '.$editor->last_name.' has been Canceled for Essay : '.$essay->essay_title);
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error('Cancel Editor failed : '.$e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
 
@@ -688,9 +702,10 @@ class AllEssaysMenu extends Controller
             event(new EditorNotif($essay_editor->editors_mail, 'Congratulations, your essay has been completed.'));
 
             DB::commit();
+            Log::notice('Editor : '.$editor->first_name.' '.$editor->last_name.' has been Completed for Essay : '.$essay->essay_title);
         } catch (Exception $e) {
             DB::rollBack();
-            Log::error($e->getMessage());
+            Log::error('Complete Essay failed : '.$e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
 
@@ -756,8 +771,10 @@ class AllEssaysMenu extends Controller
             // event(new EditorNotif($essay_editor->editors_mail, 'Please, revise your essay.'));
 
             DB::commit();
+            Log::notice('Editor : '.$managing->first_name.' '.$managing->last_name.' has been Revised for Essay : '.$essay->essay_title);
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error('Revise Essay failed : '.$e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
 
@@ -816,12 +833,11 @@ class AllEssaysMenu extends Controller
             'mentor' => $mentor
         ];
 
-
         // Pusher 
         // event(new MentorNotif($email, 'Congratulations, your essay has been completed.'));
 
         $this->sendEmail('send_email', $email, $data);
-
+        Log::notice('Email successfully sent to Mentor : '.$mentor->first_name.' '.$mentor->last_name.' for Essay : '.$essay->essay_title.' with Editor : '.$editor->first_name.' '.$editor->last_name);
         return redirect('editor/all-essays/completed/detail/' . $id_essay);
     }
 
@@ -862,8 +878,10 @@ class AllEssaysMenu extends Controller
 
 
             DB::commit();
+            Log::notice('Editor : '.$editor->first_name.' '.$editor->last_name.' has been Cancel Revise for Essay : '.$essay->essay_title);
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error('Cancel Revise Essay failed : '.$e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
 
