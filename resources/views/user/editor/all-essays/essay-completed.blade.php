@@ -25,7 +25,7 @@
                                     </div>
                                 </div>
                                 <div class="container text-start px-3 py-2">
-                                    <table class="table" id="listessaycompleted" style="width: 100%">
+                                    <table class="table text-nowrap" id="listessaycompleted" style="width: 100%;">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
@@ -38,6 +38,7 @@
                                                 <th>Upload Date</th>
                                                 <th>Editors Deadline</th>
                                                 <th>Essay Deadline</th>
+                                                <th>Managing Feedback</th>
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
@@ -102,6 +103,11 @@
                 {
                     data: 'essay_deadline',
                     name: 'essay_deadline'
+                },
+                {
+                    data: 'managing_feedback',
+                    name: 'managing_feedback',
+                    defaultContent: "-"
                 },
                 {
                     data: 'status',

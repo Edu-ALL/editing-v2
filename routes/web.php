@@ -254,7 +254,7 @@ Route::middleware('is_editor')->group(function () {
     //Detail All Essays
     Route::get('/editor/all-essays/ongoing/detail/{id}', [AllEssaysMenu::class, 'detailEssayManaging']);
     Route::get('/editor/all-essays/completed/detail/{id}', [AllEssaysMenu::class, 'detailEssayManagingCompleted']);
-
+    Route::post('/editor/all-essays/completed/detail/{id}', [AllEssaysMenu::class, 'managing_feedback']);
     //List All Essays Due
     Route::get('/editor/all-essays/essay-list-due-tommorow', [AllEssaysMenu::class, 'dueTomorrow'])->name('editor-list-due-tomorrow');
     Route::get('/editor/all-essays/essay-list-due-tommorow/data', [AllEssaysMenu::class, 'getDueTomorrow'])->name('managing-data-all-due-tomorrow');

@@ -13,6 +13,7 @@ use App\Models\EssayFeedbacks;
 use App\Models\EssayRevise;
 use App\Models\EssayStatus;
 use App\Models\EssayTags;
+use App\Models\ManagingFeedback;
 use App\Models\Mentor;
 use App\Models\Tags;
 use App\Models\Token;
@@ -369,6 +370,28 @@ class AllEssaysMenu extends Controller
                     $result = date('D, d M Y', strtotime($d->essay_clients->essay_deadline));
                     return $result;
                 })
+                ->editColumn('managing_feedback', function ($d) {
+                    $managing_feedback = ManagingFeedback::where('id_essay_editor', $d->id_essay_editors)->first();
+                    $feedback = $managing_feedback ? $managing_feedback->feedback : 4;
+                    $result = '';
+                    switch ($feedback) {
+                        case 0:
+                            $result = 'Unacceptable';
+                            break;
+                        case 1:
+                            $result = 'Lacking';
+                            break;
+                        case 2:
+                            $result = 'Acceptable';
+                            break;
+                        case 3:
+                            $result = 'Beyond';
+                            break;
+                        default:
+                            $result = '-';
+                    }
+                    return $result;
+                })
                 ->editColumn('status', function ($d) {
                     $result = '
                     <span style="color: var(--green)">' . $d->status->status_title . '</span>
@@ -464,6 +487,7 @@ class AllEssaysMenu extends Controller
     public function detailEssayManagingCompleted($id_essay, Request $request)
     {
         $essay = EssayEditors::where('id_essay_clients', $id_essay)->first();
+        $managing_feedback = ManagingFeedback::where('id_essay_editor', $essay->id_essay_editors)->first();
 
         $tracking = EssayStatus::where('id_essay_clients', $id_essay)
             ->groupBy('status')
@@ -485,7 +509,8 @@ class AllEssaysMenu extends Controller
                 'essay_editor' => $essay,
                 'tags' => EssayTags::where('id_essay_clients', $id_essay)->get(),
                 'feedback' => EssayFeedbacks::where('id_essay_clients', $id_essay)->first(),
-                'status_essay' => $status_essay
+                'status_essay' => $status_essay,
+                'managing_feedback' => $managing_feedback,
             ]);
         } else {
             return abort(404);
@@ -751,6 +776,27 @@ class AllEssaysMenu extends Controller
         $this->sendEmail('revise', $email, $data);
 
         return redirect('editor/all-essays/ongoing/detail/' . $id_essay);
+    }
+
+    public function managing_feedback(Request $request, $id)
+    {
+        DB::beginTransaction();
+        try {
+            $managing_feedback = new ManagingFeedback;
+            $managing_feedback->id_essay_editor = $request->essay_editor;
+            $managing_feedback->id_editor = $request->managing_editor;
+            $managing_feedback->feedback = $request->feedback;
+            $managing_feedback->created_at = date('Y-m-d H:i:s');
+            $managing_feedback->save();
+
+            DB::commit();
+            Log::notice('Store Managing Feedback Successfully with Essay Editors ID ' . $request->essay_editor);
+            return redirect('editor/all-essays/completed/detail/' . $id)->withSuccess('The feedback has been submitted.');
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error('Store Managing Feedback: ' . $e->getMessage());
+            return Redirect::back()->withErrors($e->getMessage());
+        }
     }
 
     public function send_email($id_essay)
