@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Editor;
 use App\Models\Token;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
-use Exception;
+use Illuminate\Support\Facades\Log;
 
 class Authentication extends Controller
 {
@@ -38,18 +39,22 @@ class Authentication extends Controller
         }
 
         if (!Auth::guard('web-editor')->attempt($credentials)) {
+            Log::notice("Login was fails for " . $request->email. " email, the password is wrong.");
             return Redirect::back()->withErrors("Your password is wrong.");
         }
 
         $currentEditor = Auth::guard('web-editor')->user();
 
         if (!$currentEditor->status == 1) {
+            Log::notice("Login was fails " . $request->email . " has not been activated.");
             return Redirect::back()->withErrors("This email has not been activated.");
         }
 
         if ($currentEditor->position != 3) {
+            Log::notice("Login was successful for " . $request->email);
             return redirect('editors/dashboard')->with('login-successful', 'Signed in successfully');
         } else if ($currentEditor->position == 3) {
+            Log::notice("Login was successful for" . $request->email);
             return redirect('editor/dashboard')->with('login-successful', 'Signed in successfully');
         }
         // return redirect('editors/dashboard')->with('login-successful', 'Signed in successfully');
@@ -57,12 +62,14 @@ class Authentication extends Controller
 
     public function logout()
     {
+        $currentEditor = Auth::guard('web-editor')->user();
         Auth::guard('web-editor')->logout();
 
         request()->session()->invalidate();
 
         request()->session()->regenerateToken();
 
+        Log::notice("Logout was successful for ".$currentEditor->email." logout is successfully.");
         return redirect('login/editor');
     }
 
@@ -91,9 +98,11 @@ class Authentication extends Controller
         });
 
         if (Mail::failures()) {
+            Log::error("Send email reset password was failed for " . $email . " email.");
             return redirect('/login/editor')->with('send-email-error', 'Email not sent, Try again!');
         }
 
+        Log::notice("Send email reset password was successful for " . $email . " email.");
         return redirect('/login/editor')->with('send-email-success', 'Email has been send, please check your email!');
     }
 
@@ -105,11 +114,13 @@ class Authentication extends Controller
 
         if ($user_token = Token::where('token', $token)->first()) {
             if (!$user_token) {
+                Log::error("Send reset password was failed for " . $email . " email. Token not found!");
                 return redirect('/login/editor')->with('token-not-found', 'Token not found, request again!');
             }
         }
 
         if (!in_array($role, ['admin', 'editor', 'mentor'])) {
+            Log::error("Send reset password was failed for " . $email . " email. Role not found!");
             return redirect('/login/editor')->with('role-not-found', 'Role is not found');
         }
 
@@ -141,6 +152,8 @@ class Authentication extends Controller
             return Redirect::back()->withErrors($validator->messages());
         }
 
+        // DD($request);
+
         DB::beginTransaction();
         try {
             $editor = Editor::where('email', $request->email)->first();
@@ -153,9 +166,11 @@ class Authentication extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error("Reset password was failed ". $e->message());
             return Redirect::back()->with('error-reset-password', "Failed to update password!");
         }
 
+        Log::notice("Reset password was successful for " . $request->email . " email.");
         return redirect('login/editor')->with('success-reset-password', "Password has been updated!");
     }
 

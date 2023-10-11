@@ -249,7 +249,7 @@ class Essays extends Controller
     public function detailEssayCompleted($id_essay, Request $request)
     {
         $essay_editor = EssayEditors::where('id_essay_clients', $id_essay)->first();
-        
+
         $diffDeadline = Carbon::parse($essay_editor->essay_clients->essay_deadline)->startOfDay()->diffInDays(Carbon::parse($essay_editor->essay_clients->uploaded_at)->startOfDay());
         $editors_deadline = Carbon::parse($essay_editor->essay_clients->uploaded_at)->addDays(60 / 100 * $diffDeadline);
 
@@ -320,6 +320,7 @@ class Essays extends Controller
 
         $this->sendEmail('accept', $data);
 
+        Log::notice("Essay : " . EssayClients::find($id_essay)->essay_title . " from Client : " . $client->first_name . " " .  $client->last_name . " was accepted by Editor : " . $editor->first_name . " " . $editor->last_name);
         return redirect('editors/essay-list/ongoing/detail/' . $id_essay);
     }
 
@@ -351,6 +352,7 @@ class Essays extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
 
@@ -371,6 +373,7 @@ class Essays extends Controller
 
         $this->sendEmail('reject', $data);
 
+        Log::notice("Essay : " . EssayClients::find($id_essay)->essay_title . " from Client : " . $client->first_name . " " .  $client->last_name . " was rejected by Editor : " . $editor->first_name . " " . $editor->last_name);
         return redirect('editors/essay-list');
     }
 
@@ -536,6 +539,7 @@ class Essays extends Controller
 
         $this->sendEmail('uploadEssay', $data);
 
+        Log::notice("Essay : " . EssayClients::find($id_essay)->essay_title . " from Client : " . $client->first_name . " " .  $client->last_name . " was uploaded by Editor : " . $editor->first_name . " " . $editor->last_name);
         return redirect('editors/essay-list/ongoing/detail/' . $id_essay);
     }
 
@@ -641,6 +645,7 @@ class Essays extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
 
@@ -660,6 +665,7 @@ class Essays extends Controller
 
         $this->sendEmail('uploadRevise', $data);
 
+        Log::notice("Essay : " . EssayClients::find($id_essay)->essay_title . " from Client : " . $client->first_name . " " .  $client->last_name . " revise was uploaded by Editor : " . $editor->first_name . " " . $editor->last_name);
         return redirect('editors/essay-list/ongoing/detail/' . $id_essay);
     }
 }
