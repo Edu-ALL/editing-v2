@@ -107,7 +107,8 @@
     });
     function getCompletedDetail(id){
         var link = '/editor/all-essays/completed/detail/' + id
-        window.location.href = link;
+        // window.location.href = link;
+        window.open(link, '_blank');
     }
 </script>
 @endsection

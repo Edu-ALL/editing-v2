@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Yajra\DataTables\Facades\DataTables;
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 class Clients extends Controller
 {
@@ -83,10 +84,11 @@ class Clients extends Controller
             $client = Client::find($id_clients);
             $client->id_mentor = $request->id_mentor;
             $client->save();
-
             DB::commit();
+            Log::notice('Mentor : '.Mentor::find($client->id_mentor)->first_name.' '.Mentor::find($client->id_mentor)->last_name.'  was set as a Mentor for Student : '.$client->first_name.' '.$client->last_name);
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error('Failed to assign Student Mentor : '.$e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
         return redirect('admin/user/student/detail/' . $id_clients);
@@ -99,10 +101,11 @@ class Clients extends Controller
             $client = Client::find($id_clients);
             $client->id_mentor_2 = $request->id_mentor_2;
             $client->save();
-
             DB::commit();
+            Log::notice('Mentor : '.Mentor::find($client->id_mentor_2)->first_name.' '.Mentor::find($client->id_mentor_2)->last_name.'  was set as a Backup Mentor for Client : '.$client->first_name.' '.$client->last_name);
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error('Failed to assign Student Backup Mentor : '.$e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
         return redirect('admin/user/student/detail/' . $id_clients);

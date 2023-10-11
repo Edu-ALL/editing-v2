@@ -12,6 +12,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class ProfileManaging extends Controller
 {
@@ -77,12 +78,11 @@ class ProfileManaging extends Controller
 
             $editor->save();
             DB::commit();
-
+            Log::notice('Managing Editor : '.$editor->first_name.' '.$editor->last_name.' has been successfully updated');
         } catch (Exception $e) {
-
             DB::rollBack();
+            Log::error('Update Profile Managing Editor failed : '.$e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
-
         }
         return redirect('editor/profile')->with('update-profile-successful', 'Profile editor has been updated');
     }

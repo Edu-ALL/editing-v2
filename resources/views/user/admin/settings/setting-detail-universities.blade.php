@@ -14,6 +14,13 @@
     <div class="col" style="overflow: auto !important">
       @include('user.admin.utama.head')
       <div class="container main-content m-0">
+
+        @if(session()->has('update-successful'))
+          <div class="row alert alert-success fade show" role="alert">
+            {{ session()->get('update-successful') }}
+          </div>
+        @endif
+
         <div class="row gap-2">
           <div class="col-md col-12 p-0 userCard profile">
             <div class="headline d-flex align-items-center gap-3">

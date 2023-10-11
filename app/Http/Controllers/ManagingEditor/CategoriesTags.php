@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
 
 class CategoriesTags extends Controller
@@ -53,14 +54,25 @@ class CategoriesTags extends Controller
 
     public function store(Request $request)
     {
+        $rules = [
+            'title' => 'required|max:150'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator->messages());
+        }
+
         DB::beginTransaction();
         try {
             $new_tag = new Tags;
             $new_tag->topic_name = $request->title;
             $new_tag->save();
             DB::commit();
+            Log::notice('Categories/Tags : '.$new_tag->topic_name.' has been successfully created');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error('Store Categories/Tags failed : '.$e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
         return redirect('editor/setting/categories-tags')->with('add-tag-successful', 'The new tag has been saved');
@@ -71,13 +83,16 @@ class CategoriesTags extends Controller
         if (!$tag = Tags::find($tag_id)) {
             return Redirect::back()->withErrors("Couldn't find the tag");
         }
+        $tag_name = $tag->topic_name;
 
         DB::beginTransaction();
         try {
             $tag->delete();
             DB::commit();
+            Log::notice('Categories/Tags : '.$tag_name.' has been successfully deleted');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error('Delete Categories/Tags failed : '.$e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
         return redirect('editor/setting/categories-tags')->with('delete-tag-successful', 'The tag has been deleted');
@@ -97,17 +112,15 @@ class CategoriesTags extends Controller
 
         DB::beginTransaction();
         try {
-
             $tag = Tags::find($tag_id);
             $tag->topic_name = $request->title;
             $tag->save();
             DB::commit();
-
+            Log::notice('Categories/Tags : '.$tag->topic_name.' has been successfully updated');
         } catch (Exception $e) {
-
             DB::rollBack();
+            Log::error('Update Categories/Tags failed : '.$e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
-
         }
 
         return redirect('editor/setting/categories-tags')->with('update-tag-successful', 'The tag has been updated');

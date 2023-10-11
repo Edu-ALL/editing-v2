@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
 
 class EssayPrompt extends Controller
@@ -78,9 +79,10 @@ class EssayPrompt extends Controller
             $new_prompt->status = 1;
             $new_prompt->save();
             DB::commit();
+            Log::notice('Essay prompt : '.$new_prompt->title.' has been successfully created');
         } catch (Exception $e) {
-
             DB::rollBack();
+            Log::error('Store Essay Prompt failed : '.$e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
 
@@ -92,20 +94,21 @@ class EssayPrompt extends Controller
         if (!$prompt = EssayPrompts::find($prompt_id)) {
             return Redirect::back()->withErrors("Couldn't find the Essay Prompt");
         }
+        $essay_prompt_title = $prompt->title;
 
         DB::beginTransaction();
         try {
-
             $prompt->delete();
             DB::commit();
+            Log::notice('Essay prompt : '.$essay_prompt_title.' has been successfully deleted');
         } catch (Exception $e) {
-
             DB::rollBack();
+            Log::error('Delete Essay Prompt failed : '.$e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
-
         return redirect('admin/setting/essay-prompt')->with('delete-prompt-successful', 'The Essay Prompt has been deleted');
     }
+
     public function update($prompt_id, Request $request)
     {
         $rules = [
@@ -121,7 +124,6 @@ class EssayPrompt extends Controller
 
         DB::beginTransaction();
         try {
-
             $prompt = EssayPrompts::find($prompt_id);
             $prompt->title = $request->title;
             $prompt->description = $request->description;
@@ -130,12 +132,12 @@ class EssayPrompt extends Controller
             $prompt->status = 1;
             $prompt->save();
             DB::commit();
+            Log::notice('Essay prompt : '.$prompt->title.' has been successfully updated');
         } catch (Exception $e) {
-
             DB::rollBack();
+            Log::error('Update Essay Prompt failed : '.$e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
-
         return redirect('admin/setting/essay-prompt/detail/' . $prompt_id)->with('update-prompt-successful', 'The Essay Prompt has been updated');
     }
 }

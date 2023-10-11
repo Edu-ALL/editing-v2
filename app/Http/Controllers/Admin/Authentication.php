@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
@@ -34,6 +35,7 @@ class Authentication extends Controller
 
         $validator = Validator::make($credentials, $rules, $messages);
         if ($validator->fails()) {
+            Log::error('Login failed : '.$request->email.' has not been registered');
             return Redirect::back()->withErrors($validator->messages());
         }
 
@@ -45,18 +47,16 @@ class Authentication extends Controller
         if (!$currentAdmin->status == 1) {
             return Redirect::back()->withErrors("This email has not been activated.");
         }
-
+        Log::notice('Email : '.Auth::guard('web-admin')->user()->email.' has been successfully logged in');
         return redirect('admin/dashboard')->with('login-successful', 'Signed in successfully');
     }
 
     public function logout()
     {
+        Log::notice('Email : '.Auth::guard('web-admin')->user()->email.' has been successfully logged out');
         Auth::guard('web-admin')->logout();
-
         request()->session()->invalidate();
-
         request()->session()->regenerateToken();
-
         return redirect('login/admin');
     }
 
@@ -84,9 +84,11 @@ class Authentication extends Controller
         });
 
         if (Mail::failures()) {
+            Log::error($email.' : Email not sent. '.Mail::failures());
             return redirect('/login/admin')->with('send-email-error', 'Email not sent, Try again!');
         }
 
+        Log::notice('Email : '.$email.' has been send');
         return redirect('/login/admin')->with('send-email-success', 'Email has been send, please check your email!');
     }
 
@@ -146,9 +148,10 @@ class Authentication extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
             return Redirect::back()->with('error-reset-password', $e->getMessage());
         }
-
+        Log::notice($admin->email.' password has been updated');
         return redirect('login/admin')->with('success-reset-password', "Password has been updated!");
     }
 }

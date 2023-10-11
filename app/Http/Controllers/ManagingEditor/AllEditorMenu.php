@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Exception;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
 
 class AllEditorMenu extends Controller
@@ -236,10 +237,11 @@ class AllEditorMenu extends Controller
             $editor = Editor::find($id_editors);
             $editor->status = 2;
             $editor->save();
-
             DB::commit();
+            Log::notice('Editor : '.$editor->first_name.' '.$editor->last_name.' was successfully deactivated');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error('Deactivate Editor failed : '.$e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
         return redirect('editor/list')->with('deactive-editor-successful', $editor->first_name.' has been deactive');
@@ -251,10 +253,11 @@ class AllEditorMenu extends Controller
             $editor = Editor::find($id_editors);
             $editor->status = 1;
             $editor->save();
-
             DB::commit();
+            Log::notice('Editor : '.$editor->first_name.' '.$editor->last_name.' was successfully activated');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error('Activate Editor failed : '.$e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
         return redirect('editor/list')->with('active-editor-successful', $editor->first_name.' has been active');

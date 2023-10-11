@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
 
 class Program extends Controller
@@ -50,11 +51,11 @@ class Program extends Controller
                 ->editColumn('image', function ($program) {
                     if ($program->images) {
                         $result = '<img src="' .
-                            (asset('uploaded_files/univ/' . $program->images)) .
+                            (asset('uploaded_files/programs/' . $program->images)) .
                             '" alt="' . ($program->images) . '" style="max-width:50px;" />';
                     } else {
                         $result = '<img src="' .
-                            (asset('uploaded_files/univ/default.png')) .
+                            (asset('uploaded_files/programs/default.png')) .
                             '" alt="' . ($program->images) . '" style="max-width:50px;" />';
                     }
                     return $result;
@@ -120,8 +121,10 @@ class Program extends Controller
 
             $program->save();
             DB::commit();
+            Log::notice('Program : '.$program_name.' has been successfully created');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error('Store Program failed : '.$e->getMessage());
             return Redirect::back()->withErrors(['msg' => 'Something went wrong when processing the data.']);
         }
 
@@ -134,34 +137,60 @@ class Program extends Controller
             return Redirect::back()->withErrors(['msg' => 'Couldn\'t find the program']);
         }
 
-        $program_name = $request->program_name;
+        $rules = [
+            'program_name' => 'required',
+            'description' => 'nullable',
+            'price' => 'nullable',
+            'discount' => 'nullable',
+            'minimum_word' => 'nullable',
+            'maximum_word' => 'nullable',
+            'completed_within' => 'nullable',
+            'uploaded_file' => 'nullable|mimes:jpeg,jpg,png,bmp,webp|max:2048'
+        ];
 
-        $program->program_name = $program_name;
-        $program->description = $request->description;
-        $program->price = $request->price;
-        $program->discount = $request->discount;
-        $program->minimum_word = $request->minimum_word;
-        $program->maximum_word = $request->maximum_word;
-        $program->completed_within = $request->completed_within;
-        $program->id_category = $request->id_category;
-        $program->status = 1;
-
-        $time = time();
-        if ($request->hasFile('uploaded_file')) {
-            if ($old_image_path = $program->images) {
-                $file_path = public_path('uploaded_files/programs/' . $old_image_path);
-                if (File::exists($file_path)) {
-                    File::delete($file_path);
-                }
-            }
-            $file_name = str_replace(' ', '-', strtolower($program_name));
-            $file_format = $request->file('uploaded_file')->getClientOriginalExtension();
-            $med_file_path = $request->file('uploaded_file')->storeAs('programs', $time . '-' . $file_name . '.' . $file_format, ['disk' => 'public_assets']);
-
-            $program->images = $time . '-' . $file_name . '.' . $file_format;
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator->messages());
         }
-        $program->save();
 
+        DB::beginTransaction();
+        try {
+
+            $program_name = $request->program_name;
+
+            $program->program_name = $program_name;
+            $program->description = $request->description;
+            $program->price = $request->price;
+            $program->discount = $request->discount;
+            $program->minimum_word = $request->minimum_word;
+            $program->maximum_word = $request->maximum_word;
+            $program->completed_within = $request->completed_within;
+            $program->id_category = $request->id_category;
+            $program->status = 1;
+
+            $time = time();
+            if ($request->hasFile('uploaded_file')) {
+                if ($old_image_path = $program->images) {
+                    $file_path = public_path('uploaded_files/programs/' . $old_image_path);
+                    if (File::exists($file_path)) {
+                        File::delete($file_path);
+                    }
+                }
+                $file_name = str_replace(' ', '-', strtolower($program_name));
+                $file_format = $request->file('uploaded_file')->getClientOriginalExtension();
+                $med_file_path = $request->file('uploaded_file')->storeAs('programs', $time . '-' . $file_name . '.' . $file_format, ['disk' => 'public_assets']);
+
+                $program->images = $time . '-' . $file_name . '.' . $file_format;
+            }
+
+            $program->save();
+            DB::commit();
+            Log::notice('Program : '.$program_name.' has been successfully updated');
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error('Update Program failed : '.$e->getMessage());
+            return Redirect::back()->withErrors(['msg' => 'Something went wrong when processing the data.']);
+        }
         return redirect('admin/setting/programs/detail/' . $id_program)->with('update-program-successful', 'The Program has been updated');
     }
 
@@ -170,16 +199,25 @@ class Program extends Controller
         if (!$program = Programs::find($id_program)) {
             return Redirect::back()->withErrors(['success' => false, 'message' => 'Couldn\'t find the program']);
         }
+        $program_name = $program->program_name;
 
-        //! tambahin hapus file sebelum delete data
-        if ($old_image_path = $program->images) {
-            $file_path = public_path('uploaded_files/programs/' . $old_image_path);
-            if (File::exists($file_path)) {
-                File::delete($file_path);
+        DB::beginTransaction();
+        try {
+            //! tambahin hapus file sebelum delete data
+            if ($old_image_path = $program->images) {
+                $file_path = public_path('uploaded_files/programs/' . $old_image_path);
+                if (File::exists($file_path)) {
+                    File::delete($file_path);
+                }
             }
+            $program->delete();
+            DB::commit();
+            Log::notice('Program : '.$program_name.' has been successfully deleted');
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error('Delete Program failed : '.$e->getMessage());
+            return Redirect::back()->withErrors($e->getMessage());
         }
-
-        $program->delete();
         return redirect(route('list-program'))->with('delete-program-successful', 'The program has been deleted');
     }
 }
