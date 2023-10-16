@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Exception;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
 
 class StudentsMenu extends Controller
@@ -78,7 +79,7 @@ class StudentsMenu extends Controller
         })
         ->orderBy('first_name', 'asc')->paginate(10);
 
-        if ($keyword) 
+        if ($keyword)
             $clients->appends(['keyword' => $keyword]);
 
         return view('user.mentor.user-student', ['clients' => $clients]);
@@ -92,6 +93,7 @@ class StudentsMenu extends Controller
         return view('user.mentor.user-student-detail',compact('client'));
     }
 
+    // TODO: Check Log
     public function update($id, Request $request)
     {
         $rules = [
@@ -111,7 +113,7 @@ class StudentsMenu extends Controller
         // $user = $id;
         // dd($user->resume);
         // if ($request->hasFile('resume')) {
-            
+
         // };
 
         if ($request->hasFile('resume')) {
@@ -128,7 +130,7 @@ class StudentsMenu extends Controller
         }else{
             $resumeFile = $request->resume;
         }
-            
+
 
         if ($request->hasFile('questionnaire')) {
             if ($old_file_path_questionnaire = $user->questionnaire) {
@@ -137,14 +139,14 @@ class StudentsMenu extends Controller
                 if (File::exists($file_path_questionnaire)) {
                     File::delete($file_path_questionnaire);
                 }
-            } 
+            }
             $questionnaireFile = $request->questionnaire->getClientOriginalName();
             $filePathquestionnaire = 'user/students/'.$user->first_name.'/questionnaire'.'/'.$questionnaireFile;
             Storage::disk('public_assets')->put($filePathquestionnaire, file_get_contents($request->questionnaire));
         }else{
             $questionnaireFile = $request->questionnaire;
         }
-            
+
 
         if ($request->hasFile('others')) {
             if ($old_file_path_others = $user->others) {
@@ -153,14 +155,14 @@ class StudentsMenu extends Controller
                 if (File::exists($file_path_others)) {
                     File::delete($file_path_others);
                 }
-            } 
+            }
             $othersFile = $request->others->getClientOriginalName();
             $filePathothers = 'user/students/'.$user->first_name.'/others'.'/'.$othersFile;
             Storage::disk('public_assets')->put($filePathothers, file_get_contents($request->others));
         }else{
             $othersFile = $request->others;
         }
-            
+
         // dd($questionnaireFile);
 
         DB::beginTransaction();
@@ -186,16 +188,15 @@ class StudentsMenu extends Controller
             // }elseif ($request->hasFile('others')){
             //     $student->others            = $othersFile;
             // };
-            
+
             // dd($student);
+            Log::notice("Client : " . $student->first_name . " " . $student->last_name  . " was updated by Mentor : " . Auth::guard('web-mentor')->user()->first_name . " " . Auth::guard('web-mentor')->user()->last_name);
             $student->save();
             DB::commit();
-
         } catch (Exception $e) {
-
+            Log::error($e->getMessage());
             DB::rollBack();
             return Redirect::back()->withErrors($e->getMessage());
-
         }
 
         return redirect('/mentor/user/student')->with('update-data-successful', 'Data Student has been updated');
