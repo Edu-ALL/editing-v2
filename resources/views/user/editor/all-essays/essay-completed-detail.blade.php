@@ -95,7 +95,7 @@
                             </div>
 
                             {{-- Managing Feedback  --}}
-                            @include('user.editor.all-essays.managing-feedback')
+                            @include('user.editor.all-essays.managing-feedback.index')
 
                             @if (isset($essay_editor->notes_editors) && $essay_editor->notes_editors != null)
                                 <div class="headline d-flex align-items-center gap-3">
