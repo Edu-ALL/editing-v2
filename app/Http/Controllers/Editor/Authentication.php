@@ -50,11 +50,10 @@ class Authentication extends Controller
             return Redirect::back()->withErrors("This email has not been activated.");
         }
 
+        Log::notice("Login was successful for " . $request->email);
         if ($currentEditor->position != 3) {
-            Log::notice("Login was successful for " . $request->email);
             return redirect('editors/dashboard')->with('login-successful', 'Signed in successfully');
         } else if ($currentEditor->position == 3) {
-            Log::notice("Login was successful for" . $request->email);
             return redirect('editor/dashboard')->with('login-successful', 'Signed in successfully');
         }
         // return redirect('editors/dashboard')->with('login-successful', 'Signed in successfully');
