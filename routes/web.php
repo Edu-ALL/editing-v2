@@ -241,13 +241,13 @@ Route::middleware('is_editor')->group(function () {
     Route::get('/editor/all-essays/completed-essay-list', [AllEssaysMenu::class, 'essayCompleted'])->name('editor-list-completed-essay');
     Route::get('/editor/all-essays/completed-essay-list/data', [AllEssaysMenu::class, 'getCompletedList'])->name('managing-data-all-essay-completed');
 
-    Route::get('/editor/all-essays/ongoing-essay-list', [AllEssaysMenu::class, 'ongoingList'])->name('editor-list-ongoing-essay');
+    Route::get('/editor/all-essays/ongoing-essay-list', [AllEssaysMenu::class, 'essayOngoing'])->name('editor-list-ongoing-essay');
     Route::get('/editor/all-essays/ongoing-essay-list/data', [AllEssaysMenu::class, 'getOngoingList'])->name('managing-data-all-essay-ongoing');
 
-    Route::get('/editor/all-essays/assigned-essay-list', [AllEssaysMenu::class, 'assignList'])->name('editor-list-assign-essay');
+    Route::get('/editor/all-essays/assigned-essay-list', [AllEssaysMenu::class, 'essayOngoing'])->name('editor-list-assign-essay');
     Route::get('/editor/all-essays/assigned-essay-list/data', [AllEssaysMenu::class, 'getAssignList'])->name('managing-data-essay-assign');
 
-    Route::get('/editor/all-essays/not-assign-essay-list', [AllEssaysMenu::class, 'notAssignList'])->name('editor-list-not-assign-essay');
+    Route::get('/editor/all-essays/not-assign-essay-list', [AllEssaysMenu::class, 'essayOngoing'])->name('editor-list-not-assign-essay');
     Route::get('/editor/all-essays/not-assign-essay-list/data', [AllEssaysMenu::class, 'getNotAssignList'])->name('managing-data-essay-not-assign');
     Route::get('/editor/all-essays/editor-list/data', [AllEssaysMenu::class, 'getEditorList'])->name('managing-data-list-editor');
 
@@ -255,14 +255,13 @@ Route::middleware('is_editor')->group(function () {
     Route::get('/editor/all-essays/ongoing/detail/{id}', [AllEssaysMenu::class, 'detailEssayManaging']);
     Route::get('/editor/all-essays/completed/detail/{id}', [AllEssaysMenu::class, 'detailEssayManagingCompleted']);
     Route::post('/editor/all-essays/completed/detail/{id}', [AllEssaysMenu::class, 'managing_feedback']);
+
     //List All Essays Due
-    Route::get('/editor/all-essays/essay-list-due-tommorow', [AllEssaysMenu::class, 'dueTomorrow'])->name('editor-list-due-tomorrow');
+    Route::get('/editor/all-essays/essay-list-due-tommorow', [AllEssaysMenu::class, 'essayListDue']);
+    Route::get('/editor/all-essays/essay-list-due-within-three', [AllEssaysMenu::class, 'essayListDue']);
+    Route::get('/editor/all-essays/essay-list-due-within-five', [AllEssaysMenu::class, 'essayListDue']);
     Route::get('/editor/all-essays/essay-list-due-tommorow/data', [AllEssaysMenu::class, 'getDueTomorrow'])->name('managing-data-all-due-tomorrow');
-
-    Route::get('/editor/all-essays/essay-list-due-within-three', [AllEssaysMenu::class, 'dueThree'])->name('editor-list-due-within-three');
     Route::get('/editor/all-essays/essay-list-due-within-three/data', [AllEssaysMenu::class, 'getDueThree'])->name('managing-data-all-due-three-days');
-
-    Route::get('/editor/all-essays/essay-list-due-within-five', [AllEssaysMenu::class, 'dueFive'])->name('editor-list-due-within-five');
     Route::get('/editor/all-essays/essay-list-due-within-five/data', [AllEssaysMenu::class, 'getDueFive'])->name('managing-data-all-due-five-days');
 
     //Essay List Menu
@@ -273,13 +272,11 @@ Route::middleware('is_editor')->group(function () {
     Route::get('/editor/essay-list/completed/detail/{id_essay}', [EssayListMenu::class, 'detailEssayList']);
 
     //List Essays List Due
-    Route::get('/editor/essay-list-due-tomorrow', [EssayListMenu::class, 'dueTomorrow'])->name('editor-list-due-tomorrow');
+    Route::get('/editor/essay-list-due-tomorrow', [EssayListMenu::class, 'essayListDue']);
+    Route::get('/editor/essay-list-due-within-three', [EssayListMenu::class, 'essayListDue']);
+    Route::get('/editor/essay-list-due-within-five', [EssayListMenu::class, 'essayListDue']);
     Route::get('/editor/essay-list-due-tomorrow/data', [EssayListMenu::class, 'getDueTomorrow'])->name('managing-data-due-tomorrow');
-
-    Route::get('/editor/essay-list-due-within-three', [EssayListMenu::class, 'dueThree'])->name('editor-list-due-within-three');
     Route::get('/editor/essay-list-due-three-days/data', [EssayListMenu::class, 'getDueThreeDays'])->name('managing-data-due-three-days');
-
-    Route::get('/editor/essay-list-due-within-five', [EssayListMenu::class, 'dueFive'])->name('editor-list-due-within-five');
     Route::get('/editor/essay-list-due-five-days/data', [EssayListMenu::class, 'getDueFiveDays'])->name('managing-data-due-five-days');
 
     //Setting Menu

@@ -18,10 +18,25 @@
                     <div class="row flex-column gap-4">
                         <div class="col p-0">
                             <div class="col-md col-12 p-0 userCard" style="cursor: default">
-                                <div class="headline d-flex align-items-center px-md-4 px-3 py-3 gap-md-3 gap-1">
+                                <div class="headline d-flex align-items-center px-md-4 px-3 py-3 gap-md-3 gap-1"
+                                @if (request()->is('editor/all-essays/assigned-essay-list'))
+                                    style="background-color: var(--green)"
+                                @endif
+                                >
                                     <div class="col-md col-7 d-flex align-items-center gap-md-3 gap-2">
-                                        <img src="/assets/ongoing-essay.png" alt="">
-                                        <h6>List of Ongoing Essay</h6>
+                                        @if (request()->is('editor/all-essays/assigned-essay-list'))
+                                            <img src="/assets/completed-essay.png" alt="">
+                                        @else
+                                            <img src="/assets/ongoing-essay.png" alt="">
+                                        @endif
+                                        
+                                        @if (request()->is('editor/all-essays/not-assign-essay-list'))
+                                            <h6>List of Not Assign Essay</h6>
+                                        @elseif (request()->is('editor/all-essays/assigned-essay-list'))
+                                            <h6>List of Assign Essay</h6>
+                                        @elseif (request()->is('editor/all-essays/ongoing-essay-list'))
+                                            <h6>List of Ongoing Essay</h6>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="container text-start px-3 py-2">
@@ -55,12 +70,21 @@
 <script>
     // List Essay
     $(document).ready(function () {
+        var pathname = window.location.pathname;
+        var route;
+        if (pathname == '/editor/all-essays/not-assign-essay-list') {
+            route = '{{ route('managing-data-essay-not-assign') }}'
+        } else if (pathname == '/editor/all-essays/assigned-essay-list'){
+            route = '{{ route('managing-data-essay-assign') }}'
+        } else if (pathname == '/editor/all-essays/ongoing-essay-list'){
+            route = '{{ route('managing-data-all-essay-ongoing') }}'
+        }
         $('#listessayongoing').DataTable({
             scrollX: true,
             responsive: true,
             processing: true,
             serverSide: true,
-            ajax: '{{ route('managing-data-all-essay-ongoing') }}',
+            ajax: route,
             columns: [
                 {
                     data: 'DT_RowIndex',

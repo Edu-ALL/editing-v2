@@ -20,18 +20,25 @@
                             <div class="col-md col-12 p-0 userCard" style="cursor: default">
                                 <div class="headline d-flex align-items-center px-md-4 px-3 py-3 gap-md-3 gap-1">
                                     <div class="col-md col-7 d-flex align-items-center gap-md-3 gap-2">
-                                        <img src="/assets/essay-list.png" alt="">
-                                        <h6>Due Within 3 Days List</h6>
+                                        <img src="/assets/all-essay.png" alt="">
+                                        @if (request()->is('editor/all-essays/essay-list-due-tommorow'))
+                                            <h6>All Essays - Due Tomorrow List</h6>
+                                        @elseif (request()->is('editor/all-essays/essay-list-due-within-three'))
+                                            <h6>All Essays - Due Within 3 Days List</h6>
+                                        @elseif (request()->is('editor/all-essays/essay-list-due-within-five'))
+                                            <h6>All Essays - Due Within 5 Days List</h6>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="container text-start px-3 py-2">
-                                    <table class="table" id="listduethreedays" style="width: 100%">
+                                    <table class="table" id="essaylistdue" style="width: 100%">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
                                                 <th>Student Name</th>
                                                 <th>Mentor Name</th>
                                                 <th>Editor Name</th>
+                                                <th>Request (Editor)</th>
                                                 <th>Program Name</th>
                                                 <th>Essay Title</th>
                                                 <th>Upload Date</th>
@@ -53,12 +60,21 @@
 <script>
     // List Essay
     $(document).ready(function () {
-        $('#listduethreedays').DataTable({
+        var pathname = window.location.pathname;
+        var route;
+        if (pathname == '/editor/all-essays/essay-list-due-tommorow') {
+            route = '{{ route('managing-data-all-due-tomorrow') }}'
+        } else if (pathname == '/editor/all-essays/essay-list-due-within-three'){
+            route = '{{ route('managing-data-all-due-three-days') }}'
+        } else if (pathname == '/editor/all-essays/essay-list-due-within-five'){
+            route = '{{ route('managing-data-all-due-five-days') }}'
+        }
+        $('#essaylistdue').DataTable({
             scrollX: true,
             responsive: true,
             processing: true,
             serverSide: true,
-            ajax: '{{ route('managing-data-due-three-days') }}',
+            ajax: route,
             columns: [
                 {
                     data: 'DT_RowIndex',
@@ -76,6 +92,10 @@
                 {
                     data: 'editor_name',
                     name: 'editor_name'
+                },
+                {
+                    data: 'request_editor',
+                    name: 'request_editor'
                 },
                 {
                     data: 'program_name',
@@ -101,7 +121,7 @@
         });
     });
     function getOngoingDetail(id){
-        var link = '/editor/essay-list/ongoing/detail/' + id
+        var link = '/editor/all-essays/ongoing/detail/' + id
         window.location.href = link;
     }
 </script>
