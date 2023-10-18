@@ -22,7 +22,7 @@ trait SendBotTelegramTrait {
         $client->request('GET', $url, [
             'json' =>[
             "chat_id" => $teleId, 
-            "text" => 'Essay Editing' . date('y/m/d') .' '. substr($message, 0, 4000) . ' ' . $link, # Limit message telegram
+            "text" => 'Essay Editing_' . date('y/m/d') .' '. substr($message, 0, 4000) . ' ' . $link, # Limit message telegram
             ]
         ]);
     }
