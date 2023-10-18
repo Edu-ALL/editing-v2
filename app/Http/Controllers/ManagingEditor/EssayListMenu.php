@@ -156,9 +156,15 @@ class EssayListMenu extends Controller
         $editor = Auth::guard('web-editor')->user();
         $essay = EssayEditors::where('editors_mail', '=', $editor->email)->where('status_essay_editors', '!=', 0)->where('status_essay_editors', '!=', 4)->where('status_essay_editors', '!=', 5)->where('status_essay_editors', '!=', 7);
         $essay->whereHas('essay_clients', function ($query) use ($start, $dueDate) {
-            $query->where('essay_deadline', '>', $start)->where('essay_deadline', '<=', $dueDate);
+            $query->whereBetween('essay_deadline', [$start, $dueDate]);
+            // $query->where('essay_deadline', '>', $start)->where('essay_deadline', '<=', $dueDate);
         });
         return $essay;
+    }
+
+    public function essayListDue()
+    {
+        return view('user.editor.essay-list.editor-essay-list-due');
     }
 
     public function getDueTomorrow(Request $request)
@@ -215,10 +221,6 @@ class EssayListMenu extends Controller
                 ->make(true);
         }
     }
-    public function dueTomorrow()
-    {
-        return view('user.editor.essay-list.editor-list-due-tomorrow');
-    }
 
     public function getDueThreeDays(Request $request)
     {
@@ -273,10 +275,6 @@ class EssayListMenu extends Controller
                 ->rawColumns(['status'])
                 ->make(true);
         }
-    }
-    public function dueThree(Request $request)
-    {
-        return view('user.editor.essay-list.editor-list-due-within-three');
     }
 
     public function getDueFiveDays(Request $request)
@@ -333,10 +331,6 @@ class EssayListMenu extends Controller
                 ->make(true);
         }
     }
-    public function dueFive(Request $request)
-    {
-        return view('user.editor.essay-list.editor-list-due-within-five');
-    }
 
     public function detailEssayList($id_essay, Request $request)
     {
@@ -359,26 +353,25 @@ class EssayListMenu extends Controller
 
             # accept / reject page
             if ($essay->status_essay_clients == 1) {
-                return view('user.editor.essay-list.editor-essay-list-ongoing', [
+                return view('user.editor.essay-list.editor-essay-detail', [
                     'editors_deadline' => $editors_deadline,
                     'essay' => $essay
                 ]);
-
                 # first page that editor should upload the essay
             } else if ($essay->status_essay_clients == 2) {
-                return view('user.editor.essay-list.editor-essay-list-accepted', [
+                return view('user.editor.essay-list.editor-essay-detail', [
                     'editors_deadline' => $editors_deadline,
                     'essay' => $essay,
                     'tags' => Tags::get()
                 ]);
             } else if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 8) {
-                return view('user.editor.essay-list.editor-essay-list-submitted', [
+                return view('user.editor.essay-list.editor-essay-detail', [
                     'editors_deadline' => $editors_deadline,
                     'essay' => $essay,
                     'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
                 ]);
             } else if ($essay->status_essay_clients == 6) {
-                return view('user.editor.essay-list.editor-essay-list-revise', [
+                return view('user.editor.essay-list.editor-essay-detail', [
                     'editors_deadline' => $editors_deadline,
                     'essay' => $essay,
                     'tags' => EssayTags::where('id_essay_clients', $id_essay)->get(),
@@ -386,7 +379,7 @@ class EssayListMenu extends Controller
                     'essay_revise' => EssayRevise::where('id_essay_clients', $id_essay)->get()
                 ]);
             } else if ($essay_editor->status_essay_editors == 7) {
-                return view('user.editor.essay-list.editor-essay-list-completed', [
+                return view('user.editor.essay-list.editor-essay-detail', [
                     'editors_deadline' => $editors_deadline,
                     'essay' => $essay,
                     'essay_editor' => $essay_editor,

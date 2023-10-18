@@ -196,11 +196,13 @@
     });
     function getOngoingDetail(id){
         var link = '/editor/essay-list/ongoing/detail/' + id
-        window.location.href = link;
+        // window.location.href = link;
+        window.open(link, '_blank');
     }
     function getCompletedDetail(id){
         var link = '/editor/essay-list/completed/detail/' + id
-        window.location.href = link;
+        // window.location.href = link;
+        window.open(link, '_blank');
     }
     $(document).ready(function(){
         $("#info-essay").modal('show');
