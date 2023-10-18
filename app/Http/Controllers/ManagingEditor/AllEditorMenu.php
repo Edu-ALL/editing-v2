@@ -143,7 +143,8 @@ class AllEditorMenu extends Controller
                 },
             ])
             ->editColumn('student_name', function($d){
-                $result = $d->client_by_id->first_name.' '.$d->client_by_id->last_name;
+                // $result = $d->client_by_id->first_name.' '.$d->client_by_id->last_name;
+                $result = $d->client_by_id ? $d->client_by_id->first_name.' '.$d->client_by_id->last_name : $d->client_by_email->first_name.' '.$d->client_by_email->last_name;
                 return $result;
             })
             ->editColumn('program_name', function($d){

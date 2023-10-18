@@ -21,11 +21,17 @@
                                 <div class="headline d-flex align-items-center px-md-4 px-3 py-3 gap-md-3 gap-1">
                                     <div class="col-md col-7 d-flex align-items-center gap-md-3 gap-2">
                                         <img src="/assets/essay-list.png" alt="">
-                                        <h6>Due Within 5 Days List</h6>
+                                        @if (request()->is('editor/essay-list-due-tomorrow'))
+                                            <h6>Due Tomorrow List</h6>
+                                        @elseif (request()->is('editor/essay-list-due-within-three'))
+                                            <h6>Due Within 3 Days List</h6>
+                                        @elseif (request()->is('editor/essay-list-due-within-five'))
+                                            <h6>Due Within 5 Days List</h6>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="container text-start px-3 py-2">
-                                    <table class="table" id="listduefivedays" style="width: 100%">
+                                    <table class="table" id="essaylistdue" style="width: 100%">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
@@ -53,12 +59,21 @@
 <script>
     // List Essay
     $(document).ready(function () {
-        $('#listduefivedays').DataTable({
+        var pathname = window.location.pathname;
+        var route;
+        if (pathname == '/editor/essay-list-due-tomorrow') {
+            route = '{{ route('managing-data-due-tomorrow') }}'
+        } else if (pathname == '/editor/essay-list-due-within-three'){
+            route = '{{ route('managing-data-due-three-days') }}'
+        } else if (pathname == '/editor/essay-list-due-within-five'){
+            route = '{{ route('managing-data-due-five-days') }}'
+        }
+        $('#essaylistdue').DataTable({
             scrollX: true,
             responsive: true,
             processing: true,
             serverSide: true,
-            ajax: '{{ route('managing-data-due-five-days') }}',
+            ajax: route,
             columns: [
                 {
                     data: 'DT_RowIndex',

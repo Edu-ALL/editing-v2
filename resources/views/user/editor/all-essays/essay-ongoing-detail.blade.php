@@ -1,11 +1,13 @@
 @extends('user.editor.utama.utama')
 @section('css')
     <link rel="stylesheet" href="/css/editor/essay-ongoing-detail.css">
+    @if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 6 || $essay->status_essay_clients == 8)
+        <link rel="stylesheet" href="/css/per-editor/dashboard.css">
+    @endif
     <style>
         .dataTables_scroll .dataTables_scrollHeadInner {
             width: auto !important;
         }
-
         .dataTables_scroll .dataTables_scrollHeadInner .table.m-0.dataTable.no-footer {
             width: 100% !important;
         }
@@ -31,7 +33,11 @@
                             </div>
                             <div class="col d-flex flex-column align-items-center px-3 py-md-5 py-4 gap-3 text-center justify-content-center"
                                 style="color: var(--black)">
-                                <img class="img-status" src="/assets/status-edit.png" alt="">
+                                @if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 6 || $essay->status_essay_clients == 8)
+                                    <img class="img-status" src="/assets/status-ongoing.png" alt="">
+                                @else
+                                    <img class="img-status" src="/assets/status-edit.png" alt="">
+                                @endif
                                 <h6>{{ $essay->status->status_title }}</h6>
                             </div>
                             <div class="headline d-flex align-items-center gap-3">
@@ -48,27 +54,16 @@
                                     <h6>Download</h6>
                                 </a>
                             </div>
-                            <div class="headline d-flex align-items-center gap-3">
-                                <img src="/assets/assign.png" alt="">
-                                <h6>Assignment</h6>
-                            </div>
-                            <div class="col d-flex flex-column align-items-center px-3 pt-4 gap-1 text-center justify-content-center"
-                                style="color: var(--black)">
-                                <p style="font-size: 12px; color: var(--blue)">Request Editor:</p>
-                                @if ($essay->id_editors)
-                                    <h6 style="font-size: 15px">{{ $essay->editor->first_name.' '.$essay->editor->last_name }}</h6>
-                                @else
-                                    -
-                                @endif
-                            </div>
-                            <div class="col d-flex align-items-center justify-content-center py-md-4 py-4">
-                                <button class="btn btn-download d-flex align-items-center gap-2" data-bs-toggle="modal"
-                                    data-bs-target="#selectEditor"
-                                    style="background-color: var(--yellow); color: var(--white)">
-                                    <img src="/assets/assign-list.png" alt="">
-                                    <h6>Select Editor</h6>
-                                </button>
-                            </div>
+
+                            {{-- Info Editor --}}
+                            @if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4 || $essay->status_essay_clients == 5)
+                                @include('user.editor.all-essays.not-assigned.info-editor')
+                            @elseif ($essay->status_essay_clients == 1 || $essay->status_essay_clients == 2)
+                                @include('user.editor.all-essays.assigned.info-editor')
+                            @endif
+
+                            {{-- Notes --}}
+                            @include('user.editor.all-essays.notes.index')
 
                             @include('user.editor.all-essays.essay-tracking.index')
                         </div>
@@ -155,7 +150,6 @@
                                         <div class="col">
                                             <h6 class="pb-2">Notes :</h6>
                                             <div style="font-size:12px">{!! $essay->essay_notes !!}</div>
-                                            {{-- <textarea name="" class="textarea" style="overflow: auto !important">{{ $essay->essay_prompt }}</textarea> --}}
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex mb-3">
@@ -170,6 +164,9 @@
                                                 value="{{ date('D, d M Y', strtotime($essay->application_deadline)) }}">
                                         </div>
                                     </div>
+                                    @if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 6 || $essay->status_essay_clients == 8)
+                                        @include('user.editor.all-essays.submitted-revise-revised.index')
+                                    @endif
                                 </form>
                             </div>
                         </div>
@@ -181,80 +178,17 @@
         </div>
     </div>
 
-    {{-- Modal Info --}}
-    <div class="modal fade" id="info" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog d-flex align-items-center justify-content-center modal-dialog-centered">
-            <div class="modal-content border-0 w-75">
-                <div class="modal-header">
-                    <div class="col d-flex gap-1 align-items-center">
-                        <img src="/assets/info.png" alt="">
-                        <h6 class="modal-title ms-3">Please</h6>
-                    </div>
-                    <div type="button" data-bs-dismiss="modal" aria-label="Close">
-                        <img src="/assets/close.png" alt="" style="height: 26px">
-                    </div>
-                </div>
-                <div class="modal-body text-center px-4 py-4 my-md-3">
-                    <p>Assign this essay to editor <span style="color: var(--red)">*</span></p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {{-- Modal Select Editor --}}
-    <div class="modal fade" id="selectEditor" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 80%; height: 100vh; margin: 0 auto !important">
-            <div class="modal-content border-0">
-                <div class="modal-header" style="border-bottom: 0px">
-                    <div class="col d-flex gap-1 align-items-center">
-                        <img src="/assets/assign-list.png" alt="">
-                        <h6 class="modal-title ms-3">Select Editor</h6>
-                    </div>
-                    <div type="button" data-bs-dismiss="modal" aria-label="Close">
-                        <img src="/assets/close.png" alt="" style="height: 26px">
-                    </div>
-                </div>
-                <div class="modal-body p-0">
-                    <form action="{{ route('assign-editor', ['id_essay' => $essay->id_essay_clients]) }}" method="POST">
-                        @csrf
-                        <div class="col text-center p-0 m-0" style="max-height: 70vh; overflow-y: auto">
-                            <div class="container text-start px-3 py-2">
-                                <table class="table m-0" id="listeditor" style="width: 100%">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Editor Name</th>
-                                            <th>Graduated From</th>
-                                            <th>Due Tomorrow</th>
-                                            <th>Due Within 3 Days</th>
-                                            <th>Due Within 5 Days</th>
-                                            <th>Completed Essay</th>
-                                            <th>Assign</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="col d-flex align-items-center justify-content-end py-md-3 px-md-3 px-3 py-3 gap-2">
-                            <button class="btn btn-download d-flex align-items-center justify-content-center gap-2"
-                                data-bs-toggle="modal" data-bs-target="#selectEditor"
-                                style="background-color: var(--yellow); color: var(--white)" type="submit">
-                                <img src="/assets/assign-list.png" alt="">
-                                <h6 class="my-auto">Select Editor</h6>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    {{-- Modal --}}
+    @if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4 || $essay->status_essay_clients == 5)
+        @include('user.editor.all-essays.not-assigned.select-editor')
+    @elseif ($essay->status_essay_clients == 1)
+        @include('user.editor.all-essays.assigned.modal-info')
+    @endif
 @endsection
 
 @section('js')
+    @if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4 || $essay->status_essay_clients == 5)
     <script>
-        $(document).ready(function() {
-            $("#info").modal('show');
-        });
         // List Editor
         $(document).ready(function() {
             $('#listeditor').DataTable({
@@ -300,9 +234,35 @@
                 ]
             });
         });
-
         function select_row(cb) {
             $(cb).find('input[type=radio]').prop("checked", true)
         }
+    </script>
+    @endif
+
+    @if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 6 || $essay->status_essay_clients == 8)
+    <script>
+        function checkUpload() {
+            var check = document.getElementById('myCheck');
+            var input = document.getElementById('inputField');
+            var notes = document.getElementById('notesField');
+            var upload = document.getElementById('uploadAcc');
+            if (check.checked == true) {
+                input.classList.remove("d-none");
+                notes.classList.remove("d-none");
+                upload.required = true;
+            } else {
+                input.classList.add("d-none");
+                notes.classList.add("d-none");
+                upload.required = false;
+            }
+        }
+    </script>
+    @endif
+
+    <script>
+        $(document).ready(function() {
+            $("#info").modal('show');
+        });
     </script>
 @endsection
