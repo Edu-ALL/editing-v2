@@ -103,7 +103,7 @@ class EssayListMenu extends Controller
                     },
                 ])
                 ->editColumn('student_name', function ($d) {
-                    $result = $d->essay_clients->client_by_id->first_name . ' ' . $d->essay_clients->client_by_id->last_name;
+                    $result = isset($d->essay_clients->client_by_id) ? $d->essay_clients->client_by_id->first_name . ' ' . $d->essay_clients->client_by_id->last_name : $d->essay_clients->client_by_email->first_name . ' ' . $d->essay_clients->client_by_email->last_name;
                     return $result;
                 })
                 ->editColumn('mentor_name', function ($d) {
