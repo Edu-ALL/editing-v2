@@ -42,9 +42,9 @@
                                     <a href="/admin/setting/universities/add"><img src="/assets/add.png" alt=""></a>
                                 </div>
                             </div>
-                            <div class="container text-start px-3 py-2">
-                                <table class="table table-bordered" id="listuniversity" style="width: 100%">
-                                    <thead>
+                            <div class="container-fluid text-start px-3 py-2">
+                                <table class="table" id="listuniversity" style="width: 100%">
+                                    <thead class="text-nowrap">
                                         <tr>
                                             <th>No</th>
                                             <th>University Name</th>
@@ -84,7 +84,7 @@
                     {
                         data: 'university_name',
                         name: 'university_name',
-                        class: 'text-center'
+                        // class: 'text-center'
                     },
                     {
                         data: 'website',

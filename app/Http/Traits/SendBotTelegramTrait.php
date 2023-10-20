@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Crypt;
 
 trait SendBotTelegramTrait {
 
-    public function sendMessageTele($tokenBot, $teleId, $type, $message)
+    public function SendMessageTele($tokenBot, $teleId, $type, $message)
     {
         $client  = new Client();
         $url = "https://api.telegram.org/".$tokenBot."/sendMessage";

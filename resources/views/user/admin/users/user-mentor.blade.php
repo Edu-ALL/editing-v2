@@ -1,6 +1,7 @@
 @extends('user.admin.utama.utama')
 @section('css')
-    <link rel="stylesheet" href="/css/admin/user-mentor.css">
+    {{-- <link rel="stylesheet" href="/css/admin/user-editor.css"> --}}
+    <link rel="stylesheet" href="/css/admin/user-editor.css">
     <style>
         .pagination {
             margin: 15px 0
@@ -39,8 +40,8 @@
                                 </div>
                             </div>
                             <div class="container text-start px-3 py-2">
-                                <table class="table  table-bordered" id="listmentor" style="width: 100%">
-                                    <thead>
+                                <table class="table" id="listmentor" style="width: 100%">
+                                    <thead class="text-nowrap">
                                         <tr>
                                             <th>No</th>
                                             <th>Mentor Name</th>

@@ -333,7 +333,7 @@
                                             </div>
                                             <div class="container text-start px-3 py-2">
                                                 <table class="table" id="listeditoractiveduration">
-                                                    <thead>
+                                                    <thead class="text-nowrap">
                                                         <tr>
                                                             <th>No</th>
                                                             <th>Editor Name</th>

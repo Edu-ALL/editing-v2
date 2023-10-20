@@ -155,10 +155,10 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div class="container text-start px-2 py-2">
-                                    <table class="table  table-bordered data-export-excel" id="table-result"
+                                <div class="container-fluid text-start px-2 py-2">
+                                    <table class="table data-export-excel" id="table-result"
                                         style="width: 100%">
-                                        <thead>
+                                        <thead class="text-nowrap">
                                             <tr>
                                                 <th>No</th>
                                                 <th>Students Name</th>

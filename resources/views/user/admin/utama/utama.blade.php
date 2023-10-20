@@ -29,8 +29,15 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.6/css/selectize.bootstrap5.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.6/js/standalone/selectize.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        #main {
+            min-height: 100vh;
+        }
+        .main-content {
+            max-width: 100%;
+        }
+    </style>
     @yield('css')
-
 </head>
 
 <body>
@@ -52,11 +59,6 @@
     </script>
     <script src="/js/admin/admin.js"></script>
     <script src="https://kit.fontawesome.com/76ac67da65.js" crossorigin="anonymous"></script>
-    <script>
-        var main = document.getElementById('main');
-        let height = window.innerHeight;
-        main.style.minHeight = height + "px";
-    </script>
     @yield('js')
     @include('component.loading')
 </body>

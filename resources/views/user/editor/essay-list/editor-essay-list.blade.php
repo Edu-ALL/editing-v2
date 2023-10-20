@@ -24,9 +24,9 @@
                                         <h6>List of Ongoing Essay</h6>
                                     </div>
                                 </div>
-                                <div class="container text-start px-3 py-2">
+                                <div class="container-fluid text-start px-3 py-2">
                                     <table class="table" id="listessayongoing" style="width: 100%">
-                                        <thead>
+                                        <thead class="text-nowrap">
                                             <tr>
                                                 <th>No</th>
                                                 <th>Student Name</th>
@@ -54,7 +54,7 @@
                                 </div>
                                 <div class="container text-start px-3 py-2">
                                     <table class="table" id="listessaycompleted" style="width: 100%">
-                                        <thead>
+                                        <thead class="text-nowrap">
                                             <tr>
                                                 <th>No</th>
                                                 <th>Student Name</th>

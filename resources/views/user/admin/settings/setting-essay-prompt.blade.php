@@ -55,9 +55,9 @@
 
                                 </div>
                             </div>
-                            <div class="container text-start px-3 py-2" style="overflow-x: auto !important">
-                                <table class="table table-bordered" id="listessayprompt" style="width: 100%">
-                                    <thead>
+                            <div class="container-fluid text-start px-3 py-2" style="overflow-x: auto !important">
+                                <table class="table" id="listessayprompt" style="width: 100%">
+                                    <thead class="text-nowrap">
                                         <tr>
                                             <th>No</th>
                                             <th>Title</th>
