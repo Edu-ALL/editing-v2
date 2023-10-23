@@ -62,8 +62,8 @@
                                 </div>
                             </div>
                             <div class="container text-start px-3 py-2">
-                                <table class="table  table-bordered" id="listeditor" style="width: 100%">
-                                    <thead>
+                                <table class="table" id="listeditor" style="width: 100%">
+                                    <thead class="text-nowrap">
                                         <tr>
                                             <th>No</th>
                                             <th>Editor Name</th>

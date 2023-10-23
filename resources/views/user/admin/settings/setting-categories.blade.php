@@ -79,9 +79,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="container text-start px-0 py-2">
-                                <table class="table table-bordered" id="listcategories" style="width: 100%">
-                                    <thead>
+                            <div class="container-fluid text-start px-0 py-2">
+                                <table class="table" id="listcategories" style="width: 100%">
+                                    <thead class="text-nowrap">
                                         <tr>
                                             <th style="width: 10%">No</th>
                                             <th>Category Name</th>

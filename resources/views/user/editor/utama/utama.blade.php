@@ -35,6 +35,14 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <style>
+        #main {
+            min-height: 100vh;
+        }
+        .main-content {
+            max-width: 100%;
+        }
+    </style>
     @yield('css')
 </head>
 
@@ -61,11 +69,6 @@
     </script>
     <script src="/js/editor/editor.js"></script>
     <script src="https://kit.fontawesome.com/76ac67da65.js" crossorigin="anonymous"></script>
-    <script>
-        var main = document.getElementById('main');
-        let height = window.innerHeight;
-        main.style.minHeight = height + "px";
-    </script>
     @yield('js')
     @include('component.loading')
     <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
