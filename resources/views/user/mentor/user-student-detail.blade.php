@@ -26,7 +26,7 @@
                                 </div>
                             </div>
                             <div class="row student-info pb-md-0 pb-4">
-                                <div class="col-md-4 d-flex align-items-center justify-content-center py-md-0 py-4">
+                                <div class="col-md-4 d-flex align-items-center justify-content-center py-md-3 py-4">
                                     <div class="pic-profile">
                                         <img class="img-fluid" src="/assets/student-bg.png" alt="">
                                     </div>

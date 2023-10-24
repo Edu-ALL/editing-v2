@@ -40,6 +40,12 @@
         .fs-10 {
             font-size: 10px;
         }
+        #main {
+            min-height: 100vh;
+        }
+        .main-content {
+            max-width: 100%;
+        }
     </style>
 </head>
 
@@ -81,11 +87,6 @@
     <script src="{{ asset('js/bootstrap.js') }}"></script>
     <script src="/js/mentor/mentor.js"></script>
     <script src="https://kit.fontawesome.com/76ac67da65.js" crossorigin="anonymous"></script>
-    <script>
-        var main = document.getElementById('main');
-        let height = window.innerHeight;
-        main.style.minHeight = height + "px";
-    </script>
     @if (session()->has('delete-essay-successful') || session()->has('message'))
         <script>
             $(document).ready(function() {

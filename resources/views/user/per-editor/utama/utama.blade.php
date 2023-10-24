@@ -35,7 +35,14 @@
     <script src="https://kit.fontawesome.com/76ac67da65.js" crossorigin="anonymous"></script>
 
     @yield('css')
-
+    <style>
+        #main {
+            min-height: 100vh;
+        }
+        .main-content {
+            max-width: 100%;
+        }
+    </style>
 </head>
 
 <body>
@@ -60,11 +67,11 @@
         integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous">
     </script>
     <script src="/js/per-editor/per-editor.js"></script>
-    <script>
+    {{-- <script>
         var main = document.getElementById('main');
         let height = window.innerHeight;
         main.style.minHeight = height + "px";
-    </script>
+    </script> --}}
     @yield('js')
     @include('component.loading')
 

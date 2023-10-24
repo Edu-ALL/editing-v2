@@ -78,7 +78,7 @@
                             </div>
                             <div class="row gap-2 m-3">
                                 <div class="col-lg d-flex flex-column gap-2 p-0">
-                                    <a class="col-md col-12 p-0 userCard" href="/editors/essay-list">
+                                    <a class="col-md col-12 d-flex flex-column align-items-between p-0 userCard" href="/editors/essay-list">
                                         <div class="headline d-flex align-items-center px-4 py-md-4 py-3 gap-3"
                                             style="background-color: var(--red)">
                                             <img src="/assets/warning.png" alt="">
