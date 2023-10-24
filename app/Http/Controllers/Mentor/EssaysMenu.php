@@ -20,7 +20,10 @@ class EssaysMenu extends Controller
 {
     public function ongoingEssay()
     {
-        return view('user.mentor.essay-ongoing');
+        return view('user.mentor.essay-list', [
+            'is_ongoing_essay' => true,
+            'is_complete_essay' => false,
+        ]);
     }
 
     public function getOngoingEssay(Request $request)
@@ -123,7 +126,11 @@ class EssaysMenu extends Controller
 
     public function completedEssay()
     {
-        return view('user.mentor.essay-completed');
+        // return view('user.mentor.essay-completed');
+        return view('user.mentor.essay-list', [
+            'is_ongoing_essay' => false,
+            'is_complete_essay' => true,
+        ]);
     }
 
     public function getCompletedEssay(Request $request)
@@ -239,7 +246,9 @@ class EssaysMenu extends Controller
             $essay->save();
         }
 
-        return view('user.mentor.essay-list-ongoing-detail', [
+        return view('user.mentor.essay-detail', [
+            'is_completed_essay' => false,
+            'is_ongoing_essay' => true,
             'essay' => $essay
         ]);
     }
@@ -263,7 +272,8 @@ class EssaysMenu extends Controller
             $essay_client->save();
         }
 
-        return view('user.mentor.essay-list-completed-detail', [
+        return view('user.mentor.essay-detail', [
+            'is_completed_essay' => true,
             'essay' => $essay,
             'tags' => EssayTags::where('id_essay_clients', $id)->get(),
             'feedback' => EssayFeedbacks::where('id_essay_clients', $id)->first(),
