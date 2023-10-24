@@ -172,7 +172,7 @@ class NewRequestMenu extends Controller
         Mail::send('mail.mentor.new-request', $data, function ($mail) use ($email) {
             $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
             $mail->to($email);
-            $mail->cc('essay@all-inedu.com');
+            // $mail->cc('essay@all-inedu.com');
             $mail->subject('An essay needs to be assigned!');
         });
 

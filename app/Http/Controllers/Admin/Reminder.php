@@ -69,7 +69,7 @@ class Reminder extends Controller
         })->where('uploaded_at', '<', $today)->orderBy('uploaded_at', 'desc')->get();
 
         // Managing Editor data
-        $managingEditors = Editor::where('position', '=', 3)->get();
+        $managingEditors = Editor::where('position', 3)->where('status', 1)->get();
         $managingEditorsName = array();
         foreach ($managingEditors as $editor) {
             array_push($managingEditorsName, $editor->first_name . ' ' . $editor->last_name);
@@ -93,7 +93,7 @@ class Reminder extends Controller
             Mail::send('mail.reminder.reminder-essay', $data, function ($mail) use ($data) {
                 $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
                 $mail->to($data['email']);
-                $mail->cc('essay.editor@all-inedu.com');
+                // $mail->cc('essay.editor@all-inedu.com');
                 $mail->subject('Pending Essay Awaiting Your Review');
             });
         } elseif ($data['role'] == 'managing' && $data['status'] == 'true') {

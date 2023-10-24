@@ -397,7 +397,6 @@ class Essays extends Controller
 
     public function sendEmail($type, $data)
     {
-        // $email = 'editor.dummy@example.com';
         $managing = Editor::where('position', 3)->where('status', 1)->get()->toArray();
         $email = array_column($managing, 'email');
 
@@ -426,14 +425,14 @@ class Essays extends Controller
             Mail::send('mail.per-editor.reject-assign', $data, function ($mail) use ($email, $editor) {
                 $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
                 $mail->to($email);
-                $mail->cc('essay@all-inedu.com');
+                // $mail->cc('essay@all-inedu.com');
                 $mail->subject($editor . ' has rejected an essay assignment');
             });
         } else if ($type == 'accept') { # to mentor cc managing
             Mail::send('mail.per-editor.accept-assign', $data, function ($mail) use ($email) {
                 $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
                 $mail->to($email);
-                $mail->cc('essay@all-inedu.com');
+                // $mail->cc('essay@all-inedu.com');
                 $mail->subject('Assignment Accepted');
             });
         } else if ($type == 'uploadEssay') {
@@ -441,7 +440,7 @@ class Essays extends Controller
             Mail::send('mail.per-editor.editor-upload', $data, function ($mail) use ($email, $editor) {
                 $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
                 $mail->to($email);
-                $mail->cc('essay@all-inedu.com');
+                // $mail->cc('essay@all-inedu.com');
                 $mail->subject($editor . ' has submitted an essay!');
             });
         } else if ($type == 'uploadRevise') {
@@ -449,14 +448,14 @@ class Essays extends Controller
             Mail::send('mail.per-editor.editor-revise', $data, function ($mail) use ($email, $editor) {
                 $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
                 $mail->to($email);
-                $mail->cc('essay@all-inedu.com');
+                // $mail->cc('essay@all-inedu.com');
                 $mail->subject($editor . ' has submitted an essay revision!');
             });
         } else if ($type == 'comment') {
             Mail::send('mail.per-editor.editor-comment', $data, function ($mail) use ($email) {
                 $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
                 $mail->to($email);
-                $mail->cc('essay@all-inedu.com');
+                // $mail->cc('essay@all-inedu.com');
                 $mail->subject('Editor Comments');
             });
         }

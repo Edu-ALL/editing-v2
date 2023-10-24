@@ -410,10 +410,10 @@ class EssayListMenu extends Controller
             $essay_status->save();
 
             DB::commit();
-            Log::notice('Editor : '.Auth::guard('web-editor')->user()->first_name.' '.Auth::guard('web-editor')->user()->last_name.' has accepted Essay : '.$essay->essay_title);
+            Log::notice('Editor : ' . Auth::guard('web-editor')->user()->first_name . ' ' . Auth::guard('web-editor')->user()->last_name . ' has accepted Essay : ' . $essay->essay_title);
         } catch (Exception $e) {
             DB::rollBack();
-            Log::error('Accept Essay failed : '.$e->getMessage());
+            Log::error('Accept Essay failed : ' . $e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
 
@@ -457,10 +457,10 @@ class EssayListMenu extends Controller
             EssayEditors::where('id_essay_clients', '=', $essay->id_essay_clients)->delete();
 
             DB::commit();
-            Log::notice('Editor : '.Auth::guard('web-editor')->user()->first_name.' '.Auth::guard('web-editor')->user()->last_name.' has rejected Essay : '.$essay->essay_title);
+            Log::notice('Editor : ' . Auth::guard('web-editor')->user()->first_name . ' ' . Auth::guard('web-editor')->user()->last_name . ' has rejected Essay : ' . $essay->essay_title);
         } catch (Exception $e) {
             DB::rollBack();
-            Log::error('Reject Essay failed : '.$e->getMessage());
+            Log::error('Reject Essay failed : ' . $e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
 
@@ -550,10 +550,10 @@ class EssayListMenu extends Controller
             $work_duration->save();
 
             DB::commit();
-            Log::notice('Editor : '.Auth::guard('web-editor')->user()->first_name.' '.Auth::guard('web-editor')->user()->last_name.' has submitted Essay : '.$essay->essay_title);
+            Log::notice('Editor : ' . Auth::guard('web-editor')->user()->first_name . ' ' . Auth::guard('web-editor')->user()->last_name . ' has submitted Essay : ' . $essay->essay_title);
         } catch (Exception $e) {
             DB::rollBack();
-            Log::error('Submit Essay failed : '.$e->getMessage());
+            Log::error('Submit Essay failed : ' . $e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
 
@@ -661,10 +661,10 @@ class EssayListMenu extends Controller
             $work_duration->save();
 
             DB::commit();
-            Log::notice('Editor : '.Auth::guard('web-editor')->user()->first_name.' '.Auth::guard('web-editor')->user()->last_name.' has revised Essay : '.$essay->essay_title);
+            Log::notice('Editor : ' . Auth::guard('web-editor')->user()->first_name . ' ' . Auth::guard('web-editor')->user()->last_name . ' has revised Essay : ' . $essay->essay_title);
         } catch (Exception $e) {
             DB::rollBack();
-            Log::error('Revise Essay failed : '.$e->getMessage());
+            Log::error('Revise Essay failed : ' . $e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
 
@@ -686,7 +686,7 @@ class EssayListMenu extends Controller
 
     public function sendEmail($type, $data)
     {
-        $managing = Editor::where('position', 3)->get()->toArray();
+        $managing = Editor::where('position', 3)->where('status', 1)->get()->toArray();
         $email = array_column($managing, 'email');
 
         $i = 0;
@@ -705,7 +705,7 @@ class EssayListMenu extends Controller
             Mail::send('mail.per-editor.reject-assign', $data, function ($mail) use ($email, $editor) {
                 $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
                 $mail->to($email);
-                $mail->cc('essay@all-inedu.com');
+                // $mail->cc('essay@all-inedu.com');
                 $mail->subject($editor . ' has rejected an essay assignment');
             });
         } else if ($type == 'accept') { # to mentor cc managing
@@ -730,14 +730,14 @@ class EssayListMenu extends Controller
             Mail::send('mail.per-editor.editor-revise', $data, function ($mail) use ($email, $editor) {
                 $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
                 $mail->to($email);
-                $mail->cc('essay@all-inedu.com');
+                // $mail->cc('essay@all-inedu.com');
                 $mail->subject($editor . ' has submitted an essay revision!');
             });
         } else if ($type == 'comment') {
             Mail::send('mail.per-editor.editor-comment', $data, function ($mail) use ($email) {
                 $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
                 $mail->to($email);
-                $mail->cc('essay@all-inedu.com');
+                // $mail->cc('essay@all-inedu.com');
                 $mail->subject('Editor Comments');
             });
         }
