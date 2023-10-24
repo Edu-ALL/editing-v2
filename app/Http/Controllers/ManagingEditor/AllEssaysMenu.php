@@ -895,28 +895,28 @@ class AllEssaysMenu extends Controller
             Mail::send('mail.cancel-assign', $data, function ($mail) use ($email) {
                 $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
                 $mail->to($email);
-                $mail->cc('essay@all-inedu.com');
+                // $mail->cc('essay@all-inedu.com');
                 $mail->subject('One of your assignments has been canceled');
             });
         } else if ($type == 'verify') {
             Mail::send('mail.complete-essay', $data, function ($mail) use ($email, $data) {
                 $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
                 $mail->to($email);
-                $mail->cc('essay@all-inedu.com');
+                // $mail->cc('essay@all-inedu.com');
                 $mail->subject('Your Essay is Complete');
             });
         } else if ($type == 'revise') {
             Mail::send('mail.revise-essay', $data, function ($mail) use ($email, $data) {
                 $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
                 $mail->to($email);
-                $mail->cc('essay@all-inedu.com');
+                // $mail->cc('essay@all-inedu.com');
                 $mail->subject($data['client']->first_name . ' ' . $data['client']->last_name . '`s essay, ' . $data['essay']->essay_title . ', needs further revision');
             });
         } else if ($type == 'send_email') {
             Mail::send('mail.send-essay', $data, function ($mail) use ($email, $data) {
                 $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
                 $mail->to($email);
-                $mail->cc('essay@all-inedu.com');
+                // $mail->cc('essay@all-inedu.com');
                 $mail->subject($data['client']->first_name . ' ' . $data['client']->last_name . '`s essay, ' . $data['essay']->essay_title . ', is ready!');
             });
         }
