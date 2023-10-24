@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Redirect;
 use Exception;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
-// use Illuminate\Support\Facades\File; 
+// use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
@@ -65,7 +65,7 @@ class NewRequestMenu extends Controller
             'id_clients.required' => 'The student name is required',
             'attached_of_clients.required' => 'The uploaded file is required',
             'attached_of_clients.mimes' => 'The uploaded file must be doc / docx',
-            'attached_of_clients.max' => 'The uploaded file size must less than 2Mb' 
+            'attached_of_clients.max' => 'The uploaded file size must less than 2Mb'
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -78,7 +78,7 @@ class NewRequestMenu extends Controller
         $mentee_id =  $request->id_clients;
 
         $client = Client::where('id_clients', '=', $mentee_id)->first();
-        
+
         $fileName = $request->attached_of_clients->getClientOriginalName();
         $fileExt = $request->attached_of_clients->getClientOriginalExtension();
 
@@ -110,14 +110,14 @@ class NewRequestMenu extends Controller
             $new_request->status_read_editor    = 0;
             $new_request->uploaded_at    = date('Y-m-d H:i:s');
             $new_request->save();
-            
-            // Insert Essay Status 
+
+            // Insert Essay Status
             $essay_status = new EssayStatus;
             $essay_status->id_essay_clients = $new_request->id_essay_clients;
             $essay_status->status = 0;
             $essay_status->save();
 
-
+            Log::notice("Essay : " . $new_request->essay_title . " was added by Mentor : " . Auth::guard('web-mentor')->user()->first_name . " " . Auth::guard('web-mentor')->user()->last_name);
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
@@ -137,8 +137,8 @@ class NewRequestMenu extends Controller
         ];
 
         try {
-            
-            // Pusher 
+
+            // Pusher
             event(new ManagingNotif('Mentor has uploaded the essay.'));
         } catch (Exception $e) {
 
@@ -152,6 +152,7 @@ class NewRequestMenu extends Controller
         return redirect('/mentor/essay-list/ongoing')->with('message', 'New request has been saved');
     }
 
+    // Check Log
     public function sendEmail($type, $data)
     {
         $managing = Editor::where('position', 3)->where('status', 1)->get()->toArray();
@@ -176,10 +177,11 @@ class NewRequestMenu extends Controller
         });
 
         if (Mail::failures()) {
+            Log::error("Send Email by " . $email . " was failed");
             return response()->json(Mail::failures());
         }
     }
-    
+
     public function mentorUploadEssay(Request $request)
     {
         $rules = [
@@ -247,6 +249,8 @@ class NewRequestMenu extends Controller
             $new_request->status_read_editor    = 0;
             $new_request->uploaded_at    = date('Y-m-d H:i:s');
             $new_request->save();
+
+            Log::notice("Essay : " . $new_request->title . " was uploaded by Mentor : " . Auth::guard('web-mentor')->user()->first_name . " " . Auth::guard('web-mentor')->user()->last_name);
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
@@ -268,7 +272,7 @@ class NewRequestMenu extends Controller
 
         try {
 
-            // Pusher 
+            // Pusher
             event(new ManagingNotif('Mentor has uploaded the essay.'));
         } catch (Exception $e) {
 

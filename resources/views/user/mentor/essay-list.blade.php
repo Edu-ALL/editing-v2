@@ -1,6 +1,6 @@
 @extends('user.mentor.utama.utama')
 @section('css')
-    <link rel="stylesheet" href="/css/mentor/user-mentor.css">
+    <link rel="stylesheet" href="/css/mentor/essay-completed.css">
     <style>
         .pagination {
             margin: 15px 0
@@ -12,26 +12,34 @@
         }
     </style>
 @endsection
+
 @section('content')
-    <div class="container-fluid p-0">
+    <div class="container-fluid" style="padding: 0">
         <div class="row flex-nowrap main" id="main">
+
+            {{-- Sidenav --}}
             @include('user.mentor.utama.menu')
 
             {{-- Content --}}
-            <div class="col">
+            <div class="col" style="overflow: auto !important">
                 @include('user.mentor.utama.head')
                 <div class="container main-content m-0">
                     {{-- Table Student --}}
                     <div class="row">
                         <div class="col-md col-12 p-0 studentList">
-                            <div class="headline d-flex justify-content-between">
-                                <div class="col-md-6 col-5 d-flex align-items-center gap-md-3 gap-2">
-                                    <img src="/assets/ongoing-essay.png" alt="">
-                                    <h6>Ongoing Essay List</h6>
+                            <div class="headline d-flex justify-content-between" @if ($is_complete_essay) style="background-color: var(--green) @endif">
+                                <div class="col-md-6 col-7 d-flex align-items-center gap-md-3 gap-2">
+                                    @if ($is_complete_essay)
+                                        <img src="/assets/completed-essay.png" alt="">
+                                        <h6>List of Completed Essay</h6>
+                                    @else
+                                        <img src="/assets/ongoing-essay.png" alt="">
+                                        <h6>List of Completed Essay</h6>
+                                    @endif
                                 </div>
                             </div>
                             <div class="container text-start px-3 py-2">
-                                <table class="table table-bordered" id="listongoingessay" style="width: 100%">
+                                <table class="table table-bordered" id="listessay" style="width: 100%">
                                     <thead>
                                         <tr>
                                             <th>No</th>
@@ -45,21 +53,71 @@
                                     </thead>
                                 </table>
                             </div>
-                            </a>
                         </div>
-                        {{-- End Table Student --}}
                     </div>
+                    {{-- End Table Student --}}
                 </div>
-
-                {{-- End Content --}}
             </div>
+            {{-- End Content --}}
         </div>
-    @endsection
-    @section('js')
+    </div>
+@endsection
+
+@section('js')
+    @if ($is_complete_essay == true)
+      <script>
+            // List Student
+            $(document).ready(function() {
+                $('#listessay').DataTable({
+                    scrollX: true,
+                    responsive: true,
+                    processing: true,
+                    serverSide: true,
+                    ajax: '{{ route('data-mentor-essay-list-completed') }}',
+                    columns: [{
+                            data: 'DT_RowIndex',
+                            name: 'DT_RowIndex',
+                            class: 'text-center'
+                        },
+                        {
+                            data: 'student_name',
+                            name: 'student_name'
+                        },
+                        {
+                            data: 'mentor_name',
+                            name: 'mentor_name'
+                        },
+                        {
+                            data: 'editor_name',
+                            name: 'editor_name'
+                        },
+                        {
+                            data: 'essay_title',
+                            name: 'essay_title'
+                        },
+                        {
+                            data: 'essay_deadline',
+                            name: 'essay_deadline'
+                        },
+                        {
+                            data: 'status',
+                            name: 'status'
+                        },
+                    ],
+                    rowCallback: function(row, data) {
+                        $(row).on('click', function() {
+                            window.location.href =
+                                `/mentor/essay-list/completed/detail/${data.id_essay_clients}`;
+                        });
+                    }
+                });
+            });
+        </script>
+    @else
         <script>
             // List Student
             $(document).ready(function() {
-                $('#listongoingessay').DataTable({
+                $('#listessay').DataTable({
                     scrollX: true,
                     responsive: true,
                     processing: true,
@@ -104,4 +162,5 @@
                 });
             });
         </script>
-    @stop
+    @endif
+@stop

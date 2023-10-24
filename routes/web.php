@@ -308,7 +308,7 @@ Route::middleware('is_editor')->group(function () {
     Route::get('/editors/essay-list', [EditorEssays::class, 'index'])->name('list-essay');
     Route::get('/editors/essay-list/data-ongoing', [EditorEssays::class, 'getEssayOngoing'])->name('data-essay-ongoing-editor');
     Route::get('/editors/essay-list/data-completed', [EditorEssays::class, 'getEssayCompleted'])->name('data-essay-completed-editor');
-    Route::get('/editors/essay-list/completed/detail/{id_essay}', [EditorEssays::class, 'detailEssayCompleted']);
+    Route::get('/editors/essay-list/completed/detail/{id_essay}', [EditorEssays::class, 'detailEssay']);
     Route::get('/editors/essay-list/ongoing/detail/{id_essay}', [EditorEssays::class, 'detailEssay']);
 
     Route::get('/editor/invite', function () {

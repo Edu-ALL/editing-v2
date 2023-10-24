@@ -13,13 +13,17 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
 use Exception;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
 
 class EssaysMenu extends Controller
 {
     public function ongoingEssay()
     {
-        return view('user.mentor.essay-ongoing');
+        return view('user.mentor.essay-list', [
+            'is_ongoing_essay' => true,
+            'is_complete_essay' => false,
+        ]);
     }
 
     public function getOngoingEssay(Request $request)
@@ -122,7 +126,11 @@ class EssaysMenu extends Controller
 
     public function completedEssay()
     {
-        return view('user.mentor.essay-completed');
+        // return view('user.mentor.essay-completed');
+        return view('user.mentor.essay-list', [
+            'is_ongoing_essay' => false,
+            'is_complete_essay' => true,
+        ]);
     }
 
     public function getCompletedEssay(Request $request)
@@ -238,7 +246,9 @@ class EssaysMenu extends Controller
             $essay->save();
         }
 
-        return view('user.mentor.essay-list-ongoing-detail', [
+        return view('user.mentor.essay-detail', [
+            'is_completed_essay' => false,
+            'is_ongoing_essay' => true,
             'essay' => $essay
         ]);
     }
@@ -262,7 +272,8 @@ class EssaysMenu extends Controller
             $essay_client->save();
         }
 
-        return view('user.mentor.essay-list-completed-detail', [
+        return view('user.mentor.essay-detail', [
+            'is_completed_essay' => true,
             'essay' => $essay,
             'tags' => EssayTags::where('id_essay_clients', $id)->get(),
             'feedback' => EssayFeedbacks::where('id_essay_clients', $id)->first(),
@@ -279,17 +290,27 @@ class EssaysMenu extends Controller
         // $filePath = 'uploads/essay/mentor/'.$fileName;
         // Storage::disk('public')->put($filePath, file_get_contents($request->attached_of_clients));
 
-        $essay = EssayClients::find($id);
+        DB::beginTransaction();
+        try {
+            $essay = EssayClients::find($id);
 
-        $file_path = app_path("uploaded_files/program/essay/mentors/{$essay->attached_of_clients}");
+            $file_path = app_path("uploaded_files/program/essay/mentors/{$essay->attached_of_clients}");
 
-        // dd($essay);
-        if (File::exists($file_path)) {
-            //File::delete($file_path);
-            File::delete($file_path);
+            // dd($essay);
+            if (File::exists($file_path)) {
+                //File::delete($file_path);
+                File::delete($file_path);
+            }
+            // EssayClients::where($id)->delete();
+            $essay->delete();
+
+            Log::notice("Essay : " . $essay->essay_title . " was deleted by Mentor : " . Auth::guard('web-mentor')->user()->first_name . " " . Auth::guard('web-mentor')->user()->last_name);
+            DB::commit();
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            DB::rollBack();
+            return redirect('mentor/essay-list/ongoing')->with('delete-essay-successful', 'Essay has failed ');
         }
-        // EssayClients::where($id)->delete();
-        $essay->delete();
 
         return redirect('mentor/essay-list/ongoing')->with('delete-essay-successful', 'Essay has been deleted');
     }
@@ -322,15 +343,17 @@ class EssaysMenu extends Controller
             $essay->status_read_editor = 0;
             $essay->save();
 
+            Log::notice("Essay : " . $essay->essay_title . " has feedback from Mentor : " . Auth::guard('web-mentor')->user()->first_name . " " . Auth::guard('web-mentor')->user()->last_name);
             DB::commit();
         } catch (Exception $e) {
+            Log::error($e->getMessage());
             DB::rollBack();
             return Redirect::back()->withErrors($e->getMessage());
         }
 
         return redirect('mentor/essay-list/completed/detail/' . $id);
     }
-    
+
      public function listEssayMentee(Request $request)
     {
         $email = $request->get('email') ?? null;
