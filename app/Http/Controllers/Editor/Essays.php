@@ -96,7 +96,7 @@ class Essays extends Controller
                 })
                 ->editColumn('essay_deadline', function ($essay) {
                     $diffDeadline = Carbon::parse($essay->essay_clients->essay_deadline)->startOfDay()->diffInDays(Carbon::parse($essay->essay_clients->uploaded_at)->startOfDay());
-                    $editors_deadline = Carbon::parse($essay->essay_clients->uploaded_at)->addDays(60 / 100 * $diffDeadline);
+                    $editors_deadline = Carbon::parse($essay->essay_clients->uploaded_at)->addDays(round((60 / 100) * $diffDeadline,0));
 
                     $result =  '<div class="' . ($essay->read == 0 ? 'unread' : '') . '">' .
                         (date('D, d M Y', strtotime($editors_deadline)))  .
@@ -171,7 +171,7 @@ class Essays extends Controller
                 })
                 ->editColumn('essay_deadline', function ($essay) {
                     $diffDeadline = Carbon::parse($essay->essay_clients->essay_deadline)->startOfDay()->diffInDays(Carbon::parse($essay->essay_clients->uploaded_at)->startOfDay());
-                    $editors_deadline = Carbon::parse($essay->essay_clients->uploaded_at)->addDays(60 / 100 * $diffDeadline);
+                    $editors_deadline = Carbon::parse($essay->essay_clients->uploaded_at)->addDays(round((60 / 100) * $diffDeadline,0));
 
                     $result =  '<div class="' . ($essay->read == 0 ? 'unread' : '') . '">' .
                         (date('D, d M Y', strtotime($editors_deadline)))  .
@@ -194,7 +194,7 @@ class Essays extends Controller
         $essay = EssayClients::find($id_essay);
 
         $diffDeadline = Carbon::parse($essay->essay_deadline)->startOfDay()->diffInDays(Carbon::parse($essay->uploaded_at)->startOfDay());
-        $editors_deadline = Carbon::parse($essay->uploaded_at)->addDays(60 / 100 * $diffDeadline);
+        $editors_deadline = Carbon::parse($essay->uploaded_at)->addDays(round((60 / 100) * $diffDeadline,0));
 
         if ($essay) {
             $editors = Editor::paginate(10);

@@ -72,7 +72,7 @@ class EssayListMenu extends Controller
                 })
                 ->editColumn('essay_deadline', function ($d) {
                     $diffDeadline = Carbon::parse($d->essay_clients->essay_deadline)->startOfDay()->diffInDays(Carbon::parse($d->essay_clients->uploaded_at)->startOfDay());
-                    $editors_deadline = Carbon::parse($d->essay_clients->uploaded_at)->addDays(60 / 100 * $diffDeadline);
+                    $editors_deadline = Carbon::parse($d->essay_clients->uploaded_at)->addDays(round((60 / 100) * $diffDeadline, 0));
                     $result = date('D, d M Y', strtotime($editors_deadline));
                     return $result;
                 })
@@ -128,7 +128,7 @@ class EssayListMenu extends Controller
                 })
                 ->editColumn('essay_deadline', function ($d) {
                     $diffDeadline = Carbon::parse($d->essay_clients->essay_deadline)->startOfDay()->diffInDays(Carbon::parse($d->essay_clients->uploaded_at)->startOfDay());
-                    $editors_deadline = Carbon::parse($d->essay_clients->uploaded_at)->addDays(60 / 100 * $diffDeadline);
+                    $editors_deadline = Carbon::parse($d->essay_clients->uploaded_at)->addDays(round((60 / 100) * $diffDeadline, 0));
                     $result = date('D, d M Y', strtotime($editors_deadline));
                     return $result;
                 })
