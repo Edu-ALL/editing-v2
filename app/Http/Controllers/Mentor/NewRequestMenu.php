@@ -32,7 +32,7 @@ class NewRequestMenu extends Controller
     public function index()
     {
         $mentor = Auth::guard('web-mentor')->user();
-        $clients = Client::where('id_mentor', '=', $mentor->id_mentors)->orWhere('id_mentor_2', '=', $mentor->id_mentors)->with('mentors')->get();
+        $clients = Client::where('status', '=', 1)->where('id_mentor', '=', $mentor->id_mentors)->orWhere('id_mentor_2', '=', $mentor->id_mentors)->with('mentors')->get();
         $request_editor = Editor::where('status', '=', '1')->get();
         $university = University::get();
         $program = Programs::where('program_name', '=', 'Essay Editing')->orderBy('program_name', 'asc')->get();
@@ -142,8 +142,7 @@ class NewRequestMenu extends Controller
             event(new ManagingNotif('Mentor has uploaded the essay.'));
         } catch (Exception $e) {
 
-            Log::error('Pusher store new request from mentor : '.$e->getMessage());
-
+            Log::error('Pusher store new request from mentor : ' . $e->getMessage());
         }
 
 
