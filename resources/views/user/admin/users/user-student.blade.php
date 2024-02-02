@@ -54,11 +54,13 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Student Name</th>
+                                            <th>Status</th>
                                             <th>Mentor Name</th>
                                             <th>Backup Mentor</th>
                                             <th>Email</th>
                                             <th>Phone</th>
                                             <th>City</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -124,6 +126,21 @@
                         name: 'student_name'
                     },
                     {
+                        data: 'status',
+                        name: 'status',
+                        class: 'text-center',
+                        render: function(data, type, row, meta) {
+                            let is_checked = data == 1 ? 'checked' : ''
+                            let value = data == 1 ? 0 : 1
+                            let status = '<div class="form-check form-switch">' +
+                                '<input class="form-check-input m-0" type="checkbox" role="switch" id="flexSwitchCheckChecked" ' +
+                                is_checked + ' onchange="updateStatus(' + row.id_clients + ',' +
+                                value + ')">' +
+                                '</div>'
+                            return status
+                        }
+                    },
+                    {
                         data: 'mentor_name',
                         name: 'mentor_name'
                     },
@@ -143,16 +160,45 @@
                         data: 'city',
                         name: 'city'
                     },
+                    {
+                        data: '',
+                        class: 'text-center',
+                        render(data, type, row, meta) {
+                            let action =
+                                '<button type="button" class="btn btn-sm btn-info py-1 px-2 text-white" style="font-size:11px;" onclick="viewDetail(' +
+                                row.id_clients + ')">' +
+                                '<i class="fa fa-eye"></i> View' +
+                                '</button>'
+                            return action
+                        },
+                    },
                 ],
-                rowCallback: function(row, data) {
-                    $(row).on('click', function() {
-                        window.location.href = `/admin/user/student/detail/${data.id_clients}`;
-                    });
-                }
             });
         });
     </script>
     <script>
+        function viewDetail(id) {
+            window.location.href = '/admin/user/student/detail/' + id;
+        }
+
+        function updateStatus(id, value) {
+            let url = "{{ url('/api/student/status/') }}" + '/' + id
+            Swal.showLoading();
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {
+                    status: value
+                }
+            }).done(function(res) {
+                if (res.success == true)
+                    Swal.fire(res.message, '', 'success')
+                else
+                    Swal.fire(res.message, '', 'error')
+            });
+        }
+
+
         $("#do-sync").submit(function(e) {
             e.preventDefault();
 

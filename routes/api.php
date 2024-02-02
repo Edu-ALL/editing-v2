@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Clients;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Mentor\EssaysMenu;
@@ -24,3 +25,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('mentor/essay-list', [EssaysMenu::class, 'listEssayMentee']);
 Route::post('mentor/upload/essay', [NewRequestMenu::class, 'mentorUploadEssay']);
 Route::get('student/essay-list', [EssaysMenu::class, 'listEssayByStudent']);
+Route::post('student/status/{id_clients}', [Clients::class, 'updateStatus']);
