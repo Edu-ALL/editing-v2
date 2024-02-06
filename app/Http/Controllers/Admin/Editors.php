@@ -42,15 +42,15 @@ class Editors extends Controller
         });
 
         if (Mail::failures()) {
-            Log::error('Failed to sent email : '.Mail::failures());
+            Log::error('Failed to sent email : ' . Mail::failures());
             return response()->json(Mail::failures());
         }
 
-        if (Auth::guard('web-admin')->check()){
-            Log::notice('Invitation email has been sent to '.$email);
+        if (Auth::guard('web-admin')->check()) {
+            Log::notice('Invitation email has been sent to ' . $email);
             return redirect('admin/user/editor/invite')->with('invite-editor-successful', 'Invitation email has been sent');
         } else {
-            Log::notice('Invitation email has been sent to '.$email);
+            Log::notice('Invitation email has been sent to ' . $email);
             return redirect('editor/invite')->with('invite-editor-successful', 'Invitation email has been sent');
         }
     }
@@ -119,7 +119,7 @@ class Editors extends Controller
             $token->delete();
 
             DB::commit();
-            Log::notice('Editor : '.$new_editor->first_name.' '.$new_editor->last_name.' was successfully added');
+            Log::notice('Editor : ' . $new_editor->first_name . ' ' . $new_editor->last_name . ' was successfully added');
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());
@@ -200,11 +200,11 @@ class Editors extends Controller
         if (!Editor::find($id)) {
             return abort(404);
         }
-        
+
         $editor = Editor::find($id);
-        $essay_completed = EssayClients::with('client_by_id', 'program', 'status')
-            ->where('id_editors', '=', $id)
-            ->where('status_essay_clients', '=', 7)
+        $essay_completed = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', '=', 'tbl_essay_editors.id_essay_clients')
+            ->where('editors_mail', $editor->email)
+            ->where('tbl_essay_clients.status_essay_clients', '=', 7)
             ->get();
         $count_essay = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', '=', 'tbl_essay_editors.id_essay_clients')->where('editors_mail', $editor->email)->where('essay_rating', '!=', 0)->get();
 
@@ -230,35 +230,40 @@ class Editors extends Controller
     public function getDetailEssayOngoing($id, Request $request)
     {
         if ($request->ajax()) {
-            $data = EssayClients::with('client_by_id', 'client_by_email', 'program', 'status')
-                ->where('id_editors', '=', $id)->where('status_essay_clients', '!=', 0)
-                ->where('status_essay_clients', '!=', 4)->where('status_essay_clients', '!=', 5)
-                ->where('status_essay_clients', '!=', 7)->get();
+            $data = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', 'tbl_essay_editors.id_essay_clients')
+                ->with(['status', 'essay_clients.mentor', 'editor', 'essay_clients.client_by_id', 'essay_clients.client_by_email', 'essay_clients.client_by_id.mentors', 'essay_clients.client_by_email.mentors'])
+                ->where('editors_mail', $id)
+                ->where('tbl_essay_clients.status_essay_clients', '!=', 0)
+                ->where('tbl_essay_clients.status_essay_clients', '!=', 4)
+                ->where('tbl_essay_clients.status_essay_clients', '!=', 5)
+                ->where('tbl_essay_clients.status_essay_clients', '!=', 7)
+                ->orderBy('essay_deadline', 'desc')
+                ->get();
 
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('student_name', function ($essays_ongoing) {
-                    if ($essays_ongoing->client_by_id) {
-                        $result = $essays_ongoing->client_by_id->first_name . ' ' . $essays_ongoing->client_by_id->last_name;
+                    if ($essays_ongoing->essay_clients->client_by_id) {
+                        $result = $essays_ongoing->essay_clients->client_by_id->first_name . ' ' . $essays_ongoing->essay_clients->client_by_id->last_name;
                     } else {
-                        $result = $essays_ongoing->client_by_email->first_name . ' ' . $essays_ongoing->client_by_email->last_name;
+                        $result = $essays_ongoing->essay_clients->client_by_email->first_name . ' ' . $essays_ongoing->essay_clients->client_by_email->last_name;
                     }
                     return $result;
                 })
                 ->editColumn('program', function ($essays_ongoing) {
-                    $result = $essays_ongoing->program->program_name;
+                    $result = $essays_ongoing->essay_clients->program->program_name;
                     return $result;
                 })
                 ->editColumn('essay_title', function ($essays_ongoing) {
-                    $result = $essays_ongoing->essay_title;
+                    $result = $essays_ongoing->essay_clients->essay_title;
                     return $result;
                 })
                 ->editColumn('essay_deadline', function ($essays_ongoing) {
-                    $result = date('D, d M Y', strtotime($essays_ongoing->essay_deadline));
+                    $result = date('D, d M Y', strtotime($essays_ongoing->essay_clients->essay_deadline));
                     return $result;
                 })
                 ->editColumn('status', function ($essays_ongoing) {
-                    $result =  '<div style="color: var(--blue)">' . ($essays_ongoing->status->status_title) . '</div>';
+                    $result =  '<div style="color: var(--blue)">' . ($essays_ongoing->essay_clients->status->status_title) . '</div>';
                     return $result;
                 })
                 ->rawColumns(['student_name', 'program', 'essay_title', 'essay_deadline', 'status'])
@@ -268,36 +273,35 @@ class Editors extends Controller
 
     public function getDetailEssayCompleted($id, Request $request)
     {
+
         if ($request->ajax()) {
-            $data = EssayClients::with('client_by_id', 'client_by_email', 'program', 'status')
-                ->where('id_editors', '=', $id)
-                ->where('status_essay_clients', '=', 7)
+            $data = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', 'tbl_essay_editors.id_essay_clients')
+                ->with(['status', 'essay_clients.mentor', 'editor', 'essay_clients.client_by_id', 'essay_clients.client_by_email', 'essay_clients.client_by_id.mentors', 'essay_clients.client_by_email.mentors'])
+                ->where('editors_mail', $id)
+                ->where('status_essay_editors', 7)
+                ->orderBy('essay_deadline', 'desc')
                 ->get();
 
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('student_name', function ($essays_completed) {
-                    if ($essays_completed->client_by_id) {
-                        $result = $essays_completed->client_by_id->first_name . ' ' . $essays_completed->client_by_id->last_name;
-                    } else {
-                        $result = $essays_completed->client_by_email->first_name . ' ' . $essays_completed->client_by_email->last_name;
-                    }
+                    $result = isset($essays_completed->essay_clients->client_by_id) ? $essays_completed->essay_clients->client_by_id->first_name . ' ' . $essays_completed->essay_clients->client_by_id->last_name : $essays_completed->essay_clients->client_by_email->first_name . ' ' . $essays_completed->essay_clients->client_by_email->last_name;
                     return $result;
                 })
                 ->editColumn('program', function ($essays_completed) {
-                    $result = $essays_completed->program->program_name;
+                    $result = $essays_completed->essay_clients->program->program_name;
                     return $result;
                 })
                 ->editColumn('essay_title', function ($essays_completed) {
-                    $result = $essays_completed->essay_title;
+                    $result = $essays_completed->essay_clients->essay_title;
                     return $result;
                 })
                 ->editColumn('essay_deadline', function ($essays_completed) {
-                    $result = date('D, d M Y', strtotime($essays_completed->essay_deadline));
+                    $result = date('D, d M Y', strtotime($essays_completed->essay_clients->essay_deadline));
                     return $result;
                 })
                 ->editColumn('status', function ($essays_completed) {
-                    $result =  '<div style="color: var(--green)">' . ($essays_completed->status->status_title) . '</div>';
+                    $result =  '<div style="color: var(--green)">' . ($essays_completed->essay_clients->status->status_title) . '</div>';
                     return $result;
                 })
                 ->rawColumns(['student_name', 'program', 'essay_title', 'essay_deadline', 'status'])
@@ -338,10 +342,10 @@ class Editors extends Controller
             $new_editor->status = 1;
             $new_editor->save();
             DB::commit();
-            Log::notice('Editor : '.$new_editor->first_name.' '.$new_editor->last_name.' was successfully created');
+            Log::notice('Editor : ' . $new_editor->first_name . ' ' . $new_editor->last_name . ' was successfully created');
         } catch (Exception $e) {
             DB::rollBack();
-            Log::error('Store Editor failed : '.$e->getMessage());
+            Log::error('Store Editor failed : ' . $e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
 
@@ -365,10 +369,10 @@ class Editors extends Controller
             $editor->position = $request->position;
             $editor->save();
             DB::commit();
-            Log::notice('Editor : '.$editor->first_name.' '.$editor->last_name.' position was updated');
+            Log::notice('Editor : ' . $editor->first_name . ' ' . $editor->last_name . ' position was updated');
         } catch (Exception $e) {
             DB::rollBack();
-            Log::error('Update Editor failed : '.$e->getMessage());
+            Log::error('Update Editor failed : ' . $e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
         return redirect('admin/user/editor/detail/' . $id_editors)->with('update-editor-successful', 'The Editor has been updated');
@@ -382,10 +386,10 @@ class Editors extends Controller
             $editor->status = 2;
             $editor->save();
             DB::commit();
-            Log::notice('Editor : '.$editor->first_name.' '.$editor->last_name.' was successfully deactivated');
+            Log::notice('Editor : ' . $editor->first_name . ' ' . $editor->last_name . ' was successfully deactivated');
         } catch (Exception $e) {
             DB::rollBack();
-            Log::error('Deactivate Editor failed : '.$e->getMessage());
+            Log::error('Deactivate Editor failed : ' . $e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
         return redirect('admin/user/editor/detail/' . $id_editors);
@@ -399,10 +403,10 @@ class Editors extends Controller
             $editor->status = 1;
             $editor->save();
             DB::commit();
-            Log::notice('Editor : '.$editor->first_name.' '.$editor->last_name.' was successfully activated');
+            Log::notice('Editor : ' . $editor->first_name . ' ' . $editor->last_name . ' was successfully activated');
         } catch (Exception $e) {
             DB::rollBack();
-            Log::error('Activate Editor failed : '.$e->getMessage());
+            Log::error('Activate Editor failed : ' . $e->getMessage());
             return Redirect::back()->withErrors($e->getMessage());
         }
         return redirect('admin/user/editor/detail/' . $id_editors);

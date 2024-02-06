@@ -322,7 +322,7 @@
                 serverSide: true,
                 "pageLength": 5,
                 "lengthMenu": [5, 10, 25, 50],
-                ajax: '{{ route('data-detail-essay-ongoing', $editor->id_editors) }}',
+                ajax: '{{ route('data-detail-essay-ongoing', $editor->email) }}',
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -365,7 +365,7 @@
                 serverSide: true,
                 "pageLength": 5,
                 "lengthMenu": [5, 10, 25, 50],
-                ajax: '{{ route('data-detail-essay-completed', $editor->id_editors) }}',
+                ajax: '{{ route('data-detail-essay-completed', $editor->email) }}',
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
