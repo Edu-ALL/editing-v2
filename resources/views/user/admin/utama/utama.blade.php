@@ -10,7 +10,7 @@
     <link rel="stylesheet" href={{ asset('css/bootstrap.css') }}>
 
     {{-- TinyMCE --}}
-    <script src="https://cdn.tiny.cloud/1/h7t62ozvqkx2ifkeh051fsy3k9irz7axx1g2zitzpbaqfo8m/tinymce/5/tinymce.min.js"
+    <script src="https://cdn.tiny.cloud/1/665k5cso7x9x0errf1h417cn6fgnxs67ayozubvhomg0vony/tinymce/5/tinymce.min.js"
         referrerpolicy="origin"></script>
 
     {{-- JQuery --}}
