@@ -32,13 +32,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 
     {{-- TinyMCE --}}
-    <script src="https://cdn.tiny.cloud/1/665k5cso7x9x0errf1h417cn6fgnxs67ayozubvhomg0vony/tinymce/5/tinymce.min.js"
-        referrerpolicy="origin"></script>
+    {{-- <script src="https://cdn.tiny.cloud/1/665k5cso7x9x0errf1h417cn6fgnxs67ayozubvhomg0vony/tinymce/5/tinymce.min.js"
+        referrerpolicy="origin"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <style>
         .fs-10 {
             font-size: 10px;
+        }
+
+        /* This selector targets the editable element (excluding comments). */
+        .ck-editor__editable_inline:not(.ck-comment__input *) {
+            min-height: 200px;
+            overflow-y: auto;
         }
     </style>
 </head>
@@ -93,6 +99,32 @@
             });
         </script>
     @endif
+    {{-- Editor --}}
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+    <script>
+        var myEditor;
+
+        document.querySelectorAll( 'textarea' ).forEach(function (element) {
+            ClassicEditor
+                .create( element, {
+                    toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ],
+                    heading: {
+                        options: [
+                            { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                            { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                            { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' }
+                        ]
+                    }
+                } )
+                .then( editor => {
+                    console.log('Editor was initialized', editor);
+                    myEditor = editor;
+                })
+                .catch( error => {
+                    console.error( error );
+                } );
+        })        
+    </script>
     @yield('js')
     @include('component.loading')
     <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
