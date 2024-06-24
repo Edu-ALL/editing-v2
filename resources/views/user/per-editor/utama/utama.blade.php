@@ -12,8 +12,10 @@
     <link rel="stylesheet" href="/css/per-editor/dashboard.css">
 
     {{-- TinyMCE --}}
-    <script src="https://cdn.tiny.cloud/1/665k5cso7x9x0errf1h417cn6fgnxs67ayozubvhomg0vony/tinymce/5/tinymce.min.js"
-        referrerpolicy="origin"></script>
+    <!--<script src="https://cdn.tiny.cloud/1/665k5cso7x9x0errf1h417cn6fgnxs67ayozubvhomg0vony/tinymce/5/tinymce.min.js"-->
+    <!--    referrerpolicy="origin"></script>-->
+    <script src="https://cdn.tiny.cloud/1/6rtskj4e67x7o5h9g4gu406k5ba49e4fzsjcgw2v5ueihahb/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+
 
     {{-- Datatables --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" />
