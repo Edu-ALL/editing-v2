@@ -109,12 +109,12 @@ document.addEventListener("click", (evt) => {
 // End Menu Report
 
 // TinyMCE
-tinymce.init({
-  selector: '.textarea',
-  element_format : 'html', //new
-  width: 'auto',
-  height: '300'
-});
+// tinymce.init({
+//   selector: '.textarea',
+//   element_format : 'html', //new
+//   width: 'auto',
+//   height: '300'
+// });
 
 // Selectize
 $(".select-beast").selectize({
