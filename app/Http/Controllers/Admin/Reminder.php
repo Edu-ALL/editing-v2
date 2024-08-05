@@ -68,23 +68,26 @@ class Reminder extends Controller
                 ->orWhere('status_essay_editors', '=', 8);
         })->where('uploaded_at', '<', $today)->orderBy('uploaded_at', 'desc')->get();
 
-        // Managing Editor data
-        $managingEditors = Editor::where('position', 3)->where('status', 1)->get();
-        $managingEditorsName = array();
-        foreach ($managingEditors as $editor) {
-            array_push($managingEditorsName, $editor->first_name . ' ' . $editor->last_name);
+        // Check there is essaySubmited
+        if($essaySubmitted->count() > 0) {
+            // Managing Editor data
+            $managingEditors = Editor::where('position', 3)->where('status', 1)->get();
+            $managingEditorsName = array();
+            foreach ($managingEditors as $editor) {
+                array_push($managingEditorsName, $editor->first_name . ' ' . $editor->last_name);
+            }
+            $emailEditors = array_column($managingEditors->toArray(), 'email');
+    
+            // Check Date and Send Email
+            $dataEditor = [
+                'email' => $emailEditors,
+                'name' => $managingEditorsName,
+                'role' => 'managing',
+                'status' => 'true',
+                'essays' => $essaySubmitted,
+            ];
+            $this->sendEmail($dataEditor);
         }
-        $emailEditors = array_column($managingEditors->toArray(), 'email');
-
-        // Check Date and Send Email
-        $dataEditor = [
-            'email' => $emailEditors,
-            'name' => $managingEditorsName,
-            'role' => 'managing',
-            'status' => 'true',
-            'essays' => $essaySubmitted,
-        ];
-        $this->sendEmail($dataEditor);
     }
 
     public function sendEmail($data)
