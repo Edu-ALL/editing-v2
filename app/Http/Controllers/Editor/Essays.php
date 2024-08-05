@@ -96,7 +96,7 @@ class Essays extends Controller
                 })
                 ->editColumn('essay_deadline', function ($essay) {
                     $diffDeadline = Carbon::parse($essay->essay_clients->essay_deadline)->startOfDay()->diffInDays(Carbon::parse($essay->essay_clients->uploaded_at)->startOfDay());
-                    $editors_deadline = Carbon::parse($essay->essay_clients->uploaded_at)->addDays(60 / 100 * $diffDeadline);
+                    $editors_deadline = Carbon::parse($essay->essay_clients->uploaded_at)->addDays(round((60 / 100) * $diffDeadline,0));
 
                     $result =  '<div class="' . ($essay->read == 0 ? 'unread' : '') . '">' .
                         (date('D, d M Y', strtotime($editors_deadline)))  .
@@ -171,7 +171,7 @@ class Essays extends Controller
                 })
                 ->editColumn('essay_deadline', function ($essay) {
                     $diffDeadline = Carbon::parse($essay->essay_clients->essay_deadline)->startOfDay()->diffInDays(Carbon::parse($essay->essay_clients->uploaded_at)->startOfDay());
-                    $editors_deadline = Carbon::parse($essay->essay_clients->uploaded_at)->addDays(60 / 100 * $diffDeadline);
+                    $editors_deadline = Carbon::parse($essay->essay_clients->uploaded_at)->addDays(round((60 / 100) * $diffDeadline,0));
 
                     $result =  '<div class="' . ($essay->read == 0 ? 'unread' : '') . '">' .
                         (date('D, d M Y', strtotime($editors_deadline)))  .
@@ -194,7 +194,7 @@ class Essays extends Controller
         $essay = EssayClients::find($id_essay);
 
         $diffDeadline = Carbon::parse($essay->essay_deadline)->startOfDay()->diffInDays(Carbon::parse($essay->uploaded_at)->startOfDay());
-        $editors_deadline = Carbon::parse($essay->uploaded_at)->addDays(60 / 100 * $diffDeadline);
+        $editors_deadline = Carbon::parse($essay->uploaded_at)->addDays(round((60 / 100) * $diffDeadline,0));
 
         if ($essay) {
             $editors = Editor::paginate(10);
@@ -208,31 +208,59 @@ class Essays extends Controller
                 DB::commit();
             }
 
-            if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4) {
-                return view('user.per-editor.essay-list.essay-list-ongoing-detail', [
+
+            // Status Uploaded
+            if ($essay->status_essay_clients == 0) {
+                return view('user.per-editor.essay-list.essay-detail', [
+                    'essay_status' => "uploaded",
                     'editors_deadline' => $editors_deadline,
                     'essay' => $essay,
-                    'editors' => $editors
                 ]);
-            } else if ($essay->status_essay_clients == 1) {
-                return view('user.per-editor.essay-list.essay-list-ongoing-detail', [
+            }
+
+            // Status Assigned
+            if ($essay->status_essay_clients == 1) {
+                return view('user.per-editor.essay-list.essay-detail', [
+                    'essay_status' => "assigned",
                     'editors_deadline' => $editors_deadline,
-                    'essay' => $essay
+                    'essay' => $essay,
                 ]);
-            } else if ($essay->status_essay_clients == 2) {
-                return view('user.per-editor.essay-list.essay-list-ongoing-accepted', [
+            }
+
+            // Status ongoing
+            if ($essay->status_essay_clients == 2) {
+                return view('user.per-editor.essay-list.essay-detail', [
+                    'essay_status' => "ongoing",
                     'editors_deadline' => $editors_deadline,
                     'essay' => $essay,
                     'tags' => Tags::get()
                 ]);
-            } else if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 8) {
-                return view('user.per-editor.essay-list.essay-list-ongoing-submitted', [
+            }
+
+            // Status Submitted
+            if ($essay->status_essay_clients == 3) {
+                return view('user.per-editor.essay-list.essay-detail', [
+                    'essay_status' => "submitted",
                     'editors_deadline' => $editors_deadline,
                     'essay' => $essay,
+                    'editors' => $editors,
                     'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
                 ]);
-            } else if ($essay->status_essay_clients == 6) {
-                return view('user.per-editor.essay-list.essay-list-ongoing-revise', [
+            }
+
+            // Status Canceled
+            if ($essay->status_essay_clients == 4) {
+                return view('user.per-editor.essay-list.essay-detail', [
+                    'essay_status' => "canceled",
+                    'editors_deadline' => $editors_deadline,
+                    'essay' => $essay,
+                ]);
+            }
+
+            // Status Revise
+            if ($essay->status_essay_clients == 6) {
+                return view('user.per-editor.essay-list.essay-detail', [
+                    'essay_status' => 'revise',
                     'editors_deadline' => $editors_deadline,
                     'essay' => $essay,
                     'tags' => EssayTags::where('id_essay_clients', $id_essay)->get(),
@@ -240,41 +268,31 @@ class Essays extends Controller
                     'essay_revise' => EssayRevise::where('id_essay_clients', $id_essay)->get()
                 ]);
             }
-        } else {
-            return abort(404);
-            // return redirect('editors/essay-list')->with('isEssay', 'Essay not found');
-        }
-    }
 
-    public function detailEssayCompleted($id_essay, Request $request)
-    {
-        $essay_editor = EssayEditors::where('id_essay_clients', $id_essay)->first();
-
-        $diffDeadline = Carbon::parse($essay_editor->essay_clients->essay_deadline)->startOfDay()->diffInDays(Carbon::parse($essay_editor->essay_clients->uploaded_at)->startOfDay());
-        $editors_deadline = Carbon::parse($essay_editor->essay_clients->uploaded_at)->addDays(60 / 100 * $diffDeadline);
-
-        if ($essay_editor) {
-            // $essay = EssayClients::find($id_essay);
-            $essay_editor = EssayEditors::where('id_essay_clients', $id_essay)->first();
-
-            if ($essay_editor->read == 0) {
-                DB::beginTransaction();
-                $essay_editor->read = 1;
-                $essay_editor->save();
-                DB::commit();
-            }
-
-            if ($essay_editor->status_essay_editors == 7) {
-                return view('user.per-editor.essay-list.essay-list-completed-detail', [
+            // Status COMPLETED
+            if ($essay->status_essay_clients == 7) {
+                return view('user.per-editor.essay-list.essay-detail', [
+                    'essay_status' => "completed",
                     'editors_deadline' => $editors_deadline,
                     'essay' => $essay_editor->essay_clients,
                     'essay_editor' => $essay_editor,
                     'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
+                 ]);
+            }
+
+            // Status Submitted
+            if ($essay->status_essay_clients == 8) {
+                return view('user.per-editor.essay-list.essay-detail', [
+                    'essay_status' => "revised",
+                    'editors_deadline' => $editors_deadline,
+                    'essay' => $essay,
+                    'editors' => $editors,
+                    'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
                 ]);
             }
+
         } else {
             return abort(404);
-            // return redirect('editors/essay-list')->with('isEssay', 'Essay not found');
         }
     }
 
@@ -379,7 +397,6 @@ class Essays extends Controller
 
     public function sendEmail($type, $data)
     {
-        // $email = 'editor.dummy@example.com';
         $managing = Editor::where('position', 3)->where('status', 1)->get()->toArray();
         $email = array_column($managing, 'email');
 
@@ -408,14 +425,14 @@ class Essays extends Controller
             Mail::send('mail.per-editor.reject-assign', $data, function ($mail) use ($email, $editor) {
                 $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
                 $mail->to($email);
-                $mail->cc('essay@all-inedu.com');
+                // $mail->cc('essay@all-inedu.com');
                 $mail->subject($editor . ' has rejected an essay assignment');
             });
         } else if ($type == 'accept') { # to mentor cc managing
             Mail::send('mail.per-editor.accept-assign', $data, function ($mail) use ($email) {
                 $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
                 $mail->to($email);
-                $mail->cc('essay@all-inedu.com');
+                // $mail->cc('essay@all-inedu.com');
                 $mail->subject('Assignment Accepted');
             });
         } else if ($type == 'uploadEssay') {
@@ -423,7 +440,7 @@ class Essays extends Controller
             Mail::send('mail.per-editor.editor-upload', $data, function ($mail) use ($email, $editor) {
                 $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
                 $mail->to($email);
-                $mail->cc('essay@all-inedu.com');
+                // $mail->cc('essay@all-inedu.com');
                 $mail->subject($editor . ' has submitted an essay!');
             });
         } else if ($type == 'uploadRevise') {
@@ -431,14 +448,14 @@ class Essays extends Controller
             Mail::send('mail.per-editor.editor-revise', $data, function ($mail) use ($email, $editor) {
                 $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
                 $mail->to($email);
-                $mail->cc('essay@all-inedu.com');
+                // $mail->cc('essay@all-inedu.com');
                 $mail->subject($editor . ' has submitted an essay revision!');
             });
         } else if ($type == 'comment') {
             Mail::send('mail.per-editor.editor-comment', $data, function ($mail) use ($email) {
                 $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
                 $mail->to($email);
-                $mail->cc('essay@all-inedu.com');
+                // $mail->cc('essay@all-inedu.com');
                 $mail->subject('Editor Comments');
             });
         }

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Crypt;
 
 trait SendBotTelegramTrait {
 
-    public function sendMessageTele($tokenBot, $teleId, $type, $message)
+    public function SendMessageTele($tokenBot, $teleId, $type, $message)
     {
         $client  = new Client();
         $url = "https://api.telegram.org/".$tokenBot."/sendMessage";
@@ -22,7 +22,7 @@ trait SendBotTelegramTrait {
         $client->request('GET', $url, [
             'json' =>[
             "chat_id" => $teleId, 
-            "text" => 'Essay Editing_' . date('y/m/d') .' '. substr($message, 0, 4000) . ' ' . $link, # Limit message telegram
+            "text" => 'Essay_Editing_' . date('y/m/d') .' '. substr($message, 0, 4000) . ' ' . $link, # Limit message telegram
             ]
         ]);
     }

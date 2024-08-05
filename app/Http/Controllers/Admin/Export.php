@@ -19,7 +19,7 @@ class Export extends Controller
     public function index(Request $request)
     {
         $essay_editors = NULL;
-        $editors = Editor::with('position')->orderBy('first_name', 'asc')->get();
+        $editors = Editor::with('position')->where('status', '=', 1)->orderBy('first_name', 'asc')->get();
         $status = Status::orderBy('status_title', 'asc')->get();
 
         if ($request->all()) {
@@ -237,7 +237,7 @@ class Export extends Controller
             ],
             $body_excel
         ]);
-        Log::notice('Excel file has been successfully created : '.'Essay Report '.$f_month.'-'.$f_year.'.xlsx');
+        Log::notice('Excel file has been successfully created : ' . 'Essay Report ' . $f_month . '-' . $f_year . '.xlsx');
         return Excel::download($export, 'Essay Report ' . $f_month . '-' . $f_year . '.xlsx');
     }
 

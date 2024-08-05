@@ -77,6 +77,24 @@ class Clients extends Controller
         ]);
     }
 
+    public function updateStatus($id_clients, Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $client = Client::find($id_clients);
+            $client->status = $request->status;
+            $client->save();
+            DB::commit();
+            Log::notice('Status has been successfully update : '.$client->first_name.' '.$client->last_name);
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error('Failed to change status : '.$e->getMessage());
+            return response()->json(['success' => false, 'error' => 'Failed to change status. Please try again.']);
+        }
+
+        return response()->json(['success' => true, 'message' => 'Status has been changed']);
+    }
+
     public function updateMentor($id_clients, Request $request)
     {
         DB::beginTransaction();

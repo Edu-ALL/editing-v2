@@ -143,7 +143,7 @@ Route::middleware('is_admin')->group(function () {
     Route::get('/admin/essay-list/ongoing/data', [Essays::class, 'getEssayOngoing'])->name('data-ongoing-essay');
     Route::get('/admin/essay-list/ongoing/detail/{id_essay}', [Essays::class, 'detailEssayOngoing']);
 
-    Route::get('/admin/essay-list/completed', [Essays::class, 'essayCompleted'])->name('list-completed-essay');
+    Route::get('/admin/essay-list/completed', [Essays::class, 'index'])->name('list-completed-essay');
     Route::get('/admin/essay-list/completed/data', [Essays::class, 'getEssayCompleted'])->name('data-completed-essay');
     Route::get('/admin/essay-list/completed/detail/{id}', [Essays::class, 'detailEssayCompleted']);
 
@@ -308,7 +308,7 @@ Route::middleware('is_editor')->group(function () {
     Route::get('/editors/essay-list', [EditorEssays::class, 'index'])->name('list-essay');
     Route::get('/editors/essay-list/data-ongoing', [EditorEssays::class, 'getEssayOngoing'])->name('data-essay-ongoing-editor');
     Route::get('/editors/essay-list/data-completed', [EditorEssays::class, 'getEssayCompleted'])->name('data-essay-completed-editor');
-    Route::get('/editors/essay-list/completed/detail/{id_essay}', [EditorEssays::class, 'detailEssayCompleted']);
+    Route::get('/editors/essay-list/completed/detail/{id_essay}', [EditorEssays::class, 'detailEssay']);
     Route::get('/editors/essay-list/ongoing/detail/{id_essay}', [EditorEssays::class, 'detailEssay']);
 
     Route::get('/editor/invite', function () {

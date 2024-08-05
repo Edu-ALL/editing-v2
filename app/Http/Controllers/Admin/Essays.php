@@ -22,7 +22,7 @@ class Essays extends Controller
 {
     public function index(Request $request)
     {
-        return view('user.admin.essay-list.essay-ongoing');
+        return view('user.admin.essay-list.essay-list');
     }
 
     public function getEssayOngoing(Request $request)
@@ -87,18 +87,18 @@ class Essays extends Controller
             }
 
             if ($essay->status_essay_clients == 0 || $essay->status_essay_clients == 4 || $essay->status_essay_clients == 5) {
-                return view('user.admin.essay-list.essay-ongoing-detail', [
+                return view('user.admin.essay-list.essay-detail', [
                     'tracking' => $tracking,
                     'essay' => $essay,
                     'editors' => $editors
                 ]);
             } else if ($essay->status_essay_clients == 1 || $essay->status_essay_clients == 2) {
-                return view('user.admin.essay-list.essay-ongoing-assign', [
+                return view('user.admin.essay-list.essay-detail', [
                     'tracking' => $tracking,
                     'essay' => $essay
                 ]);
             } else if ($essay->status_essay_clients == 3 || $essay->status_essay_clients == 6 || $essay->status_essay_clients == 8) {
-                return view('user.admin.essay-list.essay-ongoing-submitted', [
+                return view('user.admin.essay-list.essay-detail', [
                     'tracking' => $tracking,
                     'essay' => $essay,
                     'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
@@ -107,6 +107,79 @@ class Essays extends Controller
         } else {
             return abort(404);
             // return redirect('admin/essay-list/ongoing')->with('isEssay', 'Essay not found');
+        }
+    }
+
+    public function getEssayCompleted(Request $request)
+    {
+        if ($request->ajax()) {
+
+            $data = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', 'tbl_essay_editors.id_essay_clients')
+                ->with(['status', 'essay_clients.mentor', 'editor', 'essay_clients.client_by_id', 'essay_clients.client_by_email', 'essay_clients.client_by_id.mentors', 'essay_clients.client_by_email.mentors'])
+                ->where('status_essay_editors', 7)
+                ->orderBy('essay_deadline', 'desc')
+                ->get();
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->editColumn('student_name', function ($essay) {
+                    $result = isset($essay->essay_clients->client_by_id) ? $essay->essay_clients->client_by_id->first_name . ' ' . $essay->essay_clients->client_by_id->last_name : $essay->essay_clients->client_by_email->first_name . ' ' . $essay->essay_clients->client_by_email->last_name;
+                    return $result;
+                })
+                ->editColumn('mentor_name', function ($essay) {
+                    $result = $essay->essay_clients->mentor->first_name . ' ' . $essay->essay_clients->mentor->last_name;
+                    return $result;
+                })
+                ->editColumn('editor_name', function ($essay) {
+                    $result = $essay->editor ? $essay->editor->first_name . ' ' . $essay->editor->last_name : '-';
+                    return $result;
+                })
+                ->editColumn('essay_title', function ($essay) {
+                    $result = $essay->essay_clients->essay_title;
+                    return $result;
+                })
+                ->editColumn('essay_deadline', function ($essay) {
+                    $result = date('D, d M Y', strtotime($essay->essay_clients->essay_deadline));
+                    return $result;
+                })
+                ->editColumn('status', function ($essay) {
+                    $result = '<div style="color: var(--green)">' . ($essay->status->status_title) . '</div>';
+                    return $result;
+                })
+                ->rawColumns(['student_name', 'mentor_name', 'editor_name', 'essay_title', 'essay_deadline', 'status'])
+                ->make();
+        }
+    }
+
+    public function detailEssayCompleted($id)
+    {
+        $tracking = EssayStatus::where('id_essay_clients', $id)
+            ->groupBy('status')
+            ->orderBy('status', 'ASC')
+            ->orderBy('created_at', 'DESC')
+            ->get();
+
+        $essay = EssayEditors::where('id_essay_clients', $id)->first();
+        if ($essay) {
+            $essay = EssayEditors::where('id_essay_clients', $id)->first();
+            $essay_client = EssayClients::where('id_essay_clients', $id)->first();
+            if ($essay_client->essay_deadline > $essay->uploaded_at) {
+                $status_essay = 'On Time';
+            } else {
+                $status_essay = 'Late';
+            }
+
+            return view('user.admin.essay-list.essay-detail', [
+                'tracking' => $tracking,
+                'essay' => $essay_client,
+                'essay_editor' => $essay,
+                'tags' => EssayTags::where('id_essay_clients', $id)->get(),
+                'feedback' => EssayFeedbacks::where('id_essay_clients', $id)->first(),
+                'status_essay' => $status_essay
+            ]);
+        } else {
+            return abort(404);
+            // return redirect('admin/essay-list/completed')->with('isEssay', 'Essay not found');
         }
     }
 
@@ -219,84 +292,4 @@ class Essays extends Controller
     //     }
     //     return redirect('admin/essay-list/ongoing/detail/'.$id_essay);
     // }
-
-    // Essay Completed
-    public function essayCompleted()
-    {
-        return view('user.admin.essay-list.essay-completed');
-    }
-
-
-    public function getEssayCompleted(Request $request)
-    {
-        if ($request->ajax()) {
-
-            $data = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', 'tbl_essay_editors.id_essay_clients')
-                ->with(['status', 'essay_clients.mentor', 'editor', 'essay_clients.client_by_id', 'essay_clients.client_by_email', 'essay_clients.client_by_id.mentors', 'essay_clients.client_by_email.mentors'])
-                ->where('status_essay_editors', 7)
-                ->orderBy('essay_deadline', 'desc')
-                ->get();
-
-            return DataTables::of($data)
-                ->addIndexColumn()
-                ->editColumn('student_name', function ($essay) {
-                    $result = isset($essay->essay_clients->client_by_id) ? $essay->essay_clients->client_by_id->first_name . ' ' . $essay->essay_clients->client_by_id->last_name : $essay->essay_clients->client_by_email->first_name . ' ' . $essay->essay_clients->client_by_email->last_name;
-                    return $result;
-                })
-                ->editColumn('mentor_name', function ($essay) {
-                    $result = $essay->essay_clients->mentor->first_name . ' ' . $essay->essay_clients->mentor->last_name;
-                    return $result;
-                })
-                ->editColumn('editor_name', function ($essay) {
-                    $result = $essay->editor ? $essay->editor->first_name . ' ' . $essay->editor->last_name : '-';
-                    return $result;
-                })
-                ->editColumn('essay_title', function ($essay) {
-                    $result = $essay->essay_clients->essay_title;
-                    return $result;
-                })
-                ->editColumn('essay_deadline', function ($essay) {
-                    $result = date('D, d M Y', strtotime($essay->essay_clients->essay_deadline));
-                    return $result;
-                })
-                ->editColumn('status', function ($essay) {
-                    $result = '<div style="color: var(--green)">' . ($essay->status->status_title) . '</div>';
-                    return $result;
-                })
-                ->rawColumns(['student_name', 'mentor_name', 'editor_name', 'essay_title', 'essay_deadline', 'status'])
-                ->make();
-        }
-    }
-
-    public function detailEssayCompleted($id)
-    {
-        $tracking = EssayStatus::where('id_essay_clients', $id)
-            ->groupBy('status')
-            ->orderBy('status', 'ASC')
-            ->orderBy('created_at', 'DESC')
-            ->get();
-
-        $essay = EssayEditors::where('id_essay_clients', $id)->first();
-        if ($essay) {
-            $essay = EssayEditors::where('id_essay_clients', $id)->first();
-            $essay_client = EssayClients::where('id_essay_clients', $id)->first();
-            if ($essay_client->essay_deadline > $essay->uploaded_at) {
-                $status_essay = 'On Time';
-            } else {
-                $status_essay = 'Late';
-            }
-
-            return view('user.admin.essay-list.essay-completed-detail', [
-                'tracking' => $tracking,
-                'essay' => $essay_client,
-                'essay_editor' => $essay,
-                'tags' => EssayTags::where('id_essay_clients', $id)->get(),
-                'feedback' => EssayFeedbacks::where('id_essay_clients', $id)->first(),
-                'status_essay' => $status_essay
-            ]);
-        } else {
-            return abort(404);
-            // return redirect('admin/essay-list/completed')->with('isEssay', 'Essay not found');
-        }
-    }
 }

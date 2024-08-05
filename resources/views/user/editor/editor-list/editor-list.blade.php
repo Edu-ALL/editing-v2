@@ -52,9 +52,9 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="container text-start px-3 py-2">
+                            <div class="container-fluid text-start px-3 py-2">
                                 <table class="table" id="listeditor" style="width: 100%">
-                                    <thead>
+                                    <thead class="text-nowrap">
                                         <tr>
                                             <th>No</th>
                                             <th>Editor Name</th>

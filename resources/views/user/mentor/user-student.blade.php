@@ -35,6 +35,7 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th>Student Name</th>
+                                                <th>Status</th>
                                                 <th>Mentor Name</th>
                                                 <th>Backup Mentor</th>
                                                 <th>Email</th>
@@ -53,51 +54,63 @@
     </div>
 @endsection
 @section('js')
-<script>
-    // List Student
-    $(document).ready(function () {
-        $('#liststudent').DataTable({
-            scrollX: true,
-            responsive: true,
-            processing: true,
-            serverSide: true,
-            ajax: '{{ route('mentor-data-student') }}',
-            columns: [
-                {
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex',
-                    class: 'text-center'
-                },
-                {
-                    data: 'student_name',
-                    name: 'student_name'
-                },
-                {
-                    data: 'mentor_name',
-                    name: 'mentor_name'
-                },
-                {
-                    data: 'backup_mentor',
-                    name: 'backup_mentor'
-                },
-                {
-                    data: 'email',
-                    name: 'email'
-                },
-                {
-                    data: 'phone',
-                    name: 'phone'
-                },
-                {
-                    data: 'city',
-                    name: 'city'
-                },
-            ]
+    <script>
+        // List Student
+        $(document).ready(function() {
+            $('#liststudent').DataTable({
+                scrollX: true,
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('mentor-data-student') }}',
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        class: 'text-center'
+                    },
+                    {
+                        data: 'student_name',
+                        name: 'student_name'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
+                        render(h) {
+                            let is_active = h == 1 ? 'Active' : 'Inactive'
+                            let bg_badge = h == 1 ? 'bg-success' : 'bg-danger'
+                            let status = '<span class="badge py-1 px-2 ' + bg_badge + '" >' +
+                                is_active + '</span>'
+
+                            return status
+                        },
+                    },
+                    {
+                        data: 'mentor_name',
+                        name: 'mentor_name'
+                    },
+                    {
+                        data: 'backup_mentor',
+                        name: 'backup_mentor'
+                    },
+                    {
+                        data: 'email',
+                        name: 'email'
+                    },
+                    {
+                        data: 'phone',
+                        name: 'phone'
+                    },
+                    {
+                        data: 'city',
+                        name: 'city'
+                    },
+                ]
+            });
         });
-    });
-    function getStudentDetail(id){
-        var link = '/mentor/user/student/detail/' + id
-        window.location.href = link;
-    }
-</script>
+
+        function getStudentDetail(id) {
+            var link = '/mentor/user/student/detail/' + id
+            window.location.href = link;
+        }
+    </script>
 @endsection
