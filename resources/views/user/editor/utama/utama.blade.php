@@ -63,7 +63,7 @@
     @yield('content')
     <footer class="container-fluid footer">
         <div class="col-md-5 mx-auto text-center py-2 copyright">
-            <p>Copyright ©2022. <b>All-in Eduspace</b>. All Rights Reserved</p>
+            <p>Copyright ©{{date('Y')}}. <b>{{env('COMPANY_NAME')}}</b>. All Rights Reserved</p>
         </div>
     </footer>
     {{-- End Footer --}}

@@ -31,7 +31,7 @@
     <nav class="navbar">
         <div class="container py-2 px-4">
             <a class="navbar-brand" href="/">
-                <img src="/assets/logo.png" alt="" width="220" height="40">
+                <img src="/assets/logo.webp" alt="" width="150" height="auto">
             </a>
         </div>
     </nav>
