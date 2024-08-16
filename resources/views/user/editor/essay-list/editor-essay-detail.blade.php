@@ -25,7 +25,10 @@
                                     style="color: var(--black)">
                                     @if ($essay->status->status_title == 'Assigned' || $essay->status->status_title == 'Revise')
                                         <img class="img-status" src="/assets/status-edit.png" alt="">
-                                    @elseif ($essay->status->status_title == 'Ongoing' || $essay->status->status_title == 'Submitted' || $essay->status->status_title == 'Revised')
+                                    @elseif (
+                                        $essay->status->status_title == 'Ongoing' ||
+                                            $essay->status->status_title == 'Submitted' ||
+                                            $essay->status->status_title == 'Revised')
                                         <img class="img-status" src="/assets/status-ongoing.png" alt="">
                                     @elseif ($essay->status->status_title == 'Completed')
                                         <img class="img-status" src="/assets/status-complete.png" alt="">
@@ -35,22 +38,25 @@
                             </div>
                             @include('user.editor.essay-list.editors-deadline.index')
                             {{-- Download Essay --}}
-                            <div class="col">
-                                <div class="headline d-flex align-items-center gap-3">
-                                    <img src="/assets/file.png" alt="">
-                                    <h6>Download Student Essay</h6>
+                            @if ($essay->status_essay_clients != 1)
+                                <div class="col">
+                                    <div class="headline d-flex align-items-center gap-3">
+                                        <img src="/assets/file.png" alt="">
+                                        <h6>Download Student Essay</h6>
+                                    </div>
+                                    <div class="col d-flex align-items-center justify-content-center py-md-4 py-4">
+                                        <img class="img-word" src="/assets/logo-word.png" alt="">
+                                    </div>
+                                    <div class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
+                                        <a class="btn btn-download d-flex align-items-center gap-2"
+                                            href={{ asset('uploaded_files/program/essay/students/' . $essay->attached_of_clients) }}>
+                                            <img src="/assets/download.png" alt="">
+                                            <h6>Download</h6>
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="col d-flex align-items-center justify-content-center py-md-4 py-4">
-                                    <img class="img-word" src="/assets/logo-word.png" alt="">
-                                </div>
-                                <div class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
-                                    <a class="btn btn-download d-flex align-items-center gap-2"
-                                        href={{ asset('uploaded_files/program/essay/students/' . $essay->attached_of_clients) }}>
-                                        <img src="/assets/download.png" alt="">
-                                        <h6>Download</h6>
-                                    </a>
-                                </div>
-                            </div>
+                            @endif
+
                             @if ($essay->status_essay_clients == 7)
                                 @include('user.editor.essay-list.completed.index')
                             @endif
@@ -64,7 +70,8 @@
                                         <img src="/assets/student.png" alt="">
                                         <h6>Student Detail</h6>
                                     </div>
-                                    <div class="col-md-4 col-4 d-flex align-items-center justify-content-end gap-md-3 gap-2">
+                                    <div
+                                        class="col-md-4 col-4 d-flex align-items-center justify-content-end gap-md-3 gap-2">
                                         <a href="/editor/essay-list"><img src="/assets/back.png" alt=""></a>
                                     </div>
                                 </div>

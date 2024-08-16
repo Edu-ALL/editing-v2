@@ -27,7 +27,8 @@
 
                             {{-- Start Section: Deadline --}}
                             <div class="card border-0">
-                                <div class="card-header p-3 d-flex justify-content-between align-items-center bg-secondary text-white">
+                                <div
+                                    class="card-header p-3 d-flex justify-content-between align-items-center bg-secondary text-white">
                                     Deadline
                                     <i class="fa-regular fa-calendar-check"></i>
                                 </div>
@@ -52,6 +53,7 @@
                             {{-- End Section: Deadline --}}
 
                             {{-- Start Section: Download Student Essay --}}
+                            @if ($essay_status != 'assigned')
                             <div class="headline d-flex align-items-center gap-3">
                                 <img src="/assets/file.png" alt="">
                                 <h6>Download Student Essay</h6>
@@ -66,11 +68,13 @@
                                     <h6>Download</h6>
                                 </a>
                             </div>
+                            @endif
                             {{-- End Section: Download Student Essay --}}
 
-                            @if ($essay_status == "completed")
+                            @if ($essay_status == 'completed')
                                 {{-- Start Section : Download Your File --}}
-                                <div class="headline d-flex align-items-center gap-3" style="background-color: var(--yellow)">
+                                <div class="headline d-flex align-items-center gap-3"
+                                    style="background-color: var(--yellow)">
                                     <img src="/assets/file.png" alt="">
                                     <h6>Download Your File</h6>
                                 </div>
@@ -112,7 +116,8 @@
                                     <div class="col d-flex flex-row flex-wrap gap-2 justify-content-center">
                                         @foreach ($tags as $tag)
                                             <div class="tags py-2 px-3 list-tags">
-                                                <h6 style="font-size: 12px; font-weight: 500">#{{ $tag->tags->topic_name }}</h6>
+                                                <h6 style="font-size: 12px; font-weight: 500">#{{ $tag->tags->topic_name }}
+                                                </h6>
                                             </div>
                                         @endforeach
                                     </div>
@@ -246,7 +251,8 @@
                                 {{-- Start Section: Confirmation Essay --}}
                                 <div class="col-12 d-flex py-3 mt-4" style="border-top: 1px solid var(--light-grey)">
                                     <div class="col d-flex flex-row align-items-center justify-content-center gap-3">
-                                        <form action="{{ route('accept-essay', ['id_essay' => $essay->id_essay_clients]) }}"
+                                        <form
+                                            action="{{ route('accept-essay', ['id_essay' => $essay->id_essay_clients]) }}"
                                             method="POST" class="p-0">
                                             @csrf
                                             <button class="btn btn-download d-flex align-items-center gap-2"
@@ -255,8 +261,9 @@
                                                 <h6>Accept</h6>
                                             </button>
                                         </form>
-                                        <button class="btn btn-download d-flex align-items-center gap-2" data-bs-toggle="modal"
-                                            data-bs-target="#reject" style="background-color: var(--red)">
+                                        <button class="btn btn-download d-flex align-items-center gap-2"
+                                            data-bs-toggle="modal" data-bs-target="#reject"
+                                            style="background-color: var(--red)">
                                             <img src="/assets/exit.png" alt="">
                                             <h6>Reject</h6>
                                         </button>
@@ -265,7 +272,7 @@
                                 {{-- End Section: Confirmation Essay --}}
                             @endif
 
-                            @if ($essay_status == "submitted" || $essay_status == "revised")
+                            @if ($essay_status == 'submitted' || $essay_status == 'revised')
                                 {{-- Start Section: Download Your File --}}
                                 <div class="headline d-flex justify-content-between">
                                     <div class="col d-flex align-items-center gap-3">
@@ -358,10 +365,12 @@
                                                             type="file">
                                                     </div>
                                                     @error('uploaded_file')
-                                                        <div class="pt-1 text-danger" style="font-size: 10px">{{ $message }}
+                                                        <div class="pt-1 text-danger" style="font-size: 10px">
+                                                            {{ $message }}
                                                         </div>
                                                     @enderror
-                                                    <h6 class="pt-2" style="font-size: 10px; color: var(--red)">* Upload your
+                                                    <h6 class="pt-2" style="font-size: 10px; color: var(--red)">* Upload
+                                                        your
                                                         essay with the '.docx' format</h6>
                                                 </div>
                                             </div>
@@ -369,8 +378,8 @@
                                             <div class="col-md-6 col">
                                                 <h6 class="pb-2">Work Duration (Time spent on editing essay) :</h6>
                                                 <div class="input-group">
-                                                    <input type="number" name="work_duration" class="form-control py-2 px-3"
-                                                        aria-describedby="basic-addon1">
+                                                    <input type="number" name="work_duration"
+                                                        class="form-control py-2 px-3" aria-describedby="basic-addon1">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text py-2 px-2"
                                                             id="basic-addon1">Minutes</span>
@@ -425,109 +434,115 @@
 
                             @if ($essay_status == 'revise')
                                 {{-- Start Section : Old Essay --}}
-                                    <div class="headline d-flex justify-content-between">
-                                        <div class="col d-flex align-items-center gap-3">
-                                            <img src="/assets/file.png" alt="">
-                                            <h6>Old Essay</h6>
-                                        </div>
+                                <div class="headline d-flex justify-content-between">
+                                    <div class="col d-flex align-items-center gap-3">
+                                        <img src="/assets/file.png" alt="">
+                                        <h6>Old Essay</h6>
                                     </div>
-                                    <div class="row field px-md-3 pt-md-4 px-3 pt-4" style="overflow: auto !important">
-                                        <div class="col-12 d-flex flex-lg-row flex-column px-0 gap-2 mb-3">
-                                            <div class="col-lg-4 col px-2">
-                                                <div class="col pb-4">
-                                                    <h6 class="pb-2">Tags :</h6>
-                                                    <div class="col d-flex flex-wrap gap-1 list-tags pe-2">
-                                                        @foreach ($tags as $tag)
-                                                            <div class="tags py-2 px-3">
-                                                                <h6 style="font-size: 12px; font-weight: 500">
-                                                                    #{{ $tag->tags->topic_name }}</h6>
-                                                            </div>
+                                </div>
+                                <div class="row field px-md-3 pt-md-4 px-3 pt-4" style="overflow: auto !important">
+                                    <div class="col-12 d-flex flex-lg-row flex-column px-0 gap-2 mb-3">
+                                        <div class="col-lg-4 col px-2">
+                                            <div class="col pb-4">
+                                                <h6 class="pb-2">Tags :</h6>
+                                                <div class="col d-flex flex-wrap gap-1 list-tags pe-2">
+                                                    @foreach ($tags as $tag)
+                                                        <div class="tags py-2 px-3">
+                                                            <h6 style="font-size: 12px; font-weight: 500">
+                                                                #{{ $tag->tags->topic_name }}</h6>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                            <div class="col mb-3">
+                                                <h6 class="pb-2">Your Old Essay :</h6>
+                                                <div
+                                                    class="col d-flex align-items-center justify-content-center py-md-4 py-4">
+                                                    <img class="img-word" src="/assets/logo-word.png" alt="">
+                                                </div>
+                                                <div
+                                                    class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
+                                                    <a class="btn btn-download d-flex align-items-center gap-2"
+                                                        href={{ asset('uploaded_files/program/essay/editors/' . $essay->essay_editors->attached_of_editors) }}>
+                                                        <img src="/assets/download.png" alt="">
+                                                        <h6>Download</h6>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="col-12 d-flex mb-3" style="overflow: auto !important">
+                                                <div class="col w-100">
+                                                    <h6 class="pb-2">Notes :</h6>
+                                                    <div class="chat-messages p-3 w-100">
+                                                        @foreach ($essay_revise->reverse() as $revise)
+                                                            @if ($revise->role == 'managing_editor')
+                                                                <div class="chat-message-left pb-3">
+                                                                    <div>
+                                                                        <div
+                                                                            class="text-muted d-none small text-nowrap mt-2">
+                                                                            2:33 am</div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3 mt-2">
+                                                                        <p><b>{{ $revise->managing_editor->first_name . ' ' . $revise->managing_editor->last_name }}</b>
+                                                                        </p>
+                                                                        <p class="mb-2" style="font-size: 12px">Managing
+                                                                            Editor</p>
+                                                                        <p>{!! $revise->notes !!}</p>
+                                                                        @if ($revise->role == 'managing_editor' && $revise->file)
+                                                                            <p style="margin-top: -4px">
+                                                                                <a class="d-block mt-2"
+                                                                                    href="{{ asset('uploaded_files/program/essay/revise/' . $revise->file) }}"
+                                                                                    style="color: var(--blue)"><img
+                                                                                        src="/assets/download-blue.png"
+                                                                                        alt="" width="14"
+                                                                                        height="14"
+                                                                                        style="margin-right: 2px"> Download
+                                                                                    Attachment</a>
+                                                                            </p>
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                            @elseif ($revise->role == 'editor')
+                                                                <div class="chat-message-right pb-3">
+                                                                    <div class="text-end">
+                                                                        <div
+                                                                            class="text-muted d-none small text-nowrap mt-2">
+                                                                            2:34 am</div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="flex-shrink-1 text-end bg-light rounded py-2 px-3 ml-3 mt-2">
+                                                                        <p><b>{{ $revise->editor->first_name . ' ' . $revise->editor->last_name }}</b>
+                                                                        </p>
+                                                                        <p class="mb-2" style="font-size: 12px">Editor
+                                                                        </p>
+                                                                        <p>{!! $revise->notes !!}</p>
+                                                                    </div>
+                                                                </div>
+                                                            @endif
                                                         @endforeach
                                                     </div>
-                                                </div>
-                                                <div class="col mb-3">
-                                                    <h6 class="pb-2">Your Old Essay :</h6>
-                                                    <div class="col d-flex align-items-center justify-content-center py-md-4 py-4">
-                                                        <img class="img-word" src="/assets/logo-word.png" alt="">
-                                                    </div>
-                                                    <div class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
-                                                        <a class="btn btn-download d-flex align-items-center gap-2"
-                                                            href={{ asset('uploaded_files/program/essay/editors/' . $essay->essay_editors->attached_of_editors) }}>
-                                                            <img src="/assets/download.png" alt="">
-                                                            <h6>Download</h6>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="col-12 d-flex mb-3" style="overflow: auto !important">
-                                                    <div class="col w-100">
-                                                        <h6 class="pb-2">Notes :</h6>
-                                                        <div class="chat-messages p-3 w-100">
-                                                            @foreach ($essay_revise->reverse() as $revise)
-                                                                @if ($revise->role == 'managing_editor')
-                                                                    <div class="chat-message-left pb-3">
-                                                                        <div>
-                                                                            <div class="text-muted d-none small text-nowrap mt-2">
-                                                                                2:33 am</div>
-                                                                        </div>
-                                                                        <div
-                                                                            class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3 mt-2">
-                                                                            <p><b>{{ $revise->managing_editor->first_name . ' ' . $revise->managing_editor->last_name }}</b>
-                                                                            </p>
-                                                                            <p class="mb-2" style="font-size: 12px">Managing
-                                                                                Editor</p>
-                                                                            <p>{!! $revise->notes !!}</p>
-                                                                            @if ($revise->role == 'managing_editor' && $revise->file)
-                                                                                <p style="margin-top: -4px">
-                                                                                    <a class="d-block mt-2"
-                                                                                        href="{{ asset('uploaded_files/program/essay/revise/' . $revise->file) }}"
-                                                                                        style="color: var(--blue)"><img
-                                                                                            src="/assets/download-blue.png"
-                                                                                            alt="" width="14"
-                                                                                            height="14"
-                                                                                            style="margin-right: 2px"> Download
-                                                                                        Attachment</a>
-                                                                                </p>
-                                                                            @endif
-                                                                        </div>
-                                                                    </div>
-                                                                @elseif ($revise->role == 'editor')
-                                                                    <div class="chat-message-right pb-3">
-                                                                        <div class="text-end">
-                                                                            <div class="text-muted d-none small text-nowrap mt-2">
-                                                                                2:34 am</div>
-                                                                        </div>
-                                                                        <div
-                                                                            class="flex-shrink-1 text-end bg-light rounded py-2 px-3 ml-3 mt-2">
-                                                                            <p><b>{{ $revise->editor->first_name . ' ' . $revise->editor->last_name }}</b>
-                                                                            </p>
-                                                                            <p class="mb-2" style="font-size: 12px">Editor</p>
-                                                                            <p>{!! $revise->notes !!}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                @endif
-                                                            @endforeach
+                                                    <form
+                                                        action="{{ route('add-comment', ['id_essay' => $essay->id_essay_clients]) }}"
+                                                        method="POST" class="p-0">
+                                                        @csrf
+                                                        <textarea name="comment" class="textarea" style="overflow: auto !important"></textarea>
+                                                        <div
+                                                            class="col d-flex align-items-center justify-content-center pt-3">
+                                                            <button type="submit"
+                                                                class="btn btn-download d-flex align-items-center gap-2"
+                                                                style="background-color: var(--yellow)">
+                                                                <img src="/assets/comment.png" alt="">
+                                                                <h6>Comments</h6>
+                                                            </button>
                                                         </div>
-                                                        <form
-                                                            action="{{ route('add-comment', ['id_essay' => $essay->id_essay_clients]) }}"
-                                                            method="POST" class="p-0">
-                                                            @csrf
-                                                            <textarea name="comment" class="textarea" style="overflow: auto !important"></textarea>
-                                                            <div class="col d-flex align-items-center justify-content-center pt-3">
-                                                                <button type="submit"
-                                                                    class="btn btn-download d-flex align-items-center gap-2"
-                                                                    style="background-color: var(--yellow)">
-                                                                    <img src="/assets/comment.png" alt="">
-                                                                    <h6>Comments</h6>
-                                                                </button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                                 {{-- End Section : Old Essay --}}
 
                                 {{-- Start Section : Upload Your Revision --}}
@@ -551,7 +566,8 @@
                                                             type="file">
                                                     </div>
                                                     @error('uploaded_file')
-                                                        <div class="pt-1 text-danger" style="font-size: 10px">{{ $message }}
+                                                        <div class="pt-1 text-danger" style="font-size: 10px">
+                                                            {{ $message }}
                                                         </div>
                                                     @enderror
                                                     <h6 class="pt-2" style="font-size: 10px; color: var(--red)">* Upload
@@ -561,8 +577,8 @@
                                             <div class="col-md-6 col">
                                                 <h6 class="pb-2">Work Duration (Time spent on editing essay) :</h6>
                                                 <div class="input-group">
-                                                    <input type="number" name="work_duration" class="form-control py-2 px-3"
-                                                        aria-describedby="basic-addon1">
+                                                    <input type="number" name="work_duration"
+                                                        class="form-control py-2 px-3" aria-describedby="basic-addon1">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text py-2 px-2"
                                                             id="basic-addon1">Minutes</span>
@@ -619,7 +635,8 @@
                                 <div class="col d-flex flex-row alert-complete py-3 px-4" id="alertComplete">
                                     <div class="col d-flex align-items-center gap-2">
                                         <img src="/assets/thumbsup.png" alt="">
-                                        <h6><b>Congratulations</b>, {{ $essay_editor->essay_clients->status->status_desc }}</h6>
+                                        <h6><b>Congratulations</b>, {{ $essay_editor->essay_clients->status->status_desc }}
+                                        </h6>
                                     </div>
                                     <img src="/assets/exit.png" alt="" onclick="closeAlert()"
                                         style="cursor: pointer">
