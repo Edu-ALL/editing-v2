@@ -771,6 +771,7 @@ class AllEssaysMenu extends Controller
 
         $email = $essay_editor->editors_mail;
         $essay = EssayClients::find($id_essay);
+        $revise = EssayRevise::where('id_essay_clients',$id_essay)->orderBy('created_at', 'DESC')->first();
         // $editor = Editor::where('id_editors', $essay->id_editors)->first();
         $editor = Editor::where('id_editors', $essay->essay_editors->editor->id_editors)->first();
         $client = Client::where('id_clients', $essay->id_clients)->first();
@@ -779,7 +780,8 @@ class AllEssaysMenu extends Controller
             'editor' => $editor,
             'essay' => $essay,
             'client' => $client,
-            'managing' => $managing
+            'managing' => $managing,
+            'revise' => $revise,
         ];
         $this->sendEmail('revise', $email, $data);
 
