@@ -133,7 +133,7 @@
     <script src="/js/toast.js"></script>
     <script>
         // Pusher.logToConsole = true;
-        var pusher = new Pusher('174254d6ea94361b0744', {
+        var pusher = new Pusher('97a0f1eef16c63cea1ff', {
             cluster: 'ap1',
             encrypted: true
         });

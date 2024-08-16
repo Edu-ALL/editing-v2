@@ -51,7 +51,7 @@
     <div class="col-lg-7 col">
         <div class="col">
             <h6 class="pb-2">Comments :</h6>
-            <div class="chat-messages p-3 w-100">
+            <div class="chat-messages p-3 w-100 mb-2">
                 @foreach ($essay_revise->reverse() as $revise)
                     @if ($revise->role == 'managing_editor')
                         <div class="chat-message-left pb-3">

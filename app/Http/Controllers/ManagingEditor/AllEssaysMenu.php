@@ -547,6 +547,7 @@ class AllEssaysMenu extends Controller
             $essay_editor->save();
 
             // Pusher 
+            broadcast(new EditorNotif($editor->email, 'You have a new assignment.'))->via('pusher');
             event(new EditorNotif($editor->email, 'You have a new assignment.'));
 
             # insert into table essay status
@@ -758,7 +759,7 @@ class AllEssaysMenu extends Controller
             $essay_revise->save();
 
             // Pusher 
-            // event(new EditorNotif($essay_editor->editors_mail, 'Please, revise your essay.'));
+            event(new EditorNotif($essay_editor->editors_mail, 'Please, revise your essay.'));
 
             DB::commit();
             Log::notice('Editor : '.$managing->first_name.' '.$managing->last_name.' has been Revised for Essay : '.$essay->essay_title);
