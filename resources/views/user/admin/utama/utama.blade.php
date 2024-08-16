@@ -10,8 +10,9 @@
     <link rel="stylesheet" href={{ asset('css/bootstrap.css') }}>
 
     {{-- TinyMCE --}}
-    <script src="https://cdn.tiny.cloud/1/665k5cso7x9x0errf1h417cn6fgnxs67ayozubvhomg0vony/tinymce/5/tinymce.min.js"
-        referrerpolicy="origin"></script>
+    <!--<script src="https://cdn.tiny.cloud/1/665k5cso7x9x0errf1h417cn6fgnxs67ayozubvhomg0vony/tinymce/5/tinymce.min.js"-->
+    <!--    referrerpolicy="origin"></script>-->
+    <!-- <script src="https://cdn.tiny.cloud/1/6rtskj4e67x7o5h9g4gu406k5ba49e4fzsjcgw2v5ueihahb/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script> -->
 
     {{-- JQuery --}}
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -36,6 +37,12 @@
         .main-content {
             max-width: 100%;
         }
+
+        /* This selector targets the editable element (excluding comments). */
+        .ck-editor__editable_inline:not(.ck-comment__input *) {
+            min-height: 200px;
+            overflow-y: auto;
+        }
     </style>
     @yield('css')
 </head>
@@ -45,7 +52,7 @@
     {{-- Footer --}}
     <footer class="container-fluid footer">
         <div class="col-md-5 mx-auto text-center py-2 copyright">
-            <p>Copyright ©2022. <b>All-in Eduspace</b>. All Rights Reserved</p>
+            <p>Copyright ©{{date('Y')}}. <b>{{env('COMPANY_NAME')}}</b>. All Rights Reserved</p>
         </div>
     </footer>
     {{-- End Footer --}}
@@ -59,6 +66,32 @@
     </script>
     <script src="/js/admin/admin.js"></script>
     <script src="https://kit.fontawesome.com/76ac67da65.js" crossorigin="anonymous"></script>
+    {{-- Editor --}}
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+    <script>
+        var myEditor;
+
+        document.querySelectorAll( 'textarea' ).forEach(function (element) {
+            ClassicEditor
+                .create( element, {
+                    toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ],
+                    heading: {
+                        options: [
+                            { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                            { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                            { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' }
+                        ]
+                    }
+                } )
+                .then( editor => {
+                    console.log('Editor was initialized', editor);
+                    myEditor = editor;
+                })
+                .catch( error => {
+                    console.error( error );
+                } );
+        })        
+    </script>
     @yield('js')
     @include('component.loading')
 </body>

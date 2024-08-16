@@ -27,7 +27,7 @@
   <nav class="navbar" style="background-color: var(--bs-white)">
     <div class="container py-2 px-4">
       <a class="navbar-brand" href="/login/admin">
-        <img class="img-logo " src="/assets/logo.png" alt="" width="220" height="40">
+        <img class="img-logo " src="/assets/logo.webp" alt="" width="150" height="auto">
       </a>
       <a class="btn btn-warning btnLogin" href="#role">Login</a>
     </div>
@@ -78,16 +78,16 @@
     <div class="row px-md-5 px-3 mb-4 justify-content-evenly">
       <div class="col-md-3 about mb-md-3 mb-4">
         <h5 class="mb-4">About Us</h5>
-        <img src="/assets/logo.png" alt="" width="160" height="26" style="filter: saturate(0)">
+        <img src="/assets/logo.webp" alt="" width="150" height="auto" style="filter: saturate(0)">
         <p class="mt-3">We guide students who plan to study at top universities abroad and place them at their best-fit schools.</p>
         <div class="row">
-          <a href="https://www.instagram.com/allineduspace/" target="_blank" style="width: auto">
+          <a href="https://www.instagram.com/eduall.official/" target="_blank" style="width: auto">
             <img class="img-fluid sosmed" src="/assets/instagram.png" alt="">
           </a>
-          <a href="https://www.linkedin.com/company/all-in-eduspace/" target="_blank" style="width: auto">
+          <a href="https://id.linkedin.com/company/edu-all-official" target="_blank" style="width: auto">
             <img class="img-fluid sosmed" src="/assets/linkedin.png" alt="">
           </a>
-          <a href="https://www.facebook.com/allineduspace/" target="_blank" style="width: auto">
+          <a href="https://www.facebook.com/eduall.official/" target="_blank" style="width: auto">
             <img class="img-fluid sosmed" src="/assets/facebook.png" alt="">
           </a>
           <a href="https://www.youtube.com/channel/UCLZ0P-RRdr7k5j2dxhNlObg" target="_blank" style="width: auto">
@@ -106,13 +106,13 @@
         <ul>
           <li>Tel : +62 818 0808 1363</li>
           <li>Tel : +62 878 6081 1413</li>
-          <li>Email : info@all-inedu.com</li>
+          <li>Email : info@edu-all.com</li>
         </ul>
       </div>
     </div>
     <hr style="margin: 0;">
     <div class="col-md-5 mx-auto text-center mt-3 copyright">
-      <p>Copyright ©2022. <b>All-in Eduspace</b>. All Rights Reserved</p>
+      <p>Copyright ©{{date('Y')}}. <b>{{env('COMPANY_NAME')}}</b>. All Rights Reserved</p>
     </div>
   </footer>
   {{-- End Footer --}}

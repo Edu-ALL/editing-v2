@@ -44,6 +44,8 @@ use App\Http\Controllers\Mentor\EssaysMenu;
 use App\Http\Controllers\Mentor\NewRequestMenu;
 use App\Http\Controllers\Mentor\StudentsMenu;
 use App\Models\EssayEditors;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +57,53 @@ use App\Models\EssayEditors;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/test', function(){
+      // Essay Submitted and Revised
+      $today = Carbon::now();
+      $essaySubmitted = EssayEditors::where(function ($query) {
+          $query->where('status_essay_editors', '=', 3)
+              ->orWhere('status_essay_editors', '=', 8);
+      })->where('uploaded_at', '<', $today)->orderBy('uploaded_at', 'desc')->get();
+
+      // Managing Editor data
+      $managingEditors = Editor::where('position', 3)->where('status', 1)->get();
+      $managingEditorsName = array();
+      foreach ($managingEditors as $editor) {
+          array_push($managingEditorsName, $editor->first_name . ' ' . $editor->last_name);
+      }
+      $emailEditors = array_column($managingEditors->toArray(), 'email');
+
+      // Check Date and Send Email
+      $data = [
+          'email' => $emailEditors,
+          'name' => $managingEditorsName,
+          'role' => 'managing',
+          'status' => 'true',
+          'essays' => $essaySubmitted,
+      ];
+
+      return view('mail.reminder.reminder-essay', $data);
+      exit;
+      if ($data['role'] == 'editor' && $data['status'] == 'true') {
+        Mail::send('mail.reminder.reminder-essay', $data, function ($mail) use ($data) {
+            $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+            $mail->to($data['email']);
+            // $mail->cc('essay.editor@all-inedu.com');
+            $mail->subject('Pending Essay Awaiting Your Review');
+        });
+    } elseif ($data['role'] == 'managing' && $data['status'] == 'true') {
+        Mail::send('mail.reminder.reminder-essay', $data, function ($mail) use ($data) {
+            $mail->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+            $mail->to($data['email']);
+            $mail->subject('Managing Editors: Unchecked Essay Edits Need Your Approval');
+        });
+    }
+
+    if (Mail::failures()) {
+        return response()->json(Mail::failures());
+    }
+});
 
 Route::post('register/editor', [Editors::class, 'selfAddEditor'])->name('self-add-editor');
 Route::post('invite-editor', [Editors::class, 'invite'])->name('invite-editor');

@@ -2,7 +2,7 @@
 {{-- Sidenav --}}
 <div class="col-md-2 col-2 sidenav py-4 px-md-0 px-2 text-center">
     <a class="navbar-brand mb-3" href="/">
-        <img class="img-logo img-fluid" src="/assets/admin-logo.png" alt="">
+        <img class="img-logo img-fluid" src="/assets/logo.webp" alt="">
     </a>
     <hr class="smallLine mx-auto mt-4">
     {{-- Menu --}}
