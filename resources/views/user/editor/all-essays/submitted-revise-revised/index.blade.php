@@ -92,13 +92,13 @@
                     @endif
                 @endforeach
             </div>
-            <textarea name="notes" class="textarea" form="form-revise" style="overflow: auto !important"></textarea>
+            <textarea name="notes" class="textarea" form="formRevise" style="overflow: auto !important"></textarea>
         </div>
         <div class="col mt-3 mb-2">
             <h6 class="pb-2">Add Attachments :</h6>
             <div class="h-100 p-0">
                 <input class="form-control p-1 ps-2 inputField h-100" id="formFileSm" name="uploaded_revise_file"
-                    form="form-revise" type="file" style="box-shadow: none">
+                    form="formRevise" type="file" style="box-shadow: none">
             </div>
         </div>
         <div class="col-12 d-flex mb-2">
@@ -109,7 +109,7 @@
         </div>
         <div class="col d-flex align-items-center justify-content-center py-3">
             <form action="{{ route('revise-editor-essay', ['id_essay' => $essay->id_essay_clients]) }}"
-                enctype="multipart/form-data" method="POST" class="p-0" id="form-revise">
+                enctype="multipart/form-data" method="POST" class="p-0" id="formRevise">
                 @csrf
                 <button class="btn btn-download d-flex align-items-center gap-2" style="background-color: var(--red)">
                     <img src="/assets/danger.png" alt="">
