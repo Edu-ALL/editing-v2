@@ -758,11 +758,12 @@ class AllEssaysMenu extends Controller
             $essay_revise->created_at = date('Y-m-d H:i:s');
             $essay_revise->save();
 
-            // Pusher 
-            event(new EditorNotif($essay_editor->editors_mail, 'Please, revise your essay.'));
-
+            
             DB::commit();
             Log::notice('Editor : '.$managing->first_name.' '.$managing->last_name.' has been Revised for Essay : '.$essay->essay_title);
+            
+            // Pusher 
+            event(new EditorNotif($essay_editor->editors_mail, 'Please, revise your essay.'));
         } catch (Exception $e) {
             DB::rollBack();
             Log::error('Revise Essay failed : '.$e->getMessage());
