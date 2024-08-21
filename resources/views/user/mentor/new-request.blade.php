@@ -132,6 +132,7 @@
                                                     <option value="Common App">Common App</option>
                                                     <option value="Coalition App">Coalition App</option>
                                                     <option value="UCAS">UCAS</option>
+                                                    <option value="UC Essay">UC Essay</option>
                                                     <option value="Personal Statement">Personal Statement</option>
                                                     <option value="Suplemental Essay">Suplemental Essay</option>
                                                     <option value="Digital Team Blog Post">Digital Team Blog Post</option>
