@@ -648,7 +648,7 @@ class AllEssaysMenu extends Controller
         $editor = Auth::guard('web-editor')->user();
 
         $rules = [
-            'uploaded_acc_file' => 'mimes:doc,docx|max:2048'
+            'uploaded_acc_file' => 'mimes:doc,docx|max:5048'
         ];
 
         $validator = Validator::make($request->all() + ['id_essay_clients' => $id_essay], $rules);

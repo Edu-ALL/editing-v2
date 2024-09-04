@@ -468,7 +468,7 @@ class Essays extends Controller
     public function uploadEssay($id_essay, Request $request)
     {
         $rules = [
-            'uploaded_file' => 'required|mimes:doc,docx|max:2048',
+            'uploaded_file' => 'required|mimes:doc,docx|max:5048',
             'work_duration' => 'required',
             'tag' => 'required',
             'description' => '',
@@ -599,7 +599,7 @@ class Essays extends Controller
     public function uploadRevise($id_essay, Request $request)
     {
         $rules = [
-            'uploaded_file' => 'required|mimes:doc,docx|max:2048',
+            'uploaded_file' => 'required|mimes:doc,docx|max:5048',
             'work_duration' => 'required',
             'tag' => 'required',
             'description' => 'required',

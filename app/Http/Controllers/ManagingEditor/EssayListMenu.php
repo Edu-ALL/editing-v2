@@ -484,7 +484,7 @@ class EssayListMenu extends Controller
     public function uploadEssay($id_essay, Request $request)
     {
         $rules = [
-            'uploaded_file' => 'required|mimes:doc,docx|max:2048',
+            'uploaded_file' => 'required|mimes:doc,docx|max:5048',
             'work_duration' => 'required',
             'tag' => 'required',
             'description' => '',
@@ -605,7 +605,7 @@ class EssayListMenu extends Controller
     public function uploadRevise($id_essay, Request $request)
     {
         $rules = [
-            'uploaded_file' => 'mimes:doc,docx|max:2048'
+            'uploaded_file' => 'mimes:doc,docx|max:5048'
         ];
 
         $validator = Validator::make($request->all() + ['id_essay_clients' => $id_essay], $rules);
