@@ -54,20 +54,20 @@
 
                             {{-- Start Section: Download Student Essay --}}
                             @if ($essay_status != 'assigned')
-                            <div class="headline d-flex align-items-center gap-3">
-                                <img src="/assets/file.png" alt="">
-                                <h6>Download Student Essay</h6>
-                            </div>
-                            <div class="col d-flex align-items-center justify-content-center py-md-4 py-4">
-                                <img class="img-word" src="/assets/logo-word.png" alt="">
-                            </div>
-                            <div class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
-                                <a class="btn btn-download d-flex align-items-center gap-2"
-                                    href={{ asset('uploaded_files/program/essay/students/' . $essay->attached_of_clients) }}>
-                                    <img src="/assets/download.png" alt="">
-                                    <h6>Download</h6>
-                                </a>
-                            </div>
+                                <div class="headline d-flex align-items-center gap-3">
+                                    <img src="/assets/file.png" alt="">
+                                    <h6>Download Student Essay</h6>
+                                </div>
+                                <div class="col d-flex align-items-center justify-content-center py-md-4 py-4">
+                                    <img class="img-word" src="/assets/logo-word.png" alt="">
+                                </div>
+                                <div class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
+                                    <a class="btn btn-download d-flex align-items-center gap-2"
+                                        href={{ asset('uploaded_files/program/essay/students/' . $essay->attached_of_clients) }}>
+                                        <img src="/assets/download.png" alt="">
+                                        <h6>Download</h6>
+                                    </a>
+                                </div>
                             @endif
                             {{-- End Section: Download Student Essay --}}
 
@@ -221,6 +221,17 @@
                                         </div>
                                         <div class="col-7">
                                             <p>{!! $essay->essay_prompt !!}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row d-flex align-items-center">
+                                        <div class="col-md-3 col-4">
+                                            <h6>Notes</h6>
+                                        </div>
+                                        <div class="col-1 titik2">
+                                            <p>:</p>
+                                        </div>
+                                        <div class="col-7">
+                                            <p>{!! $essay->essay_notes ? $essay->essay_notes : '-' !!}</p>
                                         </div>
                                     </div>
                                     {{-- <div class="row d-flex">
