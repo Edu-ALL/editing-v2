@@ -64,6 +64,7 @@
                                                 <th>Essay Title</th>
                                                 <th>Upload Date</th>
                                                 <th>Essay Deadline</th>
+                                                <th>Duration</th>
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
@@ -186,6 +187,10 @@
                 {
                     data: 'essay_deadline',
                     name: 'essay_deadline'
+                },
+                {
+                    data: 'work_duration',
+                    name: 'work_duration'
                 },
                 {
                     data: 'status',

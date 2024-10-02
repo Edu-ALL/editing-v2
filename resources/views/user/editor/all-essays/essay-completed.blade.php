@@ -39,6 +39,7 @@
                                                 <th>Editors Deadline</th>
                                                 <th>Essay Deadline</th>
                                                 <th>Managing Feedback</th>
+                                                <th>Duration</th>
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
@@ -108,6 +109,10 @@
                     data: 'managing_feedback',
                     name: 'managing_feedback',
                     defaultContent: "-"
+                },
+                {
+                    data: 'work_duration',
+                    name: 'work_duration'
                 },
                 {
                     data: 'status',

@@ -34,7 +34,16 @@ class Essays extends Controller
 {
     public function index(Request $request)
     {
-        return view('user.per-editor.essay-list.essay-list');
+        $editor = Auth::guard('web-editor')->user();
+        $completed_essays = EssayEditors::where('editors_mail', $editor->email)
+                            ->with(['status', 'essay_clients.mentor', 'editor', 'essay_clients.client_by_id', 'essay_clients.client_by_email', 'essay_clients.client_by_id.mentors', 'essay_clients.client_by_email.mentors', 'essay_clients.program'])
+                            ->where('status_essay_editors', '=', 7)
+                            ->orderBy('read', 'asc')
+                            ->orderBy('uploaded_at', 'desc')
+                            ->select('work_duration')
+                            ->get();
+        $total_work_duration = $completed_essays->sum('work_duration');
+        return view('user.per-editor.essay-list.essay-list')->with(compact('total_work_duration'));
     }
 
     public function getEssayOngoing(Request $request)
@@ -178,13 +187,21 @@ class Essays extends Controller
                         '</div>';
                     return $result;
                 })
+                ->editColumn('work_duration', function ($essay) {
+                    $status_read = $essay->read == 0 ? 'unread' : '';
+                    $result = '<div class="' . $status_read . '">' . 
+                        ($essay->work_duration >= 60 ? $essay->work_duration / 60 . ' hours' : $essay->work_duration . ' minutes') .
+                        '</div>';
+
+                    return $result;
+                })
                 ->editColumn('status', function ($essay) {
                     $result =  '<div class="' . ($essay->read == 0 ? 'unread' : '') . '" style="color: var(--green)">' .
                         ($essay->status->status_title)  .
                         '</div>';
                     return $result;
                 })
-                ->rawColumns(['student_name', 'mentor_name', 'editor_name', 'program', 'title', 'upload_date', 'essay_deadline', 'status'])
+                ->rawColumns(['student_name', 'mentor_name', 'editor_name', 'program', 'title', 'upload_date', 'essay_deadline', 'work_duration', 'status'])
                 ->make();
         }
     }

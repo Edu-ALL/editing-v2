@@ -63,6 +63,9 @@
                                         <img src="/assets/completed-essay.png" alt="">
                                         <h6>List of Completed Essay</h6>
                                     </div>
+                                    <div class="font-bold col-5 text-end">
+                                        <h6>You've spent a total of {{ $total_work_duration / 60 }} hours</h6>
+                                    </div>
                                 </div>
                                 <div class="container text-start px-3 py-2">
                                     <table class="table table-bordered" id="listessaycompleted" style="width: 100%">
@@ -76,6 +79,7 @@
                                                 <th>Essay Title</th>
                                                 <th>Upload Date</th>
                                                 <th>Essay Deadline</th>
+                                                <th>Duration</th>
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
@@ -222,6 +226,11 @@
                     {
                         data: 'essay_deadline',
                         name: 'essay_deadline',
+                        class: 'text-center'
+                    },
+                    {
+                        data: 'work_duration',
+                        name: 'work_duration',
                         class: 'text-center'
                     },
                     {

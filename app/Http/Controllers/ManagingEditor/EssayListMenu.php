@@ -132,13 +132,21 @@ class EssayListMenu extends Controller
                     $result = date('D, d M Y', strtotime($editors_deadline));
                     return $result;
                 })
+                ->editColumn('work_duration', function ($d) {
+                    $status_read = $d->read == 0 ? 'unread' : '';
+                    $result = '<div class="' . $status_read . '">' . 
+                        ($d->work_duration >= 60 ? $d->work_duration / 60 . ' hours' : $d->work_duration . ' minutes') .
+                        '</div>';
+
+                    return $result;
+                })
                 ->editColumn('status', function ($d) {
                     $result = '
                     <span style="color: var(--green)">' . $d->status->status_title . '</span>
                 ';
                     return $result;
                 })
-                ->rawColumns(['status'])
+                ->rawColumns(['work_duration', 'status'])
                 ->make(true);
         }
     }
