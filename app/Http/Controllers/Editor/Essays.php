@@ -507,7 +507,7 @@ class Essays extends Controller
 
         $essay_editor = EssayEditors::where('id_essay_clients', '=', $id_essay)->first();
         $essay_editor->status_essay_editors = 3;
-        $essay_editor->work_duration = $request->work_duration;
+        $essay_editor->work_duration = $essay_editor->work_duration + $request->work_duration;
         $essay_editor->notes_editors = $request->description;
         if ($request->hasFile('uploaded_file')) {
             if ($old_file_path = $essay_editor->attached_of_editors) {
@@ -547,7 +547,7 @@ class Essays extends Controller
         $work_duration = new WorkDuration;
         $work_duration->id_essay_editors = $essay_editor->id_essay_editors;
         $work_duration->status = $essay->status->status_title;
-        $work_duration->duration = $essay_editor->work_duration;
+        $work_duration->duration = $request->work_duration;
         $work_duration->save();
 
         // DB::commit();
@@ -637,7 +637,7 @@ class Essays extends Controller
 
             $essay_editor = EssayEditors::where('id_essay_clients', '=', $id_essay)->first();
             $essay_editor->status_essay_editors = 8;
-            $essay_editor->work_duration = $request->work_duration;
+            $essay_editor->work_duration = $essay_editor->work_duration + $request->work_duration;
             $essay_editor->notes_editors = $request->description;
             if ($request->hasFile('uploaded_file')) {
                 if ($old_file_path = $essay_editor->attached_of_editors) {
@@ -673,7 +673,7 @@ class Essays extends Controller
             $work_duration = new WorkDuration;
             $work_duration->id_essay_editors = $essay_editor->id_essay_editors;
             $work_duration->status = $essay->status->status_title;
-            $work_duration->duration = $essay_editor->work_duration;
+            $work_duration->duration = $request->work_duration;
             $work_duration->save();
 
             DB::commit();
