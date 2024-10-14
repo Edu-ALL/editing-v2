@@ -43,6 +43,11 @@ class EssayEditors extends Model
         return $this->belongsTo(EssayClients::class, 'id_essay_clients', 'id_essay_clients');
     }
 
+    public function work_duration()
+    {
+        return $this->hasMany(WorkDuration::class, 'id_essay_editors', 'id_essay_editors');
+    }
+
     public function editor()
     {
         return $this->belongsTo(Editor::class, 'editors_mail', 'email');
