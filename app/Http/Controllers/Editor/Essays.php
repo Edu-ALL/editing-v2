@@ -128,7 +128,7 @@ class Essays extends Controller
         if ($request->ajax()) {
             $editor = Auth::guard('web-editor')->user();
             $data = EssayEditors::where('editors_mail', $editor->email)
-                ->with(['status', 'essay_clients.mentor', 'editor', 'essay_clients.client_by_id', 'essay_clients.client_by_email', 'essay_clients.client_by_id.mentors', 'essay_clients.client_by_email.mentors', 'essay_clients.program'])
+                ->with(['status', 'work_duration', 'essay_clients.mentor', 'editor', 'essay_clients.client_by_id', 'essay_clients.client_by_email', 'essay_clients.client_by_id.mentors', 'essay_clients.client_by_email.mentors', 'essay_clients.program'])
                 ->where('status_essay_editors', '=', 7)
                 ->orderBy('read', 'asc')
                 ->orderBy('uploaded_at', 'desc')
@@ -190,7 +190,7 @@ class Essays extends Controller
                 ->editColumn('work_duration', function ($essay) {
                     $status_read = $essay->read == 0 ? 'unread' : '';
                     $result = '<div class="' . $status_read . '">' . 
-                        ($essay->work_duration >= 60 ? $essay->work_duration / 60 . ' hours' : $essay->work_duration . ' minutes') .
+                        ($essay->work_duration()->sum('duration') >= 60 ? $essay->work_duration()->sum('duration') / 60 . ' hours' : $essay->work_duration()->sum('duration') . ' minutes') .
                         '</div>';
 
                     return $result;
