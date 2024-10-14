@@ -61,8 +61,13 @@ class Clients extends Controller
 
             if (count($new_mentee->client_program[0]->client_mentor) > 0) {
 
+                if ($new_mentee->id == 505)
+                    $ids = 10428;
+                else
+                    $ids = $new_mentee->id;
+                    
                 $collection[] = [
-                    'id_clients' => $new_mentee->id,
+                    'id_clients' => $ids,
                     'first_name' => $new_mentee->first_name,
                     'last_name' => $new_mentee->last_name,
                     'phone' => $new_mentee->phone,
