@@ -64,7 +64,7 @@
                                         <h6>List of Completed Essay</h6>
                                     </div>
                                     <div class="font-bold col-5 text-end">
-                                        <h6>You've spent a total of {{ $total_work_duration / 60 }} hours</h6>
+                                        <h6>You've spent a total of {{ number_format($total_work_duration / 60, 2) }} hours</h6>
                                     </div>
                                 </div>
                                 <div class="container text-start px-3 py-2">

@@ -384,7 +384,7 @@ class AllEssaysMenu extends Controller
                 })
                 ->editColumn('work_duration', function ($d) {
                     $result = '<div>' . 
-                        ($d->work_duration()->sum('duration') >= 60 ? $d->work_duration()->sum('duration') / 60 . ' hours' : $d->work_duration()->sum('duration') . ' minutes') .
+                        ($d->work_duration()->sum('duration') >= 60 ? number_format($d->work_duration()->sum('duration') / 60, 2) . ' hours' : $d->work_duration()->sum('duration') . ' minutes') .
                         '</div>';
 
                     return $result;

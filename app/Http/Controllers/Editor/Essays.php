@@ -36,12 +36,12 @@ class Essays extends Controller
     {
         $editor = Auth::guard('web-editor')->user();
         $completed_essays = EssayEditors::where('editors_mail', $editor->email)
-                            ->with(['status', 'essay_clients.mentor', 'editor', 'essay_clients.client_by_id', 'essay_clients.client_by_email', 'essay_clients.client_by_id.mentors', 'essay_clients.client_by_email.mentors', 'essay_clients.program'])
-                            ->where('status_essay_editors', '=', 7)
-                            ->orderBy('read', 'asc')
-                            ->orderBy('uploaded_at', 'desc')
-                            ->select('work_duration')
-                            ->get();
+            ->with(['status', 'essay_clients.mentor', 'editor', 'essay_clients.client_by_id', 'essay_clients.client_by_email', 'essay_clients.client_by_id.mentors', 'essay_clients.client_by_email.mentors', 'essay_clients.program'])
+            ->where('status_essay_editors', '=', 7)
+            ->orderBy('read', 'asc')
+            ->orderBy('uploaded_at', 'desc')
+            ->select('work_duration')
+            ->get();
         $total_work_duration = $completed_essays->sum('work_duration');
         return view('user.per-editor.essay-list.essay-list')->with(compact('total_work_duration'));
     }
@@ -105,7 +105,7 @@ class Essays extends Controller
                 })
                 ->editColumn('essay_deadline', function ($essay) {
                     $diffDeadline = Carbon::parse($essay->essay_clients->essay_deadline)->startOfDay()->diffInDays(Carbon::parse($essay->essay_clients->uploaded_at)->startOfDay());
-                    $editors_deadline = Carbon::parse($essay->essay_clients->uploaded_at)->addDays(round((60 / 100) * $diffDeadline,0));
+                    $editors_deadline = Carbon::parse($essay->essay_clients->uploaded_at)->addDays(round((60 / 100) * $diffDeadline, 0));
 
                     $result =  '<div class="' . ($essay->read == 0 ? 'unread' : '') . '">' .
                         (date('D, d M Y', strtotime($editors_deadline)))  .
@@ -180,7 +180,7 @@ class Essays extends Controller
                 })
                 ->editColumn('essay_deadline', function ($essay) {
                     $diffDeadline = Carbon::parse($essay->essay_clients->essay_deadline)->startOfDay()->diffInDays(Carbon::parse($essay->essay_clients->uploaded_at)->startOfDay());
-                    $editors_deadline = Carbon::parse($essay->essay_clients->uploaded_at)->addDays(round((60 / 100) * $diffDeadline,0));
+                    $editors_deadline = Carbon::parse($essay->essay_clients->uploaded_at)->addDays(round((60 / 100) * $diffDeadline, 0));
 
                     $result =  '<div class="' . ($essay->read == 0 ? 'unread' : '') . '">' .
                         (date('D, d M Y', strtotime($editors_deadline)))  .
@@ -189,8 +189,8 @@ class Essays extends Controller
                 })
                 ->editColumn('work_duration', function ($essay) {
                     $status_read = $essay->read == 0 ? 'unread' : '';
-                    $result = '<div class="' . $status_read . '">' . 
-                        ($essay->work_duration()->sum('duration') >= 60 ? $essay->work_duration()->sum('duration') / 60 . ' hours' : $essay->work_duration()->sum('duration') . ' minutes') .
+                    $result = '<div class="' . $status_read . '">' .
+                        ($essay->work_duration()->sum('duration') >= 60 ?  number_format($essay->work_duration()->sum('duration') / 60, 2)  . ' hours' : $essay->work_duration()->sum('duration') . ' minutes') .
                         '</div>';
 
                     return $result;
@@ -211,7 +211,7 @@ class Essays extends Controller
         $essay = EssayClients::find($id_essay);
 
         $diffDeadline = Carbon::parse($essay->essay_deadline)->startOfDay()->diffInDays(Carbon::parse($essay->uploaded_at)->startOfDay());
-        $editors_deadline = Carbon::parse($essay->uploaded_at)->addDays(round((60 / 100) * $diffDeadline,0));
+        $editors_deadline = Carbon::parse($essay->uploaded_at)->addDays(round((60 / 100) * $diffDeadline, 0));
 
         if ($essay) {
             $editors = Editor::paginate(10);
@@ -294,7 +294,7 @@ class Essays extends Controller
                     'essay' => $essay_editor->essay_clients,
                     'essay_editor' => $essay_editor,
                     'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
-                 ]);
+                ]);
             }
 
             // Status Submitted
@@ -307,7 +307,6 @@ class Essays extends Controller
                     'tags' => EssayTags::where('id_essay_clients', $id_essay)->get()
                 ]);
             }
-
         } else {
             return abort(404);
         }
