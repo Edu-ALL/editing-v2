@@ -132,7 +132,7 @@ class Editors extends Controller
     public function getEditor(Request $request)
     {
         if ($request->ajax()) {
-            $data = Editor::orderBy('first_name', 'asc')->where('status', 1)->get();
+            $data = Editor::orderBy('first_name', 'asc')->get();
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->editColumn('fullname', function ($d) {

@@ -19,7 +19,7 @@ class Export extends Controller
     public function index(Request $request)
     {
         $essay_editors = NULL;
-        $editors = Editor::with('position')->where('status', '=', 1)->orderBy('first_name', 'asc')->get();
+        $editors = Editor::with('position')->orderBy('first_name', 'asc')->get();
         $status = Status::orderBy('status_title', 'asc')->get();
 
         if ($request->all()) {
