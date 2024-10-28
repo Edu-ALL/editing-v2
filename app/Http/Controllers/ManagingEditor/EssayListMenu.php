@@ -135,7 +135,7 @@ class EssayListMenu extends Controller
                 ->editColumn('work_duration', function ($d) {
                     $status_read = $d->read == 0 ? 'unread' : '';
                     $result = '<div class="' . $status_read . '">' . 
-                        ($d->work_duration()->sum('durartion') >= 60 ? $d->work_duration()->sum('duration') / 60 . ' hours' : $d->work_duration()->sum('duration') . ' minutes') .
+                        ($d->work_duration()->sum('duration') >= 60 ? $d->work_duration()->sum('duration') / 60 . ' hours' : $d->work_duration()->sum('duration') . ' minutes') .
                         '</div>';
 
                     return $result;
