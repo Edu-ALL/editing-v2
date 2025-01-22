@@ -67,7 +67,7 @@
                                 @if ($revise->role == 'managing_editor' && $revise->file)
                                     <p style="margin-top: -4px">
                                         <a class="d-block mt-2"
-                                            href="{{ Storage::url('program/essay/revise/' . $revise->file) }}"
+                                            href="{{ Storage::url('program/essay/revised/' . $revise->file) }}"
                                             style="color: var(--blue)"><img src="/assets/download-blue.png"
                                                 alt="" width="14" height="14" style="margin-right: 2px">
                                             Download Attachment</a>

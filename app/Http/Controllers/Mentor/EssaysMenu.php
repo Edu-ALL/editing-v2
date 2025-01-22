@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
 class EssaysMenu extends Controller
@@ -294,14 +295,12 @@ class EssaysMenu extends Controller
         try {
             $essay = EssayClients::find($id);
 
-            $file_path = app_path("uploaded_files/program/essay/mentors/{$essay->attached_of_clients}");
+            $file_path = "project/essay-editing/program/essay/students/{$essay->attached_of_clients}";
 
-            // dd($essay);
-            if (File::exists($file_path)) {
-                //File::delete($file_path);
-                File::delete($file_path);
+            if (Storage::disk('s3')->exists($file_path)) {
+                Storage::disk('s3')->delete($file_path);
             }
-            // EssayClients::where($id)->delete();
+
             $essay->delete();
 
             Log::notice("Essay : " . $essay->essay_title . " was deleted by Mentor : " . Auth::guard('web-mentor')->user()->first_name . " " . Auth::guard('web-mentor')->user()->last_name);

@@ -516,7 +516,7 @@ class EssayListMenu extends Controller
             $essay_editor->notes_editors = $request->description;
             if ($request->hasFile('uploaded_file')) {
                 if ($old_file_path = $essay_editor->attached_of_editors) {
-                    $file_path = 'uploaded_files/program/essay/editors' . $old_file_path;
+                    $file_path = 'project/essay-editing/program/essay/editors/' . $old_file_path;
                     if (Storage::disk('s3')->exists($file_path)) {
                         Storage::disk('s3')->delete($file_path);
                     }
@@ -534,7 +534,7 @@ class EssayListMenu extends Controller
                 $file_name = str_replace(' ', '-', $file_name);
                 $file_format = $request->file('uploaded_file')->getClientOriginalExtension();
                 // $med_file_path = $request->file('uploaded_file')->storeAs('program/essay/editors', $file_name . '.' . $file_format, ['disk' => 'public_assets']);
-                $med_file_path = 'project/essay-editing/program/essay/editors' . $file_name . '.' . $file_format;
+                $med_file_path = 'project/essay-editing/program/essay/editors/' . $file_name . '.' . $file_format;
                 Storage::disk('s3')->put($med_file_path, file_get_contents($request->uploaded_file));
 
                 $essay_editor->attached_of_editors = $file_name . '.' . $file_format;
@@ -637,7 +637,7 @@ class EssayListMenu extends Controller
             $essay_editor->notes_editors = $request->description;
             if ($request->hasFile('uploaded_file')) {
                 if ($old_file_path = $essay_editor->attached_of_editors) {
-                    $file_path = 'uploaded_files/program/essay/revised' . $old_file_path;
+                    $file_path = 'projec/essay-editing/program/essay/revised/' . $old_file_path;
                     if (Storage::disk('s3')->exists($file_path)) {
                         Storage::disk('s3')->delete($file_path);
                     }

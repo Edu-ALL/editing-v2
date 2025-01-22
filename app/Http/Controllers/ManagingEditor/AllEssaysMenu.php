@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -383,7 +384,7 @@ class AllEssaysMenu extends Controller
                     return $result;
                 })
                 ->editColumn('work_duration', function ($d) {
-                    $result = '<div>' . 
+                    $result = '<div>' .
                         ($d->work_duration()->sum('duration') >= 60 ? number_format($d->work_duration()->sum('duration') / 60, 2) . ' hours' : $d->work_duration()->sum('duration') . ' minutes') .
                         '</div>';
 
@@ -689,8 +690,11 @@ class AllEssaysMenu extends Controller
             if ($request->hasFile('uploaded_acc_file')) {
                 $file_name = 'Revised_by_' . $editor->first_name . '_' . $editor->last_name . '(' . date('d-m-Y_His') . ')';
                 // $file_name = str_replace(' ', '-', $file_name);
-                $file_format = $request->file('uploaded_acc_file')->getClientOriginalExtension();
-                $med_file_path = $request->file('uploaded_acc_file')->storeAs('program/essay/revised', $file_name . '.' . $file_format, ['disk' => 'public_assets']);
+                $file = $request->file('uploaded_acc_file');
+                $file_format = $file->getClientOriginalExtension();
+                $med_file_path = 'project/essay-editing/program/essay/revised/' . $file_name . '.' . $file_format;
+
+                Storage::disk('s3')->put($med_file_path, file_get_contents($file));
                 $essay_editor->managing_file = $file_name . '.' . $file_format;
             }
             $essay_editor->notes_managing = $request->notes_managing;
@@ -759,8 +763,10 @@ class AllEssaysMenu extends Controller
             if ($request->hasFile('uploaded_revise_file')) {
                 $file_name = 'Revise-' . date('d-m-Y_His');
                 $file_name = str_replace(' ', '-', $file_name);
-                $file_format = $request->file('uploaded_revise_file')->getClientOriginalExtension();
-                $med_file_path = $request->file('uploaded_revise_file')->storeAs('program/essay/revise', $file_name . '.' . $file_format, ['disk' => 'public_assets']);
+                $file = $request->file('uploaded_revise_file');
+                $file_format = $file->getClientOriginalExtension();
+                $med_file_path = 'project/essay-editing/program/essay/revised/' . $file_name . '.' . $file_format;
+                Storage::disk('s3')->put($med_file_path, file_get_contents($file));
                 $essay_revise->file = $file_name . '.' . $file_format;
             }
             $essay_revise->created_at = date('Y-m-d H:i:s');

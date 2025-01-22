@@ -511,7 +511,7 @@ class Essays extends Controller
         $essay_editor->notes_editors = $request->description;
         if ($request->hasFile('uploaded_file')) {
             if ($old_file_path = $essay_editor->attached_of_editors) {
-                $file_path = 'uploaded_files/program/essay/editors' . $old_file_path;
+                $file_path = 'project/essay-editing/program/essay/editors/' . $old_file_path;
                 if (Storage::disk('s3')->exists($file_path)) {
                     Storage::disk('s3')->delete($file_path);
                 }
@@ -644,7 +644,7 @@ class Essays extends Controller
             $essay_editor->notes_editors = $request->description;
             if ($request->hasFile('uploaded_file')) {
                 if ($old_file_path = $essay_editor->attached_of_editors) {
-                    $file_path = 'uploaded_files/program/essay/revised' . $old_file_path;
+                    $file_path = 'project/essay-editing/program/essay/revised/' . $old_file_path;
                     if (Storage::disk('s3')->exists($file_path)) {
                         Storage::disk('s3')->delete($file_path);
                     }
