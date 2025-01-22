@@ -65,7 +65,7 @@ class Profile extends Controller
             if ($request->hasFile('uploaded_file')) {
                 if ($old_image_path = $editor->image) {
                     if ($old_image_path != 'default.png') {
-                        $file_path = 'user/editors/'.$old_image_path;
+                        $file_path = 'project/essay-editing/user/editors/'.$old_image_path;
                         if (Storage::disk('s3')->exists($file_path)) {
                             Storage::disk('s3')->delete($file_path);
                         }
