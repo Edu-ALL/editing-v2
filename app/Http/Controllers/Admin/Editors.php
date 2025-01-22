@@ -18,6 +18,7 @@ use App\Models\Token;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
 class Editors extends Controller
@@ -95,7 +96,11 @@ class Editors extends Controller
             $time = date("His");
             $file_name = str_replace(' ', '-', strtolower($request->first_name . ' ' . $request->last_name));
             $file_format = $request->file('img')->getClientOriginalExtension();
-            $med_file_path = $request->file('img')->storeAs('user/editors', $time . '-' . $file_name . '.' . $file_format, ['disk' => 'public_assets']);
+            // $med_file_path = $request->file('img')->storeAs('user/editors', $time . '-' . $file_name . '.' . $file_format, ['disk' => 'public_assets']);
+            
+            $med_file_path = 'project/essay-editing/user/editors/' . $time . '-' . $file_name . '.' . $file_format;
+            Storage::disk('s3')->put($med_file_path, file_get_contents($request->img));
+
             $img = $time . '-' . $file_name . '.' . $file_format;
         }
 

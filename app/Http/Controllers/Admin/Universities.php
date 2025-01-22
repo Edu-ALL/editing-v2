@@ -162,7 +162,7 @@ class Universities extends Controller
 
             if ($request->hasFile('uploaded_file')) {
                 if ($old_image_path = $university->photo) {
-                    $file_path = 'uploaded_files/univ/' . $old_image_path;
+                    $file_path = 'univ/' . $old_image_path;
                     if (Storage::disk('s3')->exists($file_path)) {
                         Storage::disk('s3')->delete($file_path);
                     }
@@ -197,7 +197,7 @@ class Universities extends Controller
 
         //! tambahin hapus file sebelum delete data
         if ($old_image_path = $university->photo) {
-            $file_path = 'uploaded_files/univ/' . $old_image_path;
+            $file_path = 'univ/' . $old_image_path;
             if (Storage::disk('s3')->exists($file_path)) {
                 Storage::disk('s3')->delete($file_path);
             }
