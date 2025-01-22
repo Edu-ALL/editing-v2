@@ -118,15 +118,15 @@ class StudentsMenu extends Controller
 
         if ($request->hasFile('resume')) {
             if ($old_file_path_resume = $user->resume) {
-                $file_path_resume = public_path('uploaded_files/user/students/'.$user->first_name.'/resume'.'/'.$old_file_path_resume);
+                $file_path_resume = 'project/essay-editing/user/students/'.$user->first_name.'/resume'.'/'.$old_file_path_resume;
                 // dd($user->resume);
-                if (File::exists($file_path_resume)) {
-                    File::delete($file_path_resume);
+                if (Storage::disk('s3')->exists($file_path_resume)) {
+                    Storage::disk('s3')->delete($file_path_resume);
                 }
             }
             $resumeFile = $request->resume->getClientOriginalName();
-            $filePathresume = 'user/students/'.$user->first_name.'/resume'.'/'.$resumeFile;
-            Storage::disk('public_assets')->put($filePathresume, file_get_contents($request->resume));
+            $filePathresume = 'project/essay-editing/user/students/'.$user->first_name.'/resume'.'/'.$resumeFile;
+            Storage::disk('s3')->put($filePathresume, file_get_contents($request->resume));
         }else{
             $resumeFile = $request->resume;
         }
@@ -134,15 +134,15 @@ class StudentsMenu extends Controller
 
         if ($request->hasFile('questionnaire')) {
             if ($old_file_path_questionnaire = $user->questionnaire) {
-                $file_path_questionnaire = public_path('uploaded_files/user/students/'.$user->first_name.'/questionnaire'.'/'.$old_file_path_questionnaire);
+                $file_path_questionnaire = 'project/essay-editing/user/students/'.$user->first_name.'/questionnaire'.'/'.$old_file_path_questionnaire;
                 // dd($user->resume);
-                if (File::exists($file_path_questionnaire)) {
-                    File::delete($file_path_questionnaire);
+                if (Storage::disk('s3')->exists($file_path_questionnaire)) {
+                    Storage::disk('s3')->delete($file_path_questionnaire);
                 }
             }
             $questionnaireFile = $request->questionnaire->getClientOriginalName();
-            $filePathquestionnaire = 'user/students/'.$user->first_name.'/questionnaire'.'/'.$questionnaireFile;
-            Storage::disk('public_assets')->put($filePathquestionnaire, file_get_contents($request->questionnaire));
+            $filePathquestionnaire = 'project/essay-editing/user/students/'.$user->first_name.'/questionnaire'.'/'.$questionnaireFile;
+            Storage::disk('s3')->put($filePathquestionnaire, file_get_contents($request->questionnaire));
         }else{
             $questionnaireFile = $request->questionnaire;
         }
@@ -150,15 +150,15 @@ class StudentsMenu extends Controller
 
         if ($request->hasFile('others')) {
             if ($old_file_path_others = $user->others) {
-                $file_path_others = public_path('uploaded_files/user/students/'.$user->first_name.'/others'.'/'.$old_file_path_others);
+                $file_path_others = 'project/essay-editing/user/students/'.$user->first_name.'/others'.'/'.$old_file_path_others;
                 // dd($user->resume);
-                if (File::exists($file_path_others)) {
-                    File::delete($file_path_others);
+                if (Storage::disk('s3')->exists($file_path_others)) {
+                    Storage::disk('s3')->delete($file_path_others);
                 }
             }
             $othersFile = $request->others->getClientOriginalName();
-            $filePathothers = 'user/students/'.$user->first_name.'/others'.'/'.$othersFile;
-            Storage::disk('public_assets')->put($filePathothers, file_get_contents($request->others));
+            $filePathothers = 'project/essay-editing/user/students/'.$user->first_name.'/others'.'/'.$othersFile;
+            Storage::disk('s3')->put($filePathothers, file_get_contents($request->others));
         }else{
             $othersFile = $request->others;
         }

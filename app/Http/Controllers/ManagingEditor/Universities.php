@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
 class Universities extends Controller
@@ -28,9 +29,9 @@ class Universities extends Controller
             ])
             ->editColumn('image', function($d){
                 if ($d->photo) {
-                    $path = asset('uploaded_files/univ/'.$d->photo);
+                    $path = Storage::url('univ/'.$d->photo);
                 } else {
-                    $path = asset('uploaded_files/univ/default.png');
+                    $path = Storage::url('univ/default.png');
                 }
                 $result = '
                     <img src="'.$path.'" alt="'.$d->photo.'" style="max-width:50px;" />
@@ -91,7 +92,10 @@ class Universities extends Controller
             if ($request->hasFile('uploaded_file')) {
                 $file_name = str_replace(' ', '-', strtolower($university_name));
                 $file_format = $request->file('uploaded_file')->getClientOriginalExtension();
-                $med_file_path = $request->file('uploaded_file')->storeAs('univ', $file_name.'.'.$file_format, ['disk' => 'public_assets']);
+                // $med_file_path = $request->file('uploaded_file')->storeAs('univ', $file_name.'.'.$file_format, ['disk' => 'public_assets']);
+                $med_file_path = 'project/essay-editing/univ/' . $file_name . '.' . $file_format;
+                Storage::disk('s3')->put($med_file_path, file_get_contents($request->uploaded_file));
+
 
                 $university->photo = $file_name.'.'.$file_format;
             }
@@ -143,15 +147,17 @@ class Universities extends Controller
 
             if ($request->hasFile('uploaded_file')) {
                 if ($old_image_path = $university->photo) {
-                    $file_path = public_path('uploaded_files/univ/' . $old_image_path);
-                    if (File::exists($file_path)) {
-                        File::delete($file_path);
+                    $file_path = 'uploaded_files/univ/' . $old_image_path;
+                    if (Storage::disk('s3')->exists($file_path)) {
+                        Storage::disk('s3')->delete($file_path);
                     }
                 }
                 $file_name = str_replace(' ', '-', strtolower($university_name));
                 $file_format = $request->file('uploaded_file')->getClientOriginalExtension();
-                $med_file_path = $request->file('uploaded_file')->storeAs('univ', $file_name . '.' . $file_format, ['disk' => 'public_assets']);
-    
+                // $med_file_path = $request->file('uploaded_file')->storeAs('univ', $file_name . '.' . $file_format, ['disk' => 'public_assets']);
+                $med_file_path = 'project/essay-editing/univ/' . $file_name . '.' . $file_format;
+                Storage::disk('s3')->put($med_file_path, file_get_contents($request->uploaded_file));
+
                 $university->photo = $file_name . '.' . $file_format;
             }
 
@@ -175,9 +181,9 @@ class Universities extends Controller
 
         //! tambahin hapus file sebelum delete data
         if ($old_image_path = $university->photo) {
-            $file_path = public_path('uploaded_files/univ/' . $old_image_path);
-            if (File::exists($file_path)) {
-                File::delete($file_path);
+            $file_path = 'uploaded_files/univ/' . $old_image_path;
+            if (Storage::disk('s3')->exists($file_path)) {
+                Storage::disk('s3')->delete($file_path);
             }
         }
         $university->delete();

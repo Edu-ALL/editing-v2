@@ -65,16 +65,16 @@
                                                         <p>You can download the revised essay in the attachment, or access it through the link below:</p>
                                                         <br>
                                                         @if ($essayEditor->managing_file)
-                                                        <a href={{ asset('uploaded_files/program/essay/revised/'.$essayEditor->managing_file) }}
+                                                        <a href={{ Storage::url('program/essay/revised/'.$essayEditor->managing_file) }}
                                                         style="background-color: #4CAF50;border: none;color: white; padding: 8px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 14px; margin: 4px 2px; cursor: pointer;"
                                                         >Download</a>
                                                         @else
                                                             @if (str_contains($essayEditor->attached_of_editors, 'Revised'))
-                                                                <a href={{ asset('uploaded_files/program/essay/editors/'.$essayEditor->attached_of_editors) }}
+                                                                <a href={{ Storage::url('program/essay/editors/'.$essayEditor->attached_of_editors) }}
                                                                 style="background-color: #4CAF50;border: none;color: white; padding: 8px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 14px; margin: 4px 2px; cursor: pointer;"
                                                                 >Download</a>
                                                             @else
-                                                                <a href={{ asset('uploaded_files/program/essay/editors/'.$essayEditor->attached_of_editors) }}
+                                                                <a href={{ Storage::url('program/essay/editors/'.$essayEditor->attached_of_editors) }}
                                                                 style="background-color: #4CAF50;border: none;color: white; padding: 8px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 14px; margin: 4px 2px; cursor: pointer;"
                                                                 >Download</a>
                                                             @endif

@@ -12,6 +12,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
 class Program extends Controller
@@ -51,11 +52,11 @@ class Program extends Controller
                 ->editColumn('image', function ($program) {
                     if ($program->images) {
                         $result = '<img src="' .
-                            (asset('uploaded_files/programs/' . $program->images)) .
+                            (Storage::url('programs/' . $program->images)) .
                             '" alt="' . ($program->images) . '" style="max-width:50px;" />';
                     } else {
                         $result = '<img src="' .
-                            (asset('uploaded_files/programs/default.png')) .
+                            (Storage::url('programs/default.png')) .
                             '" alt="' . ($program->images) . '" style="max-width:50px;" />';
                     }
                     return $result;
@@ -115,7 +116,10 @@ class Program extends Controller
             if ($request->hasFile('uploaded_file')) {
                 $file_name = str_replace(' ', '-', strtolower($program_name));
                 $file_format = $request->file('uploaded_file')->getClientOriginalExtension();
-                $med_file_path = $request->file('uploaded_file')->storeAs('programs', $time . '-' . $file_name . '.' . $file_format, ['disk' => 'public_assets']);
+                // $med_file_path = $request->file('uploaded_file')->storeAs('programs', $time . '-' . $file_name . '.' . $file_format, ['disk' => 'public_assets']);
+                // $request->file('uploaded_file')->storeAs('programs', $time . '-' . $file_name . '.' . $file_format, ['disk' => 'public_assets']);
+                $med_file_path = 'project/essay-editing/programs/' . $time . '-' . $file_name . '.' . $file_format;
+                Storage::disk('s3')->put($med_file_path, file_get_contents($request->uploaded_file));
                 $program->images = $time . '-' . $file_name . '.' . $file_format;
             }
 
@@ -171,14 +175,16 @@ class Program extends Controller
             $time = time();
             if ($request->hasFile('uploaded_file')) {
                 if ($old_image_path = $program->images) {
-                    $file_path = public_path('uploaded_files/programs/' . $old_image_path);
-                    if (File::exists($file_path)) {
-                        File::delete($file_path);
+                    $file_path = 'project/essay-editing/project/programs/' . $old_image_path;
+                    if (Storage::disk('s3')->exists($file_path)) {
+                        Storage::disk('s3')->delete($file_path);
                     }
                 }
                 $file_name = str_replace(' ', '-', strtolower($program_name));
                 $file_format = $request->file('uploaded_file')->getClientOriginalExtension();
-                $med_file_path = $request->file('uploaded_file')->storeAs('programs', $time . '-' . $file_name . '.' . $file_format, ['disk' => 'public_assets']);
+                // $med_file_path = $request->file('uploaded_file')->storeAs('programs', $time . '-' . $file_name . '.' . $file_format, ['disk' => 'public_assets']);
+                $med_file_path = 'project/essay-editing/programs/' . $time . '-' . $file_name . '.' . $file_format;
+                Storage::disk('s3')->put($med_file_path, file_get_contents($request->uploaded_file));
 
                 $program->images = $time . '-' . $file_name . '.' . $file_format;
             }
@@ -205,9 +211,9 @@ class Program extends Controller
         try {
             //! tambahin hapus file sebelum delete data
             if ($old_image_path = $program->images) {
-                $file_path = public_path('uploaded_files/programs/' . $old_image_path);
-                if (File::exists($file_path)) {
-                    File::delete($file_path);
+                $file_path = 'project/essay-editing/uploaded_files/programs/' . $old_image_path;
+                if (Storage::disk('s3')->exists($file_path)) {
+                    Storage::disk('s3')->delete($file_path);
                 }
             }
             $program->delete();

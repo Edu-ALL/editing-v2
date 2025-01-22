@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -515,9 +516,9 @@ class EssayListMenu extends Controller
             $essay_editor->notes_editors = $request->description;
             if ($request->hasFile('uploaded_file')) {
                 if ($old_file_path = $essay_editor->attached_of_editors) {
-                    $file_path = public_path('uploaded_files/program/essay/editors' . $old_file_path);
-                    if (File::exists($file_path)) {
-                        File::delete($file_path);
+                    $file_path = 'uploaded_files/program/essay/editors' . $old_file_path;
+                    if (Storage::disk('s3')->exists($file_path)) {
+                        Storage::disk('s3')->delete($file_path);
                     }
                 }
 
@@ -532,7 +533,10 @@ class EssayListMenu extends Controller
                 // $file_name = 'Editing-'.$essay->client_by_id->first_name.'-'.$essay->client_by_id->last_name.'-Essays-by-'.$essay->editor->first_name.'('.date('d-m-Y').')';
                 $file_name = str_replace(' ', '-', $file_name);
                 $file_format = $request->file('uploaded_file')->getClientOriginalExtension();
-                $med_file_path = $request->file('uploaded_file')->storeAs('program/essay/editors', $file_name . '.' . $file_format, ['disk' => 'public_assets']);
+                // $med_file_path = $request->file('uploaded_file')->storeAs('program/essay/editors', $file_name . '.' . $file_format, ['disk' => 'public_assets']);
+                $med_file_path = 'project/essay-editing/program/essay/editors' . $file_name . '.' . $file_format;
+                Storage::disk('s3')->put($med_file_path, file_get_contents($request->uploaded_file));
+
                 $essay_editor->attached_of_editors = $file_name . '.' . $file_format;
             }
             $essay_editor->save();
@@ -633,15 +637,18 @@ class EssayListMenu extends Controller
             $essay_editor->notes_editors = $request->description;
             if ($request->hasFile('uploaded_file')) {
                 if ($old_file_path = $essay_editor->attached_of_editors) {
-                    $file_path = public_path('uploaded_files/program/essay/revised' . $old_file_path);
-                    if (File::exists($file_path)) {
-                        File::delete($file_path);
+                    $file_path = 'uploaded_files/program/essay/revised' . $old_file_path;
+                    if (Storage::disk('s3')->exists($file_path)) {
+                        Storage::disk('s3')->delete($file_path);
                     }
                 }
                 $file_name = 'Revised_by_' . $essay->essay_editors->editor->first_name . '_' . $essay->essay_editors->editor->last_name . '(' . date('d-m-Y_His') . ')';
                 $file_name = str_replace(' ', '_', $file_name);
                 $file_format = $request->file('uploaded_file')->getClientOriginalExtension();
-                $med_file_path = $request->file('uploaded_file')->storeAs('program/essay/revised', $file_name . '.' . $file_format, ['disk' => 'public_assets']);
+                // $med_file_path = $request->file('uploaded_file')->storeAs('program/essay/revised', $file_name . '.' . $file_format, ['disk' => 'public_assets']);
+                $med_file_path = 'project/essay-editing/program/essay/revised/' . $file_name . '.' . $file_format;
+                Storage::disk('s3')->put($med_file_path, file_get_contents($request->uploaded_file));
+
                 $essay_editor->attached_of_editors = $file_name . '.' . $file_format;
             }
             $essay_editor->save();

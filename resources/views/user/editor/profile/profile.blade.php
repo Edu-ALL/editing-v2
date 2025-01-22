@@ -35,7 +35,7 @@
             </div>
             <div class="col d-flex align-items-center justify-content-center py-md-4 py-4">
               <div class="pic-profile d-flex align-items-center justify-content-center">
-                <img class="img-fluid" id="img-profile" src={{ asset('uploaded_files/user/editors/'.$editor->image) }} alt="">
+                <img class="img-fluid" id="img-profile" src={{ Storage::url('user/editors/'.$editor->image) }} alt="">
               </div>
             </div>
             <div class="col d-none px-md-4 px-3" id="chooseFile">

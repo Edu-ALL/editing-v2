@@ -11,6 +11,7 @@ use App\Models\EssayEditors;
 use App\Models\Status;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -155,11 +156,11 @@ class Export extends Controller
                     return $res;
                 })
                 ->editColumn('editors_file', function ($result) {
-                    $res = '<a href="' . (asset('uploaded_files/program/essay/editors/' . $result->attached_of_editors)) . '" rel="noopener" target="_blank" title="' . ($result->attached_of_editors) . '">Download</a>';
+                    $res = '<a href="' . (Storage::url('program/essay/editors/' . $result->attached_of_editors)) . '" rel="noopener" target="_blank" title="' . ($result->attached_of_editors) . '">Download</a>';
                     return $res;
                 })
                 ->editColumn('students_file', function ($result) {
-                    $res = '<a href="' . (asset('uploaded_files/program/essay/students/' . $result->essay_clients->attached_of_clients)) . '" rel="noopener" target="_blank" title="' . ($result->essay_clients->attached_of_clients) . '">Download</a>';
+                    $res = '<a href="' . (Storage::url('program/essay/students/' . $result->essay_clients->attached_of_clients)) . '" rel="noopener" target="_blank" title="' . ($result->essay_clients->attached_of_clients) . '">Download</a>';
                     return ' ' . $res . '';
                 })
                 ->editColumn('status', function ($result) {
@@ -206,8 +207,8 @@ class Export extends Controller
                 $essay_editor->essay_clients->program->program_name,
                 $essay_editor->essay_clients->university->university_name,
                 $essay_editor->essay_clients->essay_title,
-                public_path('uploaded_files/program/essay/editors/') . $essay_editor->attached_of_editors,
-                public_path('uploaded_files/program/essay/students/') . $essay_editor->essay_clients->attached_of_clients,
+                Storage::url('program/essay/editors/') . $essay_editor->attached_of_editors,
+                Storage::url('program/essay/students/') . $essay_editor->essay_clients->attached_of_clients,
                 $essay_editor->status->status_title,
                 $essay_editor->essay_clients->essay_rating,
                 $essay_editor->work_duration,

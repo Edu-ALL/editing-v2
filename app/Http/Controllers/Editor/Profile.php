@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class Profile extends Controller
 {
@@ -64,15 +65,17 @@ class Profile extends Controller
             if ($request->hasFile('uploaded_file')) {
                 if ($old_image_path = $editor->image) {
                     if ($old_image_path != 'default.png') {
-                        $file_path = public_path('uploaded_files/user/editors/'.$old_image_path);
-                        if (File::exists($file_path)) {
-                            File::delete($file_path);
+                        $file_path = 'uploaded_files/user/editors/'.$old_image_path;
+                        if (Storage::disk('s3')->exists($file_path)) {
+                            Storage::disk('s3')->delete($file_path);
                         }
                     }
                 }
                 $file_name = str_replace(' ', '-', strtolower($name));
                 $file_format = $request->file('uploaded_file')->getClientOriginalExtension();
-                $med_file_path = $request->file('uploaded_file')->storeAs('user/editors', $time.'-'.$file_name.'.'.$file_format, ['disk' => 'public_assets']);
+                // $med_file_path = $request->file('uploaded_file')->storeAs('user/editors', $time.'-'.$file_name.'.'.$file_format, ['disk' => 'public_assets']);
+                $med_file_path = 'project/essay-editing/user/editors' . $time .'-'. $file_name . '.' . $file_format;
+                Storage::disk('s3')->put($med_file_path, file_get_contents($request->uploaded_file));
 
                 $editor->image = $time.'-'.$file_name.'.'.$file_format;
             }

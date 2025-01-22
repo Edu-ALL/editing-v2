@@ -9,6 +9,7 @@ use App\Models\EssayClients;
 use App\Models\EssayEditors;
 use App\Models\Status;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -114,9 +115,9 @@ class ReportList extends Controller
             })
             ->editColumn('editor_file', function($d){
                 if ($d->status->id == 8) {
-                    $path = asset('uploaded_files/program/essay/revised/'.$d->attached_of_editors);
+                    $path = Storage::url('program/essay/revised/'.$d->attached_of_editors);
                 } else {
-                    $path = asset('uploaded_files/program/essay/editors/'.$d->attached_of_editors);
+                    $path = Storage::url('program/essay/editors/'.$d->attached_of_editors);
                 }
                 $result = '
                     <a href="'.$path.'" rel="noopener" target="_blank" title="'.($d->attached_of_editors).'">Download</a>
@@ -124,7 +125,7 @@ class ReportList extends Controller
                 return $result;
             })
             ->editColumn('student_file', function($d){
-                $path = asset('uploaded_files/program/essay/students/'.$d->essay_clients->attached_of_clients);
+                $path = Storage::url('program/essay/students/'.$d->essay_clients->attached_of_clients);
                 $result = '
                     <a href="'.$path.'" rel="noopener" target="_blank" title="'.($d->essay_clients->attached_of_clients).'">Download</a>
                 ';

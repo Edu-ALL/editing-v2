@@ -14,20 +14,20 @@
             <div class="col d-flex align-items-center justify-content-center pb-md-0 pb-3">
                 @if ($essay->essay_editors->managing_file)
                     <a class="btn btn-download d-flex align-items-center gap-2"
-                        href={{ asset('uploaded_files/program/essay/revised/' . $essay->essay_editors->managing_file) }}>
+                        href={{ Storage::url('program/essay/revised/' . $essay->essay_editors->managing_file) }}>
                         <img src="/assets/download.png" alt="">
                         <h6>Download</h6>
                     </a>
                 @else
                     @if (str_contains($essay->essay_editors->attached_of_editors, 'Revised'))
                         <a class="btn btn-download d-flex align-items-center gap-2"
-                            href={{ asset('uploaded_files/program/essay/revised/' . $essay->essay_editors->attached_of_editors) }}>
+                            href={{ Storage::url('program/essay/revised/' . $essay->essay_editors->attached_of_editors) }}>
                             <img src="/assets/download.png" alt="">
                             <h6>Download</h6>
                         </a>
                     @else
                         <a class="btn btn-download d-flex align-items-center gap-2"
-                            href={{ asset('uploaded_files/program/essay/editors/' . $essay->essay_editors->attached_of_editors) }}>
+                            href={{ Storage::url('program/essay/editors/' . $essay->essay_editors->attached_of_editors) }}>
                             <img src="/assets/download.png" alt="">
                             <h6>Download</h6>
                         </a>
@@ -67,7 +67,7 @@
                                 @if ($revise->role == 'managing_editor' && $revise->file)
                                     <p style="margin-top: -4px">
                                         <a class="d-block mt-2"
-                                            href="{{ asset('uploaded_files/program/essay/revise/' . $revise->file) }}"
+                                            href="{{ Storage::url('program/essay/revise/' . $revise->file) }}"
                                             style="color: var(--blue)"><img src="/assets/download-blue.png"
                                                 alt="" width="14" height="14" style="margin-right: 2px">
                                             Download Attachment</a>

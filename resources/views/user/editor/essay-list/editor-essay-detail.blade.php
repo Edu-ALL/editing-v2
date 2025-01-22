@@ -49,7 +49,7 @@
                                     </div>
                                     <div class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
                                         <a class="btn btn-download d-flex align-items-center gap-2"
-                                            href={{ asset('uploaded_files/program/essay/students/' . $essay->attached_of_clients) }}>
+                                            href={{ Storage::url('program/essay/students/' . $essay->attached_of_clients) }}>
                                             <img src="/assets/download.png" alt="">
                                             <h6>Download</h6>
                                         </a>

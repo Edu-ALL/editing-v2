@@ -145,13 +145,13 @@
                                                     <input type="file" name="resume"
                                                         class="form-control inputField py-1 px-2 mt-2" placeholder="Search">
                                                 @else
-                                                    <a class="d-block mt-2" href="{{ asset('uploaded_files/user/students/'.$client->first_name.'/resume'.'/'. $client->resume) }}" style="color: var(--blue)"><img src="/assets/download-blue.png" alt="" width="18" height="18" style="margin-right: 2px"> Download Uploaded Resume</a>
+                                                    <a class="d-block mt-2" href="{{ Storage::url('user/students/'.$client->first_name.'/resume'.'/'. $client->resume) }}" style="color: var(--blue)"><img src="/assets/download-blue.png" alt="" width="18" height="18" style="margin-right: 2px"> Download Uploaded Resume</a>
                                                     <input type="file" name="resume"
                                                         class="form-control inputField py-1 px-2 mt-2" placeholder="Search">
                                                     {{-- <div
                                                         class="col d-flex align-items-center justify-content-left pb-md-3 px-5 mt-2">
                                                         <a class="btn btn-download d-flex align-items-center gap-2"
-                                                            href={{ asset('uploaded_files/user/students/' . $client->first_name . '/resume' . '/' . $client->resume) }}>
+                                                            href={{ Storage::url('user/students/' . $client->first_name . '/resume' . '/' . $client->resume) }}>
                                                             <img src="/assets/download.png" alt="">
                                                             <h6>Download</h6>
                                                         </a>
@@ -167,14 +167,14 @@
                                                     <input type="file" name="questionnaire"
                                                         class="form-control inputField py-1 px-2 mt-2" placeholder="Search">
                                                 @else
-                                                    <a class="d-block mt-2" href="{{ asset('uploaded_files/user/students/' . $client->first_name . '/questionnaire' . '/' . $client->questionnaire) }}" style="color: var(--blue)"><img src="/assets/download-blue.png" alt="" width="18" height="18" style="margin-right: 2px"> Download Uploaded Questionnaire</a>
+                                                    <a class="d-block mt-2" href="{{ Storage::url('user/students/' . $client->first_name . '/questionnaire' . '/' . $client->questionnaire) }}" style="color: var(--blue)"><img src="/assets/download-blue.png" alt="" width="18" height="18" style="margin-right: 2px"> Download Uploaded Questionnaire</a>
                                                     <input type="file" name="questionnaire"
                                                         class="form-control inputField py-1 px-2 mt-2"
                                                         placeholder="Search">
                                                     {{-- <div
                                                         class="col d-flex align-items-center justify-content-left pb-md-3 px-5 mt-2">
                                                         <a class="btn btn-download d-flex align-items-center gap-2"
-                                                            href={{ asset('uploaded_files/user/students/' . $client->first_name . '/questionnaire' . '/' . $client->questionnaire) }}>
+                                                            href={{ Storage::url('user/students/' . $client->first_name . '/questionnaire' . '/' . $client->questionnaire) }}>
                                                             <img src="/assets/download.png" alt="">
                                                             <h6>Download</h6>
                                                         </a>
@@ -190,14 +190,14 @@
                                                     <input type="file" name="others"
                                                         class="form-control inputField py-1 px-2 mt-2" placeholder="Search">
                                                 @else
-                                                    <a class="d-block mt-2" href="{{ asset('uploaded_files/user/students/' . $client->first_name . '/others' . '/' . $client->others) }}" style="color: var(--blue)"><img src="/assets/download-blue.png" alt="" width="18" height="18" style="margin-right: 2px"> Download Uploaded Others File</a>
+                                                    <a class="d-block mt-2" href="{{ Storage::url('user/students/' . $client->first_name . '/others' . '/' . $client->others) }}" style="color: var(--blue)"><img src="/assets/download-blue.png" alt="" width="18" height="18" style="margin-right: 2px"> Download Uploaded Others File</a>
                                                     <input type="file" name="others"
                                                         class="form-control inputField py-1 px-2 mt-2"
                                                         placeholder="Search">
                                                     {{-- <div
                                                         class="col d-flex align-items-center justify-content-left pb-md-3 px-5 mt-2">
                                                         <a class="btn btn-download d-flex align-items-center gap-2"
-                                                            href={{ asset('uploaded_files/user/students/' . $client->first_name . '/others' . '/' . $client->others) }}>
+                                                            href={{ Storage::url('user/students/' . $client->first_name . '/others' . '/' . $client->others) }}>
                                                             <img src="/assets/download.png" alt="">
                                                             <h6>Download</h6>
                                                         </a>

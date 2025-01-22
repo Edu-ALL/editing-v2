@@ -18,13 +18,13 @@
                         class="col d-flex align-items-center justify-content-center pb-md-3 pb-3">
                         @if ($essay->status_essay_clients == 8)
                             <a class="btn btn-download d-flex align-items-center gap-2"
-                                href={{ asset('uploaded_files/program/essay/revised/' . $essay->essay_editors->attached_of_editors) }}>
+                                href={{ Storage::url('program/essay/revised/' . $essay->essay_editors->attached_of_editors) }}>
                                 <img src="/assets/download.png" alt="">
                                 <h6>Download</h6>
                             </a>
                         @else
                             <a class="btn btn-download d-flex align-items-center gap-2"
-                                href={{ asset('uploaded_files/program/essay/editors/' . $essay->essay_editors->attached_of_editors) }}>
+                                href={{ Storage::url('program/essay/editors/' . $essay->essay_editors->attached_of_editors) }}>
                                 <img src="/assets/download.png" alt="">
                                 <h6>Download</h6>
                             </a>

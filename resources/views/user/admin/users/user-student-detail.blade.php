@@ -141,7 +141,7 @@
                 <div class="col-lg">
                   <h6>Activities Resume<span class="ps-2 pe-1">:</span>
                     @if ($client->resume != null)
-                      <a href="{{ asset('uploaded_files/user/students/'.$client->first_name.'/resume'.'/'. $client->resume) }}" style="color: var(--blue)">{{ $client->resume }}</a>
+                      <a href="{{ Storage::url('user/students/'.$client->first_name.'/resume'.'/'. $client->resume) }}" style="color: var(--blue)">{{ $client->resume }}</a>
                     @else
                       <span style="color: var(--red)">Not Available</span>
                     @endif
@@ -150,7 +150,7 @@
                 <div class="col-lg">
                   <h6>Questionnaire<span class="ps-2 pe-1">:</span>
                     @if ($client->questionnaire != null)
-                      <a href="{{ asset('uploaded_files/user/students/'.$client->first_name.'/questionnaire'.'/'.$client->questionnaire) }}" style="color: var(--blue)">{{ $client->questionnaire }}</a>
+                      <a href="{{ Storage::url('user/students/'.$client->first_name.'/questionnaire'.'/'.$client->questionnaire) }}" style="color: var(--blue)">{{ $client->questionnaire }}</a>
                     @else
                       <span style="color: var(--red)">Not Available</span>
                     @endif
@@ -159,7 +159,7 @@
                 <div class="col-lg">
                   <h6>Others<span class="ps-2 pe-1">:</span>
                     @if ($client->others != null)
-                      <a href="{{ asset('uploaded_files/user/students/'.$client->first_name.'/others'.'/'.$client->others) }}" style="color: var(--blue)">{{ $client->others }}</a>
+                      <a href="{{ Storage::url('user/students/'.$client->first_name.'/others'.'/'.$client->others) }}" style="color: var(--blue)">{{ $client->others }}</a>
                     @else
                       <span style="color: var(--red)">Not Available</span>
                     @endif

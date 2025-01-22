@@ -36,7 +36,7 @@
                                     <img class="img-fluid" id="img-profile"
                                         src=
                                         @if ($university->photo != 'default.png' && $university->photo != null)
-                                            {{ asset('uploaded_files/univ/' . $university->photo) }}
+                                            {{ Storage::url('univ/' . $university->photo) }}
                                         @else
                                             {{ '/assets/editor-bg.png' }} 
                                         @endif lt="">
