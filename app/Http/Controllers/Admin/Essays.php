@@ -22,14 +22,14 @@ class Essays extends Controller
 {
     public function index(Request $request)
     {
-        $data = EssayEditors::select('status_essay_editors')
-                ->join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', 'tbl_essay_editors.id_essay_clients')
-                ->with(['status', 'essay_clients.mentor', 'editor', 'essay_clients.client_by_id', 'essay_clients.client_by_email', 'essay_clients.client_by_id.mentors', 'essay_clients.client_by_email.mentors'])
-                ->where('status_essay_editors', 7)
-                ->orderBy('essay_deadline', 'desc')
-                ->get();
 
-        return json_encode($data);
+        $data = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', 'tbl_essay_editors.id_essay_clients')
+            ->with(['status', 'essay_clients.mentor', 'editor', 'essay_clients.client_by_id', 'essay_clients.client_by_email', 'essay_clients.client_by_id.mentors', 'essay_clients.client_by_email.mentors'])
+            ->where('status_essay_editors', 7)
+            ->orderBy('essay_deadline', 'desc')
+            ->get();
+
+        dd($data);
         return view('user.admin.essay-list.essay-list');
     }
 
@@ -121,13 +121,11 @@ class Essays extends Controller
     public function getEssayCompleted(Request $request)
     {
         if ($request->ajax()) {
-            $start = $request->get('start');
+
             $data = EssayEditors::join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', 'tbl_essay_editors.id_essay_clients')
                 ->with(['status', 'essay_clients.mentor', 'editor', 'essay_clients.client_by_id', 'essay_clients.client_by_email', 'essay_clients.client_by_id.mentors', 'essay_clients.client_by_email.mentors'])
                 ->where('status_essay_editors', 7)
                 ->orderBy('essay_deadline', 'desc')
-                ->offset($start)
-                ->limit('1000')
                 ->get();
 
             return DataTables::of($data)
