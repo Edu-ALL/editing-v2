@@ -104,9 +104,6 @@
                 serverSide: true,
                 ajax: {
                     url: route,
-                    error: function(xhr, error, thrown) {
-                        console.log('AJAX error:', error, thrown);
-                    }
                 },
                 columns: [{
                         data: 'DT_RowIndex',
