@@ -135,7 +135,7 @@
                                             <p>:</p>
                                         </div>
                                         <div class="col-7">
-                                            <p>{{ $essay->client_by_id->first_name . ' ' . $essay->client_by_id->last_name }}
+                                            <p>{{ $essay->client_by_id ? $essay->client_by_id->first_name . ' ' . $essay->client_by_id->last_name : $essay->client_by_email->first_name . ' ' . $essay->client_by_email->last_name }}
                                             </p>
                                         </div>
                                     </div>
@@ -147,7 +147,7 @@
                                             <p>:</p>
                                         </div>
                                         <div class="col-7">
-                                            <p>{{ $essay->client_by_id->email ? $essay->client_by_id->email : '-' }}</p>
+                                            <p>{{ $essay->client_by_id ? $essay->client_by_id->email : $essay->client_by_email->email }}</p>
                                         </div>
                                     </div>
                                     <div class="row d-flex align-items-center">
@@ -158,7 +158,7 @@
                                             <p>:</p>
                                         </div>
                                         <div class="col-7">
-                                            <p>{!! $essay->client_by_id->address ? $essay->client_by_id->address : '-' !!}</p>
+                                            <p>{!! $essay->client_by_id ? $essay->client_by_id->address : $essay->client_by_email->address !!}</p>
                                         </div>
                                     </div>
 
