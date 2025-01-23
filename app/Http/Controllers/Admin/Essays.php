@@ -71,6 +71,7 @@ class Essays extends Controller
             ->groupBy('status')
             ->orderBy('status', 'ASC')
             ->orderBy('created_at', 'DESC')
+            ->limit('1000')
             ->get();
 
         $essay = EssayClients::find($id_essay);
