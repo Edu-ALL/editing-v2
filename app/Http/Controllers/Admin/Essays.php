@@ -22,7 +22,7 @@ class Essays extends Controller
 {
     public function index(Request $request)
     {
-        $data = EssayEditors::select('id_essay_editors')->where('status_essay_editors', 7)
+        $data = EssayEditors::select('id_essay_editors', 'essay_deadline','status_essay_editors')->where('status_essay_editors', 7)
             ->orderBy('essay_deadline', 'desc')
             ->get();
 
