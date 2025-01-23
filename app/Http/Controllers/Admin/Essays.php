@@ -118,7 +118,6 @@ class Essays extends Controller
                 ->with(['status', 'essay_clients.mentor', 'editor', 'essay_clients.client_by_id', 'essay_clients.client_by_email', 'essay_clients.client_by_id.mentors', 'essay_clients.client_by_email.mentors'])
                 ->where('status_essay_editors', 7)
                 ->orderBy('essay_deadline', 'desc')
-                ->limit(10)
                 ->get();
 
             return DataTables::of($data)
