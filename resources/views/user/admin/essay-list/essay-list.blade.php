@@ -102,9 +102,10 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: {
-                    url: route,
-                },
+                ajax: route,
+                deferRender: true,
+                pageLength: 100,
+                lengthMenu: [10, 25, 50, 100, 500, 1000],
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
