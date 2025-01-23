@@ -22,6 +22,12 @@ class Essays extends Controller
 {
     public function index(Request $request)
     {
+        $data = EssayEditors::join('tbl_essay_clients')
+                ->where('status_essay_editors', 7)
+                ->orderBy('essay_deadline', 'desc')
+                ->get();
+
+        return json_encode($data);
         return view('user.admin.essay-list.essay-list');
     }
 
