@@ -25,6 +25,7 @@ class Essays extends Controller
         $data = EssayEditors::join('tbl_essay_clients')
                 ->where('status_essay_editors', 7)
                 ->orderBy('essay_deadline', 'desc')
+                ->limit(1000)
                 ->get();
 
         return json_encode($data);
