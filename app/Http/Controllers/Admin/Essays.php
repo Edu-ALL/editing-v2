@@ -22,9 +22,12 @@ class Essays extends Controller
 {
     public function index(Request $request)
     {
-        $data = EssayEditors::select('id_essay_editors', 'essay_deadline','status_essay_editors')->where('status_essay_editors', 7)
-            ->orderBy('essay_deadline', 'desc')
-            ->get();
+        $data = EssayEditors::select('status_essay_editors')
+                ->join('tbl_essay_clients', 'tbl_essay_clients.id_essay_clients', 'tbl_essay_editors.id_essay_clients')
+                ->with(['status', 'essay_clients.mentor', 'editor', 'essay_clients.client_by_id', 'essay_clients.client_by_email', 'essay_clients.client_by_id.mentors', 'essay_clients.client_by_email.mentors'])
+                ->where('status_essay_editors', 7)
+                ->orderBy('essay_deadline', 'desc')
+                ->get();
 
         return json_encode($data);
         return view('user.admin.essay-list.essay-list');
