@@ -1,0 +1,485 @@
+// ==========================================================
+// Editing v2 — Database Schema (DBML)
+// Sumber: DATABASE_SCHEMA.md — Project editing-v2 (Laravel 10.x)
+// Database: MySQL (utf8mb4)
+// Auth: Session-based multi-guard (users, admins, mentors, editors)
+// API Tokens: Laravel Sanctum
+//
+// CATATAN PENTING:
+//  - Hanya ADA 2 file migrasi (keduanya aditif); seluruh tabel dasar TIDAK
+//    punya file migrasi di proyek ini — skema diinfer dari Model Eloquent.
+//    Tipe kolom seperti "char/uuid", "string" bersifat perkiraan dari model,
+//    bukan dari `CREATE TABLE` asli.
+//  - Banyak tabel punya PK non-increment (UUID/string) meski secara semantik
+//    terlihat seperti angka biasa — diikuti persis sesuai dokumen sumber.
+//  - `SoftDeletes` trait TIDAK dipakai meski ada kolom `deleted_at` di
+//    beberapa tabel (dikelola manual).
+//  - Beberapa relasi FK memakai kolom `email` (bukan PK) sebagai kunci
+//    penghubung — digambar sebagai Ref meski `email` tidak eksplisit
+//    dinyatakan UNIQUE di dokumen sumber.
+//  - Relasi yang secara eksplisit ditandai sebagai BUG/typo di dokumen
+//    sumber (ManagingFeedback, WorkDuration) TIDAK digambar sebagai Ref
+//    karena kolom FK yang dipakai relasi tidak cocok dengan kolom asli
+//    tabel (lihat Note masing-masing tabel).
+// ==========================================================
+
+Project Editing_v2 {
+  database_type: 'MySQL'
+  Note: '''
+    # Editing v2 Database
+    26 tabel: 22 tabel aplikasi (tbl_*, tanpa file migrasi, diinfer dari
+    model) + 4 tabel standar Laravel (users, password_resets,
+    personal_access_tokens, failed_jobs) + migrations.
+
+    ## Multi-Guard Auth
+    web -> users (User) | web-admin -> tbl_admins (Admin)
+    web-mentor -> tbl_mentors (Mentor) | web-editor -> tbl_editors (Editor)
+
+    ## Alur bisnis utama (Essay Management)
+    Client upload essay (tbl_essay_clients) -> Admin assign editor -> Editor
+    kerjakan (tbl_essay_editors) -> feedback (tbl_essay_feedback) -> bisa
+    reject (tbl_essay_reject) / revise (tbl_essay_revise) -> histori status
+    (tbl_essay_status) -> managing editor feedback (tbl_managing_feedback).
+
+    ## Bug/inkonsistensi yang didokumentasikan di sumber (tidak digambar
+    ## sebagai Ref FK karena kolom tidak benar-benar cocok)
+    - ManagingFeedback: relasi pakai id_essay_editors/id_editors (plural),
+      padahal kolom fillable adalah id_essay_editor/id_editor (singular).
+    - WorkDuration: relasi work_duration() di EssayEditors menunjuk ke sini
+      via id_essay_editors, tapi model WorkDuration sendiri belongsTo ke
+      EssayClients (bukan EssayEditors) — kemungkinan salah target model.
+    - EssayStatus::check_status() adalah duplikat persis dari status().
+    - EssayPrompts.id_univ ada di relasi tapi tidak ada di $fillable.
+  '''
+}
+
+// ==========================================================
+// TABEL STANDAR LARAVEL
+// ==========================================================
+
+Table users {
+  id bigint [pk, increment]
+  name varchar(255) [not null]
+  email varchar(255) [not null, unique]
+  email_verified_at timestamp [null]
+  password varchar(255) [not null]
+  remember_token varchar(100) [null]
+  created_at timestamp [null]
+  updated_at timestamp [null]
+
+  Note: 'Model: User. Guard: web. Pakai Laravel\\Sanctum\\HasApiTokens untuk API token.'
+}
+
+Table password_resets {
+  email varchar(255) [pk]
+  token varchar(255) [not null]
+  created_at timestamp [null]
+}
+
+Table personal_access_tokens {
+  id bigint [pk, increment]
+  tokenable_type varchar(255) [not null, note: 'polymorphic type']
+  tokenable_id bigint [not null, note: 'polymorphic id']
+  name varchar(255) [not null]
+  token varchar(255) [not null, unique]
+  abilities text [null]
+  last_used_at timestamp [null]
+  expires_at timestamp [null]
+
+  Note: 'Laravel Sanctum'
+}
+
+Table failed_jobs {
+  id bigint [pk, increment]
+  uuid varchar(255) [not null, unique]
+  connection text [not null]
+  queue text [not null]
+  payload longtext [not null]
+  exception longtext [not null]
+  failed_at timestamp [not null, default: `CURRENT_TIMESTAMP`]
+}
+
+Table migrations {
+  id bigint [pk, increment]
+  migration varchar(255) [not null]
+  batch int [not null]
+
+  Note: 'Migration tracker bawaan Laravel'
+}
+
+// ==========================================================
+// TABEL APLIKASI — AUTH LAYER (tanpa file migrasi, diinfer dari model)
+// ==========================================================
+
+Table tbl_admins {
+  id_admin bigint [pk, increment]
+  full_name varchar(255) [not null]
+  email varchar(255) [not null, unique]
+  address text [null]
+  role varchar(255) [not null]
+  status varchar(255) [not null]
+  password varchar(255) [not null]
+  created_at timestamp [null]
+  updated_at timestamp [null]
+
+  Note: 'Model: Admin extends Authenticatable. Guard: web-admin. Timestamps aktif, auto-increment aktif.'
+}
+
+Table tbl_clients {
+  id_clients char(36) [pk, note: 'UUID, non-increment ($incrementing = false)']
+  first_name varchar(255) [not null]
+  last_name varchar(255) [not null]
+  phone varchar(255) [null]
+  email varchar(255) [not null]
+  birthdate date [null]
+  country varchar(255) [null]
+  state varchar(255) [null]
+  city varchar(255) [null]
+  postal_code varchar(255) [null]
+  address text [null]
+  id_mentor char(36) [null, note: 'FK -> tbl_mentors.id_mentors (mentor utama)']
+  id_mentor_2 char(36) [null, note: 'FK -> tbl_mentors.id_mentors (mentor kedua)']
+  current_school varchar(255) [null]
+  school_name varchar(255) [null]
+  curriculum varchar(255) [null]
+  year varchar(255) [null]
+  image varchar(255) [null]
+  personal_brand text [null]
+  interests text [null, note: 'JSON']
+  personalities text [null, note: 'JSON']
+  resume text [null]
+  questionnaire text [null]
+  others text [null]
+  role varchar(255) [not null]
+  status varchar(255) [not null]
+  password varchar(255) [not null]
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+  deleted_at timestamp [null, note: 'soft delete manual, trait SoftDeletes TIDAK dipakai']
+
+  Note: 'Model: Client. Timestamps & auto-increment tidak aktif ($incrementing = false).'
+}
+
+Table tbl_editors {
+  id_editors char(36) [pk, note: 'UUID, non-increment']
+  first_name varchar(255) [not null]
+  last_name varchar(255) [not null]
+  phone varchar(255) [not null]
+  email varchar(255) [not null]
+  graduated_from varchar(255) [not null]
+  major varchar(255) [not null]
+  address text [not null]
+  about_me text [not null]
+  position varchar(255) [null, note: 'FK -> tbl_position_editors.id_position']
+  image varchar(255) [null]
+  hours int [not null]
+  average_rating decimal [not null]
+  status varchar(255) [not null]
+  password varchar(255) [not null]
+  created_at timestamp [null]
+  updated_at timestamp [null]
+
+  Note: 'Model: Editor extends Authenticatable. Guard: web-editor. Timestamps aktif, auto-increment TIDAK aktif.'
+}
+
+Table tbl_mentors {
+  id_mentors char(36) [pk, note: 'UUID, non-increment']
+  first_name varchar(255) [not null]
+  last_name varchar(255) [not null]
+  phone varchar(255) [not null]
+  email varchar(255) [not null]
+  graduated_from varchar(255) [not null]
+  address text [not null]
+  is_mentor boolean [not null]
+  status varchar(255) [not null]
+  password varchar(255) [not null]
+  created_at timestamp [null]
+  updated_at timestamp [null]
+
+  Note: 'Model: Mentor extends Authenticatable. Guard: web-mentor. Timestamps aktif, auto-increment TIDAK aktif.'
+}
+
+// ==========================================================
+// TABEL APLIKASI — REFERENSI
+// ==========================================================
+
+Table tbl_categories {
+  id_category bigint [pk, increment]
+  category_name varchar(255) [not null]
+  created_at timestamp [null]
+  updated_at timestamp [null]
+
+  Note: 'Model: Category'
+}
+
+Table tbl_programs {
+  id_program bigint [pk, increment]
+  program_name varchar(255) [not null]
+  description text [null]
+  price decimal [not null]
+  discount decimal [null]
+  minimum_word int [not null]
+  maximum_word int [not null]
+  completed_within int [not null]
+  images text [null]
+  status varchar(255) [not null]
+  id_category bigint [null, note: 'FK -> tbl_categories.id_category']
+  created_at timestamp [null]
+  updated_at timestamp [null]
+  deleted_at timestamp [null, note: 'soft delete manual']
+
+  Note: 'Model: Programs'
+}
+
+Table tbl_universities {
+  id_univ bigint [pk, increment]
+  university_name varchar(255) [not null]
+  website varchar(255) [null]
+  univ_email varchar(255) [null]
+  phone varchar(255) [null]
+  photo varchar(255) [null]
+  address text [null]
+  country varchar(255) [null]
+  status varchar(255) [not null]
+  created_at timestamp [null]
+  updated_at timestamp [null]
+  deleted_at timestamp [null, note: 'soft delete manual']
+
+  Note: 'Model: University. Accessor getWebsiteAttribute/getPhoneAttribute/getAddressAttribute mengembalikan "-" jika NULL.'
+}
+
+Table tbl_status {
+  id char(36) [pk, note: 'UUID/string, non-increment']
+  status_title varchar(255) [not null]
+  status_desc text [null]
+  by varchar(255) [null]
+  created_at timestamp [null]
+  updated_at timestamp [null]
+
+  Note: 'Model: Status'
+}
+
+Table tbl_tags {
+  id_topic bigint [pk, increment]
+  topic_name varchar(255) [not null]
+
+  Note: 'Model: Tags. Timestamps tidak aktif.'
+}
+
+Table tbl_token {
+  email varchar(255) [not null]
+  token varchar(255) [not null]
+  activated_at timestamp [null]
+
+  Note: 'Model: Token. Token verifikasi email. Timestamps tidak aktif, tidak ada PK eksplisit di dokumen sumber (email dipakai sebagai kunci alami).'
+}
+
+Table tbl_position_editors {
+  id_position char(36) [pk, note: 'non-increment']
+  position_name varchar(255) [not null]
+  created_at timestamp [null]
+  updated_at timestamp [null]
+
+  Note: 'Model: PositionEditor'
+}
+
+// ==========================================================
+// TABEL APLIKASI — ESSAY MANAGEMENT
+// ==========================================================
+
+Table tbl_essay_clients {
+  id_essay_clients bigint [pk, increment]
+  id_transaction varchar(255) [not null]
+  id_program bigint [null, note: 'FK -> tbl_programs.id_program']
+  id_univ bigint [null, note: 'FK -> tbl_universities.id_univ']
+  id_editors char(36) [null, note: 'FK -> tbl_editors.id_editors']
+  essay_title varchar(255) [not null]
+  essay_prompt text [not null]
+  essay_notes text [null, note: 'ditambah migration 2023_01_11_172147; accessor getEssayNotesAttribute() -> "There\\'s no essay notes" jika NULL']
+  id_clients char(36) [null, note: 'FK -> tbl_clients.id_clients']
+  email varchar(255) [not null, note: 'juga dipakai sebagai FK ke tbl_clients.email (relasi kedua, selain id_clients)']
+  mentors_mail varchar(255) [null, note: 'FK -> tbl_mentors.email']
+  essay_deadline date [null]
+  application_deadline date [null]
+  number_of_words int [not null]
+  attached_of_clients text [null]
+  notes_clients text [null]
+  essay_rating decimal [null]
+  status_essay_clients varchar(255) [not null, note: 'FK -> tbl_status.id']
+  status_read varchar(255) [null]
+  status_read_editor varchar(255) [null]
+  uploaded_at timestamp [null]
+  completed_at timestamp [null]
+
+  Note: '''
+    Model: EssayClients. Timestamps tidak aktif, auto-increment aktif.
+    Tabel inti essay assignment. Punya 2 relasi belongsTo ke tbl_clients:
+    satu via id_clients, satu lagi via email.
+  '''
+}
+
+Table tbl_essay_editors {
+  id_essay_editors char(36) [pk, note: 'UUID, non-increment']
+  id_essay_clients bigint [null, note: 'FK -> tbl_essay_clients.id_essay_clients']
+  editors_mail varchar(255) [null, note: 'FK -> tbl_editors.email']
+  attached_of_editors text [null]
+  managing_file text [null]
+  work_duration text [null]
+  notes_editors text [null]
+  notes_managing text [null, note: 'ditambah migration 2023_01_04_164931']
+  status_essay_editors varchar(255) [not null, note: 'FK -> tbl_status.id']
+  read varchar(255) [null]
+  uploaded_at timestamp [null]
+
+  Note: 'Model: EssayEditors. Timestamps & auto-increment tidak aktif.'
+}
+
+Table tbl_essay_feedback {
+  id char(36) [pk, note: 'UUID, non-increment']
+  id_essay_clients bigint [null, note: 'FK -> tbl_essay_clients.id_essay_clients']
+  option1 text [null]
+  option2 text [null]
+  option3 text [null]
+  option4 text [null]
+  option5 text [null]
+  option6 text [null]
+  add_comments text [null]
+  created_at timestamp [null]
+
+  Note: 'Model: EssayFeedbacks. Feedback rubrik essay.'
+}
+
+Table tbl_essay_prompt {
+  id_essay_prompt bigint [pk, increment]
+  id_univ bigint [null, note: 'FK -> tbl_universities.id_univ. ⚠️ Ada di relasi tapi TIDAK ada di $fillable.']
+  title varchar(255) [not null]
+  description text [null]
+  notes text [null]
+  status varchar(255) [not null]
+  created_at timestamp [null]
+  updated_at timestamp [null]
+  deleted_at timestamp [null, note: 'soft delete manual']
+
+  Note: 'Model: EssayPrompts. Database essay prompt.'
+}
+
+Table tbl_essay_reject {
+  id char(36) [pk, note: 'UUID, non-increment']
+  id_essay_clients bigint [null, note: 'FK -> tbl_essay_clients.id_essay_clients']
+  editors_mail varchar(255) [not null]
+  notes text [not null]
+  created_at timestamp [null]
+
+  Note: 'Model: EssayReject. Log penolakan essay.'
+}
+
+Table tbl_essay_revise {
+  id char(36) [pk, note: 'UUID, non-increment']
+  id_essay_clients bigint [null, note: 'FK -> tbl_essay_clients.id_essay_clients']
+  editors_mail varchar(255) [not null, note: 'FK -> tbl_editors.email (editor)']
+  admin_mail varchar(255) [not null, note: 'FK -> tbl_editors.email (managing editor)']
+  role varchar(255) [not null]
+  notes text [not null]
+  file text [null]
+  created_at timestamp [null]
+
+  Note: 'Model: EssayRevise. Log revisi essay.'
+}
+
+Table tbl_essay_status {
+  id char(36) [pk, note: 'UUID, non-increment']
+  id_essay_clients bigint [null, note: 'FK -> tbl_essay_clients.id_essay_clients']
+  status varchar(255) [not null, note: 'FK -> tbl_status.id']
+  created_at timestamp [null]
+
+  Note: 'Model: EssayStatus. Histori status essay. Method check_status() adalah duplikat persis dari status(), keduanya belongsTo(Status, "status", "id").'
+}
+
+Table tbl_essay_tags {
+  id char(36) [pk, note: 'UUID, non-increment']
+  id_essay_clients bigint [null, note: 'FK -> tbl_essay_clients.id_essay_clients']
+  id_topic bigint [not null, note: 'FK -> tbl_tags.id_topic']
+
+  Note: 'Model: EssayTags. Tabel pivot essay <-> tag. Timestamps & auto-increment tidak aktif.'
+}
+
+Table tbl_managing_feedback {
+  id bigint [pk, increment]
+  id_essay_editor varchar(255) [not null, note: 'kolom fillable singular; relasi model justru pakai "id_essay_editors" (plural, tidak ada di fillable) — kemungkinan typo']
+  feedback text [not null]
+  id_editor varchar(255) [not null, note: 'kolom fillable singular; relasi model justru pakai "id_editors" (plural, tidak ada di fillable) — kemungkinan typo']
+  created_at timestamp [null]
+
+  Note: '''
+    Model: ManagingFeedback. Timestamps & auto-increment aktif.
+    ⚠️ Inkonsistensi FK terdokumentasi di sumber: relasi essay_editor() dan
+    editor() memakai nama kolom plural yang TIDAK ada di $fillable, sehingga
+    Ref FK sengaja TIDAK digambar di sini (kolom yang benar-benar ada adalah
+    id_essay_editor & id_editor, singular, tanpa relasi Eloquent yang valid).
+  '''
+}
+
+Table tbl_work_duration {
+  id char(36) [pk, note: 'UUID, non-increment']
+  id_essay_editors char(36) [not null, note: 'nama kolom mengarah ke tbl_essay_editors.id_essay_editors, tapi relasi model WorkDuration justru belongsTo ke EssayClients — lihat catatan']
+  status varchar(255) [not null]
+  duration varchar(255) [not null]
+  date date [not null]
+
+  Note: '''
+    Model: WorkDuration. Timestamps & auto-increment tidak aktif.
+    ⚠️ Inkonsistensi terdokumentasi di sumber: relasi work_duration() di
+    EssayEditors mengarah ke sini via id_essay_editors, tetapi model
+    WorkDuration sendiri belongsTo ke EssayClients (bukan EssayEditors) —
+    kemungkinan bug referensi model. Ref FK ke tbl_essay_editors TETAP
+    digambar berdasarkan nama & makna kolom, bukan berdasarkan relasi
+    Eloquent yang salah target tersebut.
+  '''
+}
+
+// ==========================================================
+// RELASI
+// Catatan: banyak FK di proyek ini menunjuk ke kolom non-PK (email) alih-
+// alih ID, sesuai relasi Eloquent yang didokumentasikan di sumber. Refs
+// yang secara eksplisit ditandai sebagai bug/typo (ManagingFeedback) TIDAK
+// digambar — lihat Note pada tabel terkait.
+// ==========================================================
+
+Ref: tbl_clients.id_mentor > tbl_mentors.id_mentors
+Ref: tbl_clients.id_mentor_2 > tbl_mentors.id_mentors
+Ref: tbl_editors.position > tbl_position_editors.id_position
+
+Ref: tbl_programs.id_category > tbl_categories.id_category
+
+Ref: tbl_essay_clients.id_program > tbl_programs.id_program
+Ref: tbl_essay_clients.id_univ > tbl_universities.id_univ
+Ref: tbl_essay_clients.id_editors > tbl_editors.id_editors
+Ref: tbl_essay_clients.id_clients > tbl_clients.id_clients
+Ref: tbl_essay_clients.email > tbl_clients.email
+Ref: tbl_essay_clients.mentors_mail > tbl_mentors.email
+Ref: tbl_essay_clients.status_essay_clients > tbl_status.id
+
+Ref: tbl_essay_editors.id_essay_clients > tbl_essay_clients.id_essay_clients
+Ref: tbl_essay_editors.editors_mail > tbl_editors.email
+Ref: tbl_essay_editors.status_essay_editors > tbl_status.id
+
+Ref: tbl_essay_feedback.id_essay_clients > tbl_essay_clients.id_essay_clients
+
+Ref: tbl_essay_prompt.id_univ > tbl_universities.id_univ
+
+Ref: tbl_essay_reject.id_essay_clients > tbl_essay_clients.id_essay_clients
+Ref: tbl_essay_reject.editors_mail > tbl_editors.email
+
+Ref: tbl_essay_revise.id_essay_clients > tbl_essay_clients.id_essay_clients
+Ref: tbl_essay_revise.editors_mail > tbl_editors.email
+Ref: tbl_essay_revise.admin_mail > tbl_editors.email
+
+Ref: tbl_essay_status.id_essay_clients > tbl_essay_clients.id_essay_clients
+Ref: tbl_essay_status.status > tbl_status.id
+
+Ref: tbl_essay_tags.id_essay_clients > tbl_essay_clients.id_essay_clients
+Ref: tbl_essay_tags.id_topic > tbl_tags.id_topic
+
+Ref: tbl_work_duration.id_essay_editors > tbl_essay_editors.id_essay_editors
+
+Ref: personal_access_tokens.tokenable_id > users.id // polymorphic (disederhanakan)
